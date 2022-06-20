@@ -1,6 +1,7 @@
 require('dotenv').config();
 import express from 'express';
 import config from 'config';
+import connectDB from './utils/connectDB';
 
 const app = express();
 
@@ -15,5 +16,6 @@ app.get('/healthChecker', (req: Request, res: Response, next: NextFunction) => {
 });
 
 app.listen(port, () => {
-    console.log(`Server started on port ${port}`);
+  connectDB();
+  console.log(`Server started on port ${port}`);
 });

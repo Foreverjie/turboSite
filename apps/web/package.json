@@ -4,8 +4,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "server": "workspaces:*"
+    "start": "next start"
   },
   "dependencies": {
     "next": "latest",
