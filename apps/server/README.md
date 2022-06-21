@@ -9,3 +9,7 @@ MONGODB_DATABASE_NAME=server
 ACCESS_TOKEN_PRIVATE_KEY=******
 ACCESS_TOKEN_PUBLIC_KEY=jie
 ```
+
+## When authentication of mongoDB fails
+
+The volume existed. Remove previous volume.

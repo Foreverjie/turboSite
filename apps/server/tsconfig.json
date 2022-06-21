@@ -1,6 +1,7 @@
 {
   "extends": "tsconfig/base.json",
   "compilerOptions": {
+    "experimentalDecorators": true,
     "baseUrl": ".",
     "noEmit": true,
     "esModuleInterop": true

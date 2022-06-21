@@ -3,7 +3,7 @@ import config from 'config';
 
 const dbUrl = `mongodb://${config.get('dbName')}:${config.get(
   'dbPass'
-)}@localhost:12707/server?authSource=admin`;
+)}@localhost:27017/turboBack?authSource=admin`;
 
 const connectDB = async () => {
   try {
