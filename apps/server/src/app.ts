@@ -3,6 +3,10 @@ import express, {Express, NextFunction, Request, Response } from 'express';
 import config from 'config';
 import cookieParser from 'cookie-parser';
 import connectDB from './utils/connectDB';
+import morgan from 'morgan';
+import authRouter from './routes/auth.route';
+import userRouter from './routes/user.route'
+import cors from 'cors';
 
 const app: Express = express();
 
@@ -13,6 +17,21 @@ app.use(express.json({ limit: '10kb' }));
 
 // 2. Cookie Parser
 app.use(cookieParser());
+
+// 3. Logger
+if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
+
+// 4. Cors
+app.use(
+  cors({
+    origin: config.get<string>('origin'),
+    credentials: true,
+  })
+);
+
+// 5. Routes
+app.use('/api/users', userRouter);
+app.use('/api/auth', authRouter);
 
 // Testing
 app.get('/healthChecker', (req: Request, res: Response, next: NextFunction) => {
