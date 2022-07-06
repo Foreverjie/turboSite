@@ -6,6 +6,7 @@ import { excludedFields } from '../controllers/auth.controller'
 import { signJwt } from '../utils/jwt'
 import redisClient from '../utils/connectRedis'
 import { DocumentType } from '@typegoose/typegoose'
+import AppError from '../utils/appError'
 
 // CreateUser service
 export const createUser = async (input: Partial<User>) => {
@@ -43,7 +44,7 @@ export const signToken = async (user: DocumentType<User>) => {
   )
 
   // Create a Session
-  redisClient.set(user._id, JSON.stringify(user), {
+  redisClient.set(user._id.toString(), JSON.stringify(user), {
     EX: 60 * 60,
   })
 
