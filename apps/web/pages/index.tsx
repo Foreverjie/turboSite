@@ -415,6 +415,10 @@ export default function Example() {
           </div>
         </Popover.Panel>
       </Transition>
+
+      <div className="card-container">
+        <img src={'https://jie1203.com/upload/2928M.png'} alt="CardBg" />
+      </div>
     </Popover>
   )
 }
