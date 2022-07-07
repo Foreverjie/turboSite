@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon --exec node --inspect -r ts-node/register src/app.ts",
+    "dev:rpc": "cross-env NODE_ENV=development nodemon --exec node --inspect -r ts-node/register src/server.ts",
     "test": "jest --coverage --passWithNoTests"
   },
   "keywords": [],

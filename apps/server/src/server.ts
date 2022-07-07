@@ -1,7 +1,8 @@
+import { v4 as uuidv4 } from 'uuid'
 const grpc = require('@grpc/grpc-js')
-import protoLoader from '@grpc/proto-loader'
+const protoLoader = require('@grpc/proto-loader')
 
-const PROTO_PATH = './news.proto'
+const PROTO_PATH = 'src/news.proto'
 
 const options = {
   keepCase: true,
