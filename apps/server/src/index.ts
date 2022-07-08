@@ -1,7 +1,7 @@
 import express, { Application } from 'express'
 import cors from 'cors'
 import * as trpcExpress from '@trpc/server/adapters/express'
-import trpcRouter from './router'
+import appRouter from './router'
 
 const app: Application = express()
 
@@ -12,7 +12,7 @@ app.use(cors())
 app.use(
   '/trpc',
   trpcExpress.createExpressMiddleware({
-    router: trpcRouter,
+    router: appRouter,
     createContext,
   }),
 )

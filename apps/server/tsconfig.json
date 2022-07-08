@@ -5,7 +5,10 @@
     "emitDecoratorMetadata": true,
     "baseUrl": ".",
     "noEmit": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "paths": {
+      "~/*": ["src/*"]
+    }
   }
 }
   
