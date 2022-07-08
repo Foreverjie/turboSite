@@ -14,7 +14,12 @@ function newId(): number {
   return Math.floor(Math.random() * 10000)
 }
 
+const deserializeUser = async ({ ctx, next }: any) => {
+  throw new trpc.TRPCError({ code: 'INTERNAL_SERVER_ERROR' })
+}
+
 export const cat = createRouter()
+  .middleware(deserializeUser)
   .mutation('Get', {
     input: z.object({ id: z.number() }),
     output: Cat,
