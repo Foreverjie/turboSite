@@ -4,7 +4,7 @@ import config from 'config'
 import cookieParser from 'cookie-parser'
 import connectDB from './utils/connectDB'
 import morgan from 'morgan'
-import authRouter from './routes/auth.route'
+// import authRouter from './routes/auth.route'
 import userRouter from './routes/user.route'
 import cors from 'cors'
 
@@ -31,7 +31,7 @@ app.use(
 
 // 5. Routes
 app.use('/api/users', userRouter)
-app.use('/api/auth', authRouter)
+// app.use('/api/auth', authRouter)
 
 // Testing
 app.get('/healthChecker', (req: Request, res: Response, next: NextFunction) => {

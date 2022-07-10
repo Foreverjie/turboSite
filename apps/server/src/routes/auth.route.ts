@@ -5,7 +5,7 @@ import { validate } from '../middlewares/validate'
 import { createUserSchema, loginUserSchema } from '../schemas/user.schema'
 import { createRouter } from './createRouter'
 import { TRPCError } from '@trpc/server'
-import prisma from '../prisma/prisma-client'
+import prisma from '../../prisma/prisma-client'
 import z from 'zod'
 
 // const router: Router = express.Router()
@@ -23,11 +23,14 @@ export const auth = createRouter().mutation('login', {
   async resolve({ input }) {
     const { email } = input
 
-    const user = await prisma.user.findUser({ email })
+    const user = await prisma.user.findUnique({
+      where: { email },
+      select: { email: true },
+    })
     if (!user) {
       throw new TRPCError({
         code: 'BAD_REQUEST',
-        message: `could not find cat with email ${email}`,
+        message: `could not find user with email ${email}`,
       })
     }
     return user

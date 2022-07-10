@@ -11,9 +11,9 @@ generator client {
 }
 
 model User {
-  id        String @id @default(uuid()) @map("_id") @db.ObjectId
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
   name      String
-  email     String
+  email     String @unique
   password  String
   role      String
 
@@ -21,4 +21,9 @@ model User {
   // https://trpc.io/docs/data-transformers
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Cat {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
 }

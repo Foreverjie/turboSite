@@ -1,6 +1,7 @@
 import * as trpc from '@trpc/server'
 import { createRouter } from './createRouter'
 import z from 'zod'
+import prisma from '../../prisma/prisma-client'
 
 let cats: Cat[] = []
 
@@ -10,8 +11,8 @@ const Cat = z.object({
 })
 const Cats = z.array(Cat)
 
-function newId(): number {
-  return Math.floor(Math.random() * 10000)
+function newId(): string {
+  return Math.floor(Math.random() * 10000).toString()
 }
 
 const deserializeUser = async ({ req, res, next }: any) => {
@@ -19,7 +20,7 @@ const deserializeUser = async ({ req, res, next }: any) => {
 }
 
 export const cat = createRouter()
-  .middleware(deserializeUser)
+  // .middleware(deserializeUser)
   .mutation('Get', {
     input: z.object({ id: z.number() }),
     output: Cat,
@@ -42,9 +43,17 @@ export const cat = createRouter()
   })
   .mutation('Create', {
     input: z.object({ name: z.string().max(50) }),
-    async resolve(req) {
-      const newCat: Cat = { id: newId(), name: req.input.name }
-      cats.push(newCat)
+    async resolve({ input }) {
+      const { name } = input
+      const newCat = await prisma.cat.create({
+        data: {
+          name,
+        },
+        select: {
+          // id: true,
+          name: true,
+        },
+      })
       return newCat
     },
   })

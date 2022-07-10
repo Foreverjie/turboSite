@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon --exec node --inspect -r ts-node/register src/app.ts",
     "dev:trpc": "cross-env NODE_ENV=development nodemon --exec node --inspect -r ts-node/register src/index.ts",
+    "prisma:generate": "prisma generate",
     "test": "jest --coverage --passWithNoTests"
   },
   "keywords": [],
@@ -23,6 +24,7 @@
     "cross-env": "^7.0.3",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.18",
+    "prisma": "^4.0.0",
     "tsconfig": "workspace:*",
     "typescript": "^4.7.4"
   },
