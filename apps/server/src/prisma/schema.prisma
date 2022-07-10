@@ -10,10 +10,12 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Post {
-  id    String @id @default(uuid()) @map("_id") @db.ObjectId
-  title String
-  text  String
+model User {
+  id        String @id @default(uuid()) @map("_id") @db.ObjectId
+  name      String
+  email     String
+  password  String
+  role      String
 
   // To return `Date`s intact through the API we need to add data transformers
   // https://trpc.io/docs/data-transformers

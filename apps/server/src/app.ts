@@ -7,7 +7,6 @@ import morgan from 'morgan'
 import authRouter from './routes/auth.route'
 import userRouter from './routes/user.route'
 import cors from 'cors'
-const client = require('./client')
 
 const app: Express = express()
 
@@ -50,18 +49,6 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   res.status(err.statusCode).json({
     status: err.status,
     message: err.message,
-  })
-})
-
-// Testing
-app.get('/healthCheck', (req: Request, res: Response, next: NextFunction) => {
-  client.getAll(null, (error: any, customers: any) => {
-    console.log('customers', customers)
-
-    res.status(200).json({
-      status: 'success',
-      message: JSON.stringify(customers),
-    })
   })
 })
 

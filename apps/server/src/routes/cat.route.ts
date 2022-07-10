@@ -14,7 +14,7 @@ function newId(): number {
   return Math.floor(Math.random() * 10000)
 }
 
-const deserializeUser = async ({ ctx, next }: any) => {
+const deserializeUser = async ({ req, res, next }: any) => {
   throw new trpc.TRPCError({ code: 'INTERNAL_SERVER_ERROR' })
 }
 
@@ -57,5 +57,5 @@ export const cat = createRouter()
     },
   })
 
-export type Cat = z.infer<typeof Cat>
-export type Cats = z.infer<typeof Cats>
+type Cat = z.infer<typeof Cat>
+type Cats = z.infer<typeof Cats>

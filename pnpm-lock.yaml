@@ -36,6 +36,7 @@ importers:
 
   apps/server:
     specifiers:
+      '@prisma/client': ^4.0.0
       '@trpc/server': ^9.25.3
       '@typegoose/typegoose': ^9.9.0
       '@types/bcryptjs': ^2.4.2
@@ -69,6 +70,7 @@ importers:
       uuid: ^8.3.2
       zod: ^3.17.3
     dependencies:
+      '@prisma/client': 4.0.0
       '@trpc/server': 9.25.3
       '@typegoose/typegoose': 9.9.0_mongoose@6.4.0
       '@types/uuid': 8.3.4
@@ -1194,6 +1196,23 @@ packages:
     dependencies:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.13.0
+
+  /@prisma/client/4.0.0:
+    resolution: {integrity: sha512-g1h2OGoRo7anBVQ9Cw3gsbjwPtvf7i0pkGxKeZICtwkvE5CZXW+xZF4FZdmrViYkKaAShbISL0teNpu9ecpf4g==}
+    engines: {node: '>=14.17'}
+    requiresBuild: true
+    peerDependencies:
+      prisma: '*'
+    peerDependenciesMeta:
+      prisma:
+        optional: true
+    dependencies:
+      '@prisma/engines-version': 3.16.0-49.da41d2bb3406da22087b849f0e911199ba4fbf11
+    dev: false
+
+  /@prisma/engines-version/3.16.0-49.da41d2bb3406da22087b849f0e911199ba4fbf11:
+    resolution: {integrity: sha512-PiZhdD624SrYEjyLboI0X7OugNbxUzDJx9v/6ldTKuqNDVUCmRH/Z00XwDi/dgM4FlqOSO+YiUsSiSKjxxG8cw==}
+    dev: false
 
   /@redis/bloom/1.0.2_@redis+client@1.1.0:
     resolution: {integrity: sha512-EBw7Ag1hPgFzdznK2PBblc1kdlj5B5Cw3XwI9/oG7tSn85/HKy3X9xHy/8tm/eNXJYHLXHJL/pkwBpFMVVefkw==}
