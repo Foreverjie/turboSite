@@ -13,3 +13,7 @@ ACCESS_TOKEN_PUBLIC_KEY=jie
 ## When authentication of mongoDB fails
 
 The volume existed. Remove previous volume.
+
+## MongoDB Replica To learn
+
+Now the replica config is just for development
