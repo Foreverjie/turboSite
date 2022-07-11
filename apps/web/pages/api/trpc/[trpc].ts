@@ -3,8 +3,8 @@
  */
 import * as trpcNext from '@trpc/server/adapters/next'
 import { createReactQueryHooks } from '@trpc/react'
-import { createContext } from 'server/context'
-import { appRouter } from '~/server/routers/_app'
+import { createContext } from '@Foreverjie/server/context'
+import { appRouter } from '@Foreverjie/server/routers/_app'
 
 export default trpcNext.createNextApiHandler({
   router: appRouter,

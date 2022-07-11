@@ -1,7 +1,7 @@
 import express, { Application } from 'express'
 import cors from 'cors'
 import * as trpcExpress from '@trpc/server/adapters/express'
-import appRouter from './router'
+import appRouter from './routes/router'
 // import { createContext } from './context'
 
 const app: Application = express()

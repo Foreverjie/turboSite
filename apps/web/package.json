@@ -20,6 +20,7 @@
     "@headlessui/react": "^1.6.5",
     "@types/node": "17.0.4",
     "@types/react": "17.0.38",
+    "@trpc/next": "^9.25.3",
     "autoprefixer": "^10.4.0",
     "babel-preset-env": "^1.7.0",
     "config": "workspace:*",
@@ -31,5 +32,6 @@
     "tailwindcss": "^3.0.7",
     "tsconfig": "workspace:*",
     "typescript": "4.5.4"
-  }
+  },
+  "bubdleDependencies": [ "@Foreverjie/server" ]
 }

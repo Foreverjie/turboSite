@@ -1,7 +1,7 @@
 import * as trpc from '@trpc/server'
-import { createRouter } from './routes/createRouter'
-import { cat } from './routes/cat.route'
-import { auth } from './routes/auth.route'
+import { createRouter } from './createRouter'
+import { cat } from './cat.route'
+import { auth } from './auth.route'
 
 const appRouter = createRouter().merge('cat.', cat).merge('auth.', auth)
 
