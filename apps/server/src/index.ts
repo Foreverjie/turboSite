@@ -2,10 +2,16 @@ import express, { Application } from 'express'
 import cors from 'cors'
 import * as trpcExpress from '@trpc/server/adapters/express'
 import appRouter from './router'
+// import { createContext } from './context'
 
 const app: Application = express()
 
-const createContext = ({}: trpcExpress.CreateExpressContextOptions) => ({})
+const createContext = ({
+  req,
+  res,
+}: trpcExpress.CreateExpressContextOptions) => {
+  return { req, res, isFromExpress: true }
+}
 
 app.use(express.json())
 app.use(cors())

@@ -15,7 +15,7 @@ model User {
   name      String
   email     String @unique
   password  String
-  role      String
+  role      String @default("user")
 
   // To return `Date`s intact through the API we need to add data transformers
   // https://trpc.io/docs/data-transformers
