@@ -106,8 +106,6 @@ export default function Example() {
 
   const { data, isLoading } = catQuery
 
-  console.log('data', data, isLoading)
-
   return (
     <Popover className="relative bg-white">
       <Head>

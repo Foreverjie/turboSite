@@ -60,7 +60,6 @@ export const auth = createRouter()
     input: z.object({ email: z.string(), password: z.string() }),
     async resolve({ input, ctx }: any) {
       const { email, password } = input
-      console.log('ctx', ctx.isFromExpress)
 
       const user = await prisma.user.findUnique({
         where: { email },
@@ -80,14 +79,12 @@ export const auth = createRouter()
       }
       const { accessToken } = await signToken(user)
 
-      if (ctx.isFromExpress) {
-        // can middleware or context do this?
-        ctx.res.cookie('accessToken', accessToken, accessTokenCookieOptions)
-        ctx.res.cookie('logged_in', true, {
-          ...accessTokenCookieOptions,
-          httpOnly: false,
-        })
-      }
+      // can middleware or context do this?
+      ctx.res.cookie('accessToken', accessToken, accessTokenCookieOptions)
+      ctx.res.cookie('logged_in', true, {
+        ...accessTokenCookieOptions,
+        httpOnly: false,
+      })
 
       return accessToken
     },
