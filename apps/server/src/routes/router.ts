@@ -1,4 +1,3 @@
-import * as trpc from '@trpc/server'
 import { createRouter } from './createRouter'
 import { cat } from './cat.route'
 import { auth } from './auth.route'

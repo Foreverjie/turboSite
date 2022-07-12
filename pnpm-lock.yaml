@@ -130,6 +130,8 @@ importers:
       prettier-plugin-tailwindcss: ^0.1.1
       react: ^17.0.2
       react-dom: ^17.0.2
+      react-query: ^3.39.1
+      server: workspace:*
       tailwindcss: ^3.0.7
       tsconfig: workspace:*
       typescript: 4.5.4
@@ -141,6 +143,7 @@ importers:
       next: 12.2.2_sfoxds7t5ydpegc3knd667wn6m
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
+      react-query: 3.39.1_sfoxds7t5ydpegc3knd667wn6m
       ui: link:../../packages/ui
     devDependencies:
       '@headlessui/react': 1.6.5_sfoxds7t5ydpegc3knd667wn6m
@@ -155,6 +158,7 @@ importers:
       postcss: 8.4.14
       prettier: 2.7.1
       prettier-plugin-tailwindcss: 0.1.11_prettier@2.7.1
+      server: link:../server
       tailwindcss: 3.1.3
       tsconfig: link:../../packages/tsconfig
       typescript: 4.5.4
