@@ -1,28 +1,13 @@
-import express, { Router } from 'express'
-import { loginHandler, registerHandler } from '../controllers/auth.controller'
-import { requireUser } from '../middlewares/requireUser'
-import { validate } from '../middlewares/validate'
-import { createUserSchema, loginUserSchema } from '../schemas/user.schema'
 import { createRouter } from './createRouter'
 import { TRPCError } from '@trpc/server'
 import prisma from '../../prisma/prisma-client'
 import z from 'zod'
-import { CookieOptions, NextFunction, Request, Response } from 'express'
+import { CookieOptions } from 'express'
 import bcrypt from 'bcryptjs'
 import { signJwt } from '../utils/jwt'
 import config from 'config'
 import redisClient from '../utils/connectRedis'
 
-// const router: Router = express.Router()
-
-// // Register user route
-// router.post('/register', validate(createUserSchema), registerHandler)
-
-// // Login user route
-// router.post('/login', loginHandler)
-
-// export default router
-// Cookie options
 const accessTokenCookieOptions: CookieOptions = {
   expires: new Date(
     Date.now() + config.get<number>('accessTokenExpiresIn') * 60 * 1000,

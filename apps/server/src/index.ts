@@ -4,16 +4,10 @@ import * as trpcExpress from '@trpc/server/adapters/express'
 import appRouter from './routes/router'
 import config from 'config'
 import morgan from 'morgan'
-// import { createContext } from './context'
+import { createContext } from './context'
 
 const app: Application = express()
 
-const createContext = ({
-  req,
-  res,
-}: trpcExpress.CreateExpressContextOptions) => {
-  return { req, res }
-}
 // Body Parser
 app.use(express.json({ limit: '10kb' }))
 // Logger

@@ -4,21 +4,17 @@ import AppError from '../utils/appError'
 import redisClient from '../utils/connectRedis'
 import { verifyJwt } from '../utils/jwt'
 
-export const deserializeUser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
+export const deserializeUser = async ({ ctx, next }: any) => {
   try {
     // Get the token
     let accessToken
     if (
-      req.headers.authorization &&
-      req.headers.authorization.startsWith('Bearer')
+      ctx.req.headers.authorization &&
+      ctx.req.headers.authorization.startsWith('Bearer')
     ) {
-      accessToken = req.headers.authorization.split(' ')[1]
-    } else if (req.cookies.accessToken) {
-      accessToken = req.cookies.accessToken
+      accessToken = ctx.req.headers.authorization.split(' ')[1]
+    } else if (ctx.req.cookies.accessToken) {
+      accessToken = ctx.req.cookies.accessToken
     }
 
     if (!accessToken) {
@@ -46,11 +42,13 @@ export const deserializeUser = async (
       return next(new AppError(`User with that token no longer exist`, 401))
     }
 
+    console.log('user', user)
+
     // This is really important (Helps us know if the user is logged in from other controllers)
     // You can do: (req.user or res.locals.user)
-    res.locals.user = user
+    ctx.res.locals.user = user
 
-    next()
+    return next()
   } catch (err: any) {
     next(err)
   }
