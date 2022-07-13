@@ -1,23 +1,9 @@
-import express, { Router } from 'express'
-import {
-  getAllUsersHandler,
-  getMeHandler,
-} from '../controllers/user.controller'
 import { deserializeUser } from '../middlewares/deserializeUser'
 import { requireUser } from '../middlewares/requireUser'
 import { restrictTo } from '../middlewares/restrictTo'
 import { createRouter } from './createRouter'
-import { TRPCError } from '@trpc/server'
 import { z } from 'zod'
-
-// const router: Router = express.Router()
-// router.use(deserializeUser, requireUser)
-
-// // Admin Get Users route
-// router.get('/', restrictTo('admin'), getAllUsersHandler)
-
-// // Get my info route
-// router.get('/me', getMeHandler)
+import prisma from '../../prisma/prisma-client'
 
 // export default router
 export const user = createRouter()
@@ -27,5 +13,17 @@ export const user = createRouter()
     output: z.object({ name: z.string(), email: z.string() }),
     async resolve({ ctx }: any) {
       return ctx.res.locals.user
+    },
+  })
+  .middleware(restrictTo(['admin']))
+  .query('All', {
+    output: z.object({ name: z.string(), email: z.string() }).array(),
+    async resolve() {
+      return await prisma.user.findMany({
+        select: {
+          name: true,
+          email: true,
+        },
+      })
     },
   })

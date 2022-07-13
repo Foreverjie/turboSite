@@ -1,16 +1,15 @@
-import { NextFunction, Request, Response } from 'express';
-import AppError from '../utils/appError';
+import { TRPCError } from '@trpc/server'
 
 export const restrictTo =
-  (...allowedRoles: string[]) =>
-  (req: Request, res: Response, next: NextFunction) => {
-    const user = res.locals.user;
+  (allowedRoles: string[]) =>
+  ({ ctx, next }: any) => {
+    const user = ctx.res.locals.user
     if (!allowedRoles.includes(user.role)) {
-      return next(
-        new AppError('You are not allowed to perform this action', 403)
-      );
+      throw new TRPCError({
+        code: 'FORBIDDEN',
+        message: 'You are not allowed to perform this action',
+      })
     }
 
-    next();
-  };
-
+    return next()
+  }
