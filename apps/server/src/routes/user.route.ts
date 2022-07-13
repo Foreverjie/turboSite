@@ -22,11 +22,10 @@ import { z } from 'zod'
 // export default router
 export const user = createRouter()
   .middleware(deserializeUser)
-  // .middleware(requireUser)
-  .query('me', {
+  .middleware(requireUser)
+  .query('Me', {
     output: z.object({ name: z.string(), email: z.string() }),
     async resolve({ ctx }: any) {
-      console.log('ctx', ctx)
       return ctx.res.locals.user
     },
   })
