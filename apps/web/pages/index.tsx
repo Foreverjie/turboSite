@@ -18,7 +18,7 @@ import {
 import { ChevronDownIcon } from '@heroicons/react/solid'
 import Head from 'next/head'
 import Image from 'next/image'
-import { trpc } from '../utils/trpc'
+import { inferQueryOutput, trpc } from '../utils/trpc'
 
 const solutions = [
   {
@@ -104,7 +104,15 @@ function classNames(...classes: string[]) {
 export default function Example() {
   const catQuery = trpc.useQuery(['cat.List'])
 
-  const { data, isLoading } = catQuery
+  const {
+    data,
+    isLoading,
+  }: {
+    data: inferQueryOutput<'cat.List'> | undefined
+    isLoading: boolean
+  } = catQuery
+
+  console.log('data', data, isLoading)
 
   return (
     <Popover className="relative bg-white">
