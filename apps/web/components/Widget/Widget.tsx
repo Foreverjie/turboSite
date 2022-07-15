@@ -8,7 +8,7 @@ function Widget() {
         <SearchIcon className="h-5 w-5 text-gray-400" />
         <input
           type="text"
-          className="bg-transparent flex-1 outline-none"
+          className="bg-transparent outline-none overflow-hidden flex-1"
           placeholder="Search Post"
         />
       </div>
