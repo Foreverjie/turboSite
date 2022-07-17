@@ -11,11 +11,15 @@ generator client {
 }
 
 model User {
-  id        String @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
-  email     String @unique
-  password  String
-  role      String @default("user")
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  email    String @unique
+  password String
+  role     String @default("user")
+
+  posts    Post[]
+  comments Comment[]
+  likes    Like[]
 
   // To return `Date`s intact through the API we need to add data transformers
   // https://trpc.io/docs/data-transformers
@@ -24,6 +28,60 @@ model User {
 }
 
 model Cat {
-  id        String @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+}
+
+model Post {
+  id   String   @id @default(auto()) @map("_id") @db.ObjectId
+  type PostType @default(POST)
+
+  repostId String? @db.ObjectId
+  repost   Post?   @relation("repost", fields: [repostId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  repostBy Post[]  @relation("repost")
+
+  content String
+  files   String[]
+
+  comments   Comment[]
+  likes      Like[]
+
+  author   User   @relation(fields: [authorId], references: [id])
+  authorId String
+
+  isBlocked Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Comment {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  content String
+
+  post   Post   @relation(fields: [postId], references: [id])
+  postId String
+
+  author   User   @relation(fields: [authorId], references: [id])
+  authorId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Like {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  post   Post   @relation(fields: [postId], references: [id])
+  postId String
+
+  author   User   @relation(fields: [authorId], references: [id])
+  authorId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+enum PostType {
+  POST
+  REPOST
 }
