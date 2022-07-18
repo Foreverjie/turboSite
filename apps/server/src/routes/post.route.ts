@@ -7,6 +7,34 @@ import prisma from '../../prisma/prisma-client'
 
 // export default router
 export const post = createRouter()
+  .mutation('Post', {
+    input: z.object({ id: z.string() }),
+    // output: z.object({
+    //   author: z.object({
+    //     name: z.string(),
+    //   }),
+    //   content: z.string(),
+    //   files: z.string().array(),
+    // }),
+    async resolve({ input }: any) {
+      const { id } = input
+      return await prisma.post.findUnique({
+        where: {
+          id,
+        },
+        select: {
+          author: {
+            select: {
+              name: true,
+            },
+          },
+          content: true,
+          files: true,
+          type: true,
+        },
+      })
+    },
+  })
   .middleware(deserializeUser)
   .middleware(requireUser)
   .mutation('New', {
@@ -23,7 +51,10 @@ export const post = createRouter()
         data: {
           content: input.content,
           files: input.files,
-          authorId: ctx.user.id,
+          author: {
+            connect: { id: ctx.res.locals.user.id },
+          },
+          // authorId
         },
       })
     },

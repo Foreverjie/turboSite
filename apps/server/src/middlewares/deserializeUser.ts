@@ -49,6 +49,7 @@ export const deserializeUser = async ({ ctx, next }: any) => {
       id: JSON.parse(session).id,
     },
     select: {
+      id: true,
       name: true,
       email: true,
       role: true,
