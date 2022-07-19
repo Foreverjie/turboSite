@@ -53,6 +53,7 @@ export const deserializeUser = async ({ ctx, next }: any) => {
       name: true,
       email: true,
       role: true,
+      avatar: true,
     },
   })
 

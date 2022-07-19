@@ -16,6 +16,7 @@ model User {
   email    String @unique
   password String
   role     String @default("user")
+  avatar   String @default("https://gravatar.com/avatar/placeholder?s=200")
 
   posts    Post[]
   comments Comment[]

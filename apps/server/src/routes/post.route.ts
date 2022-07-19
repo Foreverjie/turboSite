@@ -9,13 +9,6 @@ import prisma from '../../prisma/prisma-client'
 export const post = createRouter()
   .mutation('Post', {
     input: z.object({ id: z.string() }),
-    // output: z.object({
-    //   author: z.object({
-    //     name: z.string(),
-    //   }),
-    //   content: z.string(),
-    //   files: z.string().array(),
-    // }),
     async resolve({ input }: any) {
       const { id } = input
       return await prisma.post.findUnique({
@@ -59,15 +52,14 @@ export const post = createRouter()
       })
     },
   })
-//   .middleware(restrictTo(['admin']))
-//   .query('All', {
-//     output: z.object({ name: z.string(), email: z.string() }).array(),
-//     async resolve() {
-//       return await prisma.user.findMany({
-//         select: {
-//           name: true,
-//           email: true,
-//         },
-//       })
-//     },
-//   })
+  .middleware(restrictTo(['admin']))
+  .query('All', {
+    async resolve() {
+      return await prisma.post.findMany({
+        select: {
+          id: true,
+          content: true,
+        },
+      })
+    },
+  })

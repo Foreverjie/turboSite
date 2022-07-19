@@ -10,7 +10,12 @@ export const user = createRouter()
   .middleware(deserializeUser)
   .middleware(requireUser)
   .query('Me', {
-    output: z.object({ name: z.string(), email: z.string() }),
+    output: z.object({
+      name: z.string(),
+      email: z.string(),
+      role: z.string(),
+      avatar: z.string(),
+    }),
     async resolve({ ctx }: any) {
       return ctx.res.locals.user
     },

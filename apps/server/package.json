@@ -6,6 +6,7 @@
     "dev:express": "cross-env NODE_ENV=development nodemon --exec node --inspect -r ts-node/register src/app.ts",
     "dev": "cross-env NODE_ENV=development nodemon --exec node --inspect -r ts-node/register src/index.ts",
     "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
     "prisma:format": "prisma format",
     "test": "jest --coverage --passWithNoTests"
   },
@@ -25,12 +26,12 @@
     "cross-env": "^7.0.3",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.18",
-    "prisma": "^4.0.0",
+    "prisma": "^4.1.0",
     "tsconfig": "workspace:*",
     "typescript": "^4.7.4"
   },
   "dependencies": {
-    "@prisma/client": "^4.0.0",
+    "@prisma/client": "^4.1.0",
     "@trpc/server": "^9.25.3",
     "@typegoose/typegoose": "^9.9.0",
     "@types/uuid": "^8.3.4",
