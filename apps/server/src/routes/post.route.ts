@@ -19,11 +19,30 @@ export const post = createRouter()
           author: {
             select: {
               name: true,
+              avatar: true,
             },
           },
           content: true,
           files: true,
           type: true,
+        },
+      })
+    },
+  })
+  .query('All', {
+    async resolve() {
+      return await prisma.post.findMany({
+        select: {
+          isBlocked: true,
+          author: {
+            select: {
+              id: true,
+              name: true,
+              avatar: true,
+            },
+          },
+          id: true,
+          content: true,
         },
       })
     },
@@ -47,19 +66,48 @@ export const post = createRouter()
           author: {
             connect: { id: ctx.res.locals.user.id },
           },
-          // authorId
         },
       })
     },
   })
   .middleware(restrictTo(['admin']))
-  .query('All', {
-    async resolve() {
-      return await prisma.post.findMany({
+  .mutation('Edit', {
+    input: z.object({
+      id: z.string(),
+      content: z.string().optional(),
+      isBlocked: z.boolean().optional(),
+      files: z.string().array().optional(),
+    }),
+    async resolve({ input }: any) {
+      const { id, content, isBlocked, files } = input
+      const post = await prisma.post.update({
+        where: {
+          id,
+        },
+        data: {
+          content,
+          files,
+          isBlocked,
+        },
         select: {
-          id: true,
+          type: true,
+          repost: {
+            select: {
+              content: true,
+            },
+          },
           content: true,
+          files: true,
+          author: {
+            select: {
+              name: true,
+              avatar: true,
+            },
+          },
+          isBlocked: true,
+          updatedAt: true,
         },
       })
+      return post
     },
   })
