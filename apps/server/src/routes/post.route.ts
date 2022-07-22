@@ -32,6 +32,10 @@ export const post = createRouter()
   .query('All', {
     async resolve() {
       return await prisma.post.findMany({
+        // where: {
+        //   isBlocked: false,
+        //   isDeleted: false,
+        // },
         select: {
           isBlocked: true,
           author: {

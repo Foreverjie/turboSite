@@ -20,6 +20,38 @@ export const user = createRouter()
       return ctx.res.locals.user
     },
   })
+  .mutation('Update', {
+    input: z.object({
+      name: z.string().optional(),
+      avatar: z.string().optional(),
+    }),
+    output: z.object({
+      name: z.string(),
+      email: z.string(),
+      role: z.string(),
+      avatar: z.string(),
+    }),
+    async resolve({ input, ctx }: any) {
+      const { name, avatar } = input
+      const user = await prisma.user.update({
+        where: {
+          id: ctx.res.locals.user.id,
+        },
+        data: {
+          name,
+          avatar,
+        },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          role: true,
+          avatar: true,
+        },
+      })
+      return user
+    },
+  })
   .middleware(restrictTo(['admin']))
   .query('All', {
     output: z.object({ name: z.string(), email: z.string() }).array(),
