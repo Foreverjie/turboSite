@@ -115,8 +115,8 @@ importers:
       '@headlessui/react': ^1.6.5
       '@heroicons/react': ^1.0.6
       '@trpc/next': ^9.25.3
-      '@trpc/react': ^9.25.3
-      '@trpc/server': ^9.25.3
+      '@trpc/react': ^9.26.2
+      '@trpc/server': ^9.26.2
       '@types/ali-oss': ^6.16.4
       '@types/node': 17.0.4
       '@types/react': 17.0.38
@@ -7973,6 +7973,7 @@ packages:
   /source-map/0.6.1:
     resolution: {integrity: sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==}
     engines: {node: '>=0.10.0'}
+    requiresBuild: true
 
   /sparse-bitfield/3.0.3:
     resolution: {integrity: sha512-kvzhi7vqKTfkh0PZU+2D2PIllw2ymqJKujUcyPMd9Y75Nv4nPbGJZXNhxsgdQab2BmlDct1YnfQCguEvHr7VsQ==}

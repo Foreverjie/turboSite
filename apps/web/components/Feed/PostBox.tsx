@@ -6,7 +6,7 @@ import {
   SearchCircleIcon,
 } from '@heroicons/react/outline'
 import React, { useState } from 'react'
-import { Avatar, AvatarImage, AvatarFallback } from 'ui/Avatar'
+import { Avatar, AvatarImage, AvatarFallback } from 'ui'
 
 function PostBox() {
   const [input, setInput] = useState('')

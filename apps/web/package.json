@@ -9,8 +9,8 @@
   },
   "dependencies": {
     "@heroicons/react": "^1.0.6",
-    "@trpc/react": "^9.25.3",
-    "@trpc/server": "^9.25.3",
+    "@trpc/react": "^9.26.2",
+    "@trpc/server": "^9.26.2",
     "@types/ali-oss": "^6.16.4",
     "@types/uuid": "^8.3.4",
     "ali-oss": "^6.17.1",
