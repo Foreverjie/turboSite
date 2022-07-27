@@ -1,0 +1,22 @@
+{
+  "name": "grpc-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node ./server.ts",
+    "dev:client": "node ./client.ts",
+    "test": "echo \"Error: no test specified\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@grpc/grpc-js": "^1.6.8",
+    "@grpc/proto-loader": "^0.7.0",
+    "ts-proto": "^1.120.0"
+  },
+  "devDependencies": {
+    "@types/node": "17.0.4"
+  }
+}
