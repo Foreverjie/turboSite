@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node ./server.ts",
-    "dev:client": "node ./client.ts",
+    "dev": "nodemon --exec node -r ts-node/register ./server.ts",
+    "dev:client": "nodemon --exec node -r ts-node/register ./client.ts",
     "test": "echo \"Error: no test specified\""
   },
   "keywords": [],
@@ -14,9 +14,14 @@
   "dependencies": {
     "@grpc/grpc-js": "^1.6.8",
     "@grpc/proto-loader": "^0.7.0",
+    "grpc-web": "^1.3.1",
+    "ts-node": "^10.9.1",
+    "ts-node-dev": "^2.0.0",
     "ts-proto": "^1.120.0"
   },
   "devDependencies": {
-    "@types/node": "17.0.4"
+    "@types/node": "17.0.4",
+    "typescript": "^4.7.4",
+    "tsconfig": "workspace:*"
   }
 }
