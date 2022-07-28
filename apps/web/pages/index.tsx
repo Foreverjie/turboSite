@@ -3,8 +3,11 @@ import Feed from 'components/Feed/Feed'
 import Widget from 'components/Widget/Widget'
 import Head from 'next/head'
 import Sidebar from '../components/Sidebar/Sidebar'
+import { useSession } from 'next-auth/react'
 
 const Home = () => {
+  const { data: session, status } = useSession()
+  console.log('seee', session, status)
   return (
     <div className="lg:max-w-6xl mx-auto max-h-screen overflow-hidden">
       <Head>
