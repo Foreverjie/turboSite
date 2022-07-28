@@ -5,21 +5,20 @@ import { useRouter } from 'next/router'
 import { signIn } from 'next-auth/react'
 
 export default function SignUp() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('864129545@qq.com')
+  const [password, setPassword] = useState('12345678')
   const router = useRouter()
 
-  const handleSignIn = (e: any) => {
+  const handleSignIn = async (e: any) => {
     e.preventDefault()
-    console.log('data', email, password)
-    const res = signIn('credentials', {
+    const res = await signIn('credentials', {
       email,
       password,
       callbackUrl: `${window.location.origin}/`,
       redirect: false,
     })
-    if (res.url) {
-      router.push(url)
+    if (res?.url) {
+      router.push(res.url)
     }
   }
 
@@ -36,6 +35,7 @@ export default function SignUp() {
               id="email"
               placeholder="Email address"
               className="w-full block"
+              value={email}
               onChange={e => setEmail(e.target.value)}
             />
             <label htmlFor="password" className="sr-only">
@@ -46,6 +46,7 @@ export default function SignUp() {
               id="password"
               placeholder="Password"
               className="w-full block"
+              value={password}
               onChange={e => setPassword(e.target.value)}
             />
             {/* <label htmlFor="Confirm password" className="sr-only">

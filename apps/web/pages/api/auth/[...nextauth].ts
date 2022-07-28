@@ -21,11 +21,10 @@ const providers = [
         },
       )
       const accessToken = data?.data?.result?.data
-      console.log('user', accessToken)
 
       const user = {
         status: 'success',
-        user: { email: credentials?.email, accessToken },
+        data: { email: credentials?.email, accessToken },
       }
 
       if (accessToken) {
@@ -39,16 +38,19 @@ const providers = [
 
 const callbacks = {
   // Getting the JWT token from API response
-  async jwt(token, user) {
-    if (user) {
-      token.accessToken = user.token
+  async jwt({ token, user, account }) {
+    if (account && user) {
+      return {
+        ...token,
+        accessToken: user.data.accessToken,
+      }
     }
 
     return token
   },
 
-  async session(session, token) {
-    session.accessToken = token.accessToken
+  async session({ session, token }) {
+    session.user.accessToken = token.accessToken
     return session
   },
 }
