@@ -11,7 +11,7 @@ const Home = () => {
   return (
     <div className="lg:max-w-6xl mx-auto max-h-screen overflow-hidden">
       <Head>
-        <title>Jie's TurboSite</title>
+        <title>Flash</title>
       </Head>
 
       <main className="grid grid-cols-9">

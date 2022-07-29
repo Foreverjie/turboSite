@@ -118,6 +118,7 @@ importers:
       '@trpc/react': ^9.26.2
       '@trpc/server': ^9.26.2
       '@types/ali-oss': ^6.16.4
+      '@types/jsonwebtoken': ^8.5.8
       '@types/node': 17.0.4
       '@types/react': 17.0.38
       '@types/uuid': ^8.3.4
@@ -128,6 +129,7 @@ importers:
       config: workspace:*
       enzyme: ^3.11.0
       enzyme-adapter-react-16: ^1.15.6
+      jsonwebtoken: ^8.5.1
       next: latest
       next-auth: ^4.10.2
       postcss: ^8.4.5
@@ -150,6 +152,7 @@ importers:
       '@types/uuid': 8.3.4
       ali-oss: 6.17.1
       axios: 0.27.2
+      jsonwebtoken: 8.5.1
       next: 12.2.3_sfoxds7t5ydpegc3knd667wn6m
       next-auth: 4.10.2_sfoxds7t5ydpegc3knd667wn6m
       react: 17.0.2
@@ -160,6 +163,7 @@ importers:
     devDependencies:
       '@headlessui/react': 1.6.6_sfoxds7t5ydpegc3knd667wn6m
       '@trpc/next': 9.26.2_e7azifllyzhj7gukz4fbbldve4
+      '@types/jsonwebtoken': 8.5.8
       '@types/node': 17.0.4
       '@types/react': 17.0.38
       autoprefixer: 10.4.7_postcss@8.4.14
@@ -1592,7 +1596,7 @@ packages:
   /@types/jsonwebtoken/8.5.8:
     resolution: {integrity: sha512-zm6xBQpFDIDM6o9r6HSgDeIcLy82TKWctCXEPbJJcXb5AKmi5BNNdLXneixK4lplX3PqIVcwLBCGE/kAGnlD4A==}
     dependencies:
-      '@types/node': 17.0.4
+      '@types/node': 18.6.1
     dev: true
 
   /@types/lodash/4.14.182:

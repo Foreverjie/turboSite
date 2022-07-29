@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Button, Input } from 'ui'
 import { useRouter } from 'next/router'
 import { signIn } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
 
 export default function SignUp() {
   const [email, setEmail] = useState('864129545@qq.com')
@@ -17,10 +18,13 @@ export default function SignUp() {
       callbackUrl: `${window.location.origin}/`,
       redirect: false,
     })
-    if (res?.url) {
-      router.push(res.url)
-    }
+    // if (res?.url) {
+    //   router.push(res.url)
+    // }
   }
+
+  const { data: session, status } = useSession()
+  console.log('seee', session, status)
 
   return (
     <>

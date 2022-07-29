@@ -25,7 +25,14 @@ if (process.env.NODE_ENV === 'production')
 export const signToken = async (user: any) => {
   // Sign the access token
   const accessToken = signJwt(
-    { sub: user.id },
+    {
+      sub: user.id,
+      user: {
+        name: user.name,
+        email: user.email,
+        avatar: user.avatar,
+      },
+    },
     {
       expiresIn: `${config.get<number>('accessTokenExpiresIn')}m`,
     },
@@ -48,7 +55,13 @@ export const auth = createRouter()
 
       const user = await prisma.user.findUnique({
         where: { email },
-        select: { id: true, email: true, password: true },
+        select: {
+          id: true,
+          email: true,
+          password: true,
+          name: true,
+          avatar: true,
+        },
       })
       if (!user) {
         throw new TRPCError({
