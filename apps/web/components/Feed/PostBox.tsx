@@ -5,11 +5,13 @@ import {
   PhotographIcon,
   SearchCircleIcon,
 } from '@heroicons/react/outline'
+import { useSession } from 'next-auth/react'
 import React, { useState } from 'react'
 import { Avatar, AvatarImage, AvatarFallback } from 'ui'
 
 function PostBox() {
   const [input, setInput] = useState('')
+  const { data: session, status } = useSession()
 
   return (
     <div className="flex space-x-2 p-5">
@@ -19,11 +21,23 @@ function PostBox() {
         alt=""
       /> */}
       <Avatar className="mt-4">
-        <AvatarImage
-          src="https://jie-site.oss-cn-shenzhen.aliyuncs.com/avatar-man-icon-profile-placeholder-260nw-1229859850-e1623694994111.jpeg"
-          alt="CT"
-        />
-        <AvatarFallback delayMs={600}>CT</AvatarFallback>
+        {status === 'unauthenticated' || status === 'loading' ? (
+          <>
+            <AvatarImage
+              src="https://jie-site.oss-cn-shenzhen.aliyuncs.com/avatar-man-icon-profile-placeholder-260nw-1229859850-e1623694994111.jpeg"
+              alt="CT"
+            />
+            <AvatarFallback delayMs={600}>Login</AvatarFallback>
+          </>
+        ) : (
+          <>
+            <AvatarImage
+              src={session?.user?.avatar}
+              alt={session?.user?.name as string}
+            />
+            <AvatarFallback delayMs={600}>{session?.user?.name}</AvatarFallback>
+          </>
+        )}
       </Avatar>
 
       <div className="flex flex-1 items-center pl-2">
