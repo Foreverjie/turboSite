@@ -18,9 +18,9 @@ export default function SignUp() {
       callbackUrl: `${window.location.origin}/`,
       redirect: false,
     })
-    // if (res?.url) {
-    //   router.push(res.url)
-    // }
+    if (res?.url) {
+      router.push(res.url)
+    }
   }
 
   const { data: session, status } = useSession()

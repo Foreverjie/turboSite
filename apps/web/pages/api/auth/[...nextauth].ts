@@ -6,90 +6,54 @@ import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import axios from 'axios'
 
-const providers = [
-  CredentialsProvider({
-    name: 'Credentials',
-    credentials: { email: { label: 'Email' }, password: { label: 'Password' } },
-    async authorize(credentials) {
-      const data = await axios.post(
-        'http://localhost:8080/trpc/auth.login',
-        {
-          password: credentials?.password,
-          email: credentials?.email,
-        },
-        {
-          headers: {
-            accept: '*/*',
-            'Content-Type': 'application/json',
+export default NextAuth({
+  providers: [
+    CredentialsProvider({
+      name: 'Flash',
+      credentials: {
+        email: { label: 'Email', type: 'email' },
+        password: { label: 'Password', type: 'password' },
+      },
+      async authorize(credentials) {
+        const data = await axios.post(
+          'http://localhost:8080/trpc/auth.login',
+          {
+            password: credentials?.password,
+            email: credentials?.email,
           },
-        },
-      )
-      const accessToken = data?.data?.result?.data
+          {
+            headers: {
+              accept: '*/*',
+              'Content-Type': 'application/json',
+            },
+          },
+        )
 
-      const user = {
-        status: 'success',
-        data: { email: credentials?.email, accessToken },
-      }
-
-      console.log('auth', user)
-
-      if (accessToken) {
-        return user
-      } else {
-        return null
-      }
-    },
-  }),
-]
-
-const callbacks = {
-  // Getting the JWT token from API response
-  async jwt({
-    token,
-    user,
-    account,
-  }: {
-    token: JWT
-    user?: User
-    account?: any
-  }) {
-    if (account && user) {
-      return {
-        ...token,
-        accessToken: user.data.accessToken,
-      }
-    }
-
-    return token
+        return data?.data?.result
+      },
+    }),
+  ],
+  pages: {
+    signIn: '/signup',
   },
-
-  async session({ session, token }: { session: Session; token: JWT }) {
-    session.accessToken = token.accessToken
-    return session
-  },
-}
-
-const options: NextAuthOptions = {
-  providers,
-  callbacks,
-  jwt: {
-    async encode({ secret, token }) {
-      const jwtClaims = {
-        sub: token?.sub,
-        name: token?.name,
-        email: token?.email,
-        iat: Date.now() / 1000,
-        exp: Math.floor(Date.now() / 1000) + 24 * 60 * 60,
+  callbacks: {
+    async jwt({ token, user, account }) {
+      if (account && user) {
+        return {
+          ...token,
+          accessToken: user.data,
+        }
       }
-      console.log('encode', { secret, token }, jwt.sign(jwtClaims, secret))
-      return jwt.sign(jwtClaims, secret)
+      return token
     },
-    async decode({ token, secret }) {
-      console.log('decode', { token, secret })
-      return jwt.verify(token, secret)
+    async session({ session, token }) {
+      const data = jwt.decode(token.accessToken)
+      session.user.accessToken = token.accessToken
+      session.user.email = data.user.email
+      session.user.name = data.user.name
+      session.user.avatar = data.user.avatar
+
+      return session
     },
   },
-}
-
-export default (req: NextApiRequest, res: NextApiResponse) =>
-  NextAuth(req, res, options)
+})
