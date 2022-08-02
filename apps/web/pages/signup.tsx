@@ -24,7 +24,6 @@ export default function SignUp() {
   }
 
   const { data: session, status } = useSession()
-  console.log('seee', session, status)
 
   return (
     <>

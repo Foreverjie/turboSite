@@ -1,6 +1,3 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
-import type { NextAuthOptions, Session, User } from 'next-auth'
-import type { JWT } from 'next-auth/jwt'
 import jwt from 'jsonwebtoken'
 import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
@@ -47,13 +44,17 @@ export default NextAuth({
       return token
     },
     async session({ session, token }) {
-      const data = jwt.decode(token.accessToken)
-      session.user.accessToken = token.accessToken
-      session.user.email = data.user.email
-      session.user.name = data.user.name
-      session.user.avatar = data.user.avatar
-
-      return session
+      const data: any = jwt.decode(token.accessToken as string)
+      const user = {
+        accessToken: token.accessToken,
+        email: data?.user?.email,
+        name: data?.user.name,
+        image: data?.user?.avatar,
+      }
+      return {
+        ...session,
+        user,
+      }
     },
   },
 })

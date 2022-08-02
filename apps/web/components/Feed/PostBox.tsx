@@ -15,11 +15,6 @@ function PostBox() {
 
   return (
     <div className="flex space-x-2 p-5">
-      {/* <img
-        className="mt-4 h-14 w-14 rounded-full object-cover"
-        src="https://jie-site.oss-cn-shenzhen.aliyuncs.com/avatar-man-icon-profile-placeholder-260nw-1229859850-e1623694994111.jpeg"
-        alt=""
-      /> */}
       <Avatar className="mt-4">
         {status === 'unauthenticated' || status === 'loading' ? (
           <>
@@ -32,7 +27,10 @@ function PostBox() {
         ) : (
           <>
             <AvatarImage
-              src={session?.user?.avatar}
+              src={
+                session?.user?.image ??
+                'https://jie-site.oss-cn-shenzhen.aliyuncs.com/avatar-man-icon-profile-placeholder-260nw-1229859850-e1623694994111.jpeg'
+              }
               alt={session?.user?.name as string}
             />
             <AvatarFallback delayMs={600}>{session?.user?.name}</AvatarFallback>

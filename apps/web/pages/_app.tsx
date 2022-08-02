@@ -11,6 +11,9 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   const [trpcClient] = useState(() =>
     trpc.createClient({
       url: 'http://localhost:8080/trpc',
+      headers: {
+        // Authorization: 'Bearer ' + session.accessToken,
+      },
     }),
   )
 
