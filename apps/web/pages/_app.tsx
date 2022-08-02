@@ -9,9 +9,10 @@ import { SessionProvider } from 'next-auth/react'
 import type { AppRouter } from 'server/src/routes/router'
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
+  const AnyComponent = Component as any
   return (
     <SessionProvider session={session}>
-      <Component {...pageProps} />
+      <AnyComponent {...pageProps} />
     </SessionProvider>
   )
 }
