@@ -21,7 +21,7 @@ export type Context = trpc.inferAsyncReturnType<typeof createContextInner>
  * Creates context for an incoming request
  * @link https://trpc.io/docs/context
  */
-export const createContext = ({
+export const createContext: any = ({
   req,
   res,
 }: trpcExpress.CreateExpressContextOptions) => {
