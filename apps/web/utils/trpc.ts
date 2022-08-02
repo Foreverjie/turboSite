@@ -21,7 +21,7 @@ export interface SSRContext extends NextPageContext {
  * A set of strongly-typed React hooks from your `AppRouter` type signature with `createReactQueryHooks`.
  * @link https://trpc.io/docs/react#3-create-trpc-hooks
  */
-export const trpc = createReactQueryHooks<AppRouter, SSRContext>()
+export const trpc: any = createReactQueryHooks<AppRouter, SSRContext>()
 
 // export const transformer = superjson;
 /**
