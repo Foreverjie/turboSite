@@ -17,19 +17,21 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   )
 }
 
-export default withTRPC<AppRouter>({
-  config({ ctx }) {
-    console.log({ ctx })
-    const url = process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}/trpc`
-      : 'http://localhost:8080/trpc'
+export default MyApp
 
-    return {
-      url,
-      headers: {
-        'x-ssr': '1',
-      },
-    }
-  },
-  ssr: true,
-})(MyApp)
+// export default withTRPC<AppRouter>({
+//   config({ ctx }) {
+//     console.log({ ctx })
+//     const url = process.env.VERCEL_URL
+//       ? `https://${process.env.VERCEL_URL}/trpc`
+//       : 'http://localhost:8080/trpc'
+
+//     return {
+//       url,
+//       headers: {
+//         'x-ssr': '1',
+//       },
+//     }
+//   },
+//   ssr: true,
+// })(MyApp)
