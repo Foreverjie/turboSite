@@ -6,10 +6,10 @@ import (
 	"log"
 	"net"
 
-	"jie1203.com/goBack/authentication/repository"
-	"jie1203.com/goBack/authentication/service"
-	"jie1203.com/goBack/db"
-	"jie1203.com/goBack/pb"
+	"github.com/foreverjie/turboSite/apps//goBack/authentication/repository"
+	"github.com/foreverjie/turboSite/apps//goBack/authentication/service"
+	"github.com/foreverjie/turboSite/apps//goBack/db"
+	pb "github.com/foreverjie/turboSite/apps/goBack/proto"
 
 	"github.com/joho/godotenv"
 	"google.golang.org/grpc"

@@ -6,11 +6,11 @@ import (
 	"strings"
 	"time"
 
-	"jie1203.com/goBack/authentication/models"
-	"jie1203.com/goBack/authentication/repository"
-	"jie1203.com/goBack/authentication/validators"
-	"jie1203.com/goBack/pb"
-	"jie1203.com/goBack/security"
+	"github.com/foreverjie/turboSite/apps//goBack/authentication/models"
+	"github.com/foreverjie/turboSite/apps//goBack/authentication/repository"
+	"github.com/foreverjie/turboSite/apps//goBack/authentication/validators"
+	"github.com/foreverjie/turboSite/apps//goBack/pb"
+	"github.com/foreverjie/turboSite/apps//goBack/security"
 
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"

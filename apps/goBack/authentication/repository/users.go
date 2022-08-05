@@ -1,8 +1,8 @@
 package repository
 
 import (
-	"jie1203.com/goBack/authentication/models"
-	"jie1203.com/goBack/db"
+	"github.com/foreverjie/turboSite/apps//goBack/authentication/models"
+	"github.com/foreverjie/turboSite/apps//goBack/db"
 
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"

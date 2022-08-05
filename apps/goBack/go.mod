@@ -1,4 +1,4 @@
-module jie1203.com/goBack
+module github.com/foreverjie/turboSite/apps//goBack
 
 go 1.17
 
@@ -6,6 +6,7 @@ require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gorilla/handlers v1.5.1
 	github.com/gorilla/mux v1.8.0
+	github.com/grpc-ecosystem/grpc-gateway v1.16.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.11.1
 	github.com/joho/godotenv v1.4.0
 	github.com/stretchr/testify v1.7.0

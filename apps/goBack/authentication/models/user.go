@@ -3,7 +3,7 @@ package models
 import (
 	"time"
 
-	"jie1203.com/goBack/pb"
+	"github.com/foreverjie/turboSite/apps//goBack/pb"
 
 	"gopkg.in/mgo.v2/bson"
 )

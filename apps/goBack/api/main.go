@@ -1,23 +1,38 @@
 package main
 
 import (
+	"context"
 	"flag"
-	"fmt"
-	"log"
+	"io"
+	"io/fs"
+	"mime"
 	"net/http"
+	"os"
 
-	"jie1203.com/goBack/api/resthandlers"
-	"jie1203.com/goBack/api/routes"
-	"jie1203.com/goBack/pb"
-
-	"github.com/gorilla/mux"
+	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/grpclog"
+
+	pb "github.com/foreverjie/turboSite/apps//goBack/proto"
+	"github.com/foreverjie/turboSite/apps//goBack/third_party"
 )
 
 var (
 	port     int
 	authAddr string
 )
+
+// getOpenAPIHandler serves an OpenAPI UI.
+// Adapted from https://github.com/philips/grpc-gateway-example/blob/a269bcb5931ca92be0ceae6130ac27ae89582ecc/cmd/serve.go#L63
+func getOpenAPIHandler() http.Handler {
+	mime.AddExtensionType(".svg", "image/svg+xml")
+	// Use subdirectory in embedded files
+	subFS, err := fs.Sub(third_party.OpenAPI, "OpenAPI")
+	if err != nil {
+		panic("couldn't create sub filesystem: " + err.Error())
+	}
+	return http.FileServer(http.FS(subFS))
+}
 
 func init() {
 	flag.IntVar(&port, "port", 9000, "api service port")
@@ -27,20 +42,29 @@ func init() {
 
 func main() {
 
-	conn, err := grpc.Dial(authAddr, grpc.WithInsecure())
+	log := grpclog.NewLoggerV2(os.Stdout, io.Discard, io.Discard)
+	grpclog.SetLoggerV2(log)
+
+	conn, err := grpc.DialContext(context.Background(), authAddr, grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
-		log.Panicln(err)
+		log.Error(err)
 	}
 	defer conn.Close()
 
-	authSvcClient := pb.NewAuthServiceClient(conn)
-	authHandlers := resthandlers.NewAuthHandlers(authSvcClient)
-	authRoutes := routes.NewAuthRoutes(authHandlers)
+	gwmux := runtime.NewServeMux()
+	err = pb.RegisterAuthServiceHandler(context.Background(), gwmux, conn)
+	if err != nil {
+		log.Error("failed to register gateway: %w", err)
+	}
 
-	router := mux.NewRouter().StrictSlash(true)
-	routes.Install(router, authRoutes)
+	// authSvcClient := pb.NewAuthServiceClient(conn)
+	// authHandlers := resthandlers.NewAuthHandlers(authSvcClient)
+	// authRoutes := routes.NewAuthRoutes(authHandlers)
 
-	log.Printf("API service running on [::]:%d\n", port)
+	// router := mux.NewRouter().StrictSlash(true)
+	// routes.Install(router, authRoutes)
 
-	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", port), routes.WithCORS(router)))
+	log.Info("API service running on [::]:%d\n", port)
+
+	// log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", port), routes.WithCORS(router)))
 }
