@@ -9,7 +9,7 @@ import (
 	"github.com/foreverjie/turboSite/apps/goBack/authentication/repository"
 	"github.com/foreverjie/turboSite/apps/goBack/authentication/service"
 	"github.com/foreverjie/turboSite/apps/goBack/db"
-	pb "github.com/foreverjie/turboSite/apps/goBack/proto"
+	authPb "github.com/foreverjie/turboSite/apps/goBack/proto/auth"
 
 	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
@@ -50,7 +50,7 @@ func main() {
 	}
 
 	grpcServer := grpc.NewServer()
-	pb.RegisterAuthServiceServer(grpcServer, authService)
+	authPb.RegisterAuthServiceServer(grpcServer, authService)
 
 	log.Printf("Authentication service running on [::]:%d\n", port)
 

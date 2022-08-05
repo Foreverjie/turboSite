@@ -13,7 +13,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/grpclog"
 
-	pb "github.com/foreverjie/turboSite/apps/goBack/proto"
+	authPb "github.com/foreverjie/turboSite/apps/goBack/proto/auth"
 	"github.com/foreverjie/turboSite/apps/goBack/third_party"
 )
 
@@ -52,7 +52,7 @@ func main() {
 	defer conn.Close()
 
 	gwmux := runtime.NewServeMux()
-	err = pb.RegisterAuthServiceHandler(context.Background(), gwmux, conn)
+	err = authPb.RegisterAuthServiceHandler(context.Background(), gwmux, conn)
 	if err != nil {
 		log.Error("failed to register gateway: %w", err)
 	}
