@@ -11,7 +11,11 @@
   "editor.formatOnSave": true,
   "cSpell.words": [
     "dgrijalva",
+    "foreverjie",
+    "googleapis",
     "joho",
+    "protobuf",
+    "protoc",
     "stretchr"
   ]
 }
