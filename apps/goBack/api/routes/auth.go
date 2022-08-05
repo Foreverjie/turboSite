@@ -3,7 +3,7 @@ package routes
 import (
 	"net/http"
 
-	"github.com/foreverjie/turboSite/apps//goBack/api/resthandlers"
+	"github.com/foreverjie/turboSite/apps/goBack/api/resthandlers"
 )
 
 func NewAuthRoutes(authHandlers resthandlers.AuthHandlers) []*Route {

@@ -6,9 +6,9 @@ import (
 	"log"
 	"net"
 
-	"github.com/foreverjie/turboSite/apps//goBack/authentication/repository"
-	"github.com/foreverjie/turboSite/apps//goBack/authentication/service"
-	"github.com/foreverjie/turboSite/apps//goBack/db"
+	"github.com/foreverjie/turboSite/apps/goBack/authentication/repository"
+	"github.com/foreverjie/turboSite/apps/goBack/authentication/service"
+	"github.com/foreverjie/turboSite/apps/goBack/db"
 	pb "github.com/foreverjie/turboSite/apps/goBack/proto"
 
 	"github.com/joho/godotenv"

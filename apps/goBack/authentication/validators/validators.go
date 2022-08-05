@@ -4,7 +4,7 @@ import (
 	"errors"
 	"strings"
 
-	"github.com/foreverjie/turboSite/apps//goBack/pb"
+	"github.com/foreverjie/turboSite/apps/goBack/pb"
 
 	"gopkg.in/mgo.v2/bson"
 )

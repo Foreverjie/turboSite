@@ -7,8 +7,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/foreverjie/turboSite/apps//goBack/api/restutil"
-	"github.com/foreverjie/turboSite/apps//goBack/pb"
+	"github.com/foreverjie/turboSite/apps/goBack/api/restutil"
+	"github.com/foreverjie/turboSite/apps/goBack/pb"
 
 	"gopkg.in/mgo.v2/bson"
 )

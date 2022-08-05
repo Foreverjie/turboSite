@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/foreverjie/turboSite/apps//goBack/api/restutil"
-	"github.com/foreverjie/turboSite/apps//goBack/security"
+	"github.com/foreverjie/turboSite/apps/goBack/api/restutil"
+	"github.com/foreverjie/turboSite/apps/goBack/security"
 )
 
 func LogRequests(next http.HandlerFunc) http.HandlerFunc {

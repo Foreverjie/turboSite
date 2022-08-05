@@ -6,8 +6,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/foreverjie/turboSite/apps//goBack/authentication/models"
-	"github.com/foreverjie/turboSite/apps//goBack/db"
+	"github.com/foreverjie/turboSite/apps/goBack/authentication/models"
+	"github.com/foreverjie/turboSite/apps/goBack/db"
 
 	"github.com/joho/godotenv"
 	"github.com/stretchr/testify/assert"

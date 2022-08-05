@@ -13,8 +13,8 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/grpclog"
 
-	pb "github.com/foreverjie/turboSite/apps//goBack/proto"
-	"github.com/foreverjie/turboSite/apps//goBack/third_party"
+	pb "github.com/foreverjie/turboSite/apps/goBack/proto"
+	"github.com/foreverjie/turboSite/apps/goBack/third_party"
 )
 
 var (

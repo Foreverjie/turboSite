@@ -1,4 +1,4 @@
-module github.com/foreverjie/turboSite/apps//goBack
+module github.com/foreverjie/turboSite/apps/goBack
 
 go 1.17
 

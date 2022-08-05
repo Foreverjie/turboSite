@@ -3,7 +3,7 @@ package routes
 import (
 	"net/http"
 
-	"github.com/foreverjie/turboSite/apps//goBack/api/middlewares"
+	"github.com/foreverjie/turboSite/apps/goBack/api/middlewares"
 
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
