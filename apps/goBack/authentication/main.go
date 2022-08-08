@@ -3,16 +3,18 @@ package main
 import (
 	"flag"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net"
+	"os"
 
-	"github.com/foreverjie/turboSite/apps/goBack/authentication/repository"
-	"github.com/foreverjie/turboSite/apps/goBack/authentication/service"
 	"github.com/foreverjie/turboSite/apps/goBack/db"
 	authPb "github.com/foreverjie/turboSite/apps/goBack/proto/auth"
+	"github.com/foreverjie/turboSite/apps/goBack/server"
 
 	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/grpclog"
 )
 
 var (
@@ -34,6 +36,8 @@ func main() {
 		}
 	}
 
+	log := grpclog.NewLoggerV2(os.Stdout, ioutil.Discard, ioutil.Discard)
+	grpclog.SetLoggerV2(log)
 	cfg := db.NewConfig()
 	conn, err := db.NewConnection(cfg)
 	if err != nil {
@@ -41,8 +45,8 @@ func main() {
 	}
 	defer conn.Close()
 
-	usersRepository := repository.NewUsersRepository(conn)
-	authService := service.NewAuthService(usersRepository)
+	// usersRepository := repository.NewUsersRepository(conn)
+	// authService := service.NewAuthService(usersRepository)
 
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
 	if err != nil {
@@ -50,9 +54,10 @@ func main() {
 	}
 
 	grpcServer := grpc.NewServer()
-	authPb.RegisterAuthServiceServer(grpcServer, authService)
 
-	log.Printf("Authentication service running on [::]:%d\n", port)
+	authPb.RegisterAuthServiceServer(grpcServer, server.New())
+
+	log.Info("Authentication service running on tcp [::]:%d\n", port)
 
 	grpcServer.Serve(lis)
 }
