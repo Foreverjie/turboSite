@@ -20,6 +20,37 @@
   ],
   "paths": {
     "/api/v1/users": {
+      "get": {
+        "summary": "List users",
+        "description": "List Users on the server",
+        "operationId": "AuthService_ListUsers",
+        "responses": {
+          "200": {
+            "description": "A successful response.(streaming responses)",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "$ref": "#/definitions/pbUser"
+                },
+                "error": {
+                  "$ref": "#/definitions/rpcStatus"
+                }
+              },
+              "title": "Stream result of pbUser"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "Users"
+        ]
+      },
       "post": {
         "summary": "Add a user",
         "description": "Add a user to the server.",
@@ -52,17 +83,41 @@
           "Users"
         ]
       }
+    },
+    "/api/v1/users/{id}": {
+      "get": {
+        "summary": "get user by id",
+        "description": "get User by id on the server",
+        "operationId": "AuthService_GetUser",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbUser"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Users"
+        ]
+      }
     }
   },
   "definitions": {
-    "pbDeleteUserResponse": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        }
-      }
-    },
     "pbSignInResponse": {
       "type": "object",
       "properties": {

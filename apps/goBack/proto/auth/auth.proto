@@ -62,8 +62,28 @@ service AuthService {
       };
     };
     rpc SignIn(SignInRequest) returns (SignInResponse);
-    rpc GetUser(GetUserRequest) returns (User);
-    rpc ListUsers(ListUsersRequest) returns (stream User);
+    rpc GetUser(GetUserRequest) returns (User) {
+      option (google.api.http) = {
+        // Route to this method from get requests to /api/v1/users
+        get: "/api/v1/users/{id}",
+      };
+      option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+        summary: "get user by id"
+        description: "get User by id on the server"
+        tags: "Users"
+      };
+    };
+    rpc ListUsers(ListUsersRequest) returns (stream User) {
+      option (google.api.http) = {
+        // Route to this method from get requests to /api/v1/users
+        get: "/api/v1/users"
+      };
+      option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+        summary: "List users"
+        description: "List Users on the server"
+        tags: "Users"
+      };
+    };
     rpc UpdateUser(User) returns (User);
-    rpc DeleteUser(GetUserRequest) returns (DeleteUserResponse);
+    // rpc DeleteUser(GetUserRequest) returns (DeleteUserResponse);
 }
