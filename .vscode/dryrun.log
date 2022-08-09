@@ -1,6 +1,6 @@
 make --dry-run --always-make --keep-going --print-directory
-make: Entering directory `/Users/Zijie/self/turboSite'
-make: Leaving directory `/Users/Zijie/self/turboSite'
+make: Entering directory `/Users/peach/work/turboSite'
+make: Leaving directory `/Users/peach/work/turboSite'
  
 make: *** No targets specified and no makefile found.  Stop.
 

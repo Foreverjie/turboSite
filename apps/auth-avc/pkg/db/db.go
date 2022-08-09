@@ -35,7 +35,7 @@ func Init(url string) *mongo.Client {
 }
 
 //Client instance
-var DB *mongo.Client = Init()
+// var DB *mongo.Client = Init('mongodb://jie:zzj1234@localhost:27017/turboBack?authSource=admin')
 
 //getting database collections
 func GetCollection(client *mongo.Client, collectionName string) *mongo.Collection {

@@ -1,34 +1,55 @@
 package services
 
 import (
-    "context"
-    "net/http"
+	"context"
+	"net/http"
 
-    "github.com/foreverjie/auth-svc/pkg/db"
-    "github.com/foreverjie/auth-svc/pkg/models"
-    "github.com/foreverjie/auth-svc/pkg/pb"
-    "github.com/foreverjie/auth-svc/pkg/utils"
+	"github.com/foreverjie/auth-svc/pkg/db"
+	"github.com/foreverjie/auth-svc/pkg/models"
+	"github.com/foreverjie/auth-svc/pkg/pb"
+	"github.com/foreverjie/auth-svc/pkg/utils"
+
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 type Server struct {
-    H   db.Handler
+    H   db.GetCollection(db.DB, "users")
     Jwt utils.JwtWrapper
 }
+
+// var userCollection *mongo.Collection = db.GetCollection(db.DB, "users")
+
 
 func (s *Server) Register(ctx context.Context, req *pb.RegisterRequest) (*pb.RegisterResponse, error) {
     var user models.User
 
-    if result := s.H.DB.Where(&models.User{Email: req.Email}).First(&user); result.Error == nil {
+    count, err := userCollection.CountDocuments(ctx, bson.M{"email": req.Email})
+    if err != nil {
+        return &pb.RegisterResponse{
+            Status: http.StatusConflict,
+            Error:  "E-Mail Check Error",
+        }, nil
+    }
+    if count > 0 {
         return &pb.RegisterResponse{
             Status: http.StatusConflict,
             Error:  "E-Mail already exists",
         }, nil
     }
 
+    count, err = userCollection.CountDocuments(ctx, bson.M{"phone": req.Phone})
+    if err != nil {
+        return &pb.RegisterResponse{
+            Status: http.StatusConflict,
+            Error:  "Phone already exists",
+        }, nil
+    }
+
     user.Email = req.Email
     user.Password = utils.HashPassword(req.Password)
 
-    s.H.DB.Create(&user)
+    userCollection.InsertOne(ctx, user)
 
     return &pb.RegisterResponse{
         Status: http.StatusCreated,
@@ -38,7 +59,8 @@ func (s *Server) Register(ctx context.Context, req *pb.RegisterRequest) (*pb.Reg
 func (s *Server) Login(ctx context.Context, req *pb.LoginRequest) (*pb.LoginResponse, error) {
     var user models.User
 
-    if result := s.H.DB.Where(&models.User{Email: req.Email}).First(&user); result.Error != nil {
+    err := userCollection.FindOne(ctx, bson.M{"email": req.Email}).Decode(&user)
+    if err != nil {
         return &pb.LoginResponse{
             Status: http.StatusNotFound,
             Error:  "User not found",
@@ -50,7 +72,7 @@ func (s *Server) Login(ctx context.Context, req *pb.LoginRequest) (*pb.LoginResp
     if !match {
         return &pb.LoginResponse{
             Status: http.StatusNotFound,
-            Error:  "User not found",
+            Error:  "Account or Password is incorrect",
         }, nil
     }
 
@@ -74,7 +96,9 @@ func (s *Server) Validate(ctx context.Context, req *pb.ValidateRequest) (*pb.Val
 
     var user models.User
 
-    if result := s.H.DB.Where(&models.User{Email: claims.Email}).First(&user); result.Error != nil {
+    err = userCollection.FindOne(ctx, bson.M{"email": claims.Email}).Decode(&user)
+
+    if err != nil {
         return &pb.ValidateResponse{
             Status: http.StatusNotFound,
             Error:  "User not found",
