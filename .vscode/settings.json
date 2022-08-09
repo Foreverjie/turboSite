@@ -18,5 +18,8 @@
     "protobuf",
     "protoc",
     "stretchr"
-  ]
+  ],
+  "go.toolsEnvVars": {
+    "GO111MODULE": "auto"
+  }
 }
