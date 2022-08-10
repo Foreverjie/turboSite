@@ -14,7 +14,7 @@ import (
 )
 
 type Server struct {
-    H   db.GetCollection(db.DB, "users")
+    H   *mongo.Client
     Jwt utils.JwtWrapper
 }
 
@@ -23,7 +23,7 @@ type Server struct {
 
 func (s *Server) Register(ctx context.Context, req *pb.RegisterRequest) (*pb.RegisterResponse, error) {
     var user models.User
-
+    var userCollection *mongo.Collection = db.GetCollection(s.H, "users")
     count, err := userCollection.CountDocuments(ctx, bson.M{"email": req.Email})
     if err != nil {
         return &pb.RegisterResponse{
@@ -38,13 +38,13 @@ func (s *Server) Register(ctx context.Context, req *pb.RegisterRequest) (*pb.Reg
         }, nil
     }
 
-    count, err = userCollection.CountDocuments(ctx, bson.M{"phone": req.Phone})
-    if err != nil {
-        return &pb.RegisterResponse{
-            Status: http.StatusConflict,
-            Error:  "Phone already exists",
-        }, nil
-    }
+    // count, err = userCollection.CountDocuments(ctx, bson.M{"phone": req.Phone})
+    // if err != nil {
+    //     return &pb.RegisterResponse{
+    //         Status: http.StatusConflict,
+    //         Error:  "Phone already exists",
+    //     }, nil
+    // }
 
     user.Email = req.Email
     user.Password = utils.HashPassword(req.Password)
@@ -58,6 +58,7 @@ func (s *Server) Register(ctx context.Context, req *pb.RegisterRequest) (*pb.Reg
 
 func (s *Server) Login(ctx context.Context, req *pb.LoginRequest) (*pb.LoginResponse, error) {
     var user models.User
+    var userCollection *mongo.Collection = db.GetCollection(s.H, "users")
 
     err := userCollection.FindOne(ctx, bson.M{"email": req.Email}).Decode(&user)
     if err != nil {
@@ -86,6 +87,7 @@ func (s *Server) Login(ctx context.Context, req *pb.LoginRequest) (*pb.LoginResp
 
 func (s *Server) Validate(ctx context.Context, req *pb.ValidateRequest) (*pb.ValidateResponse, error) {
     claims, err := s.Jwt.ValidateToken(req.Token)
+    var userCollection *mongo.Collection = db.GetCollection(s.H, "users")
 
     if err != nil {
         return &pb.ValidateResponse{
