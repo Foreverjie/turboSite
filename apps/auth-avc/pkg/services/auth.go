@@ -72,7 +72,7 @@ func (s *Server) Login(ctx context.Context, req *pb.LoginRequest) (*pb.LoginResp
 
     if !match {
         return &pb.LoginResponse{
-            Status: http.StatusNotFound,
+            Status: http.StatusBadRequest,
             Error:  "Account or Password is incorrect",
         }, nil
     }
