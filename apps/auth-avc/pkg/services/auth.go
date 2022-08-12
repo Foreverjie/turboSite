@@ -18,10 +18,7 @@ type Server struct {
     Jwt utils.JwtWrapper
 }
 
-// var userCollection *mongo.Collection = db.GetCollection(db.DB, "users")
-
-
-func (s *Server) Register(ctx context.Context, req *pb.RegisterRequest) (*pb.RegisterResponse, error) {
+func (s *Server) Register(ctx context.Context, req *pb.RegisterRequest) (*pb.RegisterResponse, *pb.RequestError) {
     var user models.User
     var userCollection *mongo.Collection = db.GetCollection(s.H, "users")
     count, err := userCollection.CountDocuments(ctx, bson.M{"email": req.Email})
@@ -56,7 +53,7 @@ func (s *Server) Register(ctx context.Context, req *pb.RegisterRequest) (*pb.Reg
     }, nil
 }
 
-func (s *Server) Login(ctx context.Context, req *pb.LoginRequest) (*pb.LoginResponse, error) {
+func (s *Server) Login(ctx context.Context, req *pb.LoginRequest) (*pb.LoginResponse, *pb.RequestError) {
     var user models.User
     var userCollection *mongo.Collection = db.GetCollection(s.H, "users")
 
@@ -74,7 +71,10 @@ func (s *Server) Login(ctx context.Context, req *pb.LoginRequest) (*pb.LoginResp
         return &pb.LoginResponse{
             Status: http.StatusBadRequest,
             Error:  "Account or Password is incorrect",
-        }, nil
+        }, &pb.RequestError{
+            Status: http.StatusBadRequest,
+            Error:  "Account or Password is incorrect",
+        }
     }
 
     token, _ := s.Jwt.GenerateToken(user)

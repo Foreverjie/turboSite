@@ -1,15 +1,6 @@
 make --dry-run --always-make --keep-going --print-directory
-objc[2267]: Class AMSupportURLConnectionDelegate is implemented in both /usr/lib/libamsupport.dylib (0x1f34df640) and /Library/Apple/System/Library/PrivateFrameworks/MobileDevice.framework/Versions/A/MobileDevice (0x107f8c2c8). One of the two will be used. Which one is undefined.
-objc[2267]: Class AMSupportURLSession is implemented in both /usr/lib/libamsupport.dylib (0x1f34df690) and /Library/Apple/System/Library/PrivateFrameworks/MobileDevice.framework/Versions/A/MobileDevice (0x107f8c318). One of the two will be used. Which one is undefined.
-objc[2267]: Class AppleTypeCRetimerRestoreInfoHelper is implemented in both /usr/lib/libauthinstall.dylib (0x1f34df458) and /Library/Apple/System/Library/PrivateFrameworks/MobileDevice.framework/Versions/A/MobileDevice (0x107f8c4f8). One of the two will be used. Which one is undefined.
-objc[2267]: Class AppleTypeCRetimerFirmwareAggregateRequestCreator is implemented in both /usr/lib/libauthinstall.dylib (0x1f34df4a8) and /Library/Apple/System/Library/PrivateFrameworks/MobileDevice.framework/Versions/A/MobileDevice (0x107f8c548). One of the two will be used. Which one is undefined.
-objc[2267]: Class AppleTypeCRetimerFirmwareRequestCreator is implemented in both /usr/lib/libauthinstall.dylib (0x1f34df4f8) and /Library/Apple/System/Library/PrivateFrameworks/MobileDevice.framework/Versions/A/MobileDevice (0x107f8c598). One of the two will be used. Which one is undefined.
-objc[2267]: Class ATCRTRestoreInfoFTABFile is implemented in both /usr/lib/libauthinstall.dylib (0x1f34df548) and /Library/Apple/System/Library/PrivateFrameworks/MobileDevice.framework/Versions/A/MobileDevice (0x107f8c5e8). One of the two will be used. Which one is undefined.
-objc[2267]: Class AppleTypeCRetimerFirmwareCopier is implemented in both /usr/lib/libauthinstall.dylib (0x1f34df598) and /Library/Apple/System/Library/PrivateFrameworks/MobileDevice.framework/Versions/A/MobileDevice (0x107f8c638). One of the two will be used. Which one is undefined.
-objc[2267]: Class ATCRTRestoreInfoFTABSubfile is implemented in both /usr/lib/libauthinstall.dylib (0x1f34df5e8) and /Library/Apple/System/Library/PrivateFrameworks/MobileDevice.framework/Versions/A/MobileDevice (0x107f8c688). One of the two will be used. Which one is undefined.
-
-make: Entering directory `/Users/Zijie/self/turboSite'
-make: Leaving directory `/Users/Zijie/self/turboSite'
+make: Entering directory `/Users/peach/work/turboSite'
+make: Leaving directory `/Users/peach/work/turboSite'
  
 make: *** No targets specified and no makefile found.  Stop.
 
