@@ -1,0 +1,15 @@
+{
+  "name": "auth-avc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ts-proto": "^1.121.5"
+  }
+}
