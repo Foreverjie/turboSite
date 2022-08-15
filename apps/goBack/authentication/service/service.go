@@ -24,7 +24,7 @@ func NewAuthService(usersRepository repository.UsersRepository) pb.AuthServiceSe
 	return &authService{usersRepository: usersRepository}
 }
 
-func (s *authService) SignUp(ctx context.Context, req *pb.User) (*pb.User, error) {
+func (s *authService) SignUp(ctx context.Context, req *pb.RegisterRequest) (*pb.RegisterResponse, error) {
 	err := validators.ValidateSignUp(req)
 	if err != nil {
 		return nil, err

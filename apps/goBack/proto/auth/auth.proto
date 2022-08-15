@@ -28,6 +28,16 @@ message User {
     int64 updated = 6;
 }
 
+message RegisterRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message RegisterResponse {
+  int64 status = 1;
+  string error = 2;
+}
+
 message GetUserRequest {
     string id = 1;
 }
@@ -46,10 +56,11 @@ message SignInRequest {
 message SignInResponse {
     User user = 1;
     string token = 2;
+    string error = 3;
 }
 
 service AuthService {
-    rpc SignUp(User) returns (User) {
+    rpc SignUp(RegisterRequest) returns (RegisterResponse) {
       option (google.api.http) = {
         // Route to this method from POST requests to /api/v1/users
         post: "/api/v1/users"

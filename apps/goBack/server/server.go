@@ -51,9 +51,32 @@ func (b *Backend) ListUsers(_ *authPb.ListUsersRequest, srv authPb.AuthService_L
 }
 
 // GetUser get user by id 
-func (b *Backend) GetUser(ctx context.Context) (*authPb.User, error) {
+func (b *Backend) GetUser(ctx context.Context, req *authPb.GetUserRequest) (*authPb.User, error) {
 	b.mu.Lock()
 	defer b.mu.Unlock()
 
-	return {}, nil
+	return nil, nil
+}
+
+//
+func (b *Backend) SignIn(ctx context.Context, req *authPb.SignInRequest) (*authPb.SignInResponse, error) {
+	b.mu.Lock()
+	defer b.mu.Unlock()
+
+	return nil, nil
+}
+
+//
+func (b *Backend) SignUp(ctx context.Context, req *authPb.RegisterRequest) (*authPb.RegisterResponse, error) {
+	b.mu.Lock()
+	defer b.mu.Unlock()
+
+	return nil, nil
+}
+
+func (b *Backend) UpdateUser(ctx context.Context, req *authPb.User) (*authPb.User, error) {
+	b.mu.Lock()
+	defer b.mu.Unlock()
+
+	return nil, nil
 }

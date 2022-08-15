@@ -8,8 +8,9 @@ import (
 	"mime"
 	"net/http"
 	"os"
+	"strings"
 
-	"github.com/grpc-ecosystem/grpc-gateway/runtime"
+	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/grpclog"
 
@@ -18,7 +19,7 @@ import (
 )
 
 var (
-	port     int
+	port     string
 	authAddr string
 )
 
@@ -35,13 +36,12 @@ func getOpenAPIHandler() http.Handler {
 }
 
 func init() {
-	flag.IntVar(&port, "port", 9000, "api service port")
+	flag.StringVar(&port, "port", "9000", "api service port")
 	flag.StringVar(&authAddr, "auth_addr", "localhost:9001", "authentication service address")
 	flag.Parse()
 }
 
 func main() {
-
 	log := grpclog.NewLoggerV2(os.Stdout, io.Discard, io.Discard)
 	grpclog.SetLoggerV2(log)
 
@@ -57,6 +57,23 @@ func main() {
 		log.Error("failed to register gateway: %w", err)
 	}
 
+	oa := getOpenAPIHandler()
+	
+	gatewayAddr := "0.0.0.0:" + port
+	gwServer := &http.Server{
+		Addr: gatewayAddr,
+		Handler: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if strings.HasPrefix(r.URL.Path, "/api") {
+				gwmux.ServeHTTP(w, r)
+				return
+			}
+			oa.ServeHTTP(w, r)
+		}),
+	}
+
+	log.Info("Serving gRPC-Gateway and OpenAPI Documentation on http://", gatewayAddr)
+	log.Error("serving gRPC-Gateway server: %w", gwServer.ListenAndServe())
+
 	// authSvcClient := pb.NewAuthServiceClient(conn)
 	// authHandlers := resthandlers.NewAuthHandlers(authSvcClient)
 	// authRoutes := routes.NewAuthRoutes(authHandlers)
@@ -64,7 +81,7 @@ func main() {
 	// router := mux.NewRouter().StrictSlash(true)
 	// routes.Install(router, authRoutes)
 
-	log.Info("API service running on [::]:%d\n", port)
+	// log.Info("API service running on [::]:%d\n", port)
 
 	// log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", port), routes.WithCORS(router)))
 }

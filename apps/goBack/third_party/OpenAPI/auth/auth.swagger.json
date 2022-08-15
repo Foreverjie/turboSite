@@ -59,7 +59,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/pbUser"
+              "$ref": "#/definitions/pbRegisterResponse"
             }
           },
           "default": {
@@ -75,7 +75,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/pbUser"
+              "$ref": "#/definitions/pbRegisterRequest"
             }
           }
         ],
@@ -118,6 +118,29 @@
     }
   },
   "definitions": {
+    "pbRegisterRequest": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "pbRegisterResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "format": "int64"
+        },
+        "error": {
+          "type": "string"
+        }
+      }
+    },
     "pbSignInResponse": {
       "type": "object",
       "properties": {
@@ -125,6 +148,9 @@
           "$ref": "#/definitions/pbUser"
         },
         "token": {
+          "type": "string"
+        },
+        "error": {
           "type": "string"
         }
       }

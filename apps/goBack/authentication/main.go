@@ -4,7 +4,6 @@ import (
 	"flag"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net"
 	"os"
 
@@ -29,19 +28,20 @@ func init() {
 }
 
 func main() {
+	log := grpclog.NewLoggerV2(os.Stdout, ioutil.Discard, ioutil.Discard)
+	grpclog.SetLoggerV2(log)
+
 	if local {
 		err := godotenv.Load()
 		if err != nil {
-			log.Panicln(err)
+			log.Info(err)
 		}
 	}
 
-	log := grpclog.NewLoggerV2(os.Stdout, ioutil.Discard, ioutil.Discard)
-	grpclog.SetLoggerV2(log)
 	cfg := db.NewConfig()
 	conn, err := db.NewConnection(cfg)
 	if err != nil {
-		log.Panicln(err)
+		log.Info(err)
 	}
 	defer conn.Close()
 
@@ -50,7 +50,7 @@ func main() {
 
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
 	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
+		log.Info("failed to listen: %v", err)
 	}
 
 	grpcServer := grpc.NewServer()
