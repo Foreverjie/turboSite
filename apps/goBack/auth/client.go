@@ -3,9 +3,8 @@ package auth
 import (
 	"fmt"
 
-	"github.com/foreverjie/gateway/pkg/config"
-	pb "github.com/foreverjie/turboSite/goBack/protp/auth"
-
+	"github.com/foreverjie/turboSite/apps/goBack/config"
+	pb "github.com/foreverjie/turboSite/apps/goBack/proto/auth"
 	"google.golang.org/grpc"
 )
 

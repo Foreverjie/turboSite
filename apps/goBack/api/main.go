@@ -1,20 +1,18 @@
 package main
 
 import (
-	"context"
 	"flag"
 	"io"
 	"io/fs"
 	"mime"
 	"net/http"
 	"os"
-	"strings"
 
-	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
-	"google.golang.org/grpc"
+	"github.com/gin-gonic/gin"
 	"google.golang.org/grpc/grpclog"
 
-	authPb "github.com/foreverjie/turboSite/apps/goBack/proto/auth"
+	"github.com/foreverjie/turboSite/apps/goBack/auth"
+	"github.com/foreverjie/turboSite/apps/goBack/config"
 	"github.com/foreverjie/turboSite/apps/goBack/third_party"
 )
 
@@ -45,34 +43,46 @@ func main() {
 	log := grpclog.NewLoggerV2(os.Stdout, io.Discard, io.Discard)
 	grpclog.SetLoggerV2(log)
 
-	conn, err := grpc.DialContext(context.Background(), authAddr, grpc.WithInsecure(), grpc.WithBlock())
-	if err != nil {
-		log.Error(err)
-	}
-	defer conn.Close()
+	c, err := config.LoadConfig()
 
-	gwmux := runtime.NewServeMux()
-	err = authPb.RegisterAuthServiceHandler(context.Background(), gwmux, conn)
 	if err != nil {
-		log.Error("failed to register gateway: %w", err)
+		log.Error("Failed at config", err)
 	}
 
-	oa := getOpenAPIHandler()
+	r := gin.Default()
+
+	*auth.RegisterRoutes(r, &c)
+
+	r.Run(c.Port)
+
+	// conn, err := grpc.DialContext(context.Background(), authAddr, grpc.WithInsecure(), grpc.WithBlock())
+	// if err != nil {
+	// 	log.Error(err)
+	// }
+	// defer conn.Close()
+
+	// gwmux := runtime.NewServeMux()
+	// err = authPb.RegisterAuthServiceHandler(context.Background(), gwmux, conn)
+	// if err != nil {
+	// 	log.Error("failed to register gateway: %w", err)
+	// }
+
+	// oa := getOpenAPIHandler()
 	
-	gatewayAddr := "0.0.0.0:" + port
-	gwServer := &http.Server{
-		Addr: gatewayAddr,
-		Handler: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			if strings.HasPrefix(r.URL.Path, "/api") {
-				gwmux.ServeHTTP(w, r)
-				return
-			}
-			oa.ServeHTTP(w, r)
-		}),
-	}
+	// gatewayAddr := "0.0.0.0:" + port
+	// gwServer := &http.Server{
+	// 	Addr: gatewayAddr,
+	// 	Handler: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	// 		if strings.HasPrefix(r.URL.Path, "/api") {
+	// 			gwmux.ServeHTTP(w, r)
+	// 			return
+	// 		}
+	// 		oa.ServeHTTP(w, r)
+	// 	}),
+	// }
 
-	log.Info("Serving gRPC-Gateway and OpenAPI Documentation on http://", gatewayAddr)
-	log.Error("serving gRPC-Gateway server: %w", gwServer.ListenAndServe())
+	// log.Info("Serving gRPC-Gateway and OpenAPI Documentation on http://", gatewayAddr)
+	// log.Error("serving gRPC-Gateway server: %w", gwServer.ListenAndServe())
 
 	// authSvcClient := pb.NewAuthServiceClient(conn)
 	// authHandlers := resthandlers.NewAuthHandlers(authSvcClient)
