@@ -13,7 +13,9 @@ export default NextAuth({
       },
       async authorize(credentials) {
         const data = await axios.post(
-          'http://localhost:8080/trpc/auth.login',
+          process.env.VERCEL_URL
+            ? `https://${process.env.VERCEL_URL}/trpc/auth.SignIn`
+            : 'http://localhost:8080/trpc/auth.SignIn',
           {
             password: credentials?.password,
             email: credentials?.email,
@@ -31,7 +33,7 @@ export default NextAuth({
     }),
   ],
   pages: {
-    signIn: '/signup',
+    signIn: '/signIn',
   },
   callbacks: {
     async jwt({ token, user, account }) {

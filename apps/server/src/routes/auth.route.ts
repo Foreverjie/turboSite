@@ -48,7 +48,7 @@ export const signToken = async (user: any) => {
 }
 
 export const auth = createRouter()
-  .mutation('login', {
+  .mutation('SignIn', {
     input: z.object({ email: z.string(), password: z.string() }),
     async resolve({ input, ctx }: any) {
       const { email, password } = input
