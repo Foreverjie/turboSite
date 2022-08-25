@@ -48,6 +48,7 @@ jobs:
             exit 1
           fi
       
+      - name: Action Setup
       - uses: pnpm/action-setup@v2.0.1
           with:
             version: 6.32.2
