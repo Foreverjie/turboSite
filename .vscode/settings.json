@@ -15,6 +15,7 @@
     "googleapis",
     "grpclog",
     "joho",
+    "pnpm",
     "protobuf",
     "protoc",
     "stretchr"

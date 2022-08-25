@@ -101,3 +101,11 @@ sudo systemctl restart docker
 ```
 
 ### docker --version
+
+## Github Action Runner Setup
+
+```bash
+# add in .zshrc
+export RUNNER_ALLOW_RUNASROOT="1"
+```
+依github命令运行
