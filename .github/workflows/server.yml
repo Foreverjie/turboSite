@@ -50,7 +50,7 @@ jobs:
       
       - name: Action Setup
         uses: pnpm/action-setup@v2.0.1
-          with:
+        with:
             version: 6.32.2
       
       - name: Setup Node
