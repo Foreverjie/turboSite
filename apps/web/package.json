@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^1.0.6",
+    "@trpc/client": "^9.27.2",
     "@trpc/react": "^9.26.2",
     "@trpc/server": "^9.26.2",
     "@types/ali-oss": "^6.16.4",

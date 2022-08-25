@@ -10,6 +10,7 @@
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
     "dev:server": "turbo run dev --filter server",
+    "generate": "turbo run generate --filter server",
     "dev:web": "turbo run dev --filter web",
     "lint": "turbo run lint",
     "test": "turbo run test",
