@@ -78,9 +78,9 @@ jobs:
       - name: Where am i?
         run: pwd
       
-      - name: SoftLink nginx conf and reload nginx
+      - name: update nginx conf and reload nginx
         run: |
-          ln -s ./apps/server/nginx.conf /etc/nginx/sites-enabled/default
+          cp ./apps/server/nginx.conf /etc/nginx/sites-enabled/default
           cat /etc/nginx/sites-enabled/default
   #     - name: Setup Pages
   #       id: pages
