@@ -74,6 +74,14 @@ jobs:
 
       - name: Test
         run: pnpm test
+
+      - name: Where am i?
+        run: pwd
+      
+      - name: SoftLink nginx conf and reload nginx
+        run: |
+          ln -s ./apps/server/nginx.conf /etc/nginx/sites-enabled/default
+          cat /etc/nginx/sites-enabled/default
   #     - name: Setup Pages
   #       id: pages
   #       uses: actions/configure-pages@v1
