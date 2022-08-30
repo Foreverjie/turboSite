@@ -81,7 +81,8 @@ jobs:
       - name: update nginx conf and reload nginx
         run: |
           cp ./apps/server/nginx.conf /etc/nginx/sites-enabled/default
-          cat /etc/nginx/sites-enabled/default
+          nginx -t
+          nginx -s reload
   #     - name: Setup Pages
   #       id: pages
   #       uses: actions/configure-pages@v1
