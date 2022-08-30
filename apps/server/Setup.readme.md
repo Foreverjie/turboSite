@@ -109,3 +109,35 @@ sudo systemctl restart docker
 export RUNNER_ALLOW_RUNASROOT="1"
 ```
 依github命令运行
+
+## Nginx Setup
+
+```bash
+sudo apt update
+sudo apt install nginx
+```
+
+### 设置 ufw
+
+```bash
+sudo ufw app list
+sudo ufw allow 'Nginx Full'
+```
+
+### 配置安全组，允许 http / https
+
+## 安装 Node, nvm, pnpm, pm2
+```bash
+sudo apt update
+sudo apt install nodejs npm
+# nvm install
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+nvm install v16
+
+npm install -g pnpm
+pnpm setup
+
+pnpm install -g pm2
+which pm2
+ln -s /root/.local/share/pnpm/pm2 /usr/bin/pm2
+```
