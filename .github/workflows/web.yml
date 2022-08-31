@@ -84,6 +84,9 @@ jobs:
           nginx -t
           nginx -s reload
 
+      - name: Move static files to /var/www
+        run: cp -r ./apps/web/.next/static /var/www/next/
+
       - name: Restart PM2
         run: |
           /root/.local/share/pnpm/pm2 list
