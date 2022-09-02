@@ -11,16 +11,15 @@ export const deserializeUser = async ({ ctx, next }: any) => {
     ctx.req.headers.authorization &&
     ctx.req.headers.authorization.startsWith('Bearer')
   ) {
-    accessToken = ctx.req.headers.authorization.split(' ')[1]
-  } else if (ctx.req.cookies.accessToken) {
-    accessToken = ctx.req.cookies.accessToken
+    accessToken = ctx.req.headers.authorization?.split(' ')[1]
+  } else if (ctx.req.cookies?.accessToken) {
+    accessToken = ctx.req.cookies?.accessToken
   }
 
   if (!accessToken) {
-    throw new TRPCError({
-      code: 'UNAUTHORIZED',
-      message: 'You are not logged in',
-    })
+    ctx.res.locals.user = null
+    ctx.res.locals.accessToken = accessToken
+    return next()
   }
 
   // Validate Access Token

@@ -17,3 +17,10 @@ The volume existed. Remove previous volume.
 ## MongoDB Replica To learn
 
 Now the replica config is just for development
+
+## setup server
+
+#### generate
+```bash
+pnpm run generate
+```

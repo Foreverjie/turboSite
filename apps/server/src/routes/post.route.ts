@@ -4,20 +4,23 @@ import { restrictTo } from '../middlewares/restrictTo'
 import { createRouter } from './createRouter'
 import { z } from 'zod'
 import prisma from '../../prisma/prisma-client'
+import { TRPCError } from '@trpc/server'
 
 // export default router
 export const post = createRouter()
+  .middleware(deserializeUser)
   .mutation('Post', {
     input: z.object({ id: z.string() }),
-    async resolve({ input }: any) {
+    async resolve({ input, ctx }: any) {
       const { id } = input
-      return await prisma.post.findUnique({
+      const post = await prisma.post.findUnique({
         where: {
           id,
         },
         select: {
           author: {
             select: {
+              id: true,
               name: true,
               avatar: true,
             },
@@ -25,8 +28,27 @@ export const post = createRouter()
           content: true,
           files: true,
           type: true,
+          isBlocked: true,
+          isDeleted: true,
         },
       })
+      console.log('post author', post?.author, ctx.res.locals.user)
+      if (!post || post.isDeleted === true) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: "Post doesn't exist",
+        })
+      }
+      if (
+        post.isBlocked === true &&
+        ctx.res.locals.user?.id !== post.author.id
+      ) {
+        throw new TRPCError({
+          code: 'FORBIDDEN',
+          message: 'Post can not be reached',
+        })
+      }
+      return post
     },
   })
   .query('All', {
@@ -51,7 +73,6 @@ export const post = createRouter()
       })
     },
   })
-  .middleware(deserializeUser)
   .middleware(requireUser)
   .mutation('New', {
     input: z.object({

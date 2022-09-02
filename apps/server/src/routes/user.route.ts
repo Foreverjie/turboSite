@@ -54,12 +54,15 @@ export const user = createRouter()
   })
   .middleware(restrictTo(['admin']))
   .query('All', {
-    output: z.object({ name: z.string(), email: z.string() }).array(),
+    output: z
+      .object({ name: z.string(), email: z.string(), role: z.string() })
+      .array(),
     async resolve() {
       return await prisma.user.findMany({
         select: {
           name: true,
           email: true,
+          role: true,
         },
       })
     },
