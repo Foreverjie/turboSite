@@ -32,7 +32,6 @@ export const post = createRouter()
           isDeleted: true,
         },
       })
-      console.log('post author', post?.author, ctx.res.locals.user)
       if (!post || post.isDeleted === true) {
         throw new TRPCError({
           code: 'NOT_FOUND',
