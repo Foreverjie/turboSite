@@ -11,6 +11,8 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   const AnyComponent = Component as any
   const [queryClient] = useState(() => new QueryClient())
 
+  console.log('session', session)
+
   return (
     <SessionProvider session={session}>
       <QueryClientProvider client={queryClient}>

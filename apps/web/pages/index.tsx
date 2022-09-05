@@ -7,13 +7,9 @@ import { useSession } from 'next-auth/react'
 import { trpc } from 'utils/trpc'
 
 const Home = () => {
-  const { data: session, status } = useSession()
+  const { data, isLoading } = trpc.useQuery(['user.Me'])
 
-  const catQuery = trpc.useQuery(['cat.List'])
-
-  const { data, isLoading } = catQuery
-
-  console.log('data', data, isLoading, session)
+  console.log('data', data, isLoading)
   return (
     <div className="lg:max-w-6xl mx-auto max-h-screen overflow-hidden">
       <Head>
