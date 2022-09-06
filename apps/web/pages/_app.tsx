@@ -11,8 +11,6 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   const AnyComponent = Component as any
   const [queryClient] = useState(() => new QueryClient())
 
-  console.log('session', session)
-
   return (
     <SessionProvider session={session}>
       <QueryClientProvider client={queryClient}>
@@ -34,6 +32,12 @@ export default withTRPC<AppRouter>({
       url,
       headers: {
         'x-ssr': '1',
+      },
+      fetch(url: string, options: any) {
+        return fetch(url, {
+          ...options,
+          credentials: 'include',
+        })
       },
     }
   },

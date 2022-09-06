@@ -7,13 +7,24 @@ export const deserializeUser = async ({ ctx, next }: any) => {
   // try {
   // Get the token
   let accessToken
+  const {
+    headers: { cookie },
+  } = ctx.req
+  if (cookie) {
+    const values = cookie.split(';').reduce((res: any, item: string) => {
+      const data = item.trim().split('=')
+      return { ...res, [data[0]]: data[1] }
+    }, {})
+    ctx.res.locals.cookie = values
+  } else ctx.res.locals.cookie = {}
+
   if (
     ctx.req.headers.authorization &&
     ctx.req.headers.authorization.startsWith('Bearer')
   ) {
     accessToken = ctx.req.headers.authorization?.split(' ')[1]
-  } else if (ctx.req.cookies?.accessToken) {
-    accessToken = ctx.req.cookies?.accessToken
+  } else if (ctx.res.locals.cookie) {
+    accessToken = ctx.res.locals.cookie['access-token']
   }
 
   if (!accessToken) {

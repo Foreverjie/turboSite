@@ -9,7 +9,6 @@ import { trpc } from 'utils/trpc'
 const Home = () => {
   const { data, isLoading } = trpc.useQuery(['user.Me'])
 
-  console.log('data', data, isLoading)
   return (
     <div className="lg:max-w-6xl mx-auto max-h-screen overflow-hidden">
       <Head>

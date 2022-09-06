@@ -135,6 +135,7 @@ importers:
       jsonwebtoken: ^8.5.1
       next: latest
       next-auth: ^4.10.2
+      nookies: ^2.5.2
       postcss: ^8.4.5
       prettier: ^2.5.1
       prettier-plugin-tailwindcss: ^0.1.1
@@ -159,6 +160,7 @@ importers:
       jsonwebtoken: 8.5.1
       next: 12.2.5_biqbaboplfbrettd7655fr4n2y
       next-auth: 4.10.2_biqbaboplfbrettd7655fr4n2y
+      nookies: 2.5.2
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-query: 3.39.2_biqbaboplfbrettd7655fr4n2y
@@ -3212,7 +3214,7 @@ packages:
     dev: false
 
   /cookie/0.4.1:
-    resolution: {integrity: sha512-ZwrFkGJxUR3EIoXtO+yVE69Eb7KlixbaeAWfBQB9vVsNn/o+Yw69gBWSSDK825hQNdN+wF8zELf3dFNl/kxkUA==}
+    resolution: {integrity: sha1-r9cT/ibr0hupXOth+agRblClN9E=}
     engines: {node: '>= 0.6'}
     dev: false
 
@@ -6740,6 +6742,13 @@ packages:
       undefsafe: 2.0.5
     dev: true
 
+  /nookies/2.5.2:
+    resolution: {integrity: sha1-zFVUfvqYLQE6IUdb0NsMAsGzWyc=}
+    dependencies:
+      cookie: 0.4.1
+      set-cookie-parser: 2.5.1
+    dev: false
+
   /nopt/1.0.10:
     resolution: {integrity: sha512-NWmpvLSqUrgrAC9HCuxEvb+PSloHpqVu+FqcO4eeF2h5qYRhA7ev6KvelyQAKtegUbC6RypJnlEOhd8vloNKYg==}
     hasBin: true
@@ -7884,6 +7893,10 @@ packages:
       send: 0.18.0
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /set-cookie-parser/2.5.1:
+    resolution: {integrity: sha1-3dPppWaw6OCGKsqXSmrA4BNJQws=}
     dev: false
 
   /set-value/2.0.1:
