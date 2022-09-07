@@ -34,7 +34,7 @@ export const signToken = async (user: any) => {
       },
     },
     {
-      expiresIn: `${config.get<number>('accessTokenExpiresIn')}m`,
+      expiresIn: `${config.get<number>('accessTokenExpiresIn')}d`,
     },
   )
 
