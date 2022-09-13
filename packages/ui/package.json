@@ -5,14 +5,33 @@
   "types": "./index.tsx",
   "license": "MIT",
   "scripts": {
-    "lint": "eslint *.ts*"
+    "lint": "eslint *.ts*",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "devDependencies": {
+    "@babel/core": "^7.19.0",
+    "@storybook/addon-actions": "^6.5.11",
+    "@storybook/addon-essentials": "^6.5.11",
+    "@storybook/addon-interactions": "^6.5.11",
+    "@storybook/addon-links": "^6.5.11",
+    "@storybook/builder-webpack4": "^6.5.11",
+    "@storybook/cli": "^6.5.11",
+    "@storybook/manager-webpack4": "^6.5.11",
+    "@storybook/react": "^6.5.11",
+    "@storybook/testing-library": "^0.0.13",
+    "@tailwindcss/postcss7-compat": "^2.2.17",
     "@types/react": "^17.0.37",
     "@types/react-dom": "^17.0.11",
+    "autoprefixer": "^9",
+    "babel-loader": "^8.2.5",
     "eslint": "^7.32.0",
     "eslint-config-custom": "workspace:*",
+    "identity-obj-proxy": "^3.0.0",
+    "postcss": "^7",
     "react": "^17.0.2",
+    "rollup-plugin-postcss": "^4.0.2",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.17",
     "tsconfig": "workspace:*",
     "typescript": "^4.5.2"
   },
@@ -20,5 +39,11 @@
     "@radix-ui/colors": "^0.1.8",
     "@radix-ui/react-avatar": "^1.0.0",
     "@stitches/react": "^1.2.8"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(css|less|scss|sass)$": "identity-obj-proxy"
+    }
   }
 }
