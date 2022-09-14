@@ -1,6 +1,6 @@
 import { LockClosedIcon } from '@heroicons/react/solid'
 import { useState } from 'react'
-import { Button, Input } from 'ui'
+import { Button, Input } from 'ui/src'
 import { useRouter } from 'next/router'
 import { signIn } from 'next-auth/react'
 import { useSession } from 'next-auth/react'

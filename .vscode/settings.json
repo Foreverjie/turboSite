@@ -22,5 +22,6 @@
   ],
   "go.toolsEnvVars": {
     "GO111MODULE": "auto"
-  }
+  },
+  "eslint.packageManager": "pnpm"
 }

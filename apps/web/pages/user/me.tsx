@@ -1,4 +1,4 @@
-import { Avatar, AvatarFallback, AvatarImage } from 'ui'
+import { Avatar, AvatarFallback, AvatarImage } from 'ui/src'
 import { trpc } from '../../utils/trpc'
 
 export default function UserProfile() {

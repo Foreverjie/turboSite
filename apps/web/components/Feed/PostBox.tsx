@@ -8,7 +8,7 @@ import {
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
 import React, { useState } from 'react'
-import { Avatar, AvatarImage, AvatarFallback } from 'ui'
+import { Avatar, AvatarImage, AvatarFallback } from 'ui/src'
 
 function PostBox() {
   const [input, setInput] = useState('')

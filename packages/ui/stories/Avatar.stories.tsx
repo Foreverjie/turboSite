@@ -26,4 +26,4 @@ const Template: ComponentStory<typeof Avatar> = () => {
   )
 }
 
-export const TemplateAvatar = Template.bind({})
+export const TemplateAvatar: ComponentStory<typeof Avatar> = Template.bind({})
