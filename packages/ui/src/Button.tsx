@@ -15,7 +15,7 @@ export const StyledButton = styled('button', {
   height: 35,
 
   variants: {
-    variant: {
+    color: {
       violet: {
         backgroundColor: 'white',
         color: violet.violet11,
@@ -33,7 +33,7 @@ export const StyledButton = styled('button', {
   },
 
   defaultVariants: {
-    variant: 'violet',
+    color: 'violet',
   },
 })
 
@@ -41,7 +41,7 @@ export interface ButtonProps {
   /**
    * Is this the principal call to action on the page?
    */
-  // primary?: boolean
+  color?: 'violet' | 'green'
   /**
    * What background color to use
    */
@@ -60,9 +60,9 @@ export interface ButtonProps {
   onClick?: () => void
 }
 
-export const Button = ({ label, ...props }: ButtonProps) => {
+export const Button = ({ label, color, ...props }: ButtonProps) => {
   return (
-    <StyledButton type="button" {...props}>
+    <StyledButton type="button" color={color} {...props}>
       {label}
     </StyledButton>
   )

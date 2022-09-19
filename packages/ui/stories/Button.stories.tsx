@@ -18,10 +18,11 @@ Primary.args = {
   label: 'Button',
 }
 
-// export const Secondary = Template.bind({})
-// Secondary.args = {
-//   label: 'Button',
-// }
+export const GreenButton = Template.bind({})
+GreenButton.args = {
+  label: 'Button',
+  color: 'green',
+}
 
 // export const Large = Template.bind({})
 // Large.args = {
