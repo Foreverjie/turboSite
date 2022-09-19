@@ -36,7 +36,32 @@ const StyledFallback = styled(AvatarPrimitive.Fallback, {
   fontWeight: 500,
 })
 
+export interface AvatarProps {
+  /**
+   * img of avatar
+   */
+  img: string
+  /**
+   * Avatar contents
+   */
+  name: string
+  /**
+   * Optional click handler
+   */
+  onClick?: () => void
+}
+
 // Exports
-export const Avatar = StyledAvatar
 export const AvatarImage = StyledImage
 export const AvatarFallback = StyledFallback
+
+export const Avatar = ({ name, img, onClick, ...props }: AvatarProps) => {
+  return (
+    <StyledAvatar className="mt-4">
+      <div>
+        <StyledImage src={img} alt={name} />
+        <StyledFallback delayMs={600}>{name}</StyledFallback>
+      </div>
+    </StyledAvatar>
+  )
+}
