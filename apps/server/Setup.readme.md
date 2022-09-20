@@ -102,6 +102,8 @@ sudo systemctl restart docker
 
 ### docker --version
 
+### docker compose
+
 ## Github Action Runner Setup
 
 ```bash
@@ -141,3 +143,34 @@ pnpm install -g pm2
 which pm2
 ln -s /root/.local/share/pnpm/pm2 /usr/bin/pm2
 ```
+
+## 启动Docker服务
+
+- cp .env.example .env
+
+- 生成新的 ACCESS_TOKEN_PRIVATE_KEY 和 ACCESS_TOKEN_PUBLIC_KEY
+  > Generating the JWT Private and Public Keys
+  >
+  > Follow these steps to generate the private and public keys needed to sign and verify the JWT Tokens.
+  > 
+  > Alternatively, you can use the ones I provided in the packages/server/.env file.
+  > 
+  > Step 1: Go to the [Private and Public Keys Generation Site](https://travistidwell.com/jsencrypt/demo/), and click the “Generate New Keys” button to create the private and public keys.
+  > 
+  > Step 2: Copy the private key and visit the [Base64 Encoding website](https://www.base64encode.org/) to encode it in Base64.
+  > 
+  > Step 3: Copy the base64 encoded string and add it to the packages/server/.env file as ACCESS_TOKEN_PRIVATE_KEY .
+  > 
+  > Step 4: Go back to the Private and Public Keys Generation Site and copy the corresponding public key before encoding it in base64.
+  > 
+  > Add it to the packages/server/.env file as ACCESS_TOKEN_PUBLIC_KEY .
+  > 
+  > Step 5: Repeat the above steps for the refresh token private and public keys.
+- 
+  ```bash
+  docker compose -f "apps/server/docker-compose.yml" up -d --build
+  ```
+- 
+  ```bash
+  pm2 start "pnpm run dev:server" --name server
+  ```
