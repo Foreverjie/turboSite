@@ -40,11 +40,11 @@ type User = {
   /**
    * img of avatar
    */
-  avatar: string
+  avatar: string | undefined | null
   /**
    * user name
    */
-  name: string
+  name: string | undefined | null
 }
 
 export interface AvatarProps {
@@ -64,7 +64,13 @@ export const Avatar = ({ user, onClick, ...props }: AvatarProps) => {
     <StyledAvatar className="mt-4">
       {user ? (
         <>
-          <StyledImage src={user.avatar} alt={user.name} />
+          <StyledImage
+            src={
+              user.avatar ??
+              'https://jie-site.oss-cn-shenzhen.aliyuncs.com/avatar-man-icon-profile-placeholder-260nw-1229859850-e1623694994111.jpeg'
+            }
+            alt={user.name ?? 'NotLogin'}
+          />
           <StyledFallback delayMs={600}>{user.name}</StyledFallback>
         </>
       ) : (

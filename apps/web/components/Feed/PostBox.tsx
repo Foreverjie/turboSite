@@ -8,11 +8,18 @@ import {
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
 import React, { useState } from 'react'
-import { Avatar, AvatarImage, AvatarFallback } from 'ui/src'
+import { Avatar } from 'ui/src'
 
 function PostBox() {
   const [input, setInput] = useState('')
   const { data: session, status } = useSession()
+
+  const user = session
+    ? {
+        name: session.user?.name,
+        avatar: session.user?.image,
+      }
+    : null
 
   const router = useRouter()
 
@@ -26,28 +33,7 @@ function PostBox() {
 
   return (
     <div className="flex space-x-2 p-5">
-      <Avatar className="mt-4">
-        {status === 'unauthenticated' || status === 'loading' ? (
-          <div onClick={handleLogin}>
-            <AvatarImage
-              src="https://jie-site.oss-cn-shenzhen.aliyuncs.com/avatar-man-icon-profile-placeholder-260nw-1229859850-e1623694994111.jpeg"
-              alt="CT"
-            />
-            <AvatarFallback delayMs={600}>Login</AvatarFallback>
-          </div>
-        ) : (
-          <div onClick={handleMe}>
-            <AvatarImage
-              src={
-                session?.user?.image ??
-                'https://jie-site.oss-cn-shenzhen.aliyuncs.com/avatar-man-icon-profile-placeholder-260nw-1229859850-e1623694994111.jpeg'
-              }
-              alt={session?.user?.name as string}
-            />
-            <AvatarFallback delayMs={600}>{session?.user?.name}</AvatarFallback>
-          </div>
-        )}
-      </Avatar>
+      <Avatar user={user} />
 
       <div className="flex flex-1 items-center pl-2">
         <form action="" className="flex flex-1 flex-col">
