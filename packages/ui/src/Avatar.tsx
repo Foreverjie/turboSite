@@ -36,15 +36,19 @@ const StyledFallback = styled(AvatarPrimitive.Fallback, {
   fontWeight: 500,
 })
 
-export interface AvatarProps {
+type User = {
   /**
    * img of avatar
    */
-  img: string
+  avatar: string
   /**
-   * Avatar contents
+   * user name
    */
   name: string
+}
+
+export interface AvatarProps {
+  user: User | undefined | null
   /**
    * Optional click handler
    */
@@ -55,13 +59,25 @@ export interface AvatarProps {
 export const AvatarImage = StyledImage
 export const AvatarFallback = StyledFallback
 
-export const Avatar = ({ name, img, onClick, ...props }: AvatarProps) => {
+export const Avatar = ({ user, onClick, ...props }: AvatarProps) => {
   return (
     <StyledAvatar className="mt-4">
-      <div>
-        <StyledImage src={img} alt={name} />
-        <StyledFallback delayMs={600}>{name}</StyledFallback>
-      </div>
+      {user ? (
+        <>
+          <StyledImage src={user.avatar} alt={user.name} />
+          <StyledFallback delayMs={600}>{user.name}</StyledFallback>
+        </>
+      ) : (
+        <>
+          <StyledImage
+            src={
+              'https://jie-site.oss-cn-shenzhen.aliyuncs.com/avatar-man-icon-profile-placeholder-260nw-1229859850-e1623694994111.jpeg'
+            }
+            alt={'NotLogin'}
+          />
+          <StyledFallback delayMs={600}>{'NotLogin'}</StyledFallback>
+        </>
+      )}
     </StyledAvatar>
   )
 }

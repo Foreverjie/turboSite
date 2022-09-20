@@ -16,6 +16,14 @@ const Template: ComponentStory<typeof Avatar> = args => {
 
 export const TemplateAvatar: ComponentStory<typeof Avatar> = Template.bind({})
 TemplateAvatar.args = {
-  name: 'test name',
-  img: 'https://jie-site.oss-cn-shenzhen.aliyuncs.com/avatar-man-icon-profile-placeholder-260nw-1229859850-e1623694994111.jpeg',
+  user: {
+    name: 'test name',
+    avatar:
+      'https://jie-site.oss-cn-shenzhen.aliyuncs.com/avatar-man-icon-profile-placeholder-260nw-1229859850-e1623694994111.jpeg',
+  },
+}
+
+export const NotLoginAvatar: ComponentStory<typeof Avatar> = Template.bind({})
+TemplateAvatar.args = {
+  user: null,
 }
