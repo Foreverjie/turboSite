@@ -18,12 +18,11 @@ export const TemplateAvatar: ComponentStory<typeof Avatar> = Template.bind({})
 TemplateAvatar.args = {
   user: {
     name: 'test name',
-    avatar:
-      'https://jie-site.oss-cn-shenzhen.aliyuncs.com/avatar-man-icon-profile-placeholder-260nw-1229859850-e1623694994111.jpeg',
+    avatar: 'https://gravatar.com/avatar/placeholder?s=100',
   },
 }
 
 export const NotLoginAvatar: ComponentStory<typeof Avatar> = Template.bind({})
-TemplateAvatar.args = {
+NotLoginAvatar.args = {
   user: null,
 }
