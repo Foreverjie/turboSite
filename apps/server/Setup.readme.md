@@ -170,7 +170,9 @@ ln -s /root/.local/share/pnpm/pm2 /usr/bin/pm2
   ```bash
   docker compose -f "apps/server/docker-compose.yml" up -d --build
   ```
-- 
+
+### 启动Server服务
   ```bash
+  pnpm run generate
   pm2 start "pnpm run dev:server" --name server
   ```
