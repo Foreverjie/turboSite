@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
-module.exports = {
+const withTM = require('next-transpile-modules')(['ui'])
+
+module.exports = withTM({
   reactStrictMode: true,
   experimental: {
     forceSwcTransforms: true,
@@ -7,4 +9,4 @@ module.exports = {
   typescript: {
     ignoreBuildErrors: true,
   },
-}
+})

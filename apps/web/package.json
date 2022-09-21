@@ -19,6 +19,7 @@
     "jsonwebtoken": "^8.5.1",
     "next": "latest",
     "next-auth": "^4.10.2",
+    "next-transpile-modules": "^9.0.0",
     "nookies": "^2.5.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
