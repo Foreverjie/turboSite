@@ -145,7 +145,8 @@ pnpm setup
 
 pnpm install -g pm2
 which pm2
-ln -s /root/.local/share/pnpm/pm2 /usr/bin/pm2
+# ln -s /root/.nvm/versions/node/v16.17.0/bin/node /usr/local/bin
+# ln -s /root/.local/share/pnpm/pm2 /usr/bin/pm2
 ```
 
 ## 启动Docker服务
