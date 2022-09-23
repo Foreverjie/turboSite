@@ -173,6 +173,7 @@ which pm2
   > Step 5: Repeat the above steps for the refresh token private and public keys.
 - 
   ```bash
+  apt install docker-compose-plugin
   docker compose -f "apps/server/docker-compose.yml" up -d --build
   ```
 

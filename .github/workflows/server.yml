@@ -46,6 +46,7 @@ jobs:
           echo MONGODB_USERNAME=${{ secrets.MONGODB_USERNAME }} >> .env
           echo NODE_ENV=${{ secrets.NODE_ENV }} >> .env
           echo PM2_HOME=${{ secrets.PM2_HOME }} >> .env
+          echo MONGODB_DATABASE_NAME=server >> .env
           cat .env
           mv .env ./apps/server/
 
