@@ -36,6 +36,18 @@ jobs:
         with:
           node-version: 16
 
+      - name: Create env file
+        run: |
+          touch .env
+          echo ACCESS_TOKEN_PUBLIC_KEY=${{ secrets.ACCESS_TOKEN_PUBLIC_KEY }} >> .env
+          echo ACCESS_TOKEN_PRIVATE_KEY=${{ secrets.ACCESS_TOKEN_PRIVATE_KEY }} >> .env
+          echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env
+          echo MONGODB_PASSWORD=${{ secrets.MONGODB_PASSWORD }} >> .env
+          echo MONGODB_USERNAME=${{ secrets.MONGODB_USERNAME }} >> .env
+          echo NODE_ENV=${{ secrets.NODE_ENV }} >> .env
+          echo PM2_HOME=${{ secrets.PM2_HOME }} >> .env
+          cat .env
+
       - name: Install dependencies
         run: pnpm install
 
