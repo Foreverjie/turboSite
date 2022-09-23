@@ -47,6 +47,7 @@ jobs:
           echo NODE_ENV=${{ secrets.NODE_ENV }} >> .env
           echo PM2_HOME=${{ secrets.PM2_HOME }} >> .env
           cat .env
+          mv .env ./apps/server/
 
       - name: Install dependencies
         run: pnpm install
@@ -62,7 +63,7 @@ jobs:
       
       - name: update nginx conf and reload nginx
         run: |
-          cp ./apps/server/nginx.conf /etc/nginx/sites-enabled/default
+          cp ./apps/server/nginx.https.conf /etc/nginx/sites-enabled/default
           nginx -t
           nginx -s reload
 
@@ -71,4 +72,4 @@ jobs:
 
       - name: Restart PM2
         run: |
-          /root/.local/share/pnpm/pm2 list
+          sudo pm2 restart server
