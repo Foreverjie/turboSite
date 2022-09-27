@@ -56,12 +56,12 @@ export interface AvatarProps {
 }
 
 // Exports
-export const AvatarImage = StyledImage
-export const AvatarFallback = StyledFallback
+export const AvatarImage: any = StyledImage
+export const AvatarFallback: any = StyledFallback
 
 export const Avatar = ({ user, onClick, ...props }: AvatarProps) => {
   return (
-    <StyledAvatar className="mt-4">
+    <StyledAvatar>
       {user ? (
         <>
           <StyledImage
