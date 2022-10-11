@@ -1,47 +1,71 @@
-import React from 'react'
+import type { ToggleProps } from '@react-types/checkbox'
+import type { AriaToggleButtonProps } from '@react-types/button'
 
-import { forwardRef } from '../utils/system'
+import React, { useMemo } from 'react'
+import { useToggleButton } from '@react-aria/button'
+import { useToggleState } from '@react-stately/toggle'
+import { useFocusRing } from '@react-aria/focus'
+import { mergeProps } from '@react-aria/utils'
+
+import { HTMLNextUIProps, forwardRef } from '../utils/system'
+import { useDOMRef } from '../utils/dom'
+import useBodyScroll from '../use-body-scroll'
 import clsx from '../utils/clsx'
 import { __DEV__ } from '../utils/assertion'
 
-import { NavbarCollapseProvider } from './navbar-collapse-context'
-import {
-  useNavbarCollapse,
-  UseNavbarCollapseProps,
-} from './use-navbar-collapse'
-import {
-  StyledNavbarCollapse,
-  StyledNavbarCollapseWrapper,
-} from './navbar.styles'
+import { useNavbarContext } from './navbar-context'
+import { StyledNavbarToggle, NavbarToggleVariantsProps } from './navbar.styles'
+import NavbarToggleIcon from './navbar-toggle-icon'
 
-export type NavbarCollapseProps = UseNavbarCollapseProps
+interface Props extends HTMLNextUIProps<'button'> {}
 
-const NavbarCollapse = forwardRef<NavbarCollapseProps, 'ul'>((props, ref) => {
-  const context = useNavbarCollapse({ ref, ...props })
+export type NavbarToggleProps = Props &
+  AriaToggleButtonProps &
+  ToggleProps &
+  NavbarToggleVariantsProps
+
+const NavbarToggle = forwardRef<NavbarToggleProps, 'button'>((props, ref) => {
+  const { children, className, autoFocus, onChange, as, css, ...otherProps } =
+    props
+
+  const { parentRef, setIsCollapseOpen } = useNavbarContext()
+
+  const [, setBodyHidden] = useBodyScroll(parentRef, { scrollLayer: true })
+
+  const handleChange = (isOpen: boolean) => {
+    setIsCollapseOpen(isOpen)
+    onChange?.(isOpen)
+    setBodyHidden(isOpen)
+  }
+
+  const domRef = useDOMRef(ref)
+  const state = useToggleState({ ...props, onChange: handleChange })
+  const { buttonProps, isPressed } = useToggleButton(props, state, domRef)
+  const { isFocusVisible, focusProps } = useFocusRing({ autoFocus })
+
+  const child = useMemo(() => {
+    return children || <NavbarToggleIcon isExpanded={state.isSelected} />
+  }, [children, state.isSelected])
 
   return (
-    <NavbarCollapseProvider value={context}>
-      <StyledNavbarCollapse
-        className={clsx('nextui-navbar-collapse', context.className)}
-        css={context.collpaseCss}
-        isOpen={context.isOpen}
-        {...context.otherProps}
-      >
-        <StyledNavbarCollapseWrapper
-          ref={context.domRef}
-          className="nextui-navbar-collapse-wrapper"
-        >
-          {context.children}
-        </StyledNavbarCollapseWrapper>
-      </StyledNavbarCollapse>
-    </NavbarCollapseProvider>
+    <StyledNavbarToggle
+      ref={domRef}
+      as={as}
+      className={clsx('nextui-navbar-toggle', className)}
+      css={css}
+      isFocusVisible={isFocusVisible}
+      isPressed={isPressed}
+      {...mergeProps(buttonProps, focusProps, otherProps)}
+    >
+      {child}
+    </StyledNavbarToggle>
   )
 })
 
 if (__DEV__) {
-  NavbarCollapse.displayName = 'NextUI.NavbarCollapse'
+  NavbarToggle.displayName = 'NextUI.NavbarToggle'
 }
 
-NavbarCollapse.toString = () => '.nextui-navbar-collapse'
+NavbarToggle.toString = () => '.nextui-navbar-toggle'
 
-export default NavbarCollapse
+export default NavbarToggle

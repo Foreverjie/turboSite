@@ -166,7 +166,8 @@ export const StyledNavbarToggleIconContainer = styled('div', {
   '& .line': {
     height: '1px',
     width: '100%',
-    backgroundColor: '$$navbarTextColor',
+    // backgroundColor: '$$navbarTextColor',
+    backgroundColor: '#000',
     transition: 'transform 0.3s ease',
     '&.top': {
       transform: 'translateY(-4px) rotate(0deg)',

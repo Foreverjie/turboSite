@@ -1,3 +1,5 @@
-import { styled } from '@stitches/react'
+import { styled } from './theme/stitches.config'
 
-export const Box = styled('div')
+export const Box = styled('div', {
+  boxSizing: 'border-box',
+})
