@@ -60,7 +60,7 @@ export interface ButtonProps {
   onClick?: () => void
 }
 
-export const Button = ({ label, color, ...props }: ButtonProps) => {
+export const MyButton = ({ label, color, ...props }: ButtonProps) => {
   return (
     <StyledButton type="button" color={color} {...props}>
       {label}

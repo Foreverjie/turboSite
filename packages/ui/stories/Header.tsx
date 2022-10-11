@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Button } from '../src/Button'
+import { Button } from '../src'
 import './header.css'
 
 type User = {
