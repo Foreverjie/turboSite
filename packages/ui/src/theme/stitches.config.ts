@@ -37,7 +37,7 @@ export const globalCss: any = stitches.globalCss
 export const keyframes: any = stitches.keyframes
 export const getCssText = stitches.getCssText
 export const theme = stitches.theme
-export const config: any = stitches.config
+export const config = stitches.config
 
 export const createTheme = ({ type, theme, className }: Theme) => {
   if (!type) {

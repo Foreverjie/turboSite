@@ -1,13 +1,4 @@
-import {
-  blue,
-  purple,
-  green,
-  yellow,
-  red,
-  cyan,
-  pink,
-  gray,
-} from '@radix-ui/colors'
+import { blue, purple, green, yellow, red, cyan, pink, gray } from './colors'
 
 const lightTheme = {
   colors: {
