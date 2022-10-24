@@ -16,8 +16,6 @@ export default {
 } as ComponentMeta<typeof Navbar>
 
 const Template: ComponentStory<typeof Navbar> = args => {
-  const [variant, setVariant] = React.useState('static')
-
   const collapseItems = [
     'Profile',
     'Dashboard',
@@ -37,7 +35,7 @@ const Template: ComponentStory<typeof Navbar> = args => {
         maxW: '100%',
       }}
     >
-      <Navbar isBordered variant="sticky">
+      <Navbar isBordered shouldHideOnScroll variant="sticky" maxWidth="fluid">
         <Navbar.Toggle showIn="xs" />
         <Navbar.Brand
           css={{
@@ -53,9 +51,9 @@ const Template: ComponentStory<typeof Navbar> = args => {
         </Navbar.Brand>
         <Navbar.Content
           enableCursorHighlight
-          activeColor="secondary"
+          activeColor="primary"
           hideIn="xs"
-          variant="highlight-rounded"
+          variant="highlight"
         >
           <Navbar.Link href="#">Features</Navbar.Link>
           <Navbar.Link isActive href="#">
@@ -78,7 +76,7 @@ const Template: ComponentStory<typeof Navbar> = args => {
                 <Avatar
                   bordered
                   as="button"
-                  color="secondary"
+                  color="primary"
                   size="md"
                   src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
                 />
@@ -86,7 +84,7 @@ const Template: ComponentStory<typeof Navbar> = args => {
             </Navbar.Item>
             <Dropdown.Menu
               aria-label="User menu actions"
-              color="secondary"
+              color="primary"
               onAction={actionKey => console.log({ actionKey })}
             >
               <Dropdown.Item key="profile" css={{ height: '$18' }}>
@@ -115,11 +113,11 @@ const Template: ComponentStory<typeof Navbar> = args => {
             </Dropdown.Menu>
           </Dropdown>
         </Navbar.Content>
-        <Navbar.Collapse>
+        <Navbar.Collapse disableAnimation>
           {collapseItems.map((item, index) => (
             <Navbar.CollapseItem
               key={item}
-              activeColor="secondary"
+              activeColor="warning"
               css={{
                 color: index === collapseItems.length - 1 ? '$error' : '',
               }}

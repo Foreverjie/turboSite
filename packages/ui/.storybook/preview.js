@@ -21,7 +21,6 @@ const Box = styled('div', {
   justifyContent: 'center',
   alignItems: 'center',
   flexWrap: 'wrap',
-  width: '100vw',
   height: '100vh',
 })
 

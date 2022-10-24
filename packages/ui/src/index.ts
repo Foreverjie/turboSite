@@ -1,6 +1,5 @@
 import * as React from 'react'
 // export * from './Button'
-export * from './Avatar'
 export * from './Input'
 
 export { default as NextUIProvider } from './theme/theme-provider'
@@ -16,6 +15,9 @@ export {
   config as stitchesConfig,
   theme as defaultTheme,
 } from './theme/stitches.config'
+
+export { default as Avatar } from './avatar'
+export * from './avatar'
 
 export { default as Text } from './text'
 export * from './text'
