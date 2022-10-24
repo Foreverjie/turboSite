@@ -65,10 +65,7 @@ export const Avatar = ({ user, onClick, ...props }: AvatarProps) => {
       {user ? (
         <>
           <StyledImage
-            src={
-              user.avatar ??
-              'https://jie-site.oss-cn-shenzhen.aliyuncs.com/avatar-man-icon-profile-placeholder-260nw-1229859850-e1623694994111.jpeg'
-            }
+            src={user.avatar ?? 'https://gravatar.com/avatar/placeholder?s=100'}
             alt={user.name ?? 'NotLogin'}
           />
           <StyledFallback delayMs={600}>{user.name}</StyledFallback>
@@ -76,9 +73,7 @@ export const Avatar = ({ user, onClick, ...props }: AvatarProps) => {
       ) : (
         <>
           <StyledImage
-            src={
-              'https://jie-site.oss-cn-shenzhen.aliyuncs.com/avatar-man-icon-profile-placeholder-260nw-1229859850-e1623694994111.jpeg'
-            }
+            src={'https://gravatar.com/avatar/placeholder?s=100'}
             alt={'NotLogin'}
           />
           <StyledFallback delayMs={600}>{'NotLogin'}</StyledFallback>
