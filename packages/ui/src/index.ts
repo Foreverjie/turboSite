@@ -36,3 +36,7 @@ export * from './spacer'
 
 export { default as Dropdown } from './dropdown'
 export * from './dropdown'
+
+export { default as Modal } from './modal'
+export * from './modal'
+export { default as useModal } from './modal/use-modal'
