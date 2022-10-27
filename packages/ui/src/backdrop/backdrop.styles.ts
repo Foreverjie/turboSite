@@ -142,6 +142,24 @@ export const StyledBackdrop = styled('div', {
         },
       },
     },
+    bottom: {
+      true: {
+        display: 'inline-flex',
+        overflow: 'hidden',
+        [`& ${StyledBackdropContent}`]: {
+          width: '100vw',
+          maxWidth: '100vw',
+          height: 'fit-content',
+          maxHeight: '80vh',
+          margin: 0,
+          position: 'absolute',
+          bottom: 0,
+        },
+        [`& ${StyledBackdropLayer}`]: {
+          display: 'none',
+        },
+      },
+    },
   },
   defaultVariants: {
     fullScreen: false,

@@ -170,6 +170,20 @@ export const StyledModal = styled('section', {
   variants: {
     fullScreen: {
       true: {
+        size: '100%',
+        maxHeight: '100%',
+      },
+      false: {
+        '&.nextui-modal-rebound': {
+          animationDuration: '250ms',
+          animationName: reboundAnimation,
+          animationTimingFunction: 'ease',
+          animationFillMode: 'forwards',
+        },
+      },
+    },
+    bottom: {
+      true: {
         width: '100%',
         height: 'fit-content',
         bottom: 0,
@@ -206,7 +220,14 @@ export const StyledModal = styled('section', {
       scroll: true,
       fullScreen: true,
       css: {
-        // maxHeight: '100%',
+        maxHeight: '100%',
+      },
+    },
+    {
+      scroll: true,
+      bottom: true,
+      css: {
+        maxHeight: 'calc(80vh)',
       },
     },
   ],
