@@ -21,6 +21,7 @@ const Template: ComponentStory<typeof Modal> = args => {
       </Button>
       <Modal
         scroll
+        blur
         fullScreen
         closeButton
         aria-labelledby="modal-title"
@@ -38,13 +39,23 @@ const Template: ComponentStory<typeof Modal> = args => {
             dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta
             ac consectetur ac, vestibulum at eros. Praesent commodo cursus
             magna, vel scelerisque nisl consectetur et. Cras mattis consectetur
-            purus sit amet fermentum.
+            purus sit amet fermentum. Cras mattis consectetur purus sit amet
+            fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget
+            quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
+            Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
+            Cras mattis consectetur purus sit amet fermentum. Cras mattis
+            consectetur purus sit amet fermentum. Cras justo odio, dapibus ac
+            facilisis in, egestas eget quam. Morbi leo risus, porta ac
+            consectetur ac, vestibulum at eros. Praesent commodo cursus magna,
+            vel scelerisque nisl consectetur et. Cras mattis consectetur purus
+            sit amet fermentum. Cras mattis consectetur purus sit amet
+            fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget
+            quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
+            Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
+            Cras mattis consectetur purus sit amet fermentum.
           </Text>
         </Modal.Body>
         <Modal.Footer>
-          <Button flat auto color="error" onClick={() => setVisible(false)}>
-            Close
-          </Button>
           <Button onClick={() => setVisible(false)}>Agree</Button>
         </Modal.Footer>
       </Modal>

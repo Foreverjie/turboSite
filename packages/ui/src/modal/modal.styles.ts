@@ -21,7 +21,7 @@ export const StyledModalCloseButton = styled(
     background: 'transparent',
     border: 'none',
     zIndex: '$1',
-    top: '$space$3',
+    top: '$space$8',
     right: '$space$2',
     margin: 0,
     d: 'inline-flex',
@@ -58,7 +58,7 @@ export const StyledModalHeader = styled('div', {
   ai: 'center',
   ov: 'hidden',
   color: 'inherit',
-  padding: '$sm $10',
+  padding: '0 $10 $sm',
   fs: '$xs',
   variants: {
     noPadding: {
@@ -170,8 +170,10 @@ export const StyledModal = styled('section', {
   variants: {
     fullScreen: {
       true: {
-        size: '100%',
-        maxHeight: '100%',
+        width: '100%',
+        height: 'fit-content',
+        bottom: 0,
+        position: 'absolute',
       },
       false: {
         '&.nextui-modal-rebound': {
@@ -184,7 +186,7 @@ export const StyledModal = styled('section', {
     },
     scroll: {
       true: {
-        maxHeight: 'calc(100vh - 200px)',
+        maxHeight: 'calc(80vh)',
       },
     },
     closeButton: {
@@ -204,7 +206,7 @@ export const StyledModal = styled('section', {
       scroll: true,
       fullScreen: true,
       css: {
-        maxHeight: '100%',
+        // maxHeight: '100%',
       },
     },
   ],
