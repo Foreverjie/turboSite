@@ -221,6 +221,7 @@ importers:
       '@react-aria/dialog': ^3.4.0
       '@react-aria/focus': 3.7.0
       '@react-aria/interactions': ^3.12.0
+      '@react-aria/label': ^3.4.2
       '@react-aria/link': ^3.3.4
       '@react-aria/menu': ^3.6.2
       '@react-aria/overlays': ^3.11.0
@@ -270,6 +271,7 @@ importers:
       '@react-aria/dialog': 3.4.0_sfoxds7t5ydpegc3knd667wn6m
       '@react-aria/focus': 3.7.0_react@17.0.2
       '@react-aria/interactions': 3.12.0_react@17.0.2
+      '@react-aria/label': 3.4.2_react@17.0.2
       '@react-aria/link': 3.3.4_react@17.0.2
       '@react-aria/menu': 3.6.2_sfoxds7t5ydpegc3knd667wn6m
       '@react-aria/overlays': 3.11.0_sfoxds7t5ydpegc3knd667wn6m
@@ -3099,6 +3101,18 @@ packages:
       react: 17.0.2
     dev: false
 
+  /@react-aria/label/3.4.2_react@17.0.2:
+    resolution: {integrity: sha1-xmdhiRqnqr4Yk2CPNnwbqwuLLSg=}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0
+    dependencies:
+      '@babel/runtime': 7.18.9
+      '@react-aria/utils': 3.14.0_react@17.0.2
+      '@react-types/label': 3.7.0_react@17.0.2
+      '@react-types/shared': 3.15.0_react@17.0.2
+      react: 17.0.2
+    dev: false
+
   /@react-aria/link/3.3.4_react@17.0.2:
     resolution: {integrity: sha1-cF1YHA/oPDfjoVQ5g51dLrvBrdI=}
     peerDependencies:
@@ -3311,6 +3325,15 @@ packages:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0
     dependencies:
       '@react-types/overlays': 3.6.4_react@17.0.2
+      '@react-types/shared': 3.15.0_react@17.0.2
+      react: 17.0.2
+    dev: false
+
+  /@react-types/label/3.7.0_react@17.0.2:
+    resolution: {integrity: sha1-7N/46p43zGw7joRG0tRgleNsoAA=}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0
+    dependencies:
       '@react-types/shared': 3.15.0_react@17.0.2
       react: 17.0.2
     dev: false

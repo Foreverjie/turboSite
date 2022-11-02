@@ -1,6 +1,5 @@
 import * as React from 'react'
 // export * from './Button'
-export * from './Input'
 
 export { default as NextUIProvider } from './theme/theme-provider'
 export {
@@ -40,3 +39,12 @@ export * from './dropdown'
 export { default as Modal } from './modal'
 export * from './modal'
 export { default as useModal } from './modal/use-modal'
+
+export { default as Input } from './input'
+export * from './input'
+
+export { default as Textarea } from './textarea'
+export * from './textarea'
+
+export { default as Grid } from './grid'
+export * from './grid'
