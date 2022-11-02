@@ -22,8 +22,8 @@ const Template: ComponentStory<typeof Modal> = args => {
       <Modal
         scroll
         blur
-        fullScreen
-        // bottom
+        // fullScreen
+        bottom
         closeButton
         aria-labelledby="modal-title"
         aria-describedby="modal-description"

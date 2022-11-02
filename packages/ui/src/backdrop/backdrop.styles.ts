@@ -155,9 +155,6 @@ export const StyledBackdrop = styled('div', {
           position: 'absolute',
           bottom: 0,
         },
-        [`& ${StyledBackdropLayer}`]: {
-          display: 'none',
-        },
       },
     },
   },
