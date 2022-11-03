@@ -1,6 +1,7 @@
 import { PlusCircleIcon } from '@heroicons/react/outline'
-import React, { ReactElement } from 'react'
-import { Modal, Text, useModal, Button } from 'ui/src'
+import React, { ReactElement, Ref, useRef } from 'react'
+import { Modal, Text, useModal, Button, Textarea } from 'ui'
+import useInput from 'ui/src/use-input'
 import PostBox from './PostBox'
 
 const Feed = (): ReactElement => {
@@ -9,6 +10,8 @@ const Feed = (): ReactElement => {
   const openNewPostModal = () => {
     setVisible(true)
   }
+
+  const { value, setValue, reset, bindings: textBindings } = useInput('')
 
   return (
     <div className="col-span-7 lg:col-span-5 border-x">
@@ -27,7 +30,6 @@ const Feed = (): ReactElement => {
           scroll
           blur
           bottom
-          preventClose
           closeButton
           aria-labelledby="modal-title"
           aria-describedby="modal-description"
@@ -35,34 +37,14 @@ const Feed = (): ReactElement => {
         >
           <Modal.Header>
             <Text id="modal-title" size={18}>
-              Modal with a lot of content
+              New Post
             </Text>
           </Modal.Header>
           <Modal.Body>
-            <Text id="modal-description">
-              Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-              dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta
-              ac consectetur ac, vestibulum at eros. Praesent commodo cursus
-              magna, vel scelerisque nisl consectetur et. Cras mattis
-              consectetur purus sit amet fermentum. Cras mattis consectetur
-              purus sit amet fermentum. Cras justo odio, dapibus ac facilisis
-              in, egestas eget quam. Morbi leo risus, porta ac consectetur ac,
-              vestibulum at eros. Praesent commodo cursus magna, vel scelerisque
-              nisl consectetur et. Cras mattis consectetur purus sit amet
-              fermentum. Cras mattis consectetur purus sit amet fermentum. Cras
-              justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo
-              risus, porta ac consectetur ac, vestibulum at eros. Praesent
-              commodo cursus magna, vel scelerisque nisl consectetur et. Cras
-              mattis consectetur purus sit amet fermentum. Cras mattis
-              consectetur purus sit amet fermentum. Cras justo odio, dapibus ac
-              facilisis in, egestas eget quam. Morbi leo risus, porta ac
-              consectetur ac, vestibulum at eros. Praesent commodo cursus magna,
-              vel scelerisque nisl consectetur et. Cras mattis consectetur purus
-              sit amet fermentum.
-            </Text>
+            <Textarea {...textBindings} autoFocus />
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={() => setVisible(false)}>Agree</Button>
+            <Button onClick={() => setVisible(false)}>Post</Button>
           </Modal.Footer>
         </Modal>
       </div>
