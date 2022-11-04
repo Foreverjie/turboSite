@@ -1,1 +1,4 @@
-export { default } from 'config/eslint-preset'
+module.exports = {
+  root: true,
+  extends: ['custom'],
+}
