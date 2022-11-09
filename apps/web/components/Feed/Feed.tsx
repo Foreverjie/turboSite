@@ -1,8 +1,14 @@
 import { PlusCircleIcon } from '@heroicons/react/outline'
-import React, { ReactElement, Ref, useRef } from 'react'
+import React, { ReactElement, Ref, useRef, useMemo, useState } from 'react'
 import { Modal, Text, useModal, Button, Textarea } from 'ui'
 import useInput from 'ui/src/use-input'
+import { SimpleColors } from 'ui/src/utils/prop-types'
 import PostBox from './PostBox'
+
+type Helper = {
+  text?: string
+  color: SimpleColors
+}
 
 const Feed = (): ReactElement => {
   const { setVisible, bindings } = useModal()
@@ -10,8 +16,31 @@ const Feed = (): ReactElement => {
   const openNewPostModal = () => {
     setVisible(true)
   }
+  const [helper, setHelper] = useState<Helper>({ text: '', color: 'default' })
 
   const { value, setValue, reset, bindings: textBindings } = useInput('')
+
+  const newPost = () => {
+    console.log('value', value)
+    if (validatePost(value)) {
+      setVisible(false)
+    }
+  }
+
+  const validatePost = (value: string): boolean => {
+    if (!value) {
+      setHelper({
+        text: 'Enter something...',
+        color: 'error',
+      })
+      return false
+    }
+    setHelper({
+      text: '',
+      color: 'default',
+    })
+    return true
+  }
 
   return (
     <div className="col-span-7 lg:col-span-5 border-x">
@@ -41,10 +70,19 @@ const Feed = (): ReactElement => {
             </Text>
           </Modal.Header>
           <Modal.Body>
-            <Textarea {...textBindings} autoFocus />
+            <Textarea
+              {...textBindings}
+              autoFocus
+              onChange={event => {
+                validatePost(event.target.value)
+              }}
+              helperColor={helper.color}
+              placeholder={'Give the world a surprise...'}
+              helperText={helper.text}
+            />
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={() => setVisible(false)}>Post</Button>
+            <Button onClick={newPost}>Post</Button>
           </Modal.Footer>
         </Modal>
       </div>

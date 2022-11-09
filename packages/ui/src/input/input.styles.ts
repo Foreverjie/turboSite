@@ -461,7 +461,7 @@ export const StyledInputWrapper = styled('div', {
 })
 
 export const StyledHelperTextContainer = styled('div', {
-  position: 'absolute',
+  // position: 'absolute',
   opacity: 0,
   bottom: 'calc($$inputHeightRatio * -$space$5)',
   '@motion': {

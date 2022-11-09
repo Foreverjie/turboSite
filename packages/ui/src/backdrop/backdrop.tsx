@@ -108,7 +108,7 @@ const Backdrop: React.FC<React.PropsWithChildren<BackdropProps>> = React.memo(
             ...(css as any),
           }}
           data-state={getState}
-          role="button"
+          // role="button"
           tabIndex={-1}
           onClick={clickHandler}
           onMouseUp={mouseUpHandler}
