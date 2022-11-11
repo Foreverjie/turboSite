@@ -113,8 +113,14 @@ sudo curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-c
 ```bash
 # add in .zshrc
 export RUNNER_ALLOW_RUNASROOT="1"
-```
+
 依github命令运行
+
+```bash
+./svc.sh install
+./svc.sh start
+
+```
 
 ## Nginx Setup
 
@@ -145,6 +151,10 @@ pnpm setup
 
 pnpm install -g pm2
 which pm2
+
+# run pm2 using sudo
+#
+
 # ln -s /root/.nvm/versions/node/v16.17.0/bin/node /usr/local/bin
 # ln -s /root/.local/share/pnpm/pm2 /usr/bin/pm2
 ```
@@ -182,3 +192,5 @@ which pm2
   pnpm run generate
   pm2 start "pnpm run dev:server" --name server
   ```
+
+### 启动Web服务
