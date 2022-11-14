@@ -158,6 +158,12 @@ which pm2
 # ln -s /root/.nvm/versions/node/v16.17.0/bin/node /usr/local/bin
 # ln -s /root/.local/share/pnpm/pm2 /usr/bin/pm2
 ```
+### Github Action 
+My solution is to create symbolic links from the versions of node and npm I'm using to /usr/local/bin:
+
+sudo ln -s "$NVM_DIR/versions/node/$(nvm version)/bin/node" "/usr/local/bin/node"
+sudo ln -s "$NVM_DIR/versions/node/$(nvm version)/bin/npm" "/usr/local/bin/npm"
+This makes npm and node available to all users.
 
 ## 启动Docker服务
 
