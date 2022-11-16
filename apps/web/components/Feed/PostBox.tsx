@@ -34,7 +34,7 @@ function PostBox() {
   return (
     <div className="flex space-x-2 p-5">
       <div className="min-w-45 min-h-45 mt-4">
-        <Avatar user={user} />
+        <Avatar user={user} onClick={handleLogin} />
       </div>
 
       <div className="flex flex-1 items-center pl-2">

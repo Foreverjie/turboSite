@@ -3,6 +3,7 @@ import React, { ReactElement, Ref, useRef, useMemo, useState } from 'react'
 import { Modal, Text, useModal, Button, Textarea } from 'ui'
 import useInput from 'ui/src/use-input'
 import { SimpleColors } from 'ui/src/utils/prop-types'
+import { trpc } from '../../utils/trpc'
 import PostBox from './PostBox'
 
 type Helper = {
@@ -13,6 +14,8 @@ type Helper = {
 const Feed = (): ReactElement => {
   const { setVisible, bindings } = useModal()
 
+  const newPostMutation = trpc.useMutation(['post.New'])
+
   const openNewPostModal = () => {
     setVisible(true)
   }
@@ -20,9 +23,10 @@ const Feed = (): ReactElement => {
 
   const { value, setValue, reset, bindings: textBindings } = useInput('')
 
-  const newPost = () => {
+  const newPost = async () => {
     console.log('value', value)
     if (validatePost(value)) {
+      await newPostMutation.mutate({ content: value })
       setVisible(false)
     }
   }
@@ -75,6 +79,7 @@ const Feed = (): ReactElement => {
               autoFocus
               onChange={event => {
                 validatePost(event.target.value)
+                setValue(event.target.value)
               }}
               helperColor={helper.color}
               placeholder={'Give the world a surprise...'}

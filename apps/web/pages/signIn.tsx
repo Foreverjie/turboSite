@@ -10,8 +10,8 @@ export default function SignUp() {
   const [password, setPassword] = useState('12345678')
   const router = useRouter()
 
-  const handleSignIn = async (e: any) => {
-    e.preventDefault()
+  const handleSignIn = async () => {
+    console.log('ssss')
     const res = await signIn('credentials', {
       email,
       password,
@@ -29,30 +29,29 @@ export default function SignUp() {
     <>
       <div className="">
         <div className="">
-          <form className="flex flex-col" onSubmit={handleSignIn}>
-            <label htmlFor="email-address" className="sr-only">
-              Email address
-            </label>
-            <Input
-              type="email"
-              id="email"
-              placeholder="Email address"
-              className="w-full block"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-            />
-            <label htmlFor="password" className="sr-only">
-              Password
-            </label>
-            <Input
-              type="password"
-              id="password"
-              placeholder="Password"
-              className="w-full block"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-            />
-            {/* <label htmlFor="Confirm password" className="sr-only">
+          <label htmlFor="email-address" className="sr-only">
+            Email address
+          </label>
+          <Input
+            type="email"
+            id="email"
+            placeholder="Email address"
+            className="w-full block"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+          />
+          <label htmlFor="password" className="sr-only">
+            Password
+          </label>
+          <Input
+            type="password"
+            id="password"
+            placeholder="Password"
+            className="w-full block"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+          />
+          {/* <label htmlFor="Confirm password" className="sr-only">
               Confirm password
             </label>
             <Input
@@ -61,8 +60,7 @@ export default function SignUp() {
               placeholder="Confirm password"
               className="w-full block"
             /> */}
-            <Button />
-          </form>
+          <Button onClick={handleSignIn} />
         </div>
       </div>
     </>
