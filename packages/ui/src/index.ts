@@ -48,3 +48,6 @@ export * from './textarea'
 
 export { default as Grid } from './grid'
 export * from './grid'
+
+export { default as Loading } from './loading'
+export * from './loading'
