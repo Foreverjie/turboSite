@@ -6,9 +6,10 @@ import { z } from 'zod'
 import prisma from '../../prisma/prisma-client'
 import { TRPCError } from '@trpc/server'
 
+const sleep = () => new Promise((res, rej) => setTimeout(res, 5000))
+
 // export default router
 export const post = createRouter()
-  .middleware(deserializeUser)
   .mutation('Post', {
     input: z.object({ id: z.string() }),
     async resolve({ input, ctx }: any) {
@@ -52,6 +53,7 @@ export const post = createRouter()
   })
   .query('All', {
     async resolve() {
+      await sleep()
       return await prisma.post.findMany({
         // where: {
         //   isBlocked: false,
@@ -72,6 +74,7 @@ export const post = createRouter()
       })
     },
   })
+  .middleware(deserializeUser)
   .middleware(requireUser)
   .mutation('New', {
     input: z.object({

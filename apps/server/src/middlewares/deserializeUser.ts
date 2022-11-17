@@ -26,6 +26,7 @@ export const deserializeUser = async ({ ctx, next }: any) => {
   } else if (ctx.res.locals.cookie) {
     accessToken = ctx.res.locals.cookie['access-token']
   }
+  console.log('accessToken', accessToken)
 
   if (!accessToken) {
     ctx.res.locals.user = null
