@@ -65,8 +65,8 @@ const Feed = (): ReactElement => {
         />
       </div>
 
-      <Suspense fallback={<Loading />}>
-        <PostBox />
+      <>
+        {isLoading && <Loading />}
 
         {posts &&
           posts.map(p => {
@@ -105,7 +105,7 @@ const Feed = (): ReactElement => {
             <Button onClick={newPost}>Post</Button>
           </Modal.Footer>
         </Modal>
-      </Suspense>
+      </>
     </div>
   )
 }
