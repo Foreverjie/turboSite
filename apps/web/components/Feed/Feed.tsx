@@ -11,7 +11,6 @@ import { Modal, Text, useModal, Button, Textarea, Loading } from 'ui'
 import useInput from 'ui/src/use-input'
 import { SimpleColors } from 'ui/src/utils/prop-types'
 import { trpc } from '../../utils/trpc'
-import PostBox from './PostBox'
 
 type Helper = {
   text?: string

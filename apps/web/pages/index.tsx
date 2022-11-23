@@ -1,10 +1,11 @@
-import { SearchIcon } from '@heroicons/react/outline'
+import { CustomPage } from '@/lib/types/page.types'
 import Feed from 'components/Feed/Feed'
 import Widget from 'components/Widget/Widget'
+import { WebLayout } from '@/layouts/WebLayout'
 import Head from 'next/head'
 import Sidebar from '../components/Sidebar/Sidebar'
 
-const Home = () => {
+const Home: CustomPage = () => {
   return (
     <div className="lg:max-w-6xl mx-auto max-h-screen overflow-hidden">
       <Head>
@@ -21,5 +22,7 @@ const Home = () => {
     </div>
   )
 }
+
+Home.getLayout = page => <WebLayout>{page}</WebLayout>
 
 export default Home

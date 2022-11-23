@@ -5,11 +5,11 @@ import { API_ROUTES, ROUTES } from '@/lib/constants'
 
 const githubUrl = (username: string) => `https://github.com/${username}`
 
-interface AppHeaderProps {
+interface WebHeaderProps {
   isLoading?: boolean
 }
 
-export function AppHeader({ isLoading }: AppHeaderProps) {
+export function WebHeader({ isLoading }: WebHeaderProps) {
   //   const { user, mutateUser } = useUser()
   const router = useRouter()
 

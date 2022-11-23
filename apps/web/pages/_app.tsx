@@ -1,20 +1,24 @@
 import '../styles/globals.css'
-import type { AppProps } from 'next/app'
 
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { useState } from 'react'
 import { withTRPC } from '@trpc/next'
 import { SessionProvider } from 'next-auth/react'
 import type { AppRouter } from 'server/src/routes/router'
+import { CustomAppProps } from '@/lib/types/page.types'
 
-function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
+function MyApp({
+  Component,
+  pageProps: { session, ...pageProps },
+}: CustomAppProps) {
   const AnyComponent = Component as any
   const [queryClient] = useState(() => new QueryClient())
+  const getLayout = Component.getLayout || (page => page)
 
   return (
     <SessionProvider session={session}>
       <QueryClientProvider client={queryClient}>
-        <AnyComponent {...pageProps} />
+        {getLayout(<AnyComponent {...pageProps} />)}
       </QueryClientProvider>
     </SessionProvider>
   )
