@@ -51,3 +51,12 @@ export * from './grid'
 
 export { default as Loading } from './loading'
 export * from './loading'
+
+export { default as Divider } from './divider'
+export * from './divider'
+
+export { default as Image } from './image'
+export * from './image'
+
+export { default as Card } from './card'
+export * from './card'
