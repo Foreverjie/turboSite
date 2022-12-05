@@ -157,6 +157,20 @@ export const StyledBackdrop = styled('div', {
         },
       },
     },
+    left: {
+      true: {
+        display: 'inline-flex',
+        overflow: 'hidden',
+        [`& ${StyledBackdropContent}`]: {
+          width: 'fit-content',
+          maxWidth: '80vw',
+          height: '100vh',
+          margin: 0,
+          position: 'absolute',
+          left: 0,
+        },
+      },
+    },
   },
   defaultVariants: {
     fullScreen: false,

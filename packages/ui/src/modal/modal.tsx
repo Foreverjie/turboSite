@@ -63,6 +63,7 @@ const Modal: React.FC<React.PropsWithChildren<ModalProps>> = ({
   animated,
   fullScreen,
   bottom,
+  left,
   noPadding,
   ...props
 }) => {
@@ -140,6 +141,7 @@ const Modal: React.FC<React.PropsWithChildren<ModalProps>> = ({
         blur={blur}
         fullScreen={fullScreen}
         bottom={bottom}
+        left={left}
         maxWidth={wrapperWidth}
         visible={visible}
         onClick={closeFromBackdrop}

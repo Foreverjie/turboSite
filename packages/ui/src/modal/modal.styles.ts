@@ -198,9 +198,26 @@ export const StyledModal = styled('section', {
         },
       },
     },
+    left: {
+      true: {
+        height: '100%',
+        width: 'fit-content',
+        maxWidth: '80%',
+        left: 0,
+        position: 'absolute',
+      },
+      false: {
+        '&.nextui-modal-rebound': {
+          animationDuration: '250ms',
+          animationName: reboundAnimation,
+          animationTimingFunction: 'ease',
+          animationFillMode: 'forwards',
+        },
+      },
+    },
     scroll: {
       true: {
-        maxHeight: 'calc(80vh)',
+        // maxHeight: '80vh',
       },
     },
     closeButton: {
@@ -228,6 +245,14 @@ export const StyledModal = styled('section', {
       bottom: true,
       css: {
         maxHeight: 'calc(80vh)',
+      },
+    },
+    {
+      scroll: true,
+      left: true,
+      css: {
+        height: '100vh',
+        maxHeight: '100vh',
       },
     },
   ],

@@ -4,20 +4,20 @@ import { WebHeader } from './WebHeader'
 
 interface AppLayoutProps {
   isLoading?: boolean
+  headerItem?: JSX.Element
 }
 
 export function WebLayout({
   children,
+  headerItem,
   isLoading,
 }: PropsWithChildren<AppLayoutProps>) {
   return (
     <>
-      <WebHeader isLoading={isLoading} />
+      <WebHeader isLoading={isLoading} headerItem={headerItem} />
 
-      <div className="bg-gray-100 h-full">
-        <main className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-          {children}
-        </main>
+      <div className="">
+        <main className="">{children}</main>
       </div>
     </>
   )
