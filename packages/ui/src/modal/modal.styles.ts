@@ -187,7 +187,9 @@ export const StyledModal = styled('section', {
         width: '100%',
         height: 'fit-content',
         bottom: 0,
-        position: 'absolute',
+        // position: 'absolute',
+        borderBottomRightRadius: 0,
+        borderBottomLeftRadius: 0,
       },
       false: {
         '&.nextui-modal-rebound': {
@@ -202,9 +204,9 @@ export const StyledModal = styled('section', {
       true: {
         height: '100%',
         width: 'fit-content',
-        maxWidth: '80%',
         left: 0,
-        position: 'absolute',
+        borderTopLeftRadius: 0,
+        borderBottomLeftRadius: 0,
       },
       false: {
         '&.nextui-modal-rebound': {
@@ -244,7 +246,7 @@ export const StyledModal = styled('section', {
       scroll: true,
       bottom: true,
       css: {
-        maxHeight: 'calc(80vh)',
+        maxHeight: '80vh',
       },
     },
     {

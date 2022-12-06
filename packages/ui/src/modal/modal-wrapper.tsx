@@ -101,6 +101,7 @@ const ModalWrapper: React.FC<React.PropsWithChildren<ModalWrapperProps>> = ({
   }, [visible])
 
   const renderChildren = useMemo(() => {
+    console.log('css ', props)
     return (
       // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
       <StyledModal

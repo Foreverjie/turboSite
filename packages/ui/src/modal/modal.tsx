@@ -62,8 +62,6 @@ const Modal: React.FC<React.PropsWithChildren<ModalProps>> = ({
   blur,
   animated,
   fullScreen,
-  bottom,
-  left,
   noPadding,
   ...props
 }) => {
@@ -134,14 +132,16 @@ const Modal: React.FC<React.PropsWithChildren<ModalProps>> = ({
 
   if (!portal) return null
 
+  console.log('props', props)
+
   return createPortal(
     <ModalContext.Provider value={modalConfig}>
       <Backdrop
         animated={animated}
         blur={blur}
         fullScreen={fullScreen}
-        bottom={bottom}
-        left={left}
+        bottom={props.bottom}
+        left={props.left}
         maxWidth={wrapperWidth}
         visible={visible}
         onClick={closeFromBackdrop}
