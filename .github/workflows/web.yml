@@ -86,6 +86,13 @@ jobs:
       - name: Move static files to /var/www
         run: cp -r ./apps/web/.next/static /var/www/next/
 
+      - name: Create env file
+        run: |
+          touch .env.local
+          echo NEXT_PUBLIC_BACKEND_API_URL=https://jie1203.com/api >> .env.local
+          cat .env.local
+          mv .env ./apps/web/
+
       - name: Restart PM2
         run: |
           sudo pm2 restart web
