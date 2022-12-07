@@ -11,7 +11,6 @@ export default function SignUp() {
   const router = useRouter()
 
   const handleSignIn = async () => {
-    console.log('ssss')
     const res = await signIn('credentials', {
       email,
       password,

@@ -132,8 +132,6 @@ const Modal: React.FC<React.PropsWithChildren<ModalProps>> = ({
 
   if (!portal) return null
 
-  console.log('props', props)
-
   return createPortal(
     <ModalContext.Provider value={modalConfig}>
       <Backdrop

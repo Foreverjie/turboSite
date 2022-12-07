@@ -1,7 +1,5 @@
-import { useRouter } from 'next/router'
-import React, { useRef } from 'react'
+import React from 'react'
 
-import { API_ROUTES, ROUTES } from '@/lib/constants'
 import Sidebar from '@/components/Sidebar/Sidebar'
 import { useModal } from 'ui'
 
@@ -11,7 +9,6 @@ interface WebHeaderProps {
 }
 
 export function WebHeader({ isLoading, headerItem }: WebHeaderProps) {
-  console.log('header', headerItem)
   const { setVisible, bindings } = useModal()
 
   const openSidebar = () => {
