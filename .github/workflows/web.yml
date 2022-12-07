@@ -91,7 +91,7 @@ jobs:
           touch .env.local
           echo NEXT_PUBLIC_BACKEND_API_URL=https://jie1203.com/api >> .env.local
           cat .env.local
-          mv .env ./apps/web/
+          mv .env.local ./apps/web/
 
       - name: Restart PM2
         run: |
