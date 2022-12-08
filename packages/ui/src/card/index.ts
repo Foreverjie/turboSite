@@ -4,6 +4,7 @@ import Divider from '../divider'
 import Card from './card'
 import {
   StyledCardHeader as CardHeader,
+  StyledCardSideContent as CardSideContent,
   StyledCardFooter as CardFooter,
   StyledCardBody as CardBody,
 } from './card.styles'
@@ -19,6 +20,7 @@ export {
 export type { CardFooterVariantsProps, CardVariantsProps } from './card.styles'
 
 Card.Header = CardHeader
+Card.SideContent = CardSideContent
 Card.Body = CardBody
 Card.Footer = CardFooter
 Card.Image = Image

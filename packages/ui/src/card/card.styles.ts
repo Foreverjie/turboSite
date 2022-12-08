@@ -25,14 +25,14 @@ export const StyledCard = styled(
     $$cardTextColor: '$colors$text',
     m: 0,
     p: 0,
-    br: '$lg',
-    bg: '$$cardColor',
+    // bg: '$$cardColor',
     color: '$$cardTextColor',
     position: 'relative',
     display: 'flex',
     overflow: 'hidden',
-    fd: 'column',
+    fd: 'row',
     width: '100%',
+    mw: '640px',
     height: 'auto',
     boxSizing: 'border-box',
     '@motion': {
@@ -147,6 +147,17 @@ export const StyledCard = styled(
 
 export const StyledCardHeader = styled('div', {
   w: '100%',
+  display: 'flex',
+  flexShrink: 0,
+  zIndex: '$1',
+  jc: 'flex-start',
+  ai: 'center',
+  overflow: 'hidden',
+  color: 'inherit',
+  p: '$sm',
+})
+
+export const StyledCardSideContent = styled('div', {
   display: 'flex',
   flexShrink: 0,
   zIndex: '$1',

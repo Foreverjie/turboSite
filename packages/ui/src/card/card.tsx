@@ -12,6 +12,7 @@ import { useCard } from './use-card'
 import {
   StyledCard,
   StyledCardHeader as CardHeader,
+  StyledCardSideContent as CardSideContent,
   StyledCardFooter as CardFooter,
   StyledCardBody as CardBody,
 } from './card.styles'
@@ -70,6 +71,7 @@ type CardComponent<T, P = {}> = React.ForwardRefExoticComponent<
   PropsWithoutRef<P> & RefAttributes<T>
 > & {
   Header: typeof CardHeader
+  SideContent: typeof CardSideContent
   Body: typeof CardBody
   Footer: typeof CardFooter
   Image: typeof Image

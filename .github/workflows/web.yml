@@ -76,12 +76,6 @@ jobs:
 
       - name: Where am i?
         run: pwd
-      
-      # - name: update nginx conf and reload nginx
-      #   run: |
-      #     cp ./apps/server/nginx.conf /etc/nginx/sites-enabled/default
-      #     nginx -t
-      #     nginx -s reload
 
       - name: Move static files to /var/www
         run: cp -r ./apps/web/.next/static /var/www/next/
