@@ -3,12 +3,10 @@ import {
   BellIcon,
   HashtagIcon,
   BookmarkIcon,
-  CollectionIcon,
-  MailIcon,
+  InboxIcon,
   UserIcon,
   HomeIcon,
-  DotsCircleHorizontalIcon,
-} from '@heroicons/react/outline'
+} from '@heroicons/react/24/outline'
 import SidebarRow from './SidebarRow'
 import { Modal, Text, useModal, Button, Textarea, Loading } from 'ui'
 
@@ -33,12 +31,9 @@ function Sidebar({
         <SidebarRow Icon={HomeIcon} title="Home" />
         <SidebarRow Icon={HashtagIcon} title="Explore" />
         <SidebarRow Icon={BellIcon} title="Notifications" />
-        <SidebarRow Icon={MailIcon} title="Messages" />
+        <SidebarRow Icon={InboxIcon} title="Messages" />
         <SidebarRow Icon={BookmarkIcon} title="Bookmarks" />
-        <SidebarRow Icon={CollectionIcon} title="Lists" />
         <SidebarRow Icon={UserIcon} title="Sign In" />
-
-        <SidebarRow Icon={DotsCircleHorizontalIcon} title="More" />
       </Modal.Body>
     </Modal>
   )

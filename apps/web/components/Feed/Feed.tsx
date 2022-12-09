@@ -13,16 +13,16 @@ const Feed = (): ReactElement => {
   )
 
   return (
-    <div className="">
-      <>
+    <>
+      <div className="flex items-center justify-center">
         {isLoading && <Loading />}
+      </div>
 
-        {posts &&
-          posts.map(p => {
-            return <PostCard key={p.id} {...p} />
-          })}
-      </>
-    </div>
+      {posts &&
+        posts.map(p => {
+          return <PostCard key={p.id} {...p} />
+        })}
+    </>
   )
 }
 
