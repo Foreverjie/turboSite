@@ -96,6 +96,31 @@ export const post = createRouter()
       })
     },
   })
+  .mutation('Like', {
+    input: z.object({
+      id: z.string(),
+    }),
+    output: z.boolean(),
+    async resolve({ ctx, input }: any) {
+      const { id } = input
+      try {
+        await prisma.post.update({
+          where: {
+            id,
+          },
+          data: {
+            likes: {
+              push: ctx.res.locals.user,
+            },
+          },
+        })
+        return true
+      } catch (e) {
+        console.error('Like post failed', e)
+        return false
+      }
+    },
+  })
   .middleware(restrictTo(['admin']))
   .mutation('Edit', {
     input: z.object({

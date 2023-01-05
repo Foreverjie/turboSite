@@ -10,6 +10,11 @@ generator client {
   provider = "prisma-client-js"
 }
 
+model Cat {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+}
+
 model User {
   id       String @id @default(auto()) @map("_id") @db.ObjectId
   name     String
@@ -18,19 +23,22 @@ model User {
   role     String @default("user")
   avatar   String @default("https://gravatar.com/avatar/placeholder?s=200")
 
-  posts    Post[]
-  comments Comment[]
-  likes    Like[]
+  // posts    Post[] @relation(fields: [postIDs], references: [id], name: "posts")
+  // postIDs    String[] @db.ObjectId
+
+  likes   Post[]   @relation(fields: [likeIDs], references: [id], name: "likes")
+  likeIDs String[] @db.ObjectId
+
+  // comments Comment[] @relation(fields: [commentIDs], references: [id], name: "comments")
+  // commentIDs String[] @db.ObjectId
 
   // To return `Date`s intact through the API we need to add data transformers
   // https://trpc.io/docs/data-transformers
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-}
-
-model Cat {
-  id   String @id @default(auto()) @map("_id") @db.ObjectId
-  name String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  Post      Post[]
+  Comment   Comment[]
+  Like      Like[]
 }
 
 model Post {
@@ -41,14 +49,17 @@ model Post {
   repost   Post?   @relation("repost", fields: [repostId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   repostBy Post[]  @relation("repost")
 
+  likeBy    User[]   @relation(fields: [likeByIds], references: [id], name: "likes")
+  likeByIds String[] @db.ObjectId
+
   content String
   files   String[]
 
-  comments   Comment[]
-  likes      Like[]
+  comments Comment[]
+  likes    Like[]
 
   author   User   @relation(fields: [authorId], references: [id])
-  authorId String
+  authorId String @db.ObjectId
 
   isBlocked Boolean  @default(false)
   isDeleted Boolean  @default(false)
