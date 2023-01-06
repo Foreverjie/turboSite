@@ -67,6 +67,7 @@ export const post = createRouter()
               avatar: true,
             },
           },
+          likeByIds: true,
           id: true,
           content: true,
         },
@@ -109,8 +110,8 @@ export const post = createRouter()
             id,
           },
           data: {
-            likes: {
-              push: ctx.res.locals.user,
+            likeByIds: {
+              push: ctx.res.locals.user.id,
             },
           },
         })

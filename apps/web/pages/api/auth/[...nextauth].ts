@@ -17,7 +17,7 @@ export default (req: any, res: any) => {
           const data = await axios.post(
             process.env.VERCEL_URL
               ? `https://${process.env.VERCEL_URL}/trpc/auth.SignIn`
-              : 'http://localhost:8080/trpc/auth.SignIn',
+              : 'http://localhost:9797/trpc/auth.SignIn',
             {
               password: credentials?.password,
               email: credentials?.email,

@@ -30,7 +30,7 @@ export default withTRPC<AppRouter>({
   config({ ctx }) {
     const url = process.env.NEXT_PUBLIC_BACKEND_API_URL
       ? `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/trpc`
-      : 'http://localhost:8080/trpc'
+      : 'http://localhost:9797/trpc'
 
     return {
       url,

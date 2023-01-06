@@ -52,6 +52,6 @@ app.all('*', (req: Request, res: Response, next: NextFunction) => {
   next(err)
 })
 
-app.listen(8080, () => {
-  console.log('Server running on port 8080')
+app.listen(9797, () => {
+  console.log('Server running on port 9797')
 })
