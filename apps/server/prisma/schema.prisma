@@ -38,7 +38,6 @@ model User {
   updatedAt DateTime  @default(now()) @updatedAt
   Post      Post[]
   Comment   Comment[]
-  Like      Like[]
 }
 
 model Post {
@@ -56,7 +55,6 @@ model Post {
   files   String[]
 
   comments Comment[]
-  likes    Like[]
 
   author   User   @relation(fields: [authorId], references: [id])
   authorId String @db.ObjectId
@@ -70,19 +68,6 @@ model Post {
 model Comment {
   id      String @id @default(auto()) @map("_id") @db.ObjectId
   content String
-
-  post   Post   @relation(fields: [postId], references: [id])
-  postId String
-
-  author   User   @relation(fields: [authorId], references: [id])
-  authorId String
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-}
-
-model Like {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
 
   post   Post   @relation(fields: [postId], references: [id])
   postId String

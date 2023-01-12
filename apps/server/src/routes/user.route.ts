@@ -15,8 +15,19 @@ export const user = createRouter()
       email: z.string(),
       role: z.string(),
       avatar: z.string(),
+      likes: z.array(
+        z.object({
+          content: z.string(),
+        }),
+      ),
+      // Post: z.array(
+      //   z.object({
+      //     content: z.string(),
+      //   }),
+      // ),
     }),
     async resolve({ ctx }: any) {
+      console.log('user', ctx.res.locals.user)
       return ctx.res.locals.user
     },
   })

@@ -105,27 +105,17 @@ export const post = createRouter()
     async resolve({ ctx, input }: any) {
       const { id } = input
       try {
-        const post = await prisma.post.findUnique({
+        await prisma.user.update({
           where: {
-            id,
+            id: ctx.res.locals.user.id,
+          },
+          data: {
+            likes: {
+              connect: { id },
+            },
           },
         })
-
-        if (post && !post.likeByIds.includes(ctx.res.locals.user.id)) {
-          await prisma.post.update({
-            where: {
-              id,
-            },
-            data: {
-              likeByIds: {
-                push: ctx.res.locals.user.id,
-              },
-            },
-          })
-          return true
-        } else {
-          return false
-        }
+        return true
       } catch (e) {
         console.error('Like post failed', e)
         return false
@@ -140,29 +130,19 @@ export const post = createRouter()
     async resolve({ ctx, input }: any) {
       const { id } = input
       try {
-        const post = await prisma.post.findUnique({
+        await prisma.user.update({
           where: {
-            id,
+            id: ctx.res.locals.user.id,
+          },
+          data: {
+            likes: {
+              disconnect: { id },
+            },
           },
         })
-
-        if (post && post.likeByIds.includes(ctx.res.locals.user.id)) {
-          await prisma.post.update({
-            where: {
-              id,
-            },
-            data: {
-              likeByIds: {
-                set: post.likeByIds.filter(id => id !== ctx.res.locals.user.id),
-              },
-            },
-          })
-          return true
-        } else {
-          return false
-        }
+        return true
       } catch (e) {
-        console.error('Dislike post failed', e)
+        console.error('Like post failed', e)
         return false
       }
     },
