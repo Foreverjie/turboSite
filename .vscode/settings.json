@@ -16,6 +16,7 @@
     "googleapis",
     "grpclog",
     "joho",
+    "openapi",
     "pnpm",
     "Pressable",
     "protobuf",

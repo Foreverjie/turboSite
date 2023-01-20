@@ -5,6 +5,9 @@ import appRouter from './routes/router'
 import config from 'config'
 import morgan from 'morgan'
 import { createContext } from './context'
+import { createOpenApiExpressMiddleware } from 'trpc-openapi'
+import { openApiDocument } from './openapi'
+import swaggerUi from 'swagger-ui-express'
 
 const app: Application = express()
 
@@ -27,6 +30,14 @@ app.use(
     createContext,
   }),
 )
+
+app.use(
+  '/api',
+  createOpenApiExpressMiddleware({ router: appRouter, createContext }),
+)
+
+app.use('/', swaggerUi.serve)
+app.get('/', swaggerUi.setup(openApiDocument))
 
 // Testing
 app.get('/healthChecker', (req: Request, res: Response, next: NextFunction) => {

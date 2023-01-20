@@ -1,4 +1,4 @@
 module.exports = {
-  ...require('../../packages/config/jest-server'),
+  ...require('../../packages/turboConfig/jest-server'),
   rootDir: '.',
 }
