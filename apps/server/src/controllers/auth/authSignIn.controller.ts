@@ -71,7 +71,8 @@ export const authSignInController = async ({
       message: `Could not find user with email ${email}`,
     })
   }
-  if (!bcrypt.compare(user.password, password)) {
+  const pwdMatch = await bcrypt.compare(password, user.password)
+  if (!pwdMatch) {
     throw new TRPCError({
       code: 'UNAUTHORIZED',
       message: `Invalid email or password`,
