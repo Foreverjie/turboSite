@@ -14,9 +14,7 @@ import {
   userUpdateMeta,
   userUpdateOutputSchema,
 } from '../schemas/users'
-import { deserializeUser } from '../middlewares/deserializeUser'
-import { requireUser } from '../middlewares/requireUser'
-import { restrictTo } from '../middlewares/restrictTo'
+import { deserializeUser, restrictTo, requireUser } from '../middlewares'
 import { publicProcedure, router } from '../trpc'
 
 // export default router

@@ -1,7 +1,5 @@
-import { createRouter } from './createRouter'
 import { router, mergeRouters } from '../trpc'
-import { cat, user } from '.'
-import { auth } from './auth.route'
+import { cat, user, auth } from '.'
 import { post } from './post.route'
 
 // const appRouter = createRouter()
@@ -12,7 +10,7 @@ import { post } from './post.route'
 
 const appRouter = router({
   cat,
-  // auth,
+  auth,
   user,
   // post,
 })
