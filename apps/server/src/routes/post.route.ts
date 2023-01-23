@@ -35,7 +35,7 @@ export const post = router({
     .meta(postByIdMeta)
     .input(postByIdInputSchema)
     .output(postByIdOutputSchema)
-    .query(postByIdController),
+    .query(postByIdController), // can not get params through /trpc
   all: publicProcedure
     .meta(postAllMeta)
     .input(postAllInputSchema)
