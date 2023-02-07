@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react'
 import { Loading } from 'ui'
-import { inferQueryOutput, trpc } from '../../utils/trpc'
+import { RouterOutput, trpc } from '../../utils/trpc'
 import PostCard from './PostCard'
 
 // inferQueryOutput<'post.All'>
@@ -8,9 +8,10 @@ const Feed = (): ReactElement => {
   const {
     data: posts,
     isLoading,
-  }: { data: inferQueryOutput<'post.All'>; isLoading: boolean } = trpc.useQuery(
-    ['post.All'],
-  )
+  }: {
+    data: RouterOutput['post']['all']
+    isLoading: boolean
+  } = trpc.post.all.useQuery()
 
   return (
     <>

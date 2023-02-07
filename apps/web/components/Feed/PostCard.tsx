@@ -4,13 +4,13 @@ import {
 } from '@heroicons/react/24/outline'
 import React from 'react'
 import { Card, Grid, Text, Link, Avatar } from 'ui'
-import { inferQueryOutput } from '../../utils/trpc'
+import { RouterOutput } from '../../utils/trpc'
 
 function PostCard({
   id,
   author,
   content,
-}: inferQueryOutput<'post.All'>[number]) {
+}: RouterOutput['post']['all'][number]) {
   const openCommentList = () => {}
   const likePost = () => {}
   const alreadyLike = true
