@@ -1,17 +1,11 @@
 import React, { ReactElement } from 'react'
 import { Loading } from 'ui'
-import { RouterOutput, trpc } from '../../utils/trpc'
+import { trpc } from '../../utils/trpc'
 import PostCard from './PostCard'
 
 // inferQueryOutput<'post.All'>
 const Feed = (): ReactElement => {
-  const {
-    data: posts,
-    isLoading,
-  }: {
-    data: RouterOutput['post']['all']
-    isLoading: boolean
-  } = trpc.post.all.useQuery()
+  const { data: posts, isLoading } = trpc.post.all.useQuery()
 
   return (
     <>

@@ -2,10 +2,8 @@ import '../styles/globals.css'
 
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { useState } from 'react'
-import { withTRPC } from '@trpc/next'
 import { trpc } from '../utils/trpc'
 import { SessionProvider } from 'next-auth/react'
-import type { AppRouter } from 'server/src/routes/router'
 import { CustomAppProps } from '@/lib/types/page.types'
 
 function MyApp({

@@ -60,3 +60,9 @@ export * from './image'
 
 export { default as Card } from './card'
 export * from './card'
+
+export { default as Row } from './row'
+export * from './row'
+
+export { default as Checkbox } from './checkbox'
+export * from './checkbox'
