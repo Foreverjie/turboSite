@@ -8,6 +8,7 @@ import { RouterOutput } from '../../utils/trpc'
 import { useSession } from 'next-auth/react'
 import { useModal } from 'ui'
 import { AuthModal } from '../../components/AuthModal'
+import { toast } from 'react-toastify'
 
 function PostCard({
   id,
@@ -24,6 +25,8 @@ function PostCard({
     if (status !== 'authenticated') {
       setVisible(true)
     }
+    // toast('aaa')
+    setVisible(true)
   }
   const alreadyLike = true
   return (

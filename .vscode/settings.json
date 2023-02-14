@@ -21,7 +21,8 @@
     "Pressable",
     "protobuf",
     "protoc",
-    "stretchr"
+    "stretchr",
+    "toastify"
   ],
   "go.toolsEnvVars": {
     "GO111MODULE": "auto"

@@ -5,6 +5,8 @@ import { useState } from 'react'
 import { trpc } from '../utils/trpc'
 import { SessionProvider } from 'next-auth/react'
 import { CustomAppProps } from '@/lib/types/page.types'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 function MyApp({
   Component,
@@ -19,6 +21,18 @@ function MyApp({
       <QueryClientProvider client={queryClient}>
         {getLayout(<AnyComponent {...pageProps} />)}
       </QueryClientProvider>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </SessionProvider>
   )
 }
