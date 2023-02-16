@@ -64,7 +64,7 @@ function AuthModal({
           contentLeft={<Password fill="currentColor" />}
         />
         <Row justify="space-between">
-          <Text size={14}>Don't have account?</Text>
+          <Text size={14}>Don&apos;t have account?</Text>
           <Text size={14}>Forgot password?</Text>
         </Row>
       </Modal.Body>
