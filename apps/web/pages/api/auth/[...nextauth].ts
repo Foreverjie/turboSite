@@ -3,20 +3,6 @@ import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import axios from 'axios'
 import { setCookie } from 'nookies'
-import { toast } from 'react-toastify'
-
-// axios.interceptors.request.use()
-
-axios.interceptors.response.use(
-  response => {
-    console.log('res', response)
-    return response
-  },
-  error => {
-    console.log('error', error?.response?.data?.message, toast)
-    toast(error?.response?.data?.message)
-  },
-)
 
 export default (req: any, res: any) => {
   return NextAuth(req, res, {
@@ -31,8 +17,8 @@ export default (req: any, res: any) => {
           try {
             const data = await axios.post(
               process.env.VERCEL_URL
-                ? `https://${process.env.VERCEL_URL}/api/auth.signIn`
-                : 'http://localhost:9797/api/auth.signIn',
+                ? `https://${process.env.VERCEL_URL}/trpc/auth.signIn`
+                : 'http://localhost:9797/trpc/auth.signIn',
               {
                 password: credentials?.password,
                 email: credentials?.email,
@@ -50,12 +36,10 @@ export default (req: any, res: any) => {
               path: '/',
               httpOnly: true,
             })
-            console.log('da', data)
 
             return data?.data?.result
-          } catch (error) {
-            console.log('error', error)
-            toast.error(error?.response?.data?.message)
+          } catch (error: any) {
+            throw new Error(error?.response?.data?.error?.message)
           }
         },
       }),

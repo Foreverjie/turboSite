@@ -1,4 +1,4 @@
-import { signIn } from 'next-auth/react'
+import { signIn, SignInResponse } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import React, { MutableRefObject, useState } from 'react'
 import { toast } from 'react-toastify'
@@ -17,7 +17,14 @@ function AuthModal({
   // const router = useRouter()
 
   const handleSignIn = async () => {
-    signIn('credentials', { email, password, redirect: false })
+    signIn('credentials', { email, password, redirect: false }).then(
+      (response: SignInResponse | undefined) => {
+        if (!response?.ok) {
+          console.log(response?.error)
+          toast(response?.error, { type: 'error' })
+        }
+      },
+    )
   }
 
   return (

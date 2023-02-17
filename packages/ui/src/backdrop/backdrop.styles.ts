@@ -88,7 +88,7 @@ export const StyledBackdrop = styled('div', {
   right: 0,
   bottom: 0,
   overflow: 'auto',
-  zIndex: '$max',
+  zIndex: '$10',
   WebkitOverflowScrolling: 'touch',
   boxSizing: 'border-box',
   textAlign: 'center',
