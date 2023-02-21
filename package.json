@@ -42,5 +42,13 @@
     "prettier": "latest",
     "superjson": "^1.9.1",
     "turbo": "^1.2.16"
+  },
+  "devDependencies": {
+    "cz-conventional-changelog": "^3.3.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
   }
 }
