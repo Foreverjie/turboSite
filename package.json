@@ -18,7 +18,8 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "prepare": "husky install",
     "check": "manypkg check",
-    "fix": "manypkg fix"
+    "fix": "manypkg fix",
+    "commit": "git-cz"
   },
   "engines": {
     "npm": ">=7.0.0",
