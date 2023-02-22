@@ -5,10 +5,9 @@ import {
 import React from 'react'
 import { Card, Grid, Text, Link, Avatar } from 'ui'
 import { RouterOutput } from '../../utils/trpc'
-import { useSession } from 'next-auth/react'
 import { useModal } from 'ui'
 import { AuthModal } from '../../components/AuthModal'
-import { toast } from 'react-toastify'
+import { requireAuth } from '../../utils/auth'
 
 function PostCard({
   id,
@@ -16,18 +15,14 @@ function PostCard({
   content,
 }: RouterOutput['post']['all'][number]) {
   const { visible, setVisible } = useModal()
-  const { data: sessionData, status } = useSession()
-
-  console.log('data', sessionData)
 
   const openCommentList = () => {}
-  const likePost = () => {
-    if (status !== 'authenticated') {
-      setVisible(true)
-    }
-    // toast('aaa')
-    setVisible(true)
-  }
+  const likePost = requireAuth(
+    () => {
+      console.log('like post')
+    },
+    () => setVisible(true),
+  )
   const alreadyLike = true
   return (
     <>
