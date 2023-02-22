@@ -8,22 +8,27 @@ import { RouterOutput } from '../../utils/trpc'
 import { useModal } from 'ui'
 import { AuthModal } from '../../components/AuthModal'
 import { requireAuth } from '../../utils/auth'
+import { useSession } from 'next-auth/react'
 
 function PostCard({
   id,
   author,
   content,
+  likeByIds,
 }: RouterOutput['post']['all'][number]) {
   const { visible, setVisible } = useModal()
 
-  const openCommentList = () => {}
+  const { data } = useSession()
+
+  const openCommentList = () => setVisible(true)
   const likePost = requireAuth(
     () => {
       console.log('like post')
     },
     () => setVisible(true),
   )
-  const alreadyLike = true
+  const alreadyLike = data?.user?.id && likeByIds.includes(data.user.id)
+
   return (
     <>
       <AuthModal

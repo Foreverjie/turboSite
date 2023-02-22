@@ -8,7 +8,7 @@ export function requireAuth<T extends (...args: any[]) => any>(
   return function protectedFunction(
     ...args: Parameters<T>
   ): ReturnType<T> | void {
-    if (status !== 'authenticated') {
+    if (status === 'authenticated') {
       return originalFunction.apply(this, args)
     } else {
       if (onUnauthenticated) {

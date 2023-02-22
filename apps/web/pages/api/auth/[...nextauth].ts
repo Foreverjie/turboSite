@@ -50,6 +50,7 @@ export default (req: any, res: any) => {
     callbacks: {
       async jwt({ token, user, account }) {
         if (account && user) {
+          console.log('data', user.data)
           return {
             ...token,
             accessToken: user.data,
@@ -60,6 +61,7 @@ export default (req: any, res: any) => {
       async session({ session, token }) {
         const data: any = jwt.decode(token.accessToken as string)
         const user = {
+          id: data?.user?.id,
           accessToken: token.accessToken,
           email: data?.user?.email,
           name: data?.user.name,
