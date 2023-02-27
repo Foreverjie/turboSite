@@ -11,6 +11,7 @@ importers:
       '@testing-library/user-event': ^14.2.1
       '@types/jest': ^28.1.4
       cz-conventional-changelog: ^3.3.0
+      cz-git: ^1.5.0
       esbuild: ^0.14.48
       esbuild-jest: ^0.5.0
       eslint-config-custom: 0.0.0
@@ -40,6 +41,7 @@ importers:
       turbo: 1.6.3
     devDependencies:
       cz-conventional-changelog: 3.3.0
+      cz-git: 1.5.0
 
   apps/server:
     specifiers:
@@ -2786,7 +2788,7 @@ packages:
     dev: true
 
   /@esbuild/linux-loong64/0.14.54:
-    resolution: {integrity: sha1-3ipL5ni9TQ0f+7hubed5zeWZkCg=}
+    resolution: {integrity: sha1-3ipL5ni9TQ0f+7hubed5zeWZkCg=, tarball: https://artifactory.pruconnect.net/artifactory/api/npm/npm-rt-onepulse/@esbuild/linux-loong64/-/linux-loong64-0.14.54.tgz}
     engines: {node: '>=12'}
     cpu: [loong64]
     os: [linux]
@@ -9599,6 +9601,10 @@ packages:
       - '@swc/wasm'
     dev: true
 
+  /cz-git/1.5.0:
+    resolution: {integrity: sha1-uVFLmcgVMsJtXpQAnoBK0fqsj7I=}
+    dev: true
+
   /damerau-levenshtein/1.0.8:
     resolution: {integrity: sha1-tD0obMvTa8Wy9+1ByvLQq6H4puc=}
     dev: false
@@ -10383,7 +10389,7 @@ packages:
     dev: true
 
   /esbuild-android-64/0.14.54:
-    resolution: {integrity: sha1-UF9BgyiEMTu6/7J3BLi8qi2GFr4=}
+    resolution: {integrity: sha1-UF9BgyiEMTu6/7J3BLi8qi2GFr4=, tarball: https://artifactory.pruconnect.net/artifactory/api/npm/npm-rt-onepulse/esbuild-android-64/-/esbuild-android-64-0.14.54.tgz}
     engines: {node: '>=12'}
     cpu: [x64]
     os: [android]
@@ -10392,7 +10398,7 @@ packages:
     optional: true
 
   /esbuild-android-arm64/0.14.54:
-    resolution: {integrity: sha1-jOadfKuklkbgCZaP5XVKIamHF3E=}
+    resolution: {integrity: sha1-jOadfKuklkbgCZaP5XVKIamHF3E=, tarball: https://artifactory.pruconnect.net/artifactory/api/npm/npm-rt-onepulse/esbuild-android-arm64/-/esbuild-android-arm64-0.14.54.tgz}
     engines: {node: '>=12'}
     cpu: [arm64]
     os: [android]
@@ -10401,7 +10407,7 @@ packages:
     optional: true
 
   /esbuild-darwin-64/0.14.54:
-    resolution: {integrity: sha1-JLpnuajLiQo8CNkBj4h8wiHN2iU=}
+    resolution: {integrity: sha1-JLpnuajLiQo8CNkBj4h8wiHN2iU=, tarball: https://artifactory.pruconnect.net/artifactory/api/npm/npm-rt-onepulse/esbuild-darwin-64/-/esbuild-darwin-64-0.14.54.tgz}
     engines: {node: '>=12'}
     cpu: [x64]
     os: [darwin]
@@ -10410,7 +10416,7 @@ packages:
     optional: true
 
   /esbuild-darwin-arm64/0.14.54:
-    resolution: {integrity: sha1-P3zbeIiO4F5IjSUKK9qrH6Zxv3M=}
+    resolution: {integrity: sha1-P3zbeIiO4F5IjSUKK9qrH6Zxv3M=, tarball: https://artifactory.pruconnect.net/artifactory/api/npm/npm-rt-onepulse/esbuild-darwin-arm64/-/esbuild-darwin-arm64-0.14.54.tgz}
     engines: {node: '>=12'}
     cpu: [arm64]
     os: [darwin]
@@ -10419,7 +10425,7 @@ packages:
     optional: true
 
   /esbuild-freebsd-64/0.14.54:
-    resolution: {integrity: sha1-CSUPmXpW7UZQ8+GXnJBf/EC76U0=}
+    resolution: {integrity: sha1-CSUPmXpW7UZQ8+GXnJBf/EC76U0=, tarball: https://artifactory.pruconnect.net/artifactory/api/npm/npm-rt-onepulse/esbuild-freebsd-64/-/esbuild-freebsd-64-0.14.54.tgz}
     engines: {node: '>=12'}
     cpu: [x64]
     os: [freebsd]
@@ -10428,7 +10434,7 @@ packages:
     optional: true
 
   /esbuild-freebsd-arm64/0.14.54:
-    resolution: {integrity: sha1-uvtG7QT8X5fL2wFthpR6eVefjkg=}
+    resolution: {integrity: sha1-uvtG7QT8X5fL2wFthpR6eVefjkg=, tarball: https://artifactory.pruconnect.net/artifactory/api/npm/npm-rt-onepulse/esbuild-freebsd-arm64/-/esbuild-freebsd-arm64-0.14.54.tgz}
     engines: {node: '>=12'}
     cpu: [arm64]
     os: [freebsd]
@@ -10450,7 +10456,7 @@ packages:
     dev: false
 
   /esbuild-linux-32/0.14.54:
-    resolution: {integrity: sha1-4qjEqO/cNVQFMlAz/OvrlB94H+U=}
+    resolution: {integrity: sha1-4qjEqO/cNVQFMlAz/OvrlB94H+U=, tarball: https://artifactory.pruconnect.net/artifactory/api/npm/npm-rt-onepulse/esbuild-linux-32/-/esbuild-linux-32-0.14.54.tgz}
     engines: {node: '>=12'}
     cpu: [ia32]
     os: [linux]
@@ -10459,7 +10465,7 @@ packages:
     optional: true
 
   /esbuild-linux-64/0.14.54:
-    resolution: {integrity: sha1-3l/boclWZs9yNp9StAsDvnEiZlI=}
+    resolution: {integrity: sha1-3l/boclWZs9yNp9StAsDvnEiZlI=, tarball: https://artifactory.pruconnect.net/artifactory/api/npm/npm-rt-onepulse/esbuild-linux-64/-/esbuild-linux-64-0.14.54.tgz}
     engines: {node: '>=12'}
     cpu: [x64]
     os: [linux]
@@ -10468,7 +10474,7 @@ packages:
     optional: true
 
   /esbuild-linux-arm/0.14.54:
-    resolution: {integrity: sha1-osHf9tDyHb6PxpmKEiZ1Uz3fzVk=}
+    resolution: {integrity: sha1-osHf9tDyHb6PxpmKEiZ1Uz3fzVk=, tarball: https://artifactory.pruconnect.net/artifactory/api/npm/npm-rt-onepulse/esbuild-linux-arm/-/esbuild-linux-arm-0.14.54.tgz}
     engines: {node: '>=12'}
     cpu: [arm]
     os: [linux]
@@ -10477,7 +10483,7 @@ packages:
     optional: true
 
   /esbuild-linux-arm64/0.14.54:
-    resolution: {integrity: sha1-2uTNQq6Xh0aLalwVjaTIToOwzos=}
+    resolution: {integrity: sha1-2uTNQq6Xh0aLalwVjaTIToOwzos=, tarball: https://artifactory.pruconnect.net/artifactory/api/npm/npm-rt-onepulse/esbuild-linux-arm64/-/esbuild-linux-arm64-0.14.54.tgz}
     engines: {node: '>=12'}
     cpu: [arm64]
     os: [linux]
@@ -10486,7 +10492,7 @@ packages:
     optional: true
 
   /esbuild-linux-mips64le/0.14.54:
-    resolution: {integrity: sha1-2ZGOnky5cvjW2ujoZVv57hMe2jQ=}
+    resolution: {integrity: sha1-2ZGOnky5cvjW2ujoZVv57hMe2jQ=, tarball: https://artifactory.pruconnect.net/artifactory/api/npm/npm-rt-onepulse/esbuild-linux-mips64le/-/esbuild-linux-mips64le-0.14.54.tgz}
     engines: {node: '>=12'}
     cpu: [mips64el]
     os: [linux]
@@ -10495,7 +10501,7 @@ packages:
     optional: true
 
   /esbuild-linux-ppc64le/0.14.54:
-    resolution: {integrity: sha1-P5oPbUEHP7GmQGgIRcfeUplfE34=}
+    resolution: {integrity: sha1-P5oPbUEHP7GmQGgIRcfeUplfE34=, tarball: https://artifactory.pruconnect.net/artifactory/api/npm/npm-rt-onepulse/esbuild-linux-ppc64le/-/esbuild-linux-ppc64le-0.14.54.tgz}
     engines: {node: '>=12'}
     cpu: [ppc64]
     os: [linux]
@@ -10504,7 +10510,7 @@ packages:
     optional: true
 
   /esbuild-linux-riscv64/0.14.54:
-    resolution: {integrity: sha1-YYhTwCgXimGDe8eZ0gE9RpXkUcg=}
+    resolution: {integrity: sha1-YYhTwCgXimGDe8eZ0gE9RpXkUcg=, tarball: https://artifactory.pruconnect.net/artifactory/api/npm/npm-rt-onepulse/esbuild-linux-riscv64/-/esbuild-linux-riscv64-0.14.54.tgz}
     engines: {node: '>=12'}
     cpu: [riscv64]
     os: [linux]
@@ -10513,7 +10519,7 @@ packages:
     optional: true
 
   /esbuild-linux-s390x/0.14.54:
-    resolution: {integrity: sha1-0YhcTFp2u7Wg/hguLIxg654p8qY=}
+    resolution: {integrity: sha1-0YhcTFp2u7Wg/hguLIxg654p8qY=, tarball: https://artifactory.pruconnect.net/artifactory/api/npm/npm-rt-onepulse/esbuild-linux-s390x/-/esbuild-linux-s390x-0.14.54.tgz}
     engines: {node: '>=12'}
     cpu: [s390x]
     os: [linux]
@@ -10522,7 +10528,7 @@ packages:
     optional: true
 
   /esbuild-netbsd-64/0.14.54:
-    resolution: {integrity: sha1-aa6Rei/yQbffHb8iuvBL0zA0noE=}
+    resolution: {integrity: sha1-aa6Rei/yQbffHb8iuvBL0zA0noE=, tarball: https://artifactory.pruconnect.net/artifactory/api/npm/npm-rt-onepulse/esbuild-netbsd-64/-/esbuild-netbsd-64-0.14.54.tgz}
     engines: {node: '>=12'}
     cpu: [x64]
     os: [netbsd]
@@ -10531,7 +10537,7 @@ packages:
     optional: true
 
   /esbuild-openbsd-64/0.14.54:
-    resolution: {integrity: sha1-20yElSh6NQpnkN4i7eokelfF1Hs=}
+    resolution: {integrity: sha1-20yElSh6NQpnkN4i7eokelfF1Hs=, tarball: https://artifactory.pruconnect.net/artifactory/api/npm/npm-rt-onepulse/esbuild-openbsd-64/-/esbuild-openbsd-64-0.14.54.tgz}
     engines: {node: '>=12'}
     cpu: [x64]
     os: [openbsd]
@@ -10540,7 +10546,7 @@ packages:
     optional: true
 
   /esbuild-sunos-64/0.14.54:
-    resolution: {integrity: sha1-VCh+49pz04RLchwhvIDB3H4b99o=}
+    resolution: {integrity: sha1-VCh+49pz04RLchwhvIDB3H4b99o=, tarball: https://artifactory.pruconnect.net/artifactory/api/npm/npm-rt-onepulse/esbuild-sunos-64/-/esbuild-sunos-64-0.14.54.tgz}
     engines: {node: '>=12'}
     cpu: [x64]
     os: [sunos]
@@ -10549,7 +10555,7 @@ packages:
     optional: true
 
   /esbuild-windows-32/0.14.54:
-    resolution: {integrity: sha1-+Kr5pWZ2MLQPD7OqN78Bu9NAzjE=}
+    resolution: {integrity: sha1-+Kr5pWZ2MLQPD7OqN78Bu9NAzjE=, tarball: https://artifactory.pruconnect.net/artifactory/api/npm/npm-rt-onepulse/esbuild-windows-32/-/esbuild-windows-32-0.14.54.tgz}
     engines: {node: '>=12'}
     cpu: [ia32]
     os: [win32]
@@ -10558,7 +10564,7 @@ packages:
     optional: true
 
   /esbuild-windows-64/0.14.54:
-    resolution: {integrity: sha1-v1S1G9PpsPGIb/2yJKQXYDHqCvQ=}
+    resolution: {integrity: sha1-v1S1G9PpsPGIb/2yJKQXYDHqCvQ=, tarball: https://artifactory.pruconnect.net/artifactory/api/npm/npm-rt-onepulse/esbuild-windows-64/-/esbuild-windows-64-0.14.54.tgz}
     engines: {node: '>=12'}
     cpu: [x64]
     os: [win32]
@@ -10567,7 +10573,7 @@ packages:
     optional: true
 
   /esbuild-windows-arm64/0.14.54:
-    resolution: {integrity: sha1-k30VZ1oV5LDk+v26o6Aad2or6YI=}
+    resolution: {integrity: sha1-k30VZ1oV5LDk+v26o6Aad2or6YI=, tarball: https://artifactory.pruconnect.net/artifactory/api/npm/npm-rt-onepulse/esbuild-windows-arm64/-/esbuild-windows-arm64-0.14.54.tgz}
     engines: {node: '>=12'}
     cpu: [arm64]
     os: [win32]
@@ -19558,7 +19564,7 @@ packages:
     dev: true
 
   /turbo-darwin-64/1.6.3:
-    resolution: {integrity: sha1-+tfgeHhLD6/Asfdc6TeIKJGFlfU=}
+    resolution: {integrity: sha1-+tfgeHhLD6/Asfdc6TeIKJGFlfU=, tarball: https://artifactory.pruconnect.net/artifactory/api/npm/npm-rt-onepulse/turbo-darwin-64/-/turbo-darwin-64-1.6.3.tgz}
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
@@ -19566,7 +19572,7 @@ packages:
     optional: true
 
   /turbo-darwin-arm64/1.6.3:
-    resolution: {integrity: sha1-8KMsrjnj/NPaXjEpqUwYuy4+1qo=}
+    resolution: {integrity: sha1-8KMsrjnj/NPaXjEpqUwYuy4+1qo=, tarball: https://artifactory.pruconnect.net/artifactory/api/npm/npm-rt-onepulse/turbo-darwin-arm64/-/turbo-darwin-arm64-1.6.3.tgz}
     cpu: [arm64]
     os: [darwin]
     requiresBuild: true
@@ -19574,7 +19580,7 @@ packages:
     optional: true
 
   /turbo-linux-64/1.6.3:
-    resolution: {integrity: sha1-jdxqxV74RkEYL+X/UGR/GzVYJrA=}
+    resolution: {integrity: sha1-jdxqxV74RkEYL+X/UGR/GzVYJrA=, tarball: https://artifactory.pruconnect.net/artifactory/api/npm/npm-rt-onepulse/turbo-linux-64/-/turbo-linux-64-1.6.3.tgz}
     cpu: [x64]
     os: [linux]
     requiresBuild: true
@@ -19582,7 +19588,7 @@ packages:
     optional: true
 
   /turbo-linux-arm64/1.6.3:
-    resolution: {integrity: sha1-hGwdyE2Nx0FlGQZhPBaszLowQow=}
+    resolution: {integrity: sha1-hGwdyE2Nx0FlGQZhPBaszLowQow=, tarball: https://artifactory.pruconnect.net/artifactory/api/npm/npm-rt-onepulse/turbo-linux-arm64/-/turbo-linux-arm64-1.6.3.tgz}
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
@@ -19590,7 +19596,7 @@ packages:
     optional: true
 
   /turbo-windows-64/1.6.3:
-    resolution: {integrity: sha1-iayBn6dq0x0S+/3rMEW869DTCOs=}
+    resolution: {integrity: sha1-iayBn6dq0x0S+/3rMEW869DTCOs=, tarball: https://artifactory.pruconnect.net/artifactory/api/npm/npm-rt-onepulse/turbo-windows-64/-/turbo-windows-64-1.6.3.tgz}
     cpu: [x64]
     os: [win32]
     requiresBuild: true
@@ -19598,7 +19604,7 @@ packages:
     optional: true
 
   /turbo-windows-arm64/1.6.3:
-    resolution: {integrity: sha1-l3YHyaUfC3YHbIsVi6/OBs6BMHA=}
+    resolution: {integrity: sha1-l3YHyaUfC3YHbIsVi6/OBs6BMHA=, tarball: https://artifactory.pruconnect.net/artifactory/api/npm/npm-rt-onepulse/turbo-windows-arm64/-/turbo-windows-arm64-1.6.3.tgz}
     cpu: [arm64]
     os: [win32]
     requiresBuild: true
