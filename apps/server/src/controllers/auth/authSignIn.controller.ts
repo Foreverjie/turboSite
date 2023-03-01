@@ -22,6 +22,7 @@ if (process.env.NODE_ENV === 'production')
 
 // Sign Token
 export const signToken = async (user: any) => {
+  console.log('signToken', config.get<number>('accessTokenExpiresIn'))
   // Sign the access token
   const accessToken = signJwt(
     {
@@ -40,7 +41,7 @@ export const signToken = async (user: any) => {
 
   // Create a Session
   redisClient.set(user.id.toString(), JSON.stringify(user), {
-    EX: 60 * 60,
+    EX: config.get<number>('accessTokenExpiresIn') * 60 * 60 * 24,
   })
 
   // Return access token
