@@ -22,6 +22,8 @@ function AuthModal({
         if (!response?.ok) {
           console.log(response?.error)
           toast(response?.error, { type: 'error' })
+        } else {
+          onClose()
         }
       },
     )

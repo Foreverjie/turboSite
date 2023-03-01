@@ -4,11 +4,12 @@ import {
 } from '@heroicons/react/24/outline'
 import React from 'react'
 import { Card, Grid, Text, Link, Avatar } from 'ui'
-import { RouterOutput } from '../../utils/trpc'
+import { RouterOutput, trpc } from '../../utils/trpc'
 import { useModal } from 'ui'
 import { AuthModal } from '../../components/AuthModal'
 import { requireAuth } from '../../utils/auth'
 import { useSession } from 'next-auth/react'
+import { useQueryClient } from '@tanstack/react-query'
 
 function PostCard({
   id,
@@ -16,27 +17,38 @@ function PostCard({
   content,
   likeByIds,
 }: RouterOutput['post']['all'][number]) {
-  const { visible, setVisible } = useModal()
-
-  const { data } = useSession()
-
-  const openCommentList = () => setVisible(true)
-  const likePost = requireAuth(
-    () => {
-      console.log('like post')
+  const utils = trpc.useContext()
+  const queryClient = useQueryClient()
+  const likePost = trpc.post.like.useMutation({
+    onSuccess: () => {
+      // utils.post.invalidate()
+      queryClient.invalidateQueries('post.all')
     },
-    () => setVisible(true),
-  )
+  })
+  const dislikePost = trpc.post.dislike.useMutation({
+    onSuccess: () => {
+      // utils.post.invalidate() // invalidate not working
+      queryClient.invalidateQueries('post.all')
+    },
+  })
+
+  const { data, status } = useSession()
+
+  const openCommentList = () => {}
+
+  console.log('likeByIds', likeByIds)
   const alreadyLike = data?.user?.id && likeByIds.includes(data.user.id)
+
+  const toggleLikePost = () => {
+    if (alreadyLike) {
+      dislikePost.mutate({ id })
+    } else {
+      likePost.mutate({ id })
+    }
+  }
 
   return (
     <>
-      <AuthModal
-        visible={visible}
-        onClose={() => {
-          setVisible(false)
-        }}
-      />
       <Card isPressable borderWeight="light">
         <Card.SideContent css={{ pt: '$6', ai: 'flex-start' }}>
           <Avatar
@@ -56,7 +68,7 @@ function PostCard({
               className={`h-4 w-4 cursor-pointer ${
                 alreadyLike ? 'fill-current text-red-500' : 'text-gray-400'
               }`}
-              onClick={likePost}
+              onClick={toggleLikePost}
             />
             <ChatBubbleOvalLeftEllipsisIcon
               className="h-4 w-4 ml-4 cursor-pointer text-gray-400"

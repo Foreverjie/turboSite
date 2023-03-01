@@ -7,8 +7,6 @@ import PostCard from './PostCard'
 const Feed = (): ReactElement => {
   const { data: posts, isLoading } = trpc.post.all.useQuery()
 
-  console.log('posts', posts)
-
   return (
     <>
       <div className="flex items-center justify-center">
