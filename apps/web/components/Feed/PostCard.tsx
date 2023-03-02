@@ -21,14 +21,12 @@ function PostCard({
   const queryClient = useQueryClient()
   const likePost = trpc.post.like.useMutation({
     onSuccess: () => {
-      // utils.post.invalidate()
-      queryClient.invalidateQueries('post.all')
+      utils.post.all.invalidate()
     },
   })
   const dislikePost = trpc.post.dislike.useMutation({
     onSuccess: () => {
-      // utils.post.invalidate() // invalidate not working
-      queryClient.invalidateQueries('post.all')
+      utils.post.all.invalidate()
     },
   })
 

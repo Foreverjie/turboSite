@@ -6,12 +6,6 @@ import { SessionProvider } from 'next-auth/react'
 import { CustomAppProps } from '@/lib/types/page.types'
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import {
-  MutationCache,
-  QueryCache,
-  QueryClient,
-  QueryClientProvider,
-} from '@tanstack/react-query'
 import { AuthModal } from '@/components/AuthModal'
 import { useModal } from 'ui'
 
@@ -27,21 +21,12 @@ function MyApp({
       setVisible(true)
     }
   }
-  const [queryClient] = useState(
-    () =>
-      new QueryClient({
-        queryCache: new QueryCache({ onError }),
-        mutationCache: new MutationCache({ onError }),
-      }),
-  )
   const getLayout = Component.getLayout || (page => page)
   const { visible, setVisible } = useModal()
 
   return (
     <SessionProvider session={session}>
-      <QueryClientProvider client={queryClient}>
-        {getLayout(<AnyComponent {...pageProps} />)}
-      </QueryClientProvider>
+      {getLayout(<AnyComponent {...pageProps} />)}
       <ToastContainer
         position="top-right"
         autoClose={5000}
