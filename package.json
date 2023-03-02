@@ -19,7 +19,8 @@
     "prepare": "husky install",
     "check": "manypkg check",
     "fix": "manypkg fix",
-    "commit": "git-cz"
+    "commit": "npx czg ai",
+    "commit:short": "npx czg ai -N=5"
   },
   "engines": {
     "npm": ">=7.0.0",
