@@ -12,13 +12,13 @@ export const postAllMeta: OpenApiMeta = {
 export const postAllInputSchema = z.void()
 export const postAllOutputSchema = z
   .object({
-    id: z.string(),
+    id: z.number(),
     type: z.string(),
     content: z.string(),
-    files: z.string().array(),
-    likeByIds: z.string().array(),
+    // files: z.string().array(),
+    // likeByIds: z.string().array(),
     author: z.object({
-      id: z.string(),
+      id: z.number(),
       name: z.string(),
       avatar: z.string(),
     }),

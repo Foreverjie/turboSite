@@ -10,7 +10,7 @@ export const postLikeMeta: OpenApiMeta = {
   },
 }
 export const postLikeInputSchema = z.object({
-  id: z.string(),
+  id: z.number(),
 })
 export const postLikeOutputSchema = z.boolean()
 
@@ -26,7 +26,7 @@ export const postDislikeMeta: OpenApiMeta = {
   },
 }
 export const postDislikeInputSchema = z.object({
-  id: z.string(),
+  id: z.number(),
 })
 export const postDislikeOutputSchema = z.boolean()
 

@@ -23,7 +23,7 @@ export const postByIdController = async ({
         },
       },
       content: true,
-      files: true,
+      // files: true,
       type: true,
       isBlocked: true,
       isDeleted: true,

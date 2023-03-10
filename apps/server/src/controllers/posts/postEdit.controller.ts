@@ -6,18 +6,18 @@ export const postEditController = async ({
 }: {
   input: PostEditInput
 }): Promise<PostEditOutput> => {
-  const { id, content, isBlocked, files } = input
+  const { id, content, isBlocked } = input
   const post = await prisma.post.update({
     where: {
       id,
     },
     data: {
       content,
-      files,
+      // files,
       isBlocked,
     },
     select: {
-      likeByIds: true,
+      // likeByIds: true,
       type: true,
       repost: {
         select: {
@@ -25,7 +25,7 @@ export const postEditController = async ({
         },
       },
       content: true,
-      files: true,
+      // files: true,
       author: {
         select: {
           id: true,

@@ -26,9 +26,9 @@ export const signToken = async (user: any) => {
   // Sign the access token
   const accessToken = signJwt(
     {
-      sub: user.id,
+      sub: user.id.toString(),
       user: {
-        id: user.id,
+        id: user.id.toString(),
         name: user.name,
         email: user.email,
         avatar: user.avatar,

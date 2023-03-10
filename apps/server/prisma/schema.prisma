@@ -1,22 +1,23 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-datasource db {
-  provider = "mongodb"
-  url      = env("DATABASE_URL")
-}
-
 generator client {
   provider = "prisma-client-js"
 }
 
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
 model Cat {
-  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  id   Int    @id @default(autoincrement()) @map("_id")
   name String
 }
 
 model User {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  id       Int    @id @default(autoincrement())
   name     String
   email    String @unique
   password String
@@ -26,9 +27,10 @@ model User {
   // posts    Post[] @relation(fields: [postIDs], references: [id], name: "posts")
   // postIDs    String[] @db.ObjectId
 
-  likes   Post[]   @relation(fields: [likeIDs], references: [id], name: "likes")
-  likeIDs String[] @db.ObjectId
+  // likes   Post[]   @relation(fields: [likeIDs], references: [id], name: "likes")
+  // likeIDs Int[] @db.ObjectId
 
+  likes Post[] @relation(name: "likes")
   // comments Comment[] @relation(fields: [commentIDs], references: [id], name: "comments")
   // commentIDs String[] @db.ObjectId
 
@@ -41,42 +43,49 @@ model User {
 }
 
 model Post {
-  id   String   @id @default(auto()) @map("_id") @db.ObjectId
+  id   Int      @id @default(autoincrement())
   type PostType @default(POST)
 
-  repostId String? @db.ObjectId
-  repost   Post?   @relation("repost", fields: [repostId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  repostBy Post[]  @relation("repost")
+  repostId Int?
+  repost   Post?  @relation("repost", fields: [repostId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  repostBy Post[] @relation("repost")
 
-  likeBy    User[]   @relation(fields: [likeByIds], references: [id], name: "likes")
-  likeByIds String[] @db.ObjectId
+  likeBy User[] @relation(name: "likes")
+  //   @relation(fields: [likeByIds], references: [id], name: "likes")
+  // likeByIds Int[] @db.ObjectId
 
   content String
-  files   String[]
+  // files   String[]
 
   comments Comment[]
 
-  author   User   @relation(fields: [authorId], references: [id])
-  authorId String @db.ObjectId
+  author   User @relation(fields: [authorId], references: [id])
+  authorId Int
 
   isBlocked Boolean  @default(false)
   isDeleted Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
+
+  @@index([authorId])
+  @@index([repostId])
 }
 
 model Comment {
-  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  id      Int    @id @default(autoincrement())
   content String
 
-  post   Post   @relation(fields: [postId], references: [id])
-  postId String
+  post   Post @relation(fields: [postId], references: [id])
+  postId Int
 
-  author   User   @relation(fields: [authorId], references: [id])
-  authorId String
+  author   User @relation(fields: [authorId], references: [id])
+  authorId Int
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
+
+  @@index([authorId])
+  @@index([postId])
 }
 
 enum PostType {

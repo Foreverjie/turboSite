@@ -10,7 +10,7 @@ export const postEditMeta: OpenApiMeta = {
   },
 }
 export const postEditInputSchema = z.object({
-  id: z.string(),
+  id: z.number(),
   content: z.string().optional(),
   isBlocked: z.boolean().optional(),
   files: z.string().array().optional(),
@@ -18,11 +18,11 @@ export const postEditInputSchema = z.object({
 export const postEditOutputSchema = z.object({
   type: z.string(),
   content: z.string(),
-  files: z.string().array(),
+  // files: z.string().array(),
   isBlocked: z.boolean(),
-  likeByIds: z.string().array(),
+  // likeByIds: z.string().array(),
   author: z.object({
-    id: z.string(),
+    id: z.number(),
     name: z.string(),
     avatar: z.string(),
   }),

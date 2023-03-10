@@ -9,15 +9,15 @@ export const postByIdMeta: OpenApiMeta = {
     summary: 'Get a post by id',
   },
 }
-export const postByIdInputSchema = z.object({ id: z.string() })
+export const postByIdInputSchema = z.object({ id: z.number() })
 export const postByIdOutputSchema = z.object({
   type: z.string(),
   content: z.string(),
-  files: z.string().array(),
+  // files: z.string().array(),
   isBlocked: z.boolean(),
   isDeleted: z.boolean(),
   author: z.object({
-    id: z.string(),
+    id: z.number(),
     name: z.string(),
     avatar: z.string(),
   }),

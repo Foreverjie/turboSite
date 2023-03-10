@@ -11,7 +11,7 @@ export const catListMeta: OpenApiMeta = {
 }
 export const catListInputSchema = z.void()
 export const catListOutputSchema = z
-  .object({ name: z.string(), id: z.string() })
+  .object({ name: z.string(), id: z.number() })
   .array()
 
 export type CatListOutput = z.TypeOf<typeof catListOutputSchema>
