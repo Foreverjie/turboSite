@@ -8,6 +8,9 @@ import { toast } from 'react-toastify'
 import type { AppRouter } from 'server/src/routes/router'
 
 function getBaseUrl() {
+  if (window !== undefined) {
+    return ''
+  }
   if (process.env.NEXT_PUBLIC_VERCEL_URL)
     // reference for vercel.com
     return `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
@@ -34,7 +37,10 @@ export const trpc = createTRPCNext<AppRouter>({
            * If you want to use SSR, you need to use the server's full URL
            * @link https://trpc.io/docs/ssr
            **/
-          url: typeof window !== undefined ? '/trpc' : `${getBaseUrl()}/trpc`,
+          url:
+            typeof window !== undefined
+              ? '/api/trpc'
+              : `${getBaseUrl()}/api/trpc`,
           fetch(url, options) {
             return fetch(url, {
               ...options,

@@ -10,13 +10,15 @@ import { SimpleColors } from 'ui/src/utils/prop-types'
 import useInput from 'ui/src/use-input'
 
 const Home: CustomPage = () => {
+  const { data, isLoading } = trpc.getHello.useQuery()
+  console.log('data', data)
   return (
     <div className="lg:max-w-6xl mx-auto">
       <Head>
         <title>Flash</title>
       </Head>
 
-      <Feed />
+      {/* <Feed /> */}
 
       {/* <Widget /> */}
     </div>
@@ -108,7 +110,8 @@ const HeaderItem = () => {
 }
 
 Home.getLayout = page => (
-  <WebLayout headerItem={<HeaderItem />}>{page}</WebLayout>
+  // <WebLayout headerItem={<HeaderItem />}>{page}</WebLayout>
+  <WebLayout headerItem={<></>}>{page}</WebLayout>
 )
 
 export default Home
