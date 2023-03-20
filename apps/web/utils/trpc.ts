@@ -34,7 +34,7 @@ export const trpc = createTRPCNext<AppRouter>({
            * If you want to use SSR, you need to use the server's full URL
            * @link https://trpc.io/docs/ssr
            **/
-          url: `${getBaseUrl()}/trpc`,
+          url: typeof window !== undefined ? '/trpc' : `${getBaseUrl()}/trpc`,
           fetch(url, options) {
             return fetch(url, {
               ...options,
