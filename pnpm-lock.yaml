@@ -133,6 +133,7 @@ importers:
     specifiers:
       '@headlessui/react': ^1.6.5
       '@heroicons/react': ^2.0.0
+      '@prisma/client': ^4.7.1
       '@tanstack/react-query': ^4.24.4
       '@trpc/client': ^10.10.0
       '@trpc/next': ^10.10.0
@@ -161,6 +162,7 @@ importers:
       postcss: ^8.4.5
       prettier: ^2.5.1
       prettier-plugin-tailwindcss: ^0.1.1
+      prisma: ^4.7.1
       react: ^18.2.0
       react-dom: ^18.2.0
       react-query: ^3.39.1
@@ -175,6 +177,7 @@ importers:
       zod: ^3.19.1
     dependencies:
       '@heroicons/react': 2.0.16_react@18.2.0
+      '@prisma/client': 4.11.0_prisma@4.11.0
       '@tanstack/react-query': 4.26.1_biqbaboplfbrettd7655fr4n2y
       '@trpc/client': 10.15.0_@trpc+server@10.15.0
       '@trpc/react': 9.27.4_b2buvnv3r6mwf7yi275uj76ode
@@ -190,6 +193,7 @@ importers:
       next-auth: 4.20.1_ld2jel3hspngo3u5lti2kgl2sq
       next-transpile-modules: 10.0.0
       nookies: 2.5.2
+      prisma: 4.11.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-query: 3.39.3_biqbaboplfbrettd7655fr4n2y
@@ -18275,6 +18279,7 @@ packages:
   /source-map/0.6.1:
     resolution: {integrity: sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==}
     engines: {node: '>=0.10.0'}
+    requiresBuild: true
 
   /source-map/0.7.4:
     resolution: {integrity: sha512-l3BikUxvPOcn5E74dZiq5BGsTb5yEwhaTSzccU6t4sDOH8NWJCstKO5QT2CvtFoK6F0saL7p9xHAqHOlCPJygA==}

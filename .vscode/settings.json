@@ -22,6 +22,7 @@
     "protobuf",
     "protoc",
     "stretchr",
+    "superjson",
     "toastify"
   ],
   "go.toolsEnvVars": {

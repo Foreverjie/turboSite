@@ -14,7 +14,7 @@ export function WebLayout({
 }: PropsWithChildren<AppLayoutProps>) {
   return (
     <>
-      <WebHeader isLoading={isLoading} headerItem={headerItem} />
+      {/* <WebHeader isLoading={isLoading} headerItem={headerItem} /> */}
 
       <div className="">
         <main className="">{children}</main>

@@ -10,7 +10,7 @@ import { SimpleColors } from 'ui/src/utils/prop-types'
 import useInput from 'ui/src/use-input'
 
 const Home: CustomPage = () => {
-  const { data, isLoading } = trpc.getHello.useQuery()
+  const { data, isLoading } = trpc.cat.list.useQuery()
   console.log('data', data)
   return (
     <div className="lg:max-w-6xl mx-auto">
@@ -33,11 +33,11 @@ type Helper = {
 const HeaderItem = () => {
   const { setVisible, bindings } = useModal()
 
-  const newPostMutation = trpc.useMutation(['post.New'], {
-    onSuccess: () => {
-      console.log('refetch posts')
-    },
-  })
+  // const newPostMutation = trpc.useMutation(['post.New'], {
+  //   onSuccess: () => {
+  //     console.log('refetch posts')
+  //   },
+  // })
 
   const openNewPostModal = () => {
     setVisible(true)
@@ -46,12 +46,13 @@ const HeaderItem = () => {
 
   const { value, setValue, reset, bindings: textBindings } = useInput('')
 
-  const newPost = async () => {
-    if (validatePost(value)) {
-      await newPostMutation.mutate({ content: value })
-      setVisible(false)
-    }
-  }
+  // const newPost = async () => {
+  //   if (validatePost(value)) {
+  //     await newPostMutation.mutate({ content: value })
+  //     setVisible(false)
+  //   }
+  // }
+  const newPost = () => {}
 
   const validatePost = (value: string): boolean => {
     if (!value) {
