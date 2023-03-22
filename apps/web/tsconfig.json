@@ -4,11 +4,7 @@
     "baseUrl": ".",
     "noEmit": true,
     "paths": {
-      "@/lib/*": ["lib/*"],
-      "@/components/*": ["components/*"],
-      "@/layouts/*": ["layouts/*"],
-      "@/utils/*": ["utils/*"],
-      "@/server/*": ["server/*"]
+      "@/*": ["./*"]
     }
   },
   "include": ["."],
