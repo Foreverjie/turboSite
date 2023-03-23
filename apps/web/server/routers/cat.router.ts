@@ -2,14 +2,14 @@ import { publicProcedure, router } from '../trpc'
 import {
   catCreateInputSchema,
   catListInputSchema,
-  //   catListMeta,
+  catListMeta,
   catListOutputSchema,
 } from '../schemas/cats'
 import { catListController, catCreateController } from '../controllers/cats'
 
 export const cat = router({
   list: publicProcedure
-    // .meta(catListMeta)
+    .meta(catListMeta)
     .input(catListInputSchema)
     .output(catListOutputSchema)
     .query(catListController),
