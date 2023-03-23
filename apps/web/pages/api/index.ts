@@ -15,7 +15,7 @@ export const config = {
   regions: [
     'arn1',
     'bom1',
-    'bru1',
+    // 'bru1',
     'cdg1',
     'cle1',
     'cpt1a',
