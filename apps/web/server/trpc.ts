@@ -8,7 +8,7 @@
  * @see https://trpc.io/docs/v10/procedures
  */
 import { initTRPC } from '@trpc/server'
-import type { OpenApiMeta } from 'trpc-openapi'
+import { OpenApiMeta } from 'trpc-openapi'
 import superjson from 'superjson'
 
 const t = initTRPC.meta<OpenApiMeta>().create({
