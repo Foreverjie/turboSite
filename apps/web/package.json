@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.1",
   "scripts": {
-    "dev": "next dev",
+    "dev": "prisma generate && next dev",
     "build": "next build",
     "start": "next start",
     "generate": "prisma generate",
@@ -36,7 +36,7 @@
     "react-query": "^3.39.1",
     "react-toastify": "^9.1.1",
     "swagger-ui-react": "^4.15.5",
-    "trpc-openapi": "^1.1.1",
+    "trpc-openapi": "^1.1.2",
     "ui": "0.0.0",
     "uuid": "^8.3.2",
     "zod": "^3.19.1"

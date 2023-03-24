@@ -1,4 +1,4 @@
-import { OpenApiMeta } from 'trpc-openapi'
+import type { OpenApiMeta } from 'trpc-openapi'
 import { z } from 'zod'
 
 export const catCreateMeta: OpenApiMeta = {
