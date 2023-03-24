@@ -1,6 +1,7 @@
 import { publicProcedure, router } from '../trpc'
 import {
   catCreateInputSchema,
+  catCreateMeta,
   catListInputSchema,
   catListMeta,
   catListOutputSchema,
@@ -14,6 +15,7 @@ export const cat = router({
     .output(catListOutputSchema)
     .query(catListController),
   create: publicProcedure
+    .meta(catCreateMeta)
     .input(catCreateInputSchema)
     .mutation(({ input }: any) => catCreateController({ input })),
 })

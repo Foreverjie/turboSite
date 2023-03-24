@@ -1,5 +1,5 @@
 import { router } from '../trpc'
-import { cat } from '.'
+import { cat } from './index'
 
 export const appRouter = router({
   cat,
