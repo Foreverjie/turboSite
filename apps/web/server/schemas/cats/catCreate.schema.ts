@@ -14,5 +14,7 @@ export const catCreateInputSchema = z.object({
     required_error: 'Name is required',
   }),
 })
+export const catCreateOutputSchema = z.object({ name: z.string() })
 
 export type CatCreateInput = z.TypeOf<typeof catCreateInputSchema>
+export type CatCreateOutput = z.TypeOf<typeof catCreateOutputSchema>

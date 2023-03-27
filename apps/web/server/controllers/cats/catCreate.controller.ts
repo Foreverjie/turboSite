@@ -1,16 +1,19 @@
 import prisma from '../../../prisma/prisma-client'
 import { Prisma } from '@prisma/client'
 import { TRPCError } from '@trpc/server'
-import { CatCreateInput } from '../../schemas/cats/catCreate.schema'
+import {
+  CatCreateInput,
+  CatCreateOutput,
+} from '../../schemas/cats/catCreate.schema'
 
 export const catCreateController = async ({
   input,
 }: {
   input: CatCreateInput
-}) => {
+}): Promise<CatCreateOutput> => {
   const { name } = input
   try {
-    const note = await prisma.cat.create({
+    const cat = await prisma.cat.create({
       data: {
         name,
       },
@@ -20,12 +23,7 @@ export const catCreateController = async ({
       },
     })
 
-    return {
-      status: 'success',
-      data: {
-        note,
-      },
-    }
+    return cat
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === 'P2002') {

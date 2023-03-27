@@ -1,6 +1,4 @@
 import '../styles/globals.css'
-
-import { useEffect, useState } from 'react'
 import { trpc } from '../utils/trpc'
 import { SessionProvider } from 'next-auth/react'
 import { CustomAppProps } from '@/lib/types/page.types'
