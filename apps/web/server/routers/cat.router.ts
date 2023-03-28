@@ -1,4 +1,4 @@
-import { publicProcedure, router } from '../trpc'
+import { protectedProcedure, publicProcedure, router } from '../trpc'
 import {
   catCreateInputSchema,
   catCreateMeta,
@@ -8,8 +8,23 @@ import {
   catListOutputSchema,
 } from '../schemas/cats'
 import { catListController, catCreateController } from '../controllers/cats'
+import { z } from 'zod'
 
 export const cat = router({
+  getSecretCat: protectedProcedure
+    .meta({
+      openapi: {
+        summary: 'Get a secret cat',
+        method: 'GET',
+        path: '/cat.getSecretCat',
+        tags: ['cat'],
+      },
+    })
+    .input(z.void())
+    .output(z.string())
+    .query(() => {
+      return 'you can now see this secret cat! Meow!'
+    }),
   list: publicProcedure
     .meta(catListMeta)
     .input(catListInputSchema)

@@ -10,8 +10,8 @@ import { SimpleColors } from 'ui/src/utils/prop-types'
 import useInput from 'ui/src/use-input'
 
 const Home: CustomPage = () => {
-  const { data, isLoading } = trpc.cat.list.useQuery()
-  console.log('data', data)
+  // const { data, isLoading } = trpc.cat.list.useQuery()
+  const { data: secret } = trpc.cat.getSecretCat.useQuery()
   return (
     <div className="lg:max-w-6xl mx-auto">
       <Head>
