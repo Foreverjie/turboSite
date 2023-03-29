@@ -12,6 +12,7 @@ import { type CreateNextContextOptions } from '@trpc/server/adapters/next'
 import { OpenApiMeta } from 'trpc-openapi'
 import superjson from 'superjson'
 import { type Session } from 'next-auth'
+import { getServerAuthSession } from './auth'
 
 type CreateContextOptions = {
   session: Session | null
@@ -41,7 +42,6 @@ const createInnerTRPCContext = (opts: CreateContextOptions) => {
 export const createTRPCContext = async (opts: CreateNextContextOptions) => {
   const { req, res } = opts
 
-  // Get the session from the server using the unstable_getServerSession wrapper function
   const session = await getServerAuthSession({ req, res })
 
   return createInnerTRPCContext({

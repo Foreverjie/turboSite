@@ -16,6 +16,7 @@
     "googleapis",
     "grpclog",
     "joho",
+    "nextauth",
     "openapi",
     "pnpm",
     "Pressable",

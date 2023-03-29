@@ -1,50 +1,7 @@
 import { AuthSignInInput, AuthSignInOutput } from '../../schemas/auth'
-import prisma from '../../../prisma/prisma-client'
+import prisma from '@/prisma/prisma-client'
 import { TRPCError } from '@trpc/server'
-import { signJwt } from '../../utils/jwt'
-import { CookieOptions } from 'express'
 import bcrypt from 'bcryptjs'
-import config from 'config'
-
-const accessTokenCookieOptions: CookieOptions = {
-  expires: new Date(
-    Date.now() + config.get<number>('accessTokenExpiresIn') * 60 * 1000,
-  ),
-  maxAge: config.get<number>('accessTokenExpiresIn') * 60 * 1000,
-  httpOnly: true,
-  sameSite: 'lax',
-}
-
-// Only set secure to true in production
-if (process.env.NODE_ENV === 'production')
-  accessTokenCookieOptions.secure = true
-
-// Sign Token
-export const signToken = async (user: any) => {
-  // Sign the access token
-  const accessToken = signJwt(
-    {
-      sub: user.id.toString(),
-      user: {
-        id: user.id.toString(),
-        name: user.name,
-        email: user.email,
-        avatar: user.avatar,
-      },
-    },
-    {
-      expiresIn: `${config.get<number>('accessTokenExpiresIn') ?? 30} days`,
-    },
-  )
-
-  // Create a Session
-  // redisClient.set(user.id.toString(), JSON.stringify(user), {
-  //   EX: config.get<number>('accessTokenExpiresIn') * 60 * 60 * 24,
-  // })
-
-  // Return access token
-  return { accessToken }
-}
 
 export const authSignInController = async ({
   input,
@@ -78,14 +35,6 @@ export const authSignInController = async ({
       message: `Invalid email or password`,
     })
   }
-  const { accessToken } = await signToken(user)
 
-  // can middleware or context do this?
-  ctx.res.cookie('accessToken', accessToken, accessTokenCookieOptions)
-  ctx.res.cookie('logged_in', true, {
-    ...accessTokenCookieOptions,
-    httpOnly: false,
-  })
-
-  return accessToken
+  return user
 }

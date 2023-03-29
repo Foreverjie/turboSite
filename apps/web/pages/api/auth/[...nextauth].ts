@@ -1,32 +1,11 @@
-import jwt from 'jsonwebtoken'
 import NextAuth from 'next-auth/next'
 import CredentialsProvider from 'next-auth/providers/credentials'
-import axios from 'axios'
-// import { setCookie } from 'nookies'
-
-// import { PrismaAdapter } from '@next-auth/prisma-adapter'
-
-// export const authOptions = {
-//   // Include user.id on session
-//   callbacks: {
-//     session({ session, user }: any) {
-//       if (session.user) {
-//         session.user.id = user.id
-//       }
-//       return session
-//     },
-//   },
-//   // Configure one or more authentication providers
-//   adapter: PrismaAdapter(prisma),
-//   providers: [
-//     GithubProvider({
-//       clientId: env.GITHUB_CLIENT_ID,
-//       clientSecret: env.GITHUB_CLIENT_SECRET,
-//     }),
-//   ],
-// }
+import { authSignInInputSchema } from '@/server/schemas/auth'
+import prisma from '@/prisma/prisma-client'
+import bcrypt from 'bcryptjs'
 
 export const AuthOptions = {
+  secret: process.env.AUTH_SECRET,
   providers: [
     CredentialsProvider({
       name: 'Flash',
@@ -36,29 +15,26 @@ export const AuthOptions = {
       },
       async authorize(credentials) {
         try {
-          const data = await axios.post(
-            process.env.VERCEL_URL
-              ? `https://${process.env.VERCEL_URL}/trpc/auth.signIn`
-              : 'http://localhost:9797/trpc/auth.signIn',
-            {
-              password: credentials?.password,
-              email: credentials?.email,
-            },
-            {
-              headers: {
-                accept: '*/*',
-                'Content-Type': 'application/json',
-              },
-            },
+          const { email, password } = await authSignInInputSchema.parseAsync(
+            credentials,
           )
 
-          // setCookie({ res }, 'access-token', data?.data?.result?.data, {
-          //   maxAge: 10 * 24 * 60 * 60,
-          //   path: '/',
-          //   httpOnly: true,
-          // })
+          const user = await prisma.user.findUnique({
+            where: { email },
+          })
 
-          return data?.data?.result
+          if (!user) return null
+
+          const pwdMatch = await bcrypt.compare(password, user.password)
+
+          if (!pwdMatch) return null
+
+          return {
+            id: user.id.toString(),
+            email,
+            username: user.name,
+            avatar: user.avatar,
+          }
         } catch (error: any) {
           throw new Error(error?.response?.data?.error?.message)
         }
@@ -69,30 +45,29 @@ export const AuthOptions = {
     signIn: '/signIn',
   },
   callbacks: {
-    async jwt({ token, user, account }: any) {
-      if (account && user) {
-        console.log('data', user.data)
-        return {
-          ...token,
-          accessToken: user.data,
-        }
+    async jwt({ token, user }: any) {
+      if (user) {
+        token.userId = user.id.toString()
+        token.email = user.email
+        token.username = user.username
+        token.avatar = user.avatar
       }
+
       return token
     },
-    async session({ session, token }: any) {
-      const data: any = jwt.decode(token.accessToken as string)
-      const user = {
-        id: data?.user?.id,
-        accessToken: token.accessToken,
-        email: data?.user?.email,
-        name: data?.user.name,
-        image: data?.user?.avatar,
+    session: async ({ session, token }: any) => {
+      if (token) {
+        session.user.userId = token.userId
+        session.user.email = token.email
+        session.user.username = token.username
+        session.user.avatar = token.avatar
       }
-      return {
-        ...session,
-        user,
-      }
+
+      return session
     },
+  },
+  jwt: {
+    maxAge: 15 * 24 * 30 * 60, // 15 days
   },
 }
 

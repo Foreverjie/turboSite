@@ -13,12 +13,12 @@ function MyApp({
 }: CustomAppProps) {
   const AnyComponent = Component as any
 
-  const onError = (error: any) => {
-    toast.error(`Something went wrong : ${error?.message}`)
-    if (error.data.code === 'UNAUTHORIZED') {
-      setVisible(true)
-    }
-  }
+  // const onError = (error: any) => {
+  //   toast.error(`Something went wrong : ${error?.message}`)
+  //   if (error.data.code === 'UNAUTHORIZED') {
+  //     setVisible(true)
+  //   }
+  // }
   const getLayout = Component.getLayout || (page => page)
   const { visible, setVisible } = useModal()
 
