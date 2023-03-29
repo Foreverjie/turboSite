@@ -1,6 +1,7 @@
 import { AuthSignInInput, AuthSignInOutput } from '../../schemas/auth'
 import prisma from '@/prisma/prisma-client'
 import { TRPCError } from '@trpc/server'
+import { signIn } from 'next-auth/react'
 import bcrypt from 'bcryptjs'
 
 export const authSignInController = async ({
@@ -12,10 +13,16 @@ export const authSignInController = async ({
 }): Promise<AuthSignInOutput> => {
   const { email, password } = input
 
+  // const res = await signIn('credentials', {
+  //   redirect: false,
+  //   email,
+  //   password,
+  // })
+  // console.log('res', res)
+
   const user = await prisma.user.findUnique({
     where: { email },
     select: {
-      id: true,
       email: true,
       password: true,
       name: true,
@@ -36,5 +43,9 @@ export const authSignInController = async ({
     })
   }
 
-  return user
+  return {
+    email: user.email,
+    name: user.name,
+    avatar: user.avatar,
+  }
 }
