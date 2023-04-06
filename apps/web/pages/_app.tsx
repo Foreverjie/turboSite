@@ -6,6 +6,7 @@ import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { AuthModal } from '@/components/AuthModal'
 import { useModal } from 'ui'
+import { ProtectedLayout } from '@/layouts/protectedLayout'
 
 function MyApp({
   Component,
@@ -19,12 +20,19 @@ function MyApp({
   //     setVisible(true)
   //   }
   // }
+  const requireAuth = Component.requireAuth || false
   const getLayout = Component.getLayout || (page => page)
   const { visible, setVisible } = useModal()
 
   return (
     <SessionProvider session={session}>
-      {getLayout(<AnyComponent {...pageProps} />)}
+      {requireAuth ? (
+        <ProtectedLayout>
+          {getLayout(<AnyComponent {...pageProps} />)}
+        </ProtectedLayout>
+      ) : (
+        getLayout(<AnyComponent {...pageProps} />)
+      )}
       <ToastContainer
         position="top-right"
         autoClose={5000}

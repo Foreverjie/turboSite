@@ -13,7 +13,7 @@ export default function SignUp() {
     const res = await signIn('credentials', {
       email,
       password,
-      callbackUrl: `${window.location.origin}/`,
+      callbackUrl: `${window.location.origin}/${router.query.returnUrl}`,
       redirect: false,
     })
     if (res?.url) {

@@ -8,6 +8,7 @@ export type CustomPage = NextPage & {
   redirectUnAuthenticatedTo?: string
   suppressFirstRenderFlicker?: boolean
   getLayout?: (component: JSX.Element) => JSX.Element
+  requireAuth?: boolean
 }
 
 export interface CustomAppProps extends Omit<AppProps, 'Component'> {
