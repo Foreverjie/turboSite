@@ -13,6 +13,7 @@ import { OpenApiMeta } from 'trpc-openapi'
 import superjson from 'superjson'
 import { type Session } from 'next-auth'
 import { getServerAuthSession } from './auth'
+import { requireUser, restrictTo } from './middlewares'
 
 type CreateContextOptions = {
   session: Session | null
@@ -63,21 +64,6 @@ const t = initTRPC.meta<OpenApiMeta>().create({
 })
 
 /**
- * Reusable middleware that enforces users are logged in before running the
- * procedure
- */
-const enforceUserIsAuth = t.middleware(({ ctx, next }: any) => {
-  if (!ctx.session || !ctx.session.user) {
-    throw new TRPCError({ code: 'UNAUTHORIZED' })
-  }
-  return next({
-    ctx: {
-      // infers the `session` as non-nullable
-      session: { ...ctx.session, user: ctx.session.user },
-    },
-  })
-})
-/**
  * Create a router
  * @see https://trpc.io/docs/v10/router
  */
@@ -105,4 +91,6 @@ export const mergeRouters = t.mergeRouters
  *
  * @see https://trpc.io/docs/procedures
  */
-export const protectedProcedure = t.procedure.use(enforceUserIsAuth)
+export const protectedProcedure = t.procedure.use(requireUser)
+
+export const adminProcedure = protectedProcedure.use(restrictTo(['admin']))
