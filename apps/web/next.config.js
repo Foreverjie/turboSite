@@ -9,4 +9,14 @@ module.exports = withTM({
   typescript: {
     ignoreBuildErrors: true,
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'gravatar.com',
+        port: '',
+        pathname: '/*',
+      },
+    ],
+  },
 })
