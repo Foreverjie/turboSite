@@ -6,9 +6,8 @@ generator client {
 }
 
 datasource db {
-  provider     = "mysql"
+  provider     = "postgresql"
   url          = env("DATABASE_URL")
-  relationMode = "prisma"
 }
 
 model Cat {
@@ -47,7 +46,7 @@ model Post {
   type PostType @default(POST)
 
   repostId Int?
-  repost   Post?  @relation("repost", fields: [repostId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  repost   Post?  @relation("repost", fields: [repostId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   repostBy Post[] @relation("repost")
 
   likeBy User[] @relation(name: "likes")
