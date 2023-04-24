@@ -50,7 +50,7 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
   })
 }
 
-const t = initTRPC.meta<OpenApiMeta>().create({
+export const t = initTRPC.meta<OpenApiMeta>().create({
   /**
    * @see https://trpc.io/docs/v10/data-transformers
    */

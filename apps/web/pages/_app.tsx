@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import { AuthModal } from '@/components/AuthModal'
 import { useModal } from 'ui'
 import { ProtectedLayout } from '@/layouts/protectedLayout'
+import { Analytics } from '@vercel/analytics/react'
 
 function MyApp({
   Component,
@@ -25,33 +26,36 @@ function MyApp({
   const { visible, setVisible } = useModal()
 
   return (
-    <SessionProvider session={session}>
-      {requireAuth ? (
-        <ProtectedLayout>
-          {getLayout(<AnyComponent {...pageProps} />)}
-        </ProtectedLayout>
-      ) : (
-        getLayout(<AnyComponent {...pageProps} />)
-      )}
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
-      <AuthModal
-        visible={visible}
-        onClose={() => {
-          setVisible(false)
-        }}
-      />
-    </SessionProvider>
+    <>
+      <SessionProvider session={session}>
+        {requireAuth ? (
+          <ProtectedLayout>
+            {getLayout(<AnyComponent {...pageProps} />)}
+          </ProtectedLayout>
+        ) : (
+          getLayout(<AnyComponent {...pageProps} />)
+        )}
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
+        <AuthModal
+          visible={visible}
+          onClose={() => {
+            setVisible(false)
+          }}
+        />
+      </SessionProvider>
+      <Analytics />
+    </>
   )
 }
 
