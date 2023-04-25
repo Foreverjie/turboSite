@@ -20,7 +20,7 @@ model User {
   name     String
   email    String @unique
   password String
-  role     String @default("user")
+  role     UserType @default(USER)
   avatar   String @default("https://gravatar.com/avatar/placeholder?s=200")
 
   // posts    Post[] @relation(fields: [postIDs], references: [id], name: "posts")
@@ -90,4 +90,10 @@ model Comment {
 enum PostType {
   POST
   REPOST
+}
+
+enum UserType {
+  USER
+  PERMIUM
+  ADMIN
 }
