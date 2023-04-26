@@ -19,7 +19,7 @@ export const auth = router({
   //     .output(authSignInOutputSchema)
   //     .mutation(authSignInController),
   signUp: publicProcedure
-    .meta(authSignUpMeta)
+    // .meta(authSignUpMeta)
     .input(authSignUpInputSchema)
     .output(authSignUpOutputSchema)
     .mutation(authSignUpController),

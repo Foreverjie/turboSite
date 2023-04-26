@@ -3,15 +3,15 @@ import { publicProcedure, router } from '../trpc'
 import { cat, auth } from '.'
 
 export const appRouter = router({
-  // sayHello: publicProcedure
-  //   .meta({
-  //     openapi: { method: 'GET', path: '/say-hello', tags: ['user'] },
-  //   })
-  //   .input(z.object({ name: z.string() }))
-  //   .output(z.object({ greeting: z.string() }))
-  //   .query(({ input }) => {
-  //     return { greeting: `Hello ${input.name}!` }
-  //   }),
+  sayHello: publicProcedure
+    // .meta({
+    //   description: 'Say hello',
+    // })
+    .input(z.object({ name: z.string() }))
+    .output(z.object({ greeting: z.string() }))
+    .query(({ input }) => {
+      return { greeting: `Hello ${input.name}!` }
+    }),
   cat,
   auth,
 })

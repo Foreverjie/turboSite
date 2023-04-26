@@ -26,12 +26,12 @@ export const cat = router({
       return 'you can now see this secret cat! Meow!'
     }),
   list: publicProcedure
-    .meta(catListMeta)
+    // .meta(catListMeta)
     .input(catListInputSchema)
     .output(catListOutputSchema)
     .query(catListController),
   create: publicProcedure
-    .meta(catCreateMeta)
+    // .meta(catCreateMeta)
     .input(catCreateInputSchema)
     .output(catCreateOutputSchema)
     .mutation(({ input }: any) => catCreateController({ input })),
