@@ -11,30 +11,25 @@ import { catListController, catCreateController } from '../controllers/cats'
 import { z } from 'zod'
 
 export const cat = router({
-  getSecretCat: protectedProcedure
-    .meta({
-      openapi: {
-        summary: 'Get a secret cat',
-        method: 'GET',
-        path: '/cat.getSecretCat',
-        tags: ['cat'],
-      },
-    })
-    .input(z.void())
-    .output(z.string())
-    .query(() => {
-      return 'you can now see this secret cat! Meow!'
-    }),
+  // getSecretCat: protectedProcedure
+  //   .meta({
+  //     description: 'Get a secret cat',
+  //   })
+  //   .input(z.void())
+  //   .output(z.string())
+  //   .query(() => {
+  //     return 'you can now see this secret cat! Meow!'
+  //   }),
   list: publicProcedure
-    // .meta(catListMeta)
+    .meta(catListMeta)
     .input(catListInputSchema)
     .output(catListOutputSchema)
     .query(catListController),
-  create: publicProcedure
-    // .meta(catCreateMeta)
-    .input(catCreateInputSchema)
-    .output(catCreateOutputSchema)
-    .mutation(({ input }: any) => catCreateController({ input })),
+  // create: publicProcedure
+  //   .meta(catCreateMeta)
+  //   .input(catCreateInputSchema)
+  //   .output(catCreateOutputSchema)
+  //   .mutation(({ input }: any) => catCreateController({ input })),
 })
 // .middleware(deserializeUser)
 // .mutation('Get', {

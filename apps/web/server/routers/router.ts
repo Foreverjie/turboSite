@@ -4,9 +4,9 @@ import { cat, auth } from '.'
 
 export const appRouter = router({
   sayHello: publicProcedure
-    // .meta({
-    //   description: 'Say hello',
-    // })
+    .meta({
+      description: 'Say hello',
+    })
     .input(z.object({ name: z.string() }))
     .output(z.object({ greeting: z.string() }))
     .query(({ input }) => {
