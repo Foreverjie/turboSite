@@ -1,5 +1,5 @@
 import { AuthSignInInput, AuthSignInOutput } from '../../schemas/auth'
-import prisma from '@/prisma/prisma-client'
+import prisma from '~/prisma/prisma-client'
 import { TRPCError } from '@trpc/server'
 import { signIn } from 'next-auth/react'
 import bcrypt from 'bcryptjs'

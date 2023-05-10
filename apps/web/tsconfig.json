@@ -4,9 +4,23 @@
     "baseUrl": ".",
     "noEmit": true,
     "paths": {
-      "@/*": ["./*"]
-    }
+      "~/*": [
+        "*"
+      ]
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "strictNullChecks": true,
+    "strict": true
   },
-  "include": ["."],
-  "exclude": ["node_modules"]
+  "include": [
+    ".",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

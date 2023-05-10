@@ -5,7 +5,7 @@ import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server'
 import { toast } from 'react-toastify'
 // ℹ️ Type-only import:
 // https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-8.html#type-only-imports-and-export
-import type { AppRouter } from '@/server/routers/router'
+import type { AppRouter } from '~/server/routers/router'
 import superjson from 'superjson'
 
 function getBaseUrl() {

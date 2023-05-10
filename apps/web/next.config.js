@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
-const withTM = require('next-transpile-modules')(['ui'])
+// const withTM = require('next-transpile-modules')(['ui'])
 
-module.exports = withTM({
+module.exports = {
   reactStrictMode: true,
   experimental: {
     forceSwcTransforms: true,
@@ -9,6 +9,7 @@ module.exports = withTM({
   typescript: {
     ignoreBuildErrors: true,
   },
+  transpilePackages: ['ui'],
   images: {
     remotePatterns: [
       {
@@ -19,4 +20,4 @@ module.exports = withTM({
       },
     ],
   },
-})
+}

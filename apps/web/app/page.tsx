@@ -1,6 +1,8 @@
-import { CustomPage } from '@/lib/types/page.types'
+'use client'
+
+import { CustomPage } from '~/lib/types/page.types'
 import Feed from 'components/Feed/Feed'
-import { WebLayout } from '@/layouts/WebLayout'
+import { WebLayout } from '~/layouts/WebLayout'
 import Head from 'next/head'
 import { PlusCircleIcon } from '@heroicons/react/24/outline'
 import { Modal, Text, useModal, Button, Textarea, Loading } from 'ui'

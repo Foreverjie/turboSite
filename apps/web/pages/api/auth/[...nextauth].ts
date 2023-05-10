@@ -1,7 +1,7 @@
 import NextAuth from 'next-auth/next'
 import CredentialsProvider from 'next-auth/providers/credentials'
-import { authSignInInputSchema } from '@/server/schemas/auth'
-import prisma from '@/prisma/prisma-client'
+import { authSignInInputSchema } from '~/server/schemas/auth'
+import prisma from '~/prisma/prisma-client'
 import bcrypt from 'bcryptjs'
 
 export const AuthOptions = {

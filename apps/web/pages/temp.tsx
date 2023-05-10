@@ -1,4 +1,4 @@
-import ThreeScene from '@/components/ThreeScene/ThreeScene'
+import ThreeScene from '~/components/ThreeScene/ThreeScene'
 import React from 'react'
 
 function Temp() {
