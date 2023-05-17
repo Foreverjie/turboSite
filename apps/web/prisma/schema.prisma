@@ -6,9 +6,8 @@ generator client {
 }
 
 datasource db {
-  provider     = "mysql"
+  provider     = "postgresql"
   url          = env("DATABASE_URL")
-  relationMode = "prisma"
 }
 
 model Cat {
@@ -21,7 +20,7 @@ model User {
   name     String
   email    String @unique
   password String
-  role     String @default("user")
+  role     UserType @default(USER)
   avatar   String @default("https://gravatar.com/avatar/placeholder?s=200")
 
   // posts    Post[] @relation(fields: [postIDs], references: [id], name: "posts")
@@ -47,7 +46,7 @@ model Post {
   type PostType @default(POST)
 
   repostId Int?
-  repost   Post?  @relation("repost", fields: [repostId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  repost   Post?  @relation("repost", fields: [repostId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   repostBy Post[] @relation("repost")
 
   likeBy User[] @relation(name: "likes")
@@ -91,4 +90,10 @@ model Comment {
 enum PostType {
   POST
   REPOST
+}
+
+enum UserType {
+  USER
+  PERMIUM
+  ADMIN
 }

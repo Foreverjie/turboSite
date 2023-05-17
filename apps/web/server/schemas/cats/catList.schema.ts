@@ -1,13 +1,8 @@
-import type { OpenApiMeta } from 'trpc-openapi'
+import type { TRPCPanelMeta } from 'trpc-panel'
 import { z } from 'zod'
 
-export const catListMeta: OpenApiMeta = {
-  openapi: {
-    method: 'GET',
-    path: '/cat.list',
-    tags: ['cat'],
-    summary: 'Read all cats',
-  },
+export const catListMeta: TRPCPanelMeta = {
+  description: 'List all cats',
 }
 export const catListInputSchema = z.void()
 export const catListOutputSchema = z

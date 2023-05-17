@@ -1,10 +1,10 @@
 import { TRPCError } from '@trpc/server'
-import { middleware } from '../trpc'
+// import { t } from '../trpc'
 /**
  * Reusable middleware that enforces users are logged in before running the
  * procedure
  */
-export const requireUser = middleware(({ ctx, next }: any) => {
+export const requireUser = ({ ctx, next }: any) => {
   if (!ctx.session || !ctx.session.user) {
     throw new TRPCError({ code: 'UNAUTHORIZED' })
   }
@@ -14,4 +14,4 @@ export const requireUser = middleware(({ ctx, next }: any) => {
       session: { ...ctx.session, user: ctx.session.user },
     },
   })
-})
+}

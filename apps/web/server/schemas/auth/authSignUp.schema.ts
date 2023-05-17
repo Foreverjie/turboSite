@@ -1,13 +1,7 @@
-import { OpenApiMeta } from 'trpc-openapi'
 import { z } from 'zod'
 
-export const authSignUpMeta: OpenApiMeta = {
-  openapi: {
-    method: 'POST',
-    path: '/auth.signUp',
-    tags: ['auth'],
-    summary: 'User Sign up',
-  },
+export const authSignUpMeta = {
+  description: 'Sign up',
 }
 export const authSignUpInputSchema = z.object({
   email: z.string().email(),

@@ -9,11 +9,12 @@
  */
 import { initTRPC, TRPCError } from '@trpc/server'
 import { type CreateNextContextOptions } from '@trpc/server/adapters/next'
-import { OpenApiMeta } from 'trpc-openapi'
 import superjson from 'superjson'
 import { type Session } from 'next-auth'
 import { getServerAuthSession } from './auth'
 import { requireUser, restrictTo } from './middlewares'
+import { TRPCPanelMeta } from 'trpc-panel'
+import { ZodError } from 'zod'
 
 type CreateContextOptions = {
   session: Session | null
@@ -50,7 +51,8 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
   })
 }
 
-const t = initTRPC.meta<OpenApiMeta>().create({
+// export const t = initTRPC.meta<TRPCPanelMeta>().create({
+const t = initTRPC.create({
   /**
    * @see https://trpc.io/docs/v10/data-transformers
    */
@@ -58,8 +60,15 @@ const t = initTRPC.meta<OpenApiMeta>().create({
   /**
    * @see https://trpc.io/docs/v10/error-formatting
    */
-  errorFormatter({ shape }) {
-    return shape
+  errorFormatter({ shape, error }) {
+    return {
+      ...shape,
+      data: {
+        ...shape.data,
+        zodError:
+          error.cause instanceof ZodError ? error.cause.flatten() : null,
+      },
+    }
   },
 })
 
