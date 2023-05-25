@@ -1,3 +1,5 @@
+'use client'
+
 import { signIn, SignInResponse } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import React, { MutableRefObject, useState } from 'react'

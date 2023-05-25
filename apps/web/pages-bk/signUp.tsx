@@ -1,4 +1,4 @@
-import { trpc } from '@/utils/trpc'
+import { trpc } from '~/utils/trpc'
 import React, { useState } from 'react'
 
 function SignUp() {
