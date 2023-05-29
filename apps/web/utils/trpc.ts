@@ -65,7 +65,22 @@
 // export type RouterInput = inferRouterInputs<AppRouter>
 // export type RouterOutput = inferRouterOutputs<AppRouter>
 
-import { createTRPCReact } from '@trpc/react-query'
+import { createTRPCReact, httpLink } from '@trpc/react-query'
 import type { AppRouter } from '~/server/routers'
 
 export const trpc = createTRPCReact<AppRouter>()
+
+import { createTRPCMsw } from 'msw-trpc'
+
+export const trpcMsw = createTRPCMsw<AppRouter>() /* 👈 */
+
+export const mockedTRPC = createTRPCReact<AppRouter>({
+  unstable_overrides: {
+    useMutation: {
+      async onSuccess(opts) {
+        await opts.originalFn()
+        await opts.queryClient.invalidateQueries()
+      },
+    },
+  },
+})
