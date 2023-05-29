@@ -90,7 +90,7 @@ export const StyledCard = styled(
           transition: '$card',
         },
       },
-      isPressable: {
+      isPressAble: {
         true: {
           cursor: 'pointer',
           us: 'none',

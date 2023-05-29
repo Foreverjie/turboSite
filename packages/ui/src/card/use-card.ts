@@ -20,7 +20,7 @@ interface Props extends PressEvents, FocusableProps {
   ref: ReactRef<HTMLDivElement | null>
   variant?: CardVariants
   borderWeight?: NormalWeights
-  isPressable?: boolean
+  isPressAble?: boolean
   isHoverable?: boolean
   disableRipple?: boolean
   disableAnimation?: boolean
@@ -47,7 +47,7 @@ export const useCard = (props: UseCardProps) => {
     variant = 'shadow',
     isHoverable = false,
     borderWeight = 'light',
-    isPressable = false,
+    isPressAble = false,
     onClick,
     onPress,
     autoFocus,
@@ -69,7 +69,7 @@ export const useCard = (props: UseCardProps) => {
   }
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (!isPressable) {
+    if (!isPressAble) {
       return
     }
     handleDrip(e)
@@ -86,7 +86,7 @@ export const useCard = (props: UseCardProps) => {
   }
 
   const { isPressed, pressProps } = usePress({
-    isDisabled: !isPressable,
+    isDisabled: !isPressAble,
     onPress: handlePress,
     allowTextSelectionOnPress,
     ...otherProps,
@@ -107,21 +107,21 @@ export const useCard = (props: UseCardProps) => {
     (props = {}) => {
       return {
         ...mergeProps(
-          isPressable ? { ...pressProps, ...focusProps } : {},
+          isPressAble ? { ...pressProps, ...focusProps } : {},
           isHoverable ? hoverProps : {},
           otherProps,
           props,
         ),
       }
     },
-    [isPressable, isHoverable, pressProps, focusProps, hoverProps, otherProps],
+    [isPressAble, isHoverable, pressProps, focusProps, hoverProps, otherProps],
   )
 
   return {
     cardRef,
     variant,
     borderWeight,
-    isPressable,
+    isPressAble,
     isHovered,
     isPressed,
     disableAnimation,

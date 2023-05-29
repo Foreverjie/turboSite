@@ -1,23 +1,23 @@
-import React, { ReactElement } from 'react'
+import React, { Fragment, ReactElement } from 'react'
 import { Loading } from 'ui'
 import { trpc } from '../../utils/trpc'
-import PostCard from './PostCard'
+// import PostCard from './PostCard'
 
 // inferQueryOutput<'post.All'>
 const Feed = (): ReactElement => {
   const { data: posts, isLoading } = trpc.post.all.useQuery()
 
   return (
-    <>
+    <Fragment>
       <div className="flex items-center justify-center">
-        {isLoading && <Loading />}
+        {/* {isLoading && <Loading />} */}
       </div>
 
-      {posts &&
+      {/* {posts &&
         posts.map(p => {
           return <PostCard key={p.id} {...p} />
-        })}
-    </>
+        })} */}
+    </Fragment>
   )
 }
 

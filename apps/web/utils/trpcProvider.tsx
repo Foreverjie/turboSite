@@ -9,8 +9,13 @@ import SuperJSON from 'superjson'
 export const TrpcProvider: React.FC<{ children: React.ReactNode }> = p => {
   function getBaseUrl() {
     if (typeof window !== 'undefined')
-      // browser should use relative path
-      return ''
+      if (window.Cypress) {
+        // we are running in Cypress
+        // so do something different here
+        return 'http://localhost:9797'
+      }
+    // browser should use relative path
+    return ''
     if (process.env.VERCEL_URL)
       // reference for vercel.com
       return `https://${process.env.VERCEL_URL}`

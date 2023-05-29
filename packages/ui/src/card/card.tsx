@@ -32,7 +32,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
       cardRef,
       variant,
       isFocusVisible,
-      isPressable,
+      isPressAble,
       isPressed,
       disableAnimation,
       disableRipple,
@@ -51,14 +51,14 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
         disableAnimation={disableAnimation}
         isFocusVisible={isFocusVisible}
         isHovered={isHovered}
-        isPressable={isPressable}
+        isPressAble={isPressAble}
         isPressed={isPressed}
-        role={isPressable ? 'button' : 'section'}
-        tabIndex={isPressable ? 0 : -1}
+        role={isPressAble ? 'button' : 'section'}
+        tabIndex={isPressAble ? 0 : -1}
         variant={variant}
         {...getCardProps()}
       >
-        {isPressable && !disableAnimation && !disableRipple && (
+        {isPressAble && !disableAnimation && !disableRipple && (
           <Drip {...dripBindings} />
         )}
         {children}

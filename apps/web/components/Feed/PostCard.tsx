@@ -4,19 +4,14 @@ import {
 } from '@heroicons/react/24/outline'
 import React from 'react'
 import { Card, Grid, Text, Link, Avatar } from 'ui'
-import { RouterOutput, trpc } from '../../utils/trpc'
+import { trpc } from '../../utils/trpc'
 import { useModal } from 'ui'
 import { AuthModal } from '../../components/AuthModal'
 import { requireAuth } from '../../utils/auth'
 import { useSession } from 'next-auth/react'
 import { useQueryClient } from '@tanstack/react-query'
 
-function PostCard({
-  id,
-  author,
-  content,
-  likeByIds,
-}: RouterOutput['post']['all'][number]) {
+function PostCard({ id, author, content, likeByIds }) {
   const utils = trpc.useContext()
   const queryClient = useQueryClient()
   const likePost = trpc.post.like.useMutation({
@@ -47,7 +42,7 @@ function PostCard({
 
   return (
     <>
-      <Card isPressable borderWeight="light">
+      <Card isPressAble borderWeight="light">
         <Card.SideContent css={{ pt: '$6', ai: 'flex-start' }}>
           <Avatar
             alt={author.name}
