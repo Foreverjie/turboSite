@@ -3,8 +3,11 @@ import {
   postAllMeta,
   postAllInputSchema,
   postAllOutputSchema,
+  postNewMeta,
+  postNewInputSchema,
+  postNewOutputSchema,
 } from '../schemas/posts'
-import { postAllController } from '../controllers/posts'
+import { postAllController, postNewController } from '../controllers/posts'
 
 export const post = router({
   all: publicProcedure
@@ -12,4 +15,9 @@ export const post = router({
     .input(postAllInputSchema)
     .output(postAllOutputSchema)
     .query(postAllController),
+  new: protectedProcedure
+    .meta(postNewMeta)
+    .input(postNewInputSchema)
+    .output(postNewOutputSchema)
+    .mutation(postNewController),
 })

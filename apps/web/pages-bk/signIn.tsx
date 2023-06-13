@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import { signIn } from 'next-auth/react'
 import { useSession } from 'next-auth/react'
 
-export default function SignUp() {
+export default function SignIn() {
   const [email, setEmail] = useState('864129545@qq.com')
   const [password, setPassword] = useState('12345678')
   const router = useRouter()

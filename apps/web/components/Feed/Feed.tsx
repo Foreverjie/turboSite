@@ -7,6 +7,8 @@ import { trpc } from '../../utils/trpc'
 const Feed = (): ReactElement => {
   const { data: posts, isLoading } = trpc.post.all.useQuery()
 
+  console.log('posts', posts)
+
   return (
     <Fragment>
       <div className="flex items-center justify-center">

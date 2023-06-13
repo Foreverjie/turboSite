@@ -10,6 +10,7 @@ import { useState } from 'react'
 import { SimpleColors } from 'ui/src/utils/prop-types'
 import useInput from 'ui/src/use-input'
 import Feed from '~/components/Feed/Feed'
+// import Widget from '~/components/Widget/Widget'
 
 const Home: CustomPage = () => {
   const { data, isLoading } = trpc.cat.list.useQuery()

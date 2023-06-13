@@ -3,11 +3,8 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { httpBatchLink } from '@trpc/client'
 import { useState } from 'react'
-import { mockedTRPC, trpc, trpcMsw } from './trpc'
+import { trpc } from './trpc'
 import SuperJSON from 'superjson'
-import { httpLink } from '@trpc/react-query'
-import { setupServer } from 'msw/node'
-import { setupWorker } from 'msw'
 
 export const TrpcProvider: React.FC<{ children: React.ReactNode }> = p => {
   function getBaseUrl() {
@@ -47,51 +44,3 @@ export const TrpcProvider: React.FC<{ children: React.ReactNode }> = p => {
     </trpc.Provider>
   )
 }
-
-const mockedTRPCClient = mockedTRPC.createClient({
-  transformer: SuperJSON,
-  links: [httpLink({ url: 'http://localhost:8080/api/trpc' })],
-})
-
-const mockedQueryClient = new QueryClient()
-
-export const TrpcMockProvider: React.FC<{ children: React.ReactNode }> = p => {
-  return (
-    <mockedTRPC.Provider
-      client={mockedTRPCClient}
-      queryClient={mockedQueryClient}
-    >
-      <QueryClientProvider client={mockedQueryClient}>
-        {p.children}
-      </QueryClientProvider>
-    </mockedTRPC.Provider>
-  )
-}
-
-export const server = setupServer(
-  trpcMsw.post.all.query((req, res, ctx) => {
-    // TODO:
-    // either have `getInput` return `json` because it knows our transformer (preferred)
-    // or at least type `getInput` correctly (might require a PR to msw-trpc)
-    // const request = req.getInput().json;
-    return res(
-      ctx.status(200),
-      // TODO: fix type issues here
-      ctx.data([]),
-    )
-  }),
-)
-
-export const worker = setupWorker(
-  trpcMsw.post.all.query((req, res, ctx) => {
-    // TODO:
-    // either have `getInput` return `json` because it knows our transformer (preferred)
-    // or at least type `getInput` correctly (might require a PR to msw-trpc)
-    // const request = req.getInput().json;
-    return res(
-      ctx.status(200),
-      // TODO: fix type issues here
-      ctx.data([]),
-    )
-  }),
-)

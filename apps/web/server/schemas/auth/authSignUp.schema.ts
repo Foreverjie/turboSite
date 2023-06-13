@@ -1,6 +1,7 @@
+import type { TRPCPanelMeta } from 'trpc-panel'
 import { z } from 'zod'
 
-export const authSignUpMeta = {
+export const authSignUpMeta: TRPCPanelMeta = {
   description: 'Sign up',
 }
 export const authSignUpInputSchema = z.object({
