@@ -54,7 +54,7 @@ function PostCard() {
   return (
     <>
       <Card isPressAble borderWeight="light">
-        <Card.SideContent css={{ pt: '$6', ai: 'flex-start' }}>
+        <Card.SideContent css={{ ai: 'flex-start' }}>
           <Avatar
             alt={author.name}
             src={author.avatar}

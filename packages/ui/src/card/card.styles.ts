@@ -2,30 +2,15 @@ import { styled, VariantProps } from '../theme/stitches.config'
 import { StyledDrip } from '../utils/drip'
 import { cssNoBlurriness, cssFocusVisible } from '../theme/shared-css'
 
-export const StyledCardBody = styled('div', {
-  d: 'flex',
-  w: '100%',
-  h: 'auto',
-  flex: '1 1 auto',
-  fd: 'column',
-  jc: 'inherit',
-  ai: 'inherit',
-  ac: 'inherit',
-  py: '$lg',
-  px: '$sm',
-  oy: 'auto',
-  position: 'relative',
-  ta: 'left',
-})
-
 export const StyledCard = styled(
   'div',
   {
     $$cardColor: '$colors$backgroundContrast',
     $$cardTextColor: '$colors$text',
     m: 0,
-    p: 0,
-    // bg: '$$cardColor',
+    p: '25px',
+    br: '$radii$md',
+    bg: '$$cardColor',
     color: '$$cardTextColor',
     position: 'relative',
     display: 'flex',
@@ -38,12 +23,12 @@ export const StyledCard = styled(
     '@motion': {
       transition: 'none',
     },
-    '.nextui-image': {
+    '.turbo-image': {
       width: '100%',
     },
     [`& ${StyledDrip}`]: {
       zIndex: '$1',
-      '.nextui-drip-filler': {
+      '.turbo-drip-filler': {
         opacity: 0.25,
         fill: '$accents6',
       },
@@ -166,6 +151,22 @@ export const StyledCardSideContent = styled('div', {
   overflow: 'hidden',
   color: 'inherit',
   p: '$sm',
+})
+
+export const StyledCardBody = styled('div', {
+  d: 'flex',
+  w: '100%',
+  h: 'auto',
+  flex: '1 1 auto',
+  fd: 'column',
+  jc: 'inherit',
+  ai: 'inherit',
+  ac: 'inherit',
+  py: '$lg',
+  px: '$sm',
+  oy: 'auto',
+  position: 'relative',
+  ta: 'left',
 })
 
 export const StyledCardFooter = styled('div', {
