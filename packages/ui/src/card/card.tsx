@@ -79,9 +79,9 @@ type CardComponent<T, P = {}> = React.ForwardRefExoticComponent<
 }
 
 if (__DEV__) {
-  Card.displayName = 'NextUI.Card'
+  Card.displayName = 'Turbo.Card'
 }
 
-Card.toString = () => '.nextui-card'
+Card.toString = () => '.turbo-card'
 
 export default Card as CardComponent<HTMLDivElement, CardProps>

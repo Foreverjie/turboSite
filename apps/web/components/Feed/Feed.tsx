@@ -1,7 +1,7 @@
 import React, { Fragment, ReactElement } from 'react'
 import { Loading } from 'ui'
 import { trpc } from '../../utils/trpc'
-// import PostCard from './PostCard'
+import PostCard from './PostCard'
 
 // inferQueryOutput<'post.All'>
 const Feed = (): ReactElement => {
@@ -16,6 +16,8 @@ const Feed = (): ReactElement => {
         {posts?.length}
         {/* {isLoading && <Loading />} */}
       </div>
+
+      <PostCard />
 
       {/* {posts &&
         posts.map(p => {
