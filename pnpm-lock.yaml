@@ -326,15 +326,21 @@ importers:
       '@types/react-dom': ^18.0.9
       autoprefixer: ^10.4.0
       babel-loader: ^8.2.5
+      class-variance-authority: ^0.6.0
+      clsx: ^1.2.1
       eslint: ^7.32.0
       eslint-config-custom: 0.0.0
       eslint-plugin-tailwindcss: ^3.8.0
       identity-obj-proxy: ^3.0.0
+      lucide-react: ^0.244.0
       postcss: ^8.4.5
       react: ^18.2.0
       rollup-plugin-postcss: ^4.0.2
       storybook-dark-mode: ^1.1.2
+      tailwind-config: 0.0.0
+      tailwind-merge: ^1.13.1
       tailwindcss: npm:@tailwindcss/postcss7-compat@^2.2.17
+      tailwindcss-animate: ^1.0.6
       tsconfig: 0.0.0
       typescript: ^4.7.4
     dependencies:
@@ -365,8 +371,14 @@ importers:
       '@react-types/overlays': 3.7.0_react@18.2.0
       '@react-types/shared': 3.17.0_react@18.2.0
       '@stitches/react': 1.2.8_react@18.2.0
+      class-variance-authority: 0.6.0_typescript@4.9.5
+      clsx: 1.2.1
       eslint-plugin-tailwindcss: 3.10.1_adepz2rw47v3pbcgawiji3v4ka
+      lucide-react: 0.244.0_react@18.2.0
       storybook-dark-mode: 1.1.2_sgv4m26tnl4echlq645clg5jc4
+      tailwind-config: link:../tailwind-config
+      tailwind-merge: 1.13.1
+      tailwindcss-animate: 1.0.6_adepz2rw47v3pbcgawiji3v4ka
     devDependencies:
       '@babel/core': 7.21.0
       '@storybook/addon-actions': 6.5.16_sgv4m26tnl4echlq645clg5jc4
@@ -2801,7 +2813,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.21.0
       '@types/react': 18.0.28
-      clsx: 1.1.0
+      clsx: 1.2.1
       focus-lock: 0.8.1
       react: 18.2.0
       react-dom: 17.0.2_react@18.2.0
@@ -9208,6 +9220,18 @@ packages:
       isobject: 3.0.1
       static-extend: 0.1.2
 
+  /class-variance-authority/0.6.0_typescript@4.9.5:
+    resolution: {integrity: sha512-qdRDgfjx3GRb9fpwpSvn+YaidnT7IUJNe4wt5/SWwM+PmUwJUhQRk/8zAyNro0PmVfmen2635UboTjIBXXxy5A==}
+    peerDependencies:
+      typescript: '>= 4.5.5 < 6'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+    dependencies:
+      clsx: 1.2.1
+      typescript: 4.9.5
+    dev: false
+
   /classnames/2.3.2:
     resolution: {integrity: sha512-CSbhY4cFEJRe6/GQzIk5qXZ4Jeg5pcsP7b5peFSDpffpe1cqjASH/n9UTjBwOp6XpMSTwQ8Za2K5V02ueA7Tmw==}
     dev: false
@@ -9313,7 +9337,6 @@ packages:
   /clsx/1.2.1:
     resolution: {integrity: sha512-EcR6r5a8bj6pu3ycsa/E/cKVGuTgZJZdsyUYHOksG/UHIiKfjxzRxYJpyVBwYaQeOvghal9fcc4PidlgzugAQg==}
     engines: {node: '>=6'}
-    dev: false
 
   /cluster-key-slot/1.1.2:
     resolution: {integrity: sha512-RMr0FhtfXemyinomL4hrWcYJxmX6deFdCxpJzhDttxgO1+bcCnkk+9drydLVDmAMG7NE6aN/fl4F7ucU/90gAA==}
@@ -15536,6 +15559,14 @@ packages:
     dependencies:
       yallist: 4.0.0
 
+  /lucide-react/0.244.0_react@18.2.0:
+    resolution: {integrity: sha512-PeDVbx5PlIRrVvdxiuSxPfBo7sK5qrL3LbvvRoGVNiHYRAkBm/48lKqoioxcmp0bgsyJs9lMw7CdtGFvnMJbVg==}
+    peerDependencies:
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
+    dev: false
+
   /lz-string/1.5.0:
     resolution: {integrity: sha512-h5bgJWpxJNswbU7qCrV0tIKQCaS3blPDrqKWx+QxzuzL1zGUzij9XCWLrSLsJPu5t+eWA/ycetzYAO5IOMcWAQ==}
     hasBin: true
@@ -20239,6 +20270,18 @@ packages:
       slice-ansi: 4.0.0
       string-width: 4.2.3
       strip-ansi: 6.0.1
+
+  /tailwind-merge/1.13.1:
+    resolution: {integrity: sha512-tRtRN22TDokGi2TuYSvuHQuuW6BJ/zlUEG+iYpAQ9i66msc/0eU/+HPccbPnNNH0mCPp0Ob8thaC8Uy9CxHitQ==}
+    dev: false
+
+  /tailwindcss-animate/1.0.6_adepz2rw47v3pbcgawiji3v4ka:
+    resolution: {integrity: sha512-4WigSGMvbl3gCCact62ZvOngA+PRqhAn7si3TQ3/ZuPuQZcIEtVap+ENSXbzWhpojKB8CpvnIsrwBu8/RnHtuw==}
+    peerDependencies:
+      tailwindcss: '>=3.0.0 || insiders'
+    dependencies:
+      tailwindcss: /@tailwindcss/postcss7-compat/2.2.17
+    dev: false
 
   /tailwindcss/3.2.7:
     resolution: {integrity: sha512-B6DLqJzc21x7wntlH/GsZwEXTBttVSl1FtCzC8WP4oBc/NKef7kaax5jeihkkCEWc831/5NDJ9gRNDK6NEioQQ==}

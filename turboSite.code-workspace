@@ -26,6 +26,10 @@
 		{
 			"name": "ui",
 			"path": "packages/ui"
+		},
+		{
+			"name": "tailwind-config",
+			"path": "packages/tailwind-config"
 		}
 	],
 	"settings": {
@@ -33,7 +37,8 @@
 			"turbo-config",
 			"eslint-config-custom",
 			"tsconfig",
-			"turboSite"
+			"turboSite",
+			"tailwind-config"
 		],
 	}
 }

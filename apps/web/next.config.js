@@ -9,7 +9,7 @@ module.exports = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  transpilePackages: ['ui'],
+  transpilePackages: ['ui', 'tailwind-config'],
   images: {
     remotePatterns: [
       {

@@ -39,6 +39,7 @@
   },
   "dependencies": {
     "@radix-ui/colors": "^0.1.8",
+    "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-avatar": "^1.0.0",
     "@react-aria/button": "^3.6.2",
     "@react-aria/checkbox": "^3.7.1",
@@ -65,8 +66,14 @@
     "@react-types/overlays": "^3.6.4",
     "@react-types/shared": "^3.14.1",
     "@stitches/react": "^1.2.8",
+    "class-variance-authority": "^0.6.0",
+    "clsx": "^1.2.1",
     "eslint-plugin-tailwindcss": "^3.8.0",
-    "storybook-dark-mode": "^1.1.2"
+    "lucide-react": "^0.244.0",
+    "storybook-dark-mode": "^1.1.2",
+    "tailwind-config": "0.0.0",
+    "tailwind-merge": "^1.13.1",
+    "tailwindcss-animate": "^1.0.6"
   },
   "jest": {
     "moduleNameMapper": {

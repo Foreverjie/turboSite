@@ -52,7 +52,8 @@ export const createTheme = ({ type, theme, className }: Theme) => {
 
 // stitches types
 export type StitchesConfig = typeof config
-export type VariantProps<T> = Stitches.VariantProps<T>
+export type VariantProps<T extends { [key: string]: any }> =
+  Stitches.VariantProps<T>
 export type PropertyValue<T extends keyof Stitches.CSSProperties> =
   Stitches.PropertyValue<T>
 export type ScaleValue<T> = Stitches.ScaleValue<T>
