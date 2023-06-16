@@ -17,8 +17,8 @@
     "test": "turbo run test",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "prepare": "husky install",
-    "check": "manypkg check",
-    "fix": "manypkg fix",
+    "check": "manypkg check --registry=https://registry.npmjs.org",
+    "fix": "manypkg fix --registry=https://registry.npmjs.org",
     "commit": "npx czg ai",
     "commit:short": "npx czg ai -N=5"
   },

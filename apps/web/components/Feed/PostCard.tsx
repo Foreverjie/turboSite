@@ -1,9 +1,19 @@
-import {
-  ChatBubbleOvalLeftEllipsisIcon,
-  HeartIcon,
-} from '@heroicons/react/24/outline'
 import React from 'react'
-import { Card, Grid, Text, Link, Avatar } from 'ui'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from 'ui/src/card'
+import { Avatar, AvatarFallback, AvatarImage } from 'ui/src/avatar'
+import {
+  MoreHorizontalIcon,
+  HeartIcon,
+  ThumbsUpIcon,
+  MessageCircleIcon,
+} from 'lucide-react'
 import { trpc } from '../../utils/trpc'
 import { useModal } from 'ui'
 import { AuthModal } from '../../components/AuthModal'
@@ -52,36 +62,43 @@ function PostCard() {
     'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus.'
 
   return (
-    <>
-      <Card isPressAble borderWeight="light">
-        <Card.SideContent css={{ ai: 'flex-start' }}>
-          <Avatar
-            alt={author.name}
-            src={author.avatar}
-            width="34px"
-            height="34px"
-          />
-        </Card.SideContent>
-        <Card.Body css={{ py: '$1', mt: '$4' }}>
-          <Text h4 css={{ lineHeight: '$xs', fontWeight: '$bold' }}>
-            {author.name}
-          </Text>
-          <Text css={{ lineHeight: '$s', mt: '$4', mb: '$8' }}>{content}</Text>
-          <div className="flex flex-row mb-2">
-            <HeartIcon
-              className={`h-4 w-4 cursor-pointer ${
-                alreadyLike ? 'fill-current text-red-500' : 'text-gray-400'
-              }`}
-              onClick={toggleLikePost}
-            />
-            <ChatBubbleOvalLeftEllipsisIcon
-              className="h-4 w-4 ml-4 cursor-pointer text-gray-400"
-              onClick={openCommentList}
-            />
+    <Card>
+      <CardHeader>
+        <AvatarImage src="https://github.com/shadcn.png" />
+        <AvatarFallback>CN</AvatarFallback>
+        {/* Username and userId col */}
+        <div className="flex flex-col">
+          <div className="text-lg text-gray-900">Shane</div>
+          <div className="text-sm text-gray-500">
+            <span className="text-gray-400">@</span>shane-fine
           </div>
-        </Card.Body>
-      </Card>
-    </>
+        </div>
+        <MoreHorizontalIcon />
+      </CardHeader>
+      <CardContent>
+        <div className="text-gray-900">{content}</div>
+      </CardContent>
+      <CardFooter>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            <button
+              className="flex items-center space-x-1 text-gray-500 hover:text-gray-900"
+              onClick={toggleLikePost}
+            >
+              <ThumbsUpIcon />
+            </button>
+            <button className="flex items-center space-x-1 text-gray-500 hover:text-gray-900">
+              <MessageCircleIcon />
+              <span>0</span>
+            </button>
+            <button className="flex items-center space-x-1 text-gray-500 hover:text-gray-900">
+              <HeartIcon />
+              <span>0</span>
+            </button>
+          </div>
+        </div>
+      </CardFooter>
+    </Card>
   )
 }
 

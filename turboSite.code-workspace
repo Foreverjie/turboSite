@@ -40,5 +40,11 @@
 			"turboSite",
 			"tailwind-config"
 		],
+		"cSpell.words": [
+			"clsx",
+			"lucide",
+			"manypkg",
+			"tanstack"
+		],
 	}
 }
