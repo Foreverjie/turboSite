@@ -59,24 +59,30 @@ function PostCard() {
   }
 
   const content =
-    'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus.'
+    'It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'
 
   return (
     <Card>
       <CardHeader>
-        <AvatarImage src="https://github.com/shadcn.png" />
-        <AvatarFallback>CN</AvatarFallback>
-        {/* Username and userId col */}
-        <div className="flex flex-col">
-          <div className="text-lg text-gray-900">Shane</div>
-          <div className="text-sm text-gray-500">
-            <span className="text-gray-400">@</span>shane-fine
+        <div className="flex justify-between">
+          <div className="flex">
+            <Avatar className="mr-2">
+              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+            {/* Username and userId col */}
+            <div className="flex flex-col">
+              <div className="text-sm font-bold text-gray-900">Shane</div>
+              <div className="text-sm text-gray-500">
+                <span className="text-gray-400">@</span>shane-fine
+              </div>
+            </div>
           </div>
+          <MoreHorizontalIcon className="cursor-pointer" />
         </div>
-        <MoreHorizontalIcon />
       </CardHeader>
       <CardContent>
-        <div className="text-gray-900">{content}</div>
+        <div className="font-sm text-gray-900">{content}</div>
       </CardContent>
       <CardFooter>
         <div className="flex items-center justify-between">
@@ -86,6 +92,7 @@ function PostCard() {
               onClick={toggleLikePost}
             >
               <ThumbsUpIcon />
+              <span>0</span>
             </button>
             <button className="flex items-center space-x-1 text-gray-500 hover:text-gray-900">
               <MessageCircleIcon />
