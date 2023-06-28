@@ -1,3 +1,4 @@
+import Footer from '~/components/Footer'
 import './globals.css'
 import { TrpcProvider } from '~/utils/trpcProvider'
 
@@ -15,6 +16,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <TrpcProvider>{children}</TrpcProvider>
+        <Footer />
       </body>
     </html>
   )
