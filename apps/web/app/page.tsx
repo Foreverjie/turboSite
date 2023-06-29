@@ -15,15 +15,24 @@ import {
   AccordionTrigger,
 } from 'ui/src/accordion'
 import Feed from '~/components/Feed/Feed'
+import { useTheme } from 'next-themes'
 // import Widget from '~/components/Widget/Widget'
 
 const Home: CustomPage = () => {
   const { data, isLoading } = trpc.cat.list.useQuery()
+  const { theme, setTheme } = useTheme()
+
   return (
     <div className="lg:max-w-6xl mx-auto">
       <Head>
         <title>Flash</title>
       </Head>
+
+      <div>
+        The current theme is: {theme}
+        <button onClick={() => setTheme('light')}>Light Mode</button>
+        <button onClick={() => setTheme('dark')}>Dark Mode</button>
+      </div>
 
       <Feed />
 

@@ -1,6 +1,6 @@
 import Footer from '~/components/Footer'
 import './globals.css'
-import { TrpcProvider } from '~/utils/trpcProvider'
+import { TrpcProvider, ThemeProvider } from '~/utils'
 
 export const metadata = {
   title: 'Create Next App',
@@ -15,8 +15,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <TrpcProvider>{children}</TrpcProvider>
-        <Footer />
+        <ThemeProvider>
+          <TrpcProvider>
+            {children}
+            <Footer />
+          </TrpcProvider>
+        </ThemeProvider>
       </body>
     </html>
   )

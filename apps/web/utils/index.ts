@@ -1,3 +1,6 @@
+export { TrpcProvider } from './trpcProvider'
+export { ThemeProvider } from './themeProvider'
+
 export async function copyToClipboard(text: string) {
   try {
     return await navigator.clipboard.writeText(text)
