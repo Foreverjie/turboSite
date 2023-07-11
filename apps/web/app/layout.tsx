@@ -1,6 +1,8 @@
 import Footer from '~/components/Footer'
 import './globals.css'
 import { TrpcProvider, ThemeProvider } from '~/utils'
+import Sidebar from '~/components/Sidebar'
+import Header from '~/components/Header'
 
 export const metadata = {
   title: 'Create Next App',
@@ -17,8 +19,14 @@ export default function RootLayout({
       <body>
         <ThemeProvider>
           <TrpcProvider>
-            {children}
-            <Footer />
+            <div className="">
+              <Sidebar />
+              <div className="">
+                <Header />
+                {children}
+                <Footer />
+              </div>
+            </div>
           </TrpcProvider>
         </ThemeProvider>
       </body>
