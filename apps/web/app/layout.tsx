@@ -3,6 +3,10 @@ import './globals.css'
 import { TrpcProvider, ThemeProvider } from '~/utils'
 import Sidebar from '~/components/Sidebar'
 import Header from '~/components/Header'
+import { ClerkProvider } from '@clerk/nextjs'
+import { Inter } from 'next/font/google'
+
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
   title: 'Create Next App',
@@ -15,21 +19,23 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body>
-        <ThemeProvider>
-          <TrpcProvider>
-            <div className="">
-              <Sidebar />
+    <ClerkProvider>
+      <html lang="en">
+        <body className={inter.className}>
+          <ThemeProvider>
+            <TrpcProvider>
               <div className="">
-                <Header />
-                {children}
-                <Footer />
+                <Sidebar />
+                <div className="">
+                  <Header />
+                  {children}
+                  <Footer />
+                </div>
               </div>
-            </div>
-          </TrpcProvider>
-        </ThemeProvider>
-      </body>
-    </html>
+            </TrpcProvider>
+          </ThemeProvider>
+        </body>
+      </html>
+    </ClerkProvider>
   )
 }

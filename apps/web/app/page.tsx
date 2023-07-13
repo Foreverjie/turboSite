@@ -29,7 +29,7 @@ const Home: CustomPage = () => {
       </Head>
 
       <div>
-        The current theme is: {theme}
+        <div className="">The current theme is: {theme}</div>
         <button onClick={() => setTheme('light')}>Light Mode</button>
         <button onClick={() => setTheme('dark')}>Dark Mode</button>
       </div>
