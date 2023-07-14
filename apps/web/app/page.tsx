@@ -15,6 +15,8 @@ import {
   AccordionTrigger,
 } from 'ui/src/accordion'
 import Feed from '~/components/Feed/Feed'
+import { SignOutButton, useAuth } from '@clerk/nextjs'
+import { useRouter } from 'next/navigation'
 // import Widget from '~/components/Widget/Widget'
 
 export enum Theme {
@@ -24,6 +26,11 @@ export enum Theme {
 
 const Home: CustomPage = () => {
   const { data, isLoading } = trpc.cat.list.useQuery()
+
+  const { userId } = useAuth()
+  const router = useRouter()
+
+  console.log('userId', userId)
 
   const [theme, setTheme] = useState<Theme>(Theme.light)
 
@@ -50,6 +57,12 @@ const Home: CustomPage = () => {
         <button onClick={toggleTheme}>Light Mode</button>
         <button onClick={toggleTheme}>Dark Mode</button>
       </div>
+
+      {userId ? (
+        <SignOutButton />
+      ) : (
+        <button onClick={() => router.push('/sign-in')}>Sign In</button>
+      )}
 
       <Feed />
 
