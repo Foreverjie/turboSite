@@ -1,10 +1,11 @@
 import Footer from '~/components/Footer'
 import './globals.css'
-import { TrpcProvider, ThemeProvider } from '~/utils'
+import { TrpcProvider } from '~/utils'
 import Sidebar from '~/components/Sidebar'
 import Header from '~/components/Header'
 import { ClerkProvider } from '@clerk/nextjs'
 import { Inter } from 'next/font/google'
+import { cookies } from 'next/headers'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -18,22 +19,22 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  const theme = cookies().get('theme')
+
   return (
     <ClerkProvider>
-      <html lang="en">
+      <html lang="en" className={theme?.value}>
         <body className={inter.className}>
-          <ThemeProvider>
-            <TrpcProvider>
+          <TrpcProvider>
+            <div className="">
+              <Sidebar />
               <div className="">
-                <Sidebar />
-                <div className="">
-                  <Header />
-                  {children}
-                  <Footer />
-                </div>
+                <Header />
+                {children}
+                <Footer />
               </div>
-            </TrpcProvider>
-          </ThemeProvider>
+            </div>
+          </TrpcProvider>
         </body>
       </html>
     </ClerkProvider>

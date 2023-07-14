@@ -15,12 +15,29 @@ import {
   AccordionTrigger,
 } from 'ui/src/accordion'
 import Feed from '~/components/Feed/Feed'
-import { useTheme } from 'next-themes'
 // import Widget from '~/components/Widget/Widget'
+
+export enum Theme {
+  dark = 'dark',
+  light = 'light',
+}
 
 const Home: CustomPage = () => {
   const { data, isLoading } = trpc.cat.list.useQuery()
-  const { theme, setTheme } = useTheme()
+
+  const [theme, setTheme] = useState<Theme>(Theme.light)
+
+  const toggleTheme = () => {
+    const root = document.getElementsByTagName('html')[0]
+    root.classList.toggle(Theme.dark)
+    if (root.classList.contains(Theme.dark)) {
+      setTheme(Theme.dark)
+      document.cookie = `theme=${Theme.dark}`
+    } else {
+      setTheme(Theme.light)
+      document.cookie = `theme=${Theme.light}`
+    }
+  }
 
   return (
     <div className="lg:max-w-6xl mx-auto">
@@ -30,8 +47,8 @@ const Home: CustomPage = () => {
 
       <div>
         <div className="">The current theme is: {theme}</div>
-        <button onClick={() => setTheme('light')}>Light Mode</button>
-        <button onClick={() => setTheme('dark')}>Dark Mode</button>
+        <button onClick={toggleTheme}>Light Mode</button>
+        <button onClick={toggleTheme}>Dark Mode</button>
       </div>
 
       <Feed />
