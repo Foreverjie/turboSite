@@ -2,6 +2,7 @@ import {
   userALlController,
   userMeController,
   userUpdateController,
+  userStatusController,
 } from '../controllers/users'
 import {
   userAllInputSchema,
@@ -13,11 +14,19 @@ import {
   userUpdateInputSchema,
   userUpdateMeta,
   userUpdateOutputSchema,
+  userStatusMeta,
+  userStatusInputSchema,
+  userStatusOutputSchema,
 } from '../schemas/users'
 import { adminProcedure, protectedProcedure, router } from '../trpc'
 
 // export default router
 export const user = router({
+  status: protectedProcedure
+    .meta(userStatusMeta)
+    .input(userStatusInputSchema)
+    .output(userStatusOutputSchema)
+    .query(userStatusController),
   me: protectedProcedure
     .meta(userMeMeta)
     .input(userMeInputSchema)

@@ -1,13 +1,8 @@
-import { OpenApiMeta } from 'trpc-openapi'
+import { TRPCPanelMeta } from 'trpc-panel'
 import { z } from 'zod'
 
-export const userAllMeta: OpenApiMeta = {
-  openapi: {
-    method: 'GET',
-    path: '/user.all',
-    tags: ['users'],
-    summary: 'Return all users',
-  },
+export const userAllMeta: TRPCPanelMeta = {
+  description: 'Get all users',
 }
 export const userAllInputSchema = z.void()
 export const userAllOutputSchema = z

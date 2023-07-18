@@ -1,4 +1,4 @@
-import { UserMeOutput } from '~/schemas/users'
+import { UserMeOutput } from '~/server/schemas/users'
 import prisma from '../../../prisma/prisma-client'
 
 export const userMeController = async ({ ctx }: any): Promise<UserMeOutput> => {

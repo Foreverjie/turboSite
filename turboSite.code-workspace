@@ -41,9 +41,11 @@
 			"tailwind-config"
 		],
 		"cSpell.words": [
+			"Authed",
 			"clsx",
 			"lucide",
 			"manypkg",
+			"superjson",
 			"tanstack"
 		],
 	}

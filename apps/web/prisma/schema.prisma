@@ -19,9 +19,9 @@ model User {
   id       Int    @id @default(autoincrement())
   name     String
   email    String @unique
-  password String
   role     UserType @default(USER)
   avatar   String @default("https://gravatar.com/avatar/placeholder?s=200")
+  status   UserStatus @default(NEED_ONBOARDING)
 
   // posts    Post[] @relation(fields: [postIDs], references: [id], name: "posts")
   // postIDs    String[] @db.ObjectId
@@ -96,4 +96,12 @@ enum UserType {
   USER
   PERMIUM
   ADMIN
+}
+
+enum UserStatus {
+  NEED_ONBOARDING
+  INFOMATION_INCOMPLETE
+  ACTIVE
+  ERROR
+  LOCKED
 }

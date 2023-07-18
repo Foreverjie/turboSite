@@ -3,6 +3,7 @@ import {
   fetchRequestHandler,
 } from '@trpc/server/adapters/fetch'
 import { appRouter } from '~/server/routers/router'
+import { createTRPCContext } from '~/server/trpc'
 
 // this is the server RPC API handler
 
@@ -12,12 +13,7 @@ const handler = (request: Request) => {
     endpoint: '/api/trpc',
     req: request,
     router: appRouter,
-    createContext: function (
-      opts: FetchCreateContextFnOptions,
-    ): object | Promise<object> {
-      // empty context
-      return {}
-    },
+    createContext: createTRPCContext,
   })
 }
 

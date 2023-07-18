@@ -1,13 +1,8 @@
-import { OpenApiMeta } from 'trpc-openapi'
+import { TRPCPanelMeta } from 'trpc-panel'
 import { z } from 'zod'
 
-export const userUpdateMeta: OpenApiMeta = {
-  openapi: {
-    method: 'POST',
-    path: '/user.update',
-    tags: ['users'],
-    summary: 'Update present user',
-  },
+export const userUpdateMeta: TRPCPanelMeta = {
+  description: 'Update user',
 }
 export const userUpdateInputSchema = z.object({
   name: z.string().optional(),
