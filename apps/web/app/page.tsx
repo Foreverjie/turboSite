@@ -25,9 +25,12 @@ export enum Theme {
 }
 
 const Home: CustomPage = () => {
+  const { userId, isSignedIn } = useAuth()
+
+  const { data: userStatus, isLoading: userStatusLoading } =
+    trpc.user.status.useQuery(undefined, { enabled: isSignedIn })
   const { data, isLoading } = trpc.cat.list.useQuery()
 
-  const { userId } = useAuth()
   const router = useRouter()
 
   console.log('userId', userId)

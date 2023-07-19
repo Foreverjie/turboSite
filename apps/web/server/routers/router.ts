@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { publicProcedure, router } from '../trpc'
-import { cat, post } from '.'
+import { cat, post, user } from '.'
 
 export const appRouter = router({
   sayHello: publicProcedure
@@ -14,6 +14,7 @@ export const appRouter = router({
     }),
   cat,
   post,
+  user,
 })
 
 export type AppRouter = typeof appRouter

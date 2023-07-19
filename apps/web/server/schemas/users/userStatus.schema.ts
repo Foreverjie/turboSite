@@ -6,15 +6,13 @@ export const userStatusMeta: TRPCPanelMeta = {
 }
 export const userStatusInputSchema = z.void()
 export const userStatusOutputSchema = z.object({
-  name: z.string(),
-  email: z.string(),
-  role: z.string(),
-  avatar: z.string(),
-  likes: z.array(
-    z.object({
-      content: z.string(),
-    }),
-  ),
+  status: z.enum([
+    'NEED_ONBOARDING',
+    'INFORMATION_INCOMPLETE',
+    'ACTIVE',
+    'ERROR',
+    'LOCKED',
+  ]),
 })
 
 export type UserStatusOutput = z.TypeOf<typeof userStatusOutputSchema>
