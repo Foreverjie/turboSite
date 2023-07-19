@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { publicProcedure, router } from '../trpc'
-import { cat, auth, post } from '.'
+import { cat, post } from '.'
 
 export const appRouter = router({
   sayHello: publicProcedure
@@ -13,7 +13,6 @@ export const appRouter = router({
       return { greeting: `Hello ${input.name}!` }
     }),
   cat,
-  auth,
   post,
 })
 

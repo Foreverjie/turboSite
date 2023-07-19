@@ -3,7 +3,7 @@ import {
   fetchRequestHandler,
 } from '@trpc/server/adapters/fetch'
 import { appRouter } from '~/server/routers/router'
-import { createTRPCContext } from '~/server/trpc'
+import { createTRPCContext } from '~/server/context'
 
 // this is the server RPC API handler
 
