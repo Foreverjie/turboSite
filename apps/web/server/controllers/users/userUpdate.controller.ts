@@ -1,5 +1,5 @@
 import prisma from '../../../prisma/prisma-client'
-import { UserUpdateInput, UserUpdateOutput } from '~/schemas/users'
+import { UserUpdateInput, UserUpdateOutput } from '~/server/schemas/users'
 
 export const userUpdateController = async ({
   input,
