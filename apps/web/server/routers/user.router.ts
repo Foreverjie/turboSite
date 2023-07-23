@@ -4,6 +4,7 @@ import {
   userUpdateController,
   userStatusController,
   userCreateController,
+  userSyncController,
 } from '../controllers/users'
 import {
   userAllInputSchema,
@@ -21,11 +22,24 @@ import {
   userCreateMeta,
   userCreateInputSchema,
   userCreateOutputSchema,
+  userSyncMeta,
+  userSyncInputSchema,
+  userSyncOutputSchema,
 } from '../schemas/users'
-import { adminProcedure, protectedProcedure, router } from '../trpc'
+import {
+  adminProcedure,
+  protectedProcedure,
+  router,
+  webhookProcedure,
+} from '../trpc'
 
 // export default router
 export const user = router({
+  sync: webhookProcedure
+    .meta(userSyncMeta)
+    .input(userSyncInputSchema)
+    .output(userSyncOutputSchema)
+    .mutation(userSyncController),
   create: protectedProcedure
     .meta(userCreateMeta)
     .input(userCreateInputSchema)

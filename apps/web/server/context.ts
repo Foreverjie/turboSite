@@ -6,8 +6,9 @@ import type {
 } from '@clerk/nextjs/server'
 import * as trpcNext from '@trpc/server/adapters/next'
 
-interface AuthContext {
+interface InnerContext {
   auth: SignedInAuthObject | SignedOutAuthObject
+  opts: trpcNext.CreateNextContextOptions
 }
 
 /**
@@ -19,9 +20,10 @@ interface AuthContext {
  * - trpc's `createSSGHelpers` where we don't have req/res
  * @see https://create.t3.gg/en/usage/trpc#-servertrpccontextts
  */
-const createInnerTRPCContext = ({ auth }: AuthContext) => {
+const createInnerTRPCContext = ({ auth, opts }: InnerContext) => {
   return {
     auth,
+    ...opts,
   }
 }
 
@@ -35,7 +37,7 @@ export const createTRPCContext = async (
 ) => {
   const { req } = opts
 
-  return createInnerTRPCContext({ auth: getAuth(req) })
+  return createInnerTRPCContext({ auth: getAuth(req), opts })
 }
 
 export type Context = trpc.inferAsyncReturnType<typeof createTRPCContext>

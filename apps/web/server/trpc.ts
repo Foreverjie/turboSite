@@ -10,15 +10,17 @@
 import { initTRPC, TRPCError } from '@trpc/server'
 import superjson from 'superjson'
 import { restrictTo } from './middlewares'
-import { ZodError } from 'zod'
+import { z, ZodError } from 'zod'
 import { type Context } from './context'
+import { Webhook } from 'svix'
+import { buffer } from 'micro'
 
 // export const t = initTRPC.meta<TRPCPanelMeta>().create({
 const t = initTRPC.context<Context>().create({
   /**
    * @see https://trpc.io/docs/v10/data-transformers
    */
-  transformer: superjson,
+  // transformer: superjson,
   /**
    * @see https://trpc.io/docs/v10/error-formatting
    */
@@ -45,6 +47,27 @@ const isAuthed = t.middleware(({ next, ctx }) => {
     },
   })
 })
+
+// const webhookMiddleware = t.middleware(async ({ ctx, input, next, ...res }) => {
+//   // const payload = (await buffer(req)).toString();
+//   //   const headers = req.headers;
+
+//   //   const wh = new Webhook(secret);
+//   //   let msg;
+//   //   try {
+//   //       msg = wh.verify(payload, headers);
+//   //   } catch (err) {
+//   //       res.status(400).json({});
+//   //   }
+
+//   //   // Do something with the message...
+
+//   //   res.json({});
+
+//   console.log('webhookMiddleware', ctx, input, res)
+
+//   return next()
+// })
 
 /**
  * Create a router
@@ -75,5 +98,36 @@ export const mergeRouters = t.mergeRouters
  * @see https://trpc.io/docs/procedures
  */
 export const protectedProcedure = t.procedure.use(isAuthed)
+
+// const webhookSecret = process.env.WEBHOOK_SECRET
+const webhookSecret = 'whsec_FCPDv8XCTFUr/rqYjDcnQy9/5FcZHtun'
+
+/**
+ * webhook procedure
+ *
+ * If you want a query or mutation to ONLY be accessible to webhook, use
+ * this. It verifies the session is valid
+ *
+ */
+export const webhookProcedure = t.procedure
+  .input(z.any())
+  .use(async ({ input, next, ctx }) => {
+    try {
+      // const payload = (await buffer(ctx.req)).toString()
+
+      const headers = ctx.req.headers as Record<string, string>
+
+      console.log('headers', headers)
+
+      const wh = new Webhook(webhookSecret)
+      const msg = wh.verify(input.toString(), headers)
+      console.log('verify', msg)
+    } catch (err) {
+      console.log('err', err)
+      throw new TRPCError({ code: 'UNAUTHORIZED' })
+    }
+
+    return next()
+  })
 
 export const adminProcedure = protectedProcedure.use(restrictTo(['admin']))

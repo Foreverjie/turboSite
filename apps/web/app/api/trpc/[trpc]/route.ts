@@ -1,7 +1,4 @@
-import {
-  FetchCreateContextFnOptions,
-  fetchRequestHandler,
-} from '@trpc/server/adapters/fetch'
+import { fetchRequestHandler } from '@trpc/server/adapters/fetch'
 import { appRouter } from '~/server/routers/router'
 import { createTRPCContext } from '~/server/context'
 

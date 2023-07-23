@@ -7,11 +7,11 @@ function Onboarding() {
   const router = useRouter()
   // const
 
-  const createUser = trpc.user.create.useMutation()
+  // const createUser = trpc.user.create.useMutation()
 
-  useEffect(() => {
-    createUser.mutate()
-  }, [])
+  // useEffect(() => {
+  //   createUser.mutate()
+  // }, [])
 
   const handleContinue = () => {
     router.replace('/')
