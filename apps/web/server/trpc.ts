@@ -115,9 +115,13 @@ export const webhookProcedure = t.procedure
     try {
       // const payload = (await buffer(ctx.req)).toString()
 
-      const headers = ctx.req.headers as Record<string, string>
+      const headersList = ctx.req.headers
 
-      console.log('headers', headers)
+      const headers = {
+        'svix-id': headersList.get('svix-id'),
+        'svix-timestamp': headersList.get('svix-timestamp'),
+        'svix-signature': headersList.get('svix-signature'),
+      } as Record<string, string>
 
       const wh = new Webhook(webhookSecret)
       const msg = wh.verify(input.toString(), headers)

@@ -17,8 +17,11 @@ model Cat {
 
 model User {
   id       Int    @id @default(autoincrement())
+  userId   String @unique
   name     String
   email    String @unique
+  gender   String
+  phone    String @unique
   role     UserType @default(USER)
   avatar   String @default("https://gravatar.com/avatar/placeholder?s=200")
   status   UserStatus @default(NEED_ONBOARDING)
