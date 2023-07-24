@@ -33,7 +33,7 @@ export const userSyncController = async ({
         name: getUpdateData(userSync.username),
         updatedAt: getUpdateData(new Date(userSync.updated_at)),
         avatar: getUpdateData(userSync.image_url),
-        phone: getUpdateData(userSync.phone_numbers[0].phone_numbers),
+        phone: getUpdateData(userSync.phone_numbers[0].phone_number),
         gender: getUpdateData(userSync.gender),
       },
       where: {
