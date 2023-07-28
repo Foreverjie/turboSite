@@ -14,6 +14,7 @@ import { z, ZodError } from 'zod'
 import { type Context } from './context'
 import { Webhook } from 'svix'
 import { buffer } from 'micro'
+import crypto from 'crypto'
 
 // export const t = initTRPC.meta<TRPCPanelMeta>().create({
 const t = initTRPC.context<Context>().create({
@@ -113,19 +114,19 @@ export const webhookProcedure = t.procedure
   .input(z.any())
   .use(async ({ input, next, ctx }) => {
     try {
-      // const payload = (await buffer(ctx.req)).toString()
+      const headersList = ctx.req.headers as any
 
-      const headersList = ctx.req.headers
+      const signedContent = `${headersList.get('svix-id')}.${headersList.get(
+        'svix-timestamp',
+      )}.${input.toString()}`
 
-      const headers = {
-        'svix-id': headersList.get('svix-id'),
-        'svix-timestamp': headersList.get('svix-timestamp'),
-        'svix-signature': headersList.get('svix-signature'),
-      } as Record<string, string>
-
-      const wh = new Webhook(webhookSecret)
-      const msg = wh.verify(input.toString(), headers)
-      console.log('verify', msg)
+      const secretBytes = new Buffer(webhookSecret.split('_')[1], 'base64')
+      const signature = crypto
+        .createHmac('sha256', secretBytes)
+        .update(signedContent)
+        .digest('base64')
+      console.log('signature', signature)
+      throw new TRPCError({ code: 'UNAUTHORIZED', message: 'test' })
     } catch (err) {
       console.log('err', err)
       throw new TRPCError({ code: 'UNAUTHORIZED' })
