@@ -41,8 +41,10 @@ export const userSyncController = async ({
       },
     })
   } catch (error) {
-    console.log('sync user err', error)
-    throw new TRPCError({ code: 'BAD_REQUEST', message: 'sync user err' })
+    throw new TRPCError({
+      code: 'BAD_REQUEST',
+      message: `sync user err ${error}`,
+    })
   }
 
   // const user = await prisma.user.Sync({})
