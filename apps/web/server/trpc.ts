@@ -100,8 +100,7 @@ export const mergeRouters = t.mergeRouters
  */
 export const protectedProcedure = t.procedure.use(isAuthed)
 
-// const webhookSecret = process.env.WEBHOOK_SECRET
-const webhookSecret = 'whsec_qhlR+sXL3pW6l8JBIoMUolwLNndzaRm4'
+const webhookSecret = process.env.WEBHOOK_SECRET
 
 /**
  * webhook procedure
@@ -116,34 +115,46 @@ export const webhookProcedure = t.procedure
     try {
       const headersList = ctx.req.headers as any
 
-      const signedContent = `${headersList.get('svix-id')}.${headersList.get(
-        'svix-timestamp',
-      )}.${JSON.stringify(input)}`
-
-      const secretBytes = new Buffer(webhookSecret.split('_')[1], 'base64')
-      const signature = crypto
-        .createHmac('sha256', secretBytes)
-        .update(signedContent)
-        .digest('base64')
-      // v1,g0hM9SsE+OTPJTGt/tmIKtSyZlE3uFJELVlNIOLJ1OE= v1,bm9ldHUjKzFob2VudXRob2VodWUzMjRvdWVvdW9ldQo= v2,MzJsNDk4MzI0K2VvdSMjMTEjQEBAQDEyMzMzMzEyMwo=
-      const expectedSignature = headersList
-        .get('svix-signature')
-        .split(' ')
-        .map((s: string) => s.split(',')[1])
-
-      if (expectedSignature.includes(signature)) {
-        return next()
-      } else {
-        throw new TRPCError({
-          code: 'UNAUTHORIZED',
-          message: 'Incorrect Signature',
-        })
+      const headers = {
+        'svix-id': headersList.get('svix-id'),
+        'svix-signature': headersList.get('svix-signature'),
+        'svix-timestamp': headersList.get('svix-timestamp'),
       }
-    } catch (err) {
-      throw new TRPCError({ code: 'UNAUTHORIZED' })
-    }
 
-    return next()
+      const wh = new Webhook(webhookSecret)
+      wh.verify(JSON.stringify(input), headers)
+      return next()
+
+      // manually verify
+      // const signedContent = `${headersList.get('svix-id')}.${headersList.get(
+      //   'svix-timestamp',
+      // )}.${JSON.stringify(input)}`
+
+      // const secretBytes = new Buffer(webhookSecret.split('_')[1], 'base64')
+      // const signature = crypto
+      //   .createHmac('sha256', secretBytes)
+      //   .update(signedContent)
+      //   .digest('base64')
+      // // v1,g0hM9SsE+OTPJTGt/tmIKtSyZlE3uFJELVlNIOLJ1OE= v1,bm9ldHUjKzFob2VudXRob2VodWUzMjRvdWVvdW9ldQo= v2,MzJsNDk4MzI0K2VvdSMjMTEjQEBAQDEyMzMzMzEyMwo=
+      // const expectedSignature = headersList
+      //   .get('svix-signature')
+      //   .split(' ')
+      //   .map((s: string) => s.split(',')[1])
+
+      // if (expectedSignature.includes(signature)) {
+      //   return next()
+      // } else {
+      //   throw new TRPCError({
+      //     code: 'UNAUTHORIZED',
+      //     message: 'Incorrect Signature',
+      //   })
+      // }
+    } catch (err) {
+      throw new TRPCError({
+        code: 'UNAUTHORIZED',
+        message: `Verify webhook failed. ${err}`,
+      })
+    }
   })
 
 export const adminProcedure = protectedProcedure.use(restrictTo(['admin']))

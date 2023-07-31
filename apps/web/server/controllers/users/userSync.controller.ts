@@ -21,19 +21,19 @@ export const userSyncController = async ({
     await prisma.user.upsert({
       create: {
         userId: userSync.id,
-        email: userSync.email_addresses[0].email_address,
-        name: userSync.username,
+        email: userSync.email_addresses?.[0]?.email_address,
+        name: userSync.username ?? userSync.email_addresses?.[0]?.email_address,
         createdAt: new Date(userSync.created_at),
         avatar: userSync.image_url,
-        phone: userSync.phone_numbers[0].phone_numbers,
+        phone: userSync.phone_numbers?.[0]?.phone_numbers,
         gender: userSync.gender,
       },
       update: {
-        email: getUpdateData(userSync.email_addresses[0].email_address),
+        email: getUpdateData(userSync.email_addresses?.[0]?.email_address),
         name: getUpdateData(userSync.username),
         updatedAt: getUpdateData(new Date(userSync.updated_at)),
         avatar: getUpdateData(userSync.image_url),
-        phone: getUpdateData(userSync.phone_numbers[0].phone_number),
+        phone: getUpdateData(userSync.phone_numbers?.[0]?.phone_number),
         gender: getUpdateData(userSync.gender),
       },
       where: {
