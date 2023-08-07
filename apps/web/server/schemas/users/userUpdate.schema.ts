@@ -10,7 +10,7 @@ export const userUpdateInputSchema = z.object({
 })
 export const userUpdateOutputSchema = z.object({
   name: z.string(),
-  email: z.string(),
+  email: z.string().nullable(),
   role: z.string(),
   avatar: z.string(),
 })

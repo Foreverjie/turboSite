@@ -7,7 +7,8 @@ export const userMeMeta: TRPCPanelMeta = {
 export const userMeInputSchema = z.void()
 export const userMeOutputSchema = z.object({
   name: z.string(),
-  email: z.string(),
+  email: z.string().nullable(),
+  phone: z.string().nullable(),
   role: z.string(),
   avatar: z.string(),
   likes: z.array(

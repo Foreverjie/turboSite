@@ -112,6 +112,12 @@ const webhookSecret = process.env.WEBHOOK_SECRET
 export const webhookProcedure = t.procedure
   .input(z.any())
   .use(async ({ input, next, ctx }) => {
+    if (!webhookSecret) {
+      throw new TRPCError({
+        code: 'UNAUTHORIZED',
+        message: 'Webhook secret not found',
+      })
+    }
     try {
       const headersList = ctx.req.headers as any
 
@@ -135,7 +141,6 @@ export const webhookProcedure = t.procedure
       //   .createHmac('sha256', secretBytes)
       //   .update(signedContent)
       //   .digest('base64')
-      // // v1,g0hM9SsE+OTPJTGt/tmIKtSyZlE3uFJELVlNIOLJ1OE= v1,bm9ldHUjKzFob2VudXRob2VodWUzMjRvdWVvdW9ldQo= v2,MzJsNDk4MzI0K2VvdSMjMTEjQEBAQDEyMzMzMzEyMwo=
       // const expectedSignature = headersList
       //   .get('svix-signature')
       //   .split(' ')

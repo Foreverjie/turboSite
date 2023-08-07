@@ -66,3 +66,6 @@ export * from './row'
 
 export { default as Checkbox } from './checkbox'
 export * from './checkbox'
+
+export * from './form'
+export * from './label'

@@ -17,6 +17,7 @@ import {
 import Feed from '~/components/Feed/Feed'
 import { SignOutButton, useAuth } from '@clerk/nextjs'
 import { useRouter } from 'next/navigation'
+import { UserStatus } from '@prisma/client'
 // import Widget from '~/components/Widget/Widget'
 
 export enum Theme {
@@ -33,7 +34,9 @@ const Home: CustomPage = () => {
 
   const router = useRouter()
 
-  console.log('userId', userId)
+  if (userStatus?.status === UserStatus.NEED_ONBOARDING) {
+    router.replace('/onboarding')
+  }
 
   const [theme, setTheme] = useState<Theme>(Theme.light)
 

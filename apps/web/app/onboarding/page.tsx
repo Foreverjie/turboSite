@@ -1,26 +1,55 @@
 'use client'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { trpc } from '~/utils/trpc'
+import {
+  RedirectToSignIn,
+  SignedIn,
+  SignedOut,
+  UserProfile,
+  useUser,
+} from '@clerk/nextjs'
+import { trpc } from '../../utils/trpc'
 
 function Onboarding() {
   const router = useRouter()
-  // const
+  const { isSignedIn, isLoaded } = useUser()
+  const [missingFields, setMissingFields] = useState<string[]>([])
 
-  // const createUser = trpc.user.create.useMutation()
-
-  // useEffect(() => {
-  //   createUser.mutate()
-  // }, [])
-
-  const handleContinue = () => {
-    router.replace('/')
+  if (!isSignedIn && isLoaded) {
+    router.push('/')
   }
+
+  // Give user tips to finish onboarding
+  // Get Missing fields
+  const { data: user } = trpc.user.me.useQuery()
+
+  useEffect(() => {
+    if (user) {
+      const missingFields = []
+      if (!user.name) {
+        missingFields.push('name')
+      }
+      if (!user.email) {
+        missingFields.push('bio')
+      }
+      if (!user.phone) {
+        missingFields.push('phone')
+      }
+      setMissingFields(missingFields)
+    }
+  }, [user])
 
   return (
     <div>
       <div>Onboarding</div>
-      <button onClick={handleContinue}>Continue</button>
+      <div>Missing fields: {missingFields.join(', ')}</div>
+      <SignedIn>
+        {/* Signed in users will see their user profile */}
+        <UserProfile />
+      </SignedIn>
+      <SignedOut>
+        <RedirectToSignIn />
+      </SignedOut>
     </div>
   )
 }

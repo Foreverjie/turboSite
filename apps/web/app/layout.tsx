@@ -6,6 +6,7 @@ import Header from '~/components/Header'
 import { ClerkProvider } from '@clerk/nextjs'
 import { Inter } from 'next/font/google'
 import { cookies } from 'next/headers'
+import { dark } from '@clerk/themes'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,10 +20,15 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  // TODO theme type annotation
   const theme = cookies().get('theme')
 
   return (
-    <ClerkProvider>
+    <ClerkProvider
+      appearance={{
+        baseTheme: theme?.value === 'dark' ? dark : undefined,
+      }}
+    >
       <html lang="en" className={theme?.value}>
         <body className={inter.className}>
           <TrpcProvider>

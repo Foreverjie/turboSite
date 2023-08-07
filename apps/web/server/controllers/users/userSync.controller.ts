@@ -1,5 +1,5 @@
-import { update } from 'cypress/types/lodash'
 import prisma from '../../../prisma/prisma-client'
+import { UserStatus } from '@prisma/client'
 import { UserSyncInput, UserSyncOutput } from '~/server/schemas/users'
 import { TRPCError } from '@trpc/server'
 
@@ -18,7 +18,7 @@ export const userSyncController = async ({
   try {
     const userSync = input.data
 
-    await prisma.user.upsert({
+    const user = await prisma.user.upsert({
       create: {
         userId: userSync.id,
         email: userSync.email_addresses?.[0]?.email_address,
@@ -40,6 +40,30 @@ export const userSyncController = async ({
         userId: userSync.id,
       },
     })
+    if (user.email && user.phone && user.name) {
+      if (!user.gender) {
+        // information is not complete
+        // inform user to update profile
+        await prisma.user.update({
+          data: {
+            status: UserStatus.INFORMATION_INCOMPLETE,
+          },
+          where: {
+            userId: user.userId,
+          },
+        })
+      } else {
+        // active user
+        await prisma.user.update({
+          data: {
+            status: UserStatus.ACTIVE,
+          },
+          where: {
+            userId: user.userId,
+          },
+        })
+      }
+    }
   } catch (error) {
     throw new TRPCError({
       code: 'BAD_REQUEST',
@@ -47,6 +71,5 @@ export const userSyncController = async ({
     })
   }
 
-  // const user = await prisma.user.Sync({})
   return true
 }
