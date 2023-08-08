@@ -14,6 +14,7 @@ export const userMeController = async ({ ctx }: any): Promise<UserMeOutput> => {
       role: true,
       avatar: true,
       likes: true,
+      gender: true,
     },
   })
   if (!user) {

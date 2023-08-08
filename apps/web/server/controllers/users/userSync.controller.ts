@@ -40,7 +40,7 @@ export const userSyncController = async ({
         userId: userSync.id,
       },
     })
-    if (user.email && user.phone && user.name) {
+    if (user.email && user.name) {
       if (!user.gender) {
         // information is not complete
         // inform user to update profile

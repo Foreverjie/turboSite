@@ -1,6 +1,3 @@
-import * as React from 'react'
-// export * from './Button'
-
 export { default as NextUIProvider } from './theme/theme-provider'
 export {
   styled,
@@ -14,9 +11,6 @@ export {
   config as stitchesConfig,
   theme as defaultTheme,
 } from './theme/stitches.config'
-
-export { default as Avatar } from './avatar'
-export * from './avatar'
 
 export { default as Text } from './text'
 export * from './text'
@@ -58,14 +52,13 @@ export * from './divider'
 export { default as Image } from './image'
 export * from './image'
 
-export { default as Card } from './card'
-export * from './card'
-
 export { default as Row } from './row'
 export * from './row'
 
 export { default as Checkbox } from './checkbox'
 export * from './checkbox'
 
+export * from './avatar'
 export * from './form'
 export * from './label'
+export * from './alert'

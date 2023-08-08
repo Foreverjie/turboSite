@@ -19,8 +19,8 @@ model User {
   id       Int    @id @default(autoincrement())
   userId   String @unique
   name     String
-  email    String? @unique
-  gender   String
+  email    String @unique
+  gender   Gender?
   phone    String? @unique
   role     UserType @default(USER)
   avatar   String @default("https://gravatar.com/avatar/placeholder?s=200")
@@ -107,4 +107,10 @@ enum UserStatus {
   ACTIVE
   ERROR
   LOCKED
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  SECRET
 }
