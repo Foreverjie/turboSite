@@ -1,5 +1,6 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+
+import React, { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import {
   RedirectToSignIn,
@@ -9,32 +10,65 @@ import {
   useUser,
 } from '@clerk/nextjs'
 import { trpc } from '../../utils/trpc'
-import { AlertCircle, FileWarning, Terminal } from 'lucide-react'
-import { Alert, AlertDescription, AlertTitle } from 'ui'
+import { AlertCircle, Terminal } from 'lucide-react'
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+  Button,
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  Input,
+} from 'ui'
 import ShouldRender from '../../components/ShouldRender'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import * as z from 'zod'
+import { userUpdateInputSchema } from '../../server/schemas/users'
 
 function Onboarding() {
   const router = useRouter()
-  const { isSignedIn, isLoaded } = useUser()
+  const { isSignedIn, isLoaded, user } = useUser()
   const [missingFields, setMissingFields] = useState<string[]>([])
   const [optionalFields, setOptionalFields] = useState<string[]>([])
-
-  if (!isSignedIn && isLoaded) {
-    router.push('/')
-  }
-
-  // Give user tips to finish onboarding
-  // Get Missing fields
-  const { data: user } = trpc.user.me.useQuery()
+  const { data: userData } = trpc.user.me.useQuery()
+  const updateUser = trpc.user.update.useMutation()
+  const form = useForm<z.infer<typeof userUpdateInputSchema>>({
+    resolver: zodResolver(userUpdateInputSchema),
+    defaultValues: useMemo(() => {
+      return {
+        name: '',
+        email: user?.primaryEmailAddress?.emailAddress ?? '',
+      }
+    }, [user]),
+  })
 
   useEffect(() => {
-    if (user) {
+    if (isLoaded) {
+      if (!isSignedIn) {
+        router.replace('/sign-in')
+      } else {
+        form.reset({
+          name: user?.username ?? '',
+          email: user?.primaryEmailAddress?.emailAddress ?? '',
+        })
+      }
+    }
+  }, [isLoaded, isSignedIn, router, user, form])
+
+  useEffect(() => {
+    if (userData) {
       const missingFields = []
       const optionalFields = []
-      if (!user.name) {
+      if (!userData.name) {
         missingFields.push('name')
       }
-      if (!user.email) {
+      if (!userData.email) {
         missingFields.push('email')
       }
       // for now, china can not receive sms from clerk, so we don't require phone
@@ -42,12 +76,24 @@ function Onboarding() {
       //   missingFields.push('phone')
       // }
       setMissingFields(missingFields)
-      if (!user.gender) {
+      if (!userData.gender) {
         optionalFields.push('gender')
       }
       setOptionalFields(optionalFields)
     }
-  }, [router, user])
+  }, [router, userData])
+
+  const onSubmit = async (values: z.infer<typeof userUpdateInputSchema>) => {
+    try {
+      updateUser.mutate(values)
+      user?.update({
+        username: values.name,
+      })
+    } catch (error) {
+      console.error(error)
+      alert('Failed to update user data')
+    }
+  }
 
   return (
     <div>
@@ -74,9 +120,50 @@ function Onboarding() {
         {/* Signed in users will see their user profile */}
         <UserProfile />
       </SignedIn>
-      <SignedOut>
-        <RedirectToSignIn />
-      </SignedOut>
+
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input {...field} disabled />
+                </FormControl>
+                <FormDescription>This is your public email.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Username</FormLabel>
+                <FormControl>
+                  <Input placeholder="shadcn" {...field} />
+                </FormControl>
+                <FormDescription>
+                  This is your public display name.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {/* <FormField
+            control={form.control}
+            name="gender"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Gender</FormLabel>
+                <FormControl> */}
+
+          <Button type="submit">Submit</Button>
+        </form>
+      </Form>
     </div>
   )
 }

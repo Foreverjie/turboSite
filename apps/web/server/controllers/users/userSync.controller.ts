@@ -26,7 +26,7 @@ export const userSyncController = async ({
         createdAt: new Date(userSync.created_at),
         avatar: userSync.image_url,
         phone: userSync.phone_numbers?.[0]?.phone_numbers,
-        gender: userSync.gender,
+        gender: getUpdateData(userSync.gender),
       },
       update: {
         email: getUpdateData(userSync.email_addresses?.[0]?.email_address),

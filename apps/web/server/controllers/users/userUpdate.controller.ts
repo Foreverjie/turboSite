@@ -8,17 +8,14 @@ export const userUpdateController = async ({
   input: UserUpdateInput
   ctx: any
 }): Promise<UserUpdateOutput> => {
-  const { name, avatar } = input
   const user = await prisma.user.update({
     where: {
-      id: ctx.res.locals.user.id,
+      userId: ctx.auth.userId,
     },
-    data: {
-      name,
-      avatar,
-    },
+    data: input,
     select: {
       // id: true,
+      gender: true,
       name: true,
       email: true,
       role: true,
