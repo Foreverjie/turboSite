@@ -93,7 +93,7 @@ function Onboarding() {
 
   const onSubmit = async (values: z.infer<typeof userUpdateInputSchema>) => {
     try {
-      updateUser.mutate(values)
+      // updateUser.mutate(values)
       user?.update({
         username: values.name,
         unsafeMetadata: {
@@ -101,8 +101,8 @@ function Onboarding() {
         },
       })
     } catch (error) {
-      console.error(error)
-      alert('Failed to update user data')
+      console.error('Update user data error', error)
+      // alert('Failed to update user data')
     }
   }
 
