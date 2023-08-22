@@ -24,12 +24,19 @@ import {
   FormLabel,
   FormMessage,
   Input,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from 'ui'
 import ShouldRender from '../../components/ShouldRender'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { userUpdateInputSchema } from '../../server/schemas/users'
+import { Gender } from '@prisma/client'
+import { clerkClient } from '@clerk/nextjs'
 
 function Onboarding() {
   const router = useRouter()
@@ -44,6 +51,7 @@ function Onboarding() {
       return {
         name: '',
         email: user?.primaryEmailAddress?.emailAddress ?? '',
+        gender: user?.publicMetadata.gender as Gender | undefined,
       }
     }, [user]),
   })
@@ -88,6 +96,9 @@ function Onboarding() {
       updateUser.mutate(values)
       user?.update({
         username: values.name,
+        unsafeMetadata: {
+          gender: values.gender,
+        },
       })
     } catch (error) {
       console.error(error)
@@ -144,7 +155,7 @@ function Onboarding() {
               <FormItem>
                 <FormLabel>Username</FormLabel>
                 <FormControl>
-                  <Input placeholder="shadcn" {...field} />
+                  <Input placeholder="Shock the world..." {...field} />
                 </FormControl>
                 <FormDescription>
                   This is your public display name.
@@ -153,13 +164,36 @@ function Onboarding() {
               </FormItem>
             )}
           />
-          {/* <FormField
+          <FormField
             control={form.control}
             name="gender"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Gender</FormLabel>
-                <FormControl> */}
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select an option" />
+                    </SelectTrigger>
+                  </FormControl>
+
+                  <SelectContent>
+                    {/* TODO: generate select item by Gender */}
+                    <SelectItem value={Gender.MALE}>{Gender.MALE}</SelectItem>
+                    <SelectItem value={Gender.FEMALE}>
+                      {Gender.FEMALE}
+                    </SelectItem>
+                    <SelectItem value={Gender.SECRET}>
+                      {Gender.SECRET}
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </FormItem>
+            )}
+          />
 
           <Button type="submit">Submit</Button>
         </form>

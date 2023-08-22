@@ -43,6 +43,7 @@
     "@radix-ui/react-avatar": "^1.0.3",
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-separator": "^1.0.3",
+    "@radix-ui/react-select": "^1.2.2",
     "@react-aria/button": "^3.6.2",
     "@react-aria/checkbox": "^3.7.1",
     "@react-aria/dialog": "^3.4.0",

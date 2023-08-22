@@ -26,7 +26,7 @@ export const userSyncController = async ({
         createdAt: new Date(userSync.created_at),
         avatar: userSync.image_url,
         phone: userSync.phone_numbers?.[0]?.phone_numbers,
-        gender: getUpdateData(userSync.gender),
+        gender: getUpdateData(userSync.unsafe_metadata?.gender),
       },
       update: {
         email: getUpdateData(userSync.email_addresses?.[0]?.email_address),
@@ -34,7 +34,7 @@ export const userSyncController = async ({
         updatedAt: getUpdateData(new Date(userSync.updated_at)),
         avatar: getUpdateData(userSync.image_url),
         phone: getUpdateData(userSync.phone_numbers?.[0]?.phone_number),
-        gender: getUpdateData(userSync.gender),
+        gender: getUpdateData(userSync.unsafe_metadata?.gender),
       },
       where: {
         userId: userSync.id,
