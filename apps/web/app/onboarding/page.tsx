@@ -36,7 +36,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { userUpdateInputSchema } from '../../server/schemas/users'
 import { Gender } from '@prisma/client'
-import { clerkClient } from '@clerk/nextjs'
 
 function Onboarding() {
   const router = useRouter()
@@ -93,7 +92,7 @@ function Onboarding() {
 
   const onSubmit = async (values: z.infer<typeof userUpdateInputSchema>) => {
     try {
-      // updateUser.mutate(values)
+      // updateUser.mutate(values) // no need to update user data directly
       user?.update({
         username: values.name,
         unsafeMetadata: {

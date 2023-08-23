@@ -15,6 +15,7 @@ module.exports = {
     },
     extend: {
       colors: {
+        text: 'hsl(var(--text))',
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
@@ -48,6 +49,20 @@ module.exports = {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
         },
+        'picton-blue': {
+          '50': '#f0f8fe',
+          '100': '#ddeefc',
+          '200': '#c3e1fa',
+          '300': '#9ad0f6',
+          '400': '#6bb5ef',
+          '500': '#4a99e9', // primary
+          '600': '#337cdd',
+          '700': '#2a67cb',
+          '800': '#2854a5',
+          '900': '#264982',
+          '950': '#1b2d50',
+        },
+        
       },
       borderRadius: {
         lg: `var(--radius)`,

@@ -67,14 +67,14 @@ function PostCard() {
         <div className="flex justify-between">
           <div className="flex">
             <Avatar className="mr-2">
-              <AvatarImage src="https://github.com/shadcn.png" />
-              <AvatarFallback>CN</AvatarFallback>
+              <AvatarImage src="https://github.com/foreverjie.png" />
+              <AvatarFallback>SZ</AvatarFallback>
             </Avatar>
             {/* Username and userId col */}
             <div className="flex flex-col">
-              <div className="text-sm font-bold text-gray-900">Shane</div>
+              <div className="text-sm font-bold">Shane</div>
               <div className="text-sm text-gray-500">
-                <span className="text-gray-400">@</span>shane-fine
+                <span className="text-gray-400">@</span>shane-hendricks
               </div>
             </div>
           </div>
@@ -82,7 +82,7 @@ function PostCard() {
         </div>
       </CardHeader>
       <CardContent>
-        <div className="font-sm text-gray-900">{content}</div>
+        <div className="font-sm">{content}</div>
       </CardContent>
       <CardFooter>
         <div className="flex items-center justify-between">
