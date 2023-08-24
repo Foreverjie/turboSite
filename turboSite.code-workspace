@@ -41,6 +41,7 @@
 			"tailwind-config"
 		],
 		"cSpell.words": [
+			"animejs",
 			"Authed",
 			"clsx",
 			"hookform",

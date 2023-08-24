@@ -59,19 +59,23 @@ export function SignUpCodeStep({ onDone }: SignUpCodeStepProps) {
           name="code"
           render={({ field }) => (
             <FormItem>
-              <FormControl>
-                <span>
-                  A 6-digit code was just sent to {signUp.emailAddress}
-                  <br />
-                </span>
-                <Input {...field} />
-              </FormControl>
-              <FormMessage />
+              <div className="flex flex-col justify-center items-center mb-4 space-y-2 text-center">
+                <FormControl>
+                  <>
+                    <span>
+                      A 6-digit code was just sent to {signUp.emailAddress}
+                      <br />
+                    </span>
+                    <Input {...field} />
+                  </>
+                </FormControl>
+                <FormMessage />
+              </div>
             </FormItem>
           )}
         />
         <div className="flex justify-center items-center">
-          <Button disabled={form.formState.isValid}>Continue</Button>
+          <Button disabled={!form.formState.isValid}>Continue</Button>
         </div>
       </form>
     </Form>
