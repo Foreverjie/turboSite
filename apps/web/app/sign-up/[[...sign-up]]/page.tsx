@@ -7,6 +7,7 @@ import { SignUpCodeStep } from './sign-up-code-step'
 import { SignUpPasswordStep } from './sign-up-password-step'
 import { SignUpInformationStep } from './sign-up-information-step'
 import { SignUpDoneStep } from './sign-up-done-step'
+import { useSignUp } from '@clerk/nextjs'
 
 enum SignUpStep {
   EMAIL,
@@ -18,12 +19,20 @@ enum SignUpStep {
 
 export default function Page() {
   const [step, setStep] = useState(SignUpStep.EMAIL)
+  const { signUp, isLoaded, setActive } = useSignUp()
   const router = useRouter()
-  const nextStep = () => {
+  const nextStep = async () => {
+    // console.log('nextStep', isLoaded)
+    // if (!isLoaded) return
     if (step === SignUpStep.DONE) {
       router.push('/')
       return
     }
+    // if (signUp?.status === 'complete') {
+    //   await setActive({
+    //     session: signUp.createdSessionId,
+    //   })
+    // }
     setStep(prev => prev + 1)
   }
   // const prevStep = () => {

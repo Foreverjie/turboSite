@@ -1,4 +1,4 @@
-import { useSignUp } from '@clerk/clerk-react'
+import { useSignUp } from '@clerk/nextjs'
 import SignUpTitle from '~/components/SignUp/SignUpTitle'
 import { parseClerkError, ClerkAPIResponseError } from '~/utils/apiError'
 import { useForm } from 'react-hook-form'
@@ -13,7 +13,6 @@ import {
   FormMessage,
   Input,
 } from 'ui'
-import { useRouter } from 'next/navigation'
 
 type SignUpPasswordStepProps = {
   onDone: () => void
@@ -34,7 +33,7 @@ const PasswordInputSchema = z
   })
 
 export function SignUpPasswordStep({ onDone }: SignUpPasswordStepProps) {
-  const { signUp, isLoaded } = useSignUp()
+  const { signUp, isLoaded, setActive } = useSignUp()
 
   const form = useForm<z.infer<typeof PasswordInputSchema>>({
     mode: 'all',
@@ -50,6 +49,12 @@ export function SignUpPasswordStep({ onDone }: SignUpPasswordStepProps) {
       const completeSignUp = await signUp.update({
         password: value.password,
       })
+      if (completeSignUp.status === 'complete') {
+        await setActive({
+          session: completeSignUp.createdSessionId,
+        })
+        onDone()
+      }
     } catch (err) {
       form.setError('password', {
         type: 'manual',
@@ -93,7 +98,9 @@ export function SignUpPasswordStep({ onDone }: SignUpPasswordStepProps) {
             )}
           />
           <div className="flex justify-center items-center">
-            <Button disabled={!form.formState.isValid}>Continue</Button>
+            <Button type="submit" disabled={!form.formState.isValid}>
+              Continue
+            </Button>
           </div>
         </div>
       </form>

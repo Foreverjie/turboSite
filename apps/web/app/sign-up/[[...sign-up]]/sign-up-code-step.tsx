@@ -1,4 +1,4 @@
-import { useSignUp } from '@clerk/clerk-react'
+import { useSignUp } from '@clerk/nextjs'
 import SignUpTitle from '~/components/SignUp/SignUpTitle'
 import { parseClerkError, ClerkAPIResponseError } from '~/utils/apiError'
 import { useForm } from 'react-hook-form'
@@ -19,7 +19,7 @@ type SignUpCodeStepProps = {
 }
 
 const codeInputSchema = z.object({
-  code: z.string(),
+  code: z.string().length(6),
 })
 
 export function SignUpCodeStep({ onDone }: SignUpCodeStepProps) {
@@ -75,7 +75,9 @@ export function SignUpCodeStep({ onDone }: SignUpCodeStepProps) {
           )}
         />
         <div className="flex justify-center items-center">
-          <Button disabled={!form.formState.isValid}>Continue</Button>
+          <Button type="submit" disabled={!form.formState.isValid}>
+            Continue
+          </Button>
         </div>
       </form>
     </Form>

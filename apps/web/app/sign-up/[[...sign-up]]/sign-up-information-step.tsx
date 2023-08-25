@@ -1,4 +1,4 @@
-import { useSignUp } from '@clerk/clerk-react'
+import { useUser } from '@clerk/nextjs'
 import SignUpTitle from '~/components/SignUp/SignUpTitle'
 import { parseClerkError, ClerkAPIResponseError } from '~/utils/apiError'
 import { useForm } from 'react-hook-form'
@@ -26,11 +26,11 @@ type SignUpInformationStepProps = {
 
 const InformationInputSchema = z.object({
   name: z.string(),
-  gender: z.nativeEnum(Gender),
+  gender: z.nativeEnum(Gender).optional(),
 })
 
 export function SignUpInformationStep({ onDone }: SignUpInformationStepProps) {
-  const { signUp, isLoaded, setActive } = useSignUp()
+  const { user, isLoaded } = useUser()
 
   const form = useForm<z.infer<typeof InformationInputSchema>>({
     mode: 'all',
@@ -45,18 +45,13 @@ export function SignUpInformationStep({ onDone }: SignUpInformationStepProps) {
     value: z.infer<typeof InformationInputSchema>,
   ) {
     try {
-      const completeSignUp = await signUp.update({
+      await user?.update({
         username: value.name,
         unsafeMetadata: {
           gender: value.gender,
         },
       })
-      if (completeSignUp.status === 'complete') {
-        await setActive({
-          session: completeSignUp.createdSessionId,
-        })
-        onDone()
-      }
+      onDone()
     } catch (err) {
       // TODO - handle error from different fields
       form.setError('name', {
@@ -117,7 +112,9 @@ export function SignUpInformationStep({ onDone }: SignUpInformationStepProps) {
           />
 
           <div className="flex justify-center items-center">
-            <Button disabled={form.formState.isValid}>Continue</Button>
+            <Button type="submit" disabled={!form.formState.isValid}>
+              Continue
+            </Button>
           </div>
         </div>
       </form>
