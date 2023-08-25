@@ -6,7 +6,7 @@ import Head from 'next/head'
 import { PlusCircleIcon } from '@heroicons/react/24/outline'
 import { Modal, Text, useModal, Button, Textarea, Loading } from 'ui'
 import { trpc } from '~/utils/trpc'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { SimpleColors } from 'ui/src/utils/prop-types'
 import {
   Accordion,
@@ -40,17 +40,24 @@ const Home: CustomPage = () => {
 
   const [theme, setTheme] = useState<Theme>(Theme.light)
 
-  const toggleTheme = () => {
+  const switchTheme = (theme: Theme) => {
+    setTheme(theme)
     const root = document.getElementsByTagName('html')[0]
-    root.classList.toggle(Theme.dark)
-    if (root.classList.contains(Theme.dark)) {
+    root.classList.remove(Theme.dark, Theme.light)
+    root.classList.add(theme)
+    document.cookie = `theme=${theme}`
+  }
+
+  useEffect(() => {
+    const isDarkTheme = document
+      .getElementsByTagName('html')[0]
+      .classList.contains(Theme.dark)
+    if (isDarkTheme) {
       setTheme(Theme.dark)
-      document.cookie = `theme=${Theme.dark}`
     } else {
       setTheme(Theme.light)
-      document.cookie = `theme=${Theme.light}`
     }
-  }
+  }, [])
 
   return (
     <div className="lg:max-w-6xl mx-auto">
@@ -60,8 +67,8 @@ const Home: CustomPage = () => {
 
       <div>
         <div className="">The current theme is: {theme}</div>
-        <button onClick={toggleTheme}>Light Mode</button>
-        <button onClick={toggleTheme}>Dark Mode</button>
+        <button onClick={() => switchTheme(Theme.light)}>Light Mode</button>
+        <button onClick={() => switchTheme(Theme.dark)}>Dark Mode</button>
       </div>
 
       {userId ? (
