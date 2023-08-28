@@ -21,9 +21,6 @@ export * from './link'
 export { default as Navbar } from './navbar'
 export * from './navbar'
 
-export { default as Button } from './button'
-export * from './button'
-
 export { default as Spacer } from './spacer'
 export * from './spacer'
 
@@ -33,9 +30,6 @@ export * from './dropdown'
 export { default as Modal } from './modal'
 export * from './modal'
 export { default as useModal } from './modal/use-modal'
-
-export { default as Input } from './input'
-export * from './input'
 
 export { default as Textarea } from './textarea'
 export * from './textarea'
@@ -64,3 +58,5 @@ export * from './label'
 export * from './alert'
 export * from './separator'
 export * from './select'
+export * from './input'
+export * from './button'

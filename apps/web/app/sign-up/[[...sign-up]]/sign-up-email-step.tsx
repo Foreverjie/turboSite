@@ -74,10 +74,7 @@ export function SignUpEmailStep({ onDone }: SignUpEmailStepProps) {
             <FormItem>
               <div className="flex flex-col justify-center items-center mb-4 space-y-2 text-center">
                 <FormControl>
-                  <Input
-                    {...field}
-                    className="bg-gray-100 rounded-md p-1 border focus:ring-2 focus:border-transparent"
-                  />
+                  <Input {...field} />
                 </FormControl>
                 <FormMessage />
               </div>

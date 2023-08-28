@@ -11,12 +11,6 @@ const Feed = (): ReactElement => {
 
   return (
     <Fragment>
-      <div className="flex items-center justify-center">
-        Render Fine
-        {posts?.length}
-        {/* {isLoading && <Loading />} */}
-      </div>
-
       <PostCard />
 
       {/* {posts &&

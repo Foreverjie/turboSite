@@ -78,6 +78,11 @@ const Home: CustomPage = () => {
       )}
 
       <Feed />
+      <Feed />
+      <Feed />
+      <Feed />
+      <Feed />
+      <Feed />
 
       <h1 className="text-4xl font-bold">Flash</h1>
       <Accordion type="single" collapsible className="w-full">

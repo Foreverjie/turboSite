@@ -21,7 +21,7 @@ export default function Page() {
   const [step, setStep] = useState(SignUpStep.EMAIL)
   const { signUp, isLoaded, setActive } = useSignUp()
   const router = useRouter()
-  const nextStep = async () => {
+  const nextStep = useCallback(async () => {
     // console.log('nextStep', isLoaded)
     // if (!isLoaded) return
     if (step === SignUpStep.DONE) {
@@ -34,7 +34,7 @@ export default function Page() {
     //   })
     // }
     setStep(prev => prev + 1)
-  }
+  }, [router, step])
   // const prevStep = () => {
   //   setStep((prev) => prev - 1)
   // }
@@ -51,10 +51,10 @@ export default function Page() {
       case SignUpStep.DONE:
         return <SignUpDoneStep onDone={nextStep} />
     }
-  }, [step])
+  }, [nextStep, step])
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen dark:bg-black py-12 bg-gray-50 sm:px-6 lg:px-8">
+    <div className="flex flex-col items-center justify-center min-h-screen py-12 px-6 lg:px-8">
       {renderStep()}
     </div>
   )
