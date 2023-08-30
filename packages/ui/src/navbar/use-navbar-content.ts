@@ -1,4 +1,4 @@
-import { useMemo, useState, useRef } from 'react'
+import { useMemo } from 'react'
 import { mergeProps } from '@react-aria/utils'
 
 import { CSSGapUnit } from '../theme'

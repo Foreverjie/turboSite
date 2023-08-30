@@ -5,7 +5,7 @@ import type {
   SimpleColors,
 } from '../utils/prop-types'
 
-import { useMemo, useRef } from 'react'
+import { useMemo } from 'react'
 import { useToggleState } from '@react-stately/toggle'
 import {
   useCheckbox as useReactAriaCheckbox,

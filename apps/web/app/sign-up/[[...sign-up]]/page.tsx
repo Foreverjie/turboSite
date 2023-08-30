@@ -1,13 +1,14 @@
 'use client'
 
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { SignUpEmailStep } from './sign-up-email-step'
 import { useRouter } from 'next/navigation'
 import { SignUpCodeStep } from './sign-up-code-step'
 import { SignUpPasswordStep } from './sign-up-password-step'
 import { SignUpInformationStep } from './sign-up-information-step'
 import { SignUpDoneStep } from './sign-up-done-step'
-import { useSignUp } from '@clerk/nextjs'
+import { useSession } from '@clerk/nextjs'
+import { Button, Link } from 'ui'
 
 enum SignUpStep {
   EMAIL,
@@ -19,25 +20,20 @@ enum SignUpStep {
 
 export default function Page() {
   const [step, setStep] = useState(SignUpStep.EMAIL)
-  const { signUp, isLoaded, setActive } = useSignUp()
+  const { isLoaded, isSignedIn } = useSession()
   const router = useRouter()
   const nextStep = useCallback(async () => {
-    // console.log('nextStep', isLoaded)
-    // if (!isLoaded) return
     if (step === SignUpStep.DONE) {
       router.push('/')
       return
     }
-    // if (signUp?.status === 'complete') {
-    //   await setActive({
-    //     session: signUp.createdSessionId,
-    //   })
-    // }
     setStep(prev => prev + 1)
   }, [router, step])
-  // const prevStep = () => {
-  //   setStep((prev) => prev - 1)
-  // }
+
+  const toSignIn = () => {
+    router.push('/sign-in')
+  }
+
   const renderStep = useCallback(() => {
     switch (step) {
       case SignUpStep.EMAIL:
@@ -53,9 +49,23 @@ export default function Page() {
     }
   }, [nextStep, step])
 
+  useEffect(() => {
+    if (isLoaded && isSignedIn) {
+      router.replace('/')
+    }
+  }, [isLoaded, isSignedIn])
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-12 px-6 lg:px-8">
       {renderStep()}
+      <div className="mt-4">
+        <p className="text-sm font-medium text-gray-600 dark:text-gray-200 flex space-x-2 justify-center items-center">
+          <span>Already have an account?</span>
+          <Button variant={'link'} onClick={toSignIn} className="p-0">
+            Sign in
+          </Button>
+        </p>
+      </div>
     </div>
   )
 }

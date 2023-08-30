@@ -6,7 +6,7 @@ import type {
 } from '../utils/prop-types'
 import type { IFocusRingAria, IMenuItemAria } from './dropdown-types'
 
-import React, { ReactNode, Key, useRef, useMemo } from 'react'
+import React, { ReactNode, Key, useMemo } from 'react'
 import { Node } from '@react-types/shared'
 import { mergeProps } from '@react-aria/utils'
 import { TreeState } from '@react-stately/tree'

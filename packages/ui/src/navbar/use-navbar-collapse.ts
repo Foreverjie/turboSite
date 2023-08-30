@@ -1,6 +1,6 @@
 import type { ForwardedRef } from 'react'
 
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useMemo } from 'react'
 
 import { HTMLNextUIProps } from '../utils/system'
 import { useDOMRef } from '../utils/dom'

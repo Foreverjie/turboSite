@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect } from 'react'
+import React, { useMemo, } from 'react'
 import { useHover } from '@react-aria/interactions'
 import { mergeProps } from '@react-aria/utils'
 import { useId } from '@react-aria/utils'

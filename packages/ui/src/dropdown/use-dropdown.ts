@@ -1,4 +1,4 @@
-import { useRef, useCallback } from 'react'
+import { useCallback } from 'react'
 import { mergeProps } from '@react-aria/utils'
 import { MenuTriggerType } from '@react-types/menu'
 import { useMenuTrigger } from '@react-aria/menu'

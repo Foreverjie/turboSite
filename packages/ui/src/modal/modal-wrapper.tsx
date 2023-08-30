@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useMemo, useState } from 'react'
+import React, { } from 'react'
 
 import withDefaults from '../utils/with-defaults'
 import CSSTransition from '../utils/css-transition'

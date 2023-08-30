@@ -1,6 +1,6 @@
 import type { PropsWithoutRef, RefAttributes } from 'react'
 
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 
 import { ObjectFit } from '../utils/prop-types'
 import useRealShape from '../use-real-shape'
