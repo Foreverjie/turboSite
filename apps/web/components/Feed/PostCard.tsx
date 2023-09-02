@@ -15,7 +15,6 @@ import {
   MessageCircleIcon,
 } from 'lucide-react'
 import { trpc } from '../../utils/trpc'
-import { useModal } from 'ui'
 import { AuthModal } from '../../components/AuthModal'
 import { requireAuth } from '../../utils/auth'
 import { useSession } from 'next-auth/react'
