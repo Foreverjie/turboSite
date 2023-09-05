@@ -8,7 +8,7 @@ import { SignUpPasswordStep } from './sign-up-password-step'
 import { SignUpInformationStep } from './sign-up-information-step'
 import { SignUpDoneStep } from './sign-up-done-step'
 import { useSession } from '@clerk/nextjs'
-import { Button, Link } from 'ui'
+import { Button } from 'ui'
 
 enum SignUpStep {
   EMAIL,

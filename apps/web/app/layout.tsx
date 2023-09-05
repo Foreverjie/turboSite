@@ -37,7 +37,7 @@ export default function RootLayout({
               <div className="">
                 <Header />
                 {children}
-                <Footer />
+                {/* <Footer /> */}
               </div>
             </div>
           </TrpcProvider>
