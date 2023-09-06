@@ -1,6 +1,6 @@
 'use client'
 
-import { clerkClient, useSession, useSignIn } from '@clerk/nextjs'
+import { useSession, useSignIn } from '@clerk/nextjs'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import {
@@ -11,7 +11,6 @@ import {
   FormItem,
   FormMessage,
   Input,
-  Label,
   Tabs,
   TabsContent,
   TabsList,
@@ -19,10 +18,7 @@ import {
   Card,
   CardHeader,
   CardTitle,
-  CardDescription,
   CardContent,
-  CardFooter,
-  FormLabel,
 } from 'ui'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
@@ -54,6 +50,11 @@ export default function Page() {
 
   const form = useForm<z.infer<typeof SignInInputSchema>>({
     resolver: zodResolver(SignInInputSchema),
+    defaultValues: {
+      email: '',
+      code: undefined,
+      password: undefined,
+    },
   })
 
   const [countdown, setCountdown] = useState<number>(0)
@@ -73,19 +74,19 @@ export default function Page() {
       factor => factor.strategy === 'email_code',
     ) as EmailCodeFactor
 
-    await signInAttempt?.prepareFirstFactor({
+    await signIn?.prepareFirstFactor({
       strategy: 'email_code',
       emailAddressId: emailCodeFactor?.emailAddressId,
     })
 
     setCountdown(60)
     const timer = setInterval(() => {
-      if (countdown === 0) {
-        clearInterval(timer)
-        return
-      }
       setCountdown(prevCountdown => prevCountdown - 1)
     }, 1000)
+
+    setTimeout(() => {
+      clearInterval(timer)
+    }, 60000)
   }
 
   const onSubmit = async function (value: z.infer<typeof SignInInputSchema>) {
@@ -181,9 +182,17 @@ export default function Page() {
                       <FormItem>
                         <div className="flex items-center space-x-2">
                           <FormControl>
-                            <Input type="text" placeholder="One-time Code" />
+                            <Input
+                              type="text"
+                              placeholder="One-time Code"
+                              {...field}
+                            />
                           </FormControl>
-                          <Button disabled={countdown !== 0} onClick={sendCode}>
+                          <Button
+                            disabled={countdown !== 0}
+                            onClick={sendCode}
+                            type={'button'}
+                          >
                             {countdown === 0 ? 'Send' : `${countdown}s`}
                           </Button>
                         </div>
@@ -238,7 +247,11 @@ export default function Page() {
                       <FormItem>
                         <div className="flex items-center space-x-2">
                           <FormControl>
-                            <Input type="password" placeholder="Password" />
+                            <Input
+                              type="password"
+                              placeholder="Password"
+                              {...field}
+                            />
                           </FormControl>
                         </div>
                         <FormMessage />
