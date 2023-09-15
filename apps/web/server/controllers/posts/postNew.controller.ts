@@ -11,9 +11,9 @@ export const postNewController = async ({
   const post = await prisma.post.create({
     data: {
       content: input.content,
-      // files: input.files,
+      files: input.files,
       author: {
-        connect: { id: ctx.res.locals.user.id },
+        connect: { userId: ctx.auth.userId },
       },
     },
   })

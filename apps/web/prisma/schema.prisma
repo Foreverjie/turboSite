@@ -57,7 +57,7 @@ model Post {
   // likeByIds Int[] @db.ObjectId
 
   content String
-  // files   String[]
+  files   String[]
 
   comments Comment[]
 
