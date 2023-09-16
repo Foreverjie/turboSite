@@ -36,8 +36,6 @@ function Header() {
     setPost('')
   }
 
-  console.log('loading', newPost.isLoading)
-
   const goSignIn = () => {
     router.push(`/sign-in?redirect=${path}`)
   }
@@ -83,7 +81,9 @@ function Header() {
                 <ImageIcon className="mr-2" onClick={handleImageClick} />
                 <MapPinIcon className="mr-2" onClick={handleLocationClick} />
               </div>
-              <Button onClick={addPost}>Post</Button>
+              <Button onClick={addPost} loading={newPost.isLoading}>
+                Post
+              </Button>
             </div>
           </SheetContent>
         </Sheet>
