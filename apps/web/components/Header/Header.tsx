@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Avatar,
   AvatarFallback,
@@ -43,8 +43,27 @@ function Header() {
   const handleImageClick = () => {}
   const handleLocationClick = () => {}
 
+  const [position, setPosition] = useState(window.scrollY)
+  const [visible, setVisible] = useState(true)
+  useEffect(() => {
+    const handleScroll = () => {
+      let moving = window.scrollY
+
+      setVisible(position > moving)
+      setPosition(moving)
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  })
+
+  const cls = visible ? 'top-0' : 'top-[-80px]'
+
   return (
-    <div className="sticky top-0 flex bg-background p-4 z-50 items-center justify-between">
+    <div
+      className={`fixed shadow-md w-full flex bg-background p-4 z-50 items-center justify-between transition duration-400 ease-in-out ${cls}`}
+    >
       <>
         <ShouldRender if={!isLoaded || !isSignedIn}>
           <Avatar

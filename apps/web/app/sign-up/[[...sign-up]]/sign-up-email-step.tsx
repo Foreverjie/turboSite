@@ -14,6 +14,7 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ClerkAPIResponseError, parseClerkError } from '~/utils/apiError'
 import SignUpTitle from '../../../components/SignUp/SignUpTitle'
+import { AnimatePresence, motion } from 'framer-motion'
 
 type SignUpEmailStepProps = {
   onDone: () => void
@@ -39,7 +40,7 @@ export function SignUpEmailStep({ onDone }: SignUpEmailStepProps) {
 
   const onSubmit = async function (value: z.infer<typeof emailInputSchema>) {
     try {
-      await sendClerkOtp(value)
+      // await sendClerkOtp(value)
       onDone()
     } catch (error) {
       form.setError('email', {

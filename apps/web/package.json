@@ -36,6 +36,7 @@
     "bcryptjs": "^2.4.3",
     "encoding": "^0.1.13",
     "eventsource-parser": "^0.1.0",
+    "framer-motion": "^10.16.4",
     "jsonwebtoken": "^8.5.1",
     "lucide-react": "^0.244.0",
     "micro": "^10.0.1",

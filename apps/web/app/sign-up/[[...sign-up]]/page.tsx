@@ -9,6 +9,7 @@ import { SignUpInformationStep } from './sign-up-information-step'
 import { SignUpDoneStep } from './sign-up-done-step'
 import { useSession } from '@clerk/nextjs'
 import { Button } from 'ui'
+import { AnimatePresence, motion } from 'framer-motion'
 
 enum SignUpStep {
   EMAIL,
@@ -16,6 +17,27 @@ enum SignUpStep {
   PASSWORD,
   INFORMATION,
   DONE,
+}
+
+const variants = {
+  initial: {
+    opacity: 0,
+    x: 300,
+  },
+  in: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      duration: 0.3,
+    },
+  },
+  out: {
+    opacity: 0,
+    x: -300,
+    transition: {
+      duration: 0.3,
+    },
+  },
 }
 
 export default function Page() {
@@ -37,9 +59,29 @@ export default function Page() {
   const renderStep = useCallback(() => {
     switch (step) {
       case SignUpStep.EMAIL:
-        return <SignUpEmailStep onDone={nextStep} />
+        return (
+          <motion.div
+            key="sign-up-email-step"
+            variants={variants}
+            initial="initial"
+            animate="in"
+            exit="out"
+          >
+            <SignUpEmailStep onDone={nextStep} />
+          </motion.div>
+        )
       case SignUpStep.CODE:
-        return <SignUpCodeStep onDone={nextStep} />
+        return (
+          <motion.div
+            key="sign-up-code-step"
+            variants={variants}
+            initial="initial"
+            animate="in"
+            exit="out"
+          >
+            <SignUpCodeStep onDone={nextStep} />
+          </motion.div>
+        )
       case SignUpStep.PASSWORD:
         return <SignUpPasswordStep onDone={nextStep} />
       case SignUpStep.INFORMATION:
@@ -49,15 +91,15 @@ export default function Page() {
     }
   }, [nextStep, step])
 
-  useEffect(() => {
-    if (isLoaded && isSignedIn) {
-      router.replace('/')
-    }
-  }, [isLoaded, isSignedIn])
+  // useEffect(() => {
+  //   if (isLoaded && isSignedIn) {
+  //     router.replace('/')
+  //   }
+  // }, [isLoaded, isSignedIn, router])
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-12 px-6 lg:px-8">
-      {renderStep()}
+      <AnimatePresence mode="wait">{renderStep()}</AnimatePresence>
       <div className="mt-4">
         <p className="text-sm font-medium text-gray-600 dark:text-gray-200 flex space-x-2 justify-center items-center">
           <span>Already have an account?</span>

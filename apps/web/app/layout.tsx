@@ -32,14 +32,9 @@ export default function RootLayout({
       <html lang="en" className={theme?.value}>
         <body className={inter.className}>
           <TrpcProvider>
-            <div className="">
-              <Sidebar />
-              <div className="">
-                <Header />
-                {children}
-                {/* <Footer /> */}
-              </div>
-            </div>
+            <Header />
+            <div className="pt-4">{children}</div>
+            {/* <Footer /> */}
           </TrpcProvider>
         </body>
       </html>
