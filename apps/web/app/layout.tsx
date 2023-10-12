@@ -2,11 +2,13 @@ import Footer from '~/components/Footer'
 import './globals.css'
 import { TrpcProvider } from '~/utils'
 import Sidebar from '~/components/Sidebar'
-import Header from '~/components/Header'
 import { ClerkProvider } from '@clerk/nextjs'
 import { Inter } from 'next/font/google'
 import { cookies } from 'next/headers'
 import { dark } from '@clerk/themes'
+import dynamic from 'next/dynamic'
+
+const Header = dynamic(() => import('~/components/Header'), { ssr: false })
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -33,7 +35,7 @@ export default function RootLayout({
         <body className={inter.className}>
           <TrpcProvider>
             <Header />
-            <div className="pt-4">{children}</div>
+            <div className="pt-[80px]">{children}</div>
             {/* <Footer /> */}
           </TrpcProvider>
         </body>

@@ -91,11 +91,11 @@ export default function Page() {
     }
   }, [nextStep, step])
 
-  // useEffect(() => {
-  //   if (isLoaded && isSignedIn) {
-  //     router.replace('/')
-  //   }
-  // }, [isLoaded, isSignedIn, router])
+  useEffect(() => {
+    if (isLoaded && isSignedIn) {
+      router.replace('/')
+    }
+  }, [isLoaded, isSignedIn, router])
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-12 px-6 lg:px-8">

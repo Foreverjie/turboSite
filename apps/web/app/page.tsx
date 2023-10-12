@@ -2,12 +2,11 @@
 import { CustomPage } from '~/lib/types/page.types'
 // import Feed from 'components/Feed/Feed'
 // import { WebLayout } from '~/layouts/WebLayout'
+import { SignOutButton, useAuth } from '@clerk/nextjs'
+import { UserStatus } from '@prisma/client'
 import Head from 'next/head'
-import { PlusCircleIcon } from '@heroicons/react/24/outline'
-import { Modal, Text, useModal, Button, Textarea, Loading } from 'ui'
-import { trpc } from '~/utils/trpc'
+import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { SimpleColors } from 'ui/src/utils/prop-types'
 import {
   Accordion,
   AccordionContent,
@@ -15,15 +14,7 @@ import {
   AccordionTrigger,
 } from 'ui/src/accordion'
 import Feed from '~/components/Feed/Feed'
-import { SignOutButton, useAuth } from '@clerk/nextjs'
-import { useRouter } from 'next/navigation'
-import { UserStatus } from '@prisma/client'
-// import Widget from '~/components/Widget/Widget'
-
-export enum Theme {
-  dark = 'dark',
-  light = 'light',
-}
+import { trpc } from '~/utils/trpc'
 
 const Home: CustomPage = () => {
   const { userId, isSignedIn } = useAuth()
@@ -38,53 +29,15 @@ const Home: CustomPage = () => {
     router.replace('/onboarding')
   }
 
-  const [theme, setTheme] = useState<Theme>(Theme.light)
-
-  const switchTheme = (theme: Theme) => {
-    setTheme(theme)
-    const root = document.getElementsByTagName('html')[0]
-    root.classList.remove(Theme.dark, Theme.light)
-    root.classList.add(theme)
-    document.cookie = `theme=${theme}`
-  }
-
-  useEffect(() => {
-    const isDarkTheme = document
-      .getElementsByTagName('html')[0]
-      .classList.contains(Theme.dark)
-    if (isDarkTheme) {
-      setTheme(Theme.dark)
-    } else {
-      setTheme(Theme.light)
-    }
-  }, [])
-
   return (
     <div className="lg:max-w-6xl mx-auto">
       <Head>
         <title>Flash</title>
       </Head>
 
-      <div>
-        <div className="">The current theme is: {theme}</div>
-        <button onClick={() => switchTheme(Theme.light)}>Light Mode</button>
-        <button onClick={() => switchTheme(Theme.dark)}>Dark Mode</button>
-      </div>
-
-      {userId ? (
-        <SignOutButton />
-      ) : (
-        <button onClick={() => router.push('/sign-in')}>Sign In</button>
-      )}
-
-      <Feed />
-      <Feed />
-      <Feed />
-      <Feed />
-      <Feed />
       <Feed />
 
-      <h1 className="text-4xl font-bold">Flash</h1>
+      {/* <h1 className="text-4xl font-bold">Flash</h1>
       <Accordion type="single" collapsible className="w-full">
         <AccordionItem value="item-1">
           <AccordionTrigger>Is it accessible?</AccordionTrigger>
@@ -106,7 +59,7 @@ const Home: CustomPage = () => {
             prefer.
           </AccordionContent>
         </AccordionItem>
-      </Accordion>
+      </Accordion> */}
 
       {/* <Widget /> */}
     </div>

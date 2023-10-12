@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ElementType } from 'react'
 import {
   Card,
   CardContent,
@@ -19,9 +19,14 @@ import { AuthModal } from '../../components/AuthModal'
 import { requireAuth } from '../../utils/auth'
 import { useSession } from 'next-auth/react'
 import { useQueryClient } from '@tanstack/react-query'
+import { RouterOutput } from '../../client/trpcClient'
 
-// function PostCard({ id, author, content, likeByIds }: any) {
-function PostCard() {
+function PostCard({
+  id,
+  author,
+  content,
+}: RouterOutput['post']['all'][number]) {
+  // function PostCard() {
   // const utils = trpc.useContext()
   // const queryClient = useQueryClient()
   // const likePost = trpc.post.like.useMutation({
@@ -51,29 +56,20 @@ function PostCard() {
     // }
   }
 
-  // mock data
-  const author = {
-    name: 'John Doe',
-    avatar: 'https://i.pravatar.cc/300?img=3',
-  }
-
-  const content =
-    'It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'
-
   return (
     <Card>
       <CardHeader>
         <div className="flex justify-between">
           <div className="flex">
             <Avatar className="mr-2">
-              <AvatarImage src="https://github.com/foreverjie.png" />
-              <AvatarFallback>SZ</AvatarFallback>
+              <AvatarImage src={author.avatar} />
+              <AvatarFallback>{author.name}</AvatarFallback>
             </Avatar>
-            {/* Username and userId col */}
             <div className="flex flex-col">
-              <div className="text-sm font-bold">Shane</div>
+              <div className="text-sm font-bold">{author.name}</div>
               <div className="text-sm text-gray-500">
-                <span className="text-gray-400">@</span>shane-hendricks
+                <span className="text-gray-400">@</span>
+                {author.id}
               </div>
             </div>
           </div>

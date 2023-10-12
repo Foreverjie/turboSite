@@ -6,6 +6,10 @@ import { useState } from 'react'
 import superjson from 'superjson'
 import type { AppRouter } from '~/server/routers'
 import { toast } from 'react-toastify'
+import { inferRouterInputs, inferRouterOutputs } from '@trpc/server'
+
+export type RouterInput = inferRouterInputs<AppRouter>
+export type RouterOutput = inferRouterOutputs<AppRouter>
 
 export const trpc = createTRPCReact<AppRouter>({
   unstable_overrides: {
