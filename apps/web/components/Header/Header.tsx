@@ -38,7 +38,12 @@ function Header() {
   const path = usePathname()
   const [post, setPost] = useState('')
   const [postOpen, setPostOpen] = useState(false)
-  const newPost = trpc.post.new.useMutation()
+  const utils = trpc.useContext()
+  const newPost = trpc.post.new.useMutation({
+    onSuccess: () => {
+      utils.post.all.invalidate()
+    },
+  })
   const { signOut } = useClerk()
 
   const addPost = async () => {

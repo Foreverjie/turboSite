@@ -3,6 +3,9 @@ import prisma from '../../../prisma/prisma-client'
 
 export const postAllController = async (): Promise<PostAllOutput> => {
   const posts = await prisma.post.findMany({
+    orderBy: {
+      createdAt: 'desc',
+    },
     where: {
       isBlocked: false,
       isDeleted: false,
