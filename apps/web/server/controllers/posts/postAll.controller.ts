@@ -19,10 +19,14 @@ export const postAllController = async (): Promise<PostAllOutput> => {
           avatar: true,
         },
       },
-      // likeByIds: true,
+      likeBy: {
+        select: {
+          userId: true,
+        },
+      },
       id: true,
       content: true,
-      // files: true,
+      files: true,
     },
   })
   return posts

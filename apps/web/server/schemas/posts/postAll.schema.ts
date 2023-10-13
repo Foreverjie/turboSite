@@ -10,8 +10,12 @@ export const postAllOutputSchema = z
     id: z.number(),
     type: z.string(),
     content: z.string(),
-    // files: z.string().array(),
-    // likeByIds: z.string().array(),
+    files: z.string().array(),
+    likeBy: z
+      .object({
+        userId: z.string(),
+      })
+      .array(),
     author: z.object({
       id: z.number(),
       name: z.string(),

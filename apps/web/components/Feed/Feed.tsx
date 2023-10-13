@@ -9,7 +9,7 @@ const Feed = (): ReactElement => {
 
   return (
     <Fragment>
-      {isLoading && [1, 2, 3, 4].map(i => <PostCardLoading />)}
+      {isLoading && [1, 2, 3, 4].map(i => <PostCardLoading key={i} />)}
       {posts &&
         posts.map(p => {
           return <PostCard key={p.id} {...p} />

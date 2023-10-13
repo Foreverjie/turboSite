@@ -6,8 +6,15 @@ import {
   postNewMeta,
   postNewInputSchema,
   postNewOutputSchema,
+  postLikeMeta,
+  postLikeInputSchema,
+  postLikeOutputSchema,
 } from '../schemas/posts'
-import { postAllController, postNewController } from '../controllers/posts'
+import {
+  postAllController,
+  postLikeController,
+  postNewController,
+} from '../controllers/posts'
 
 export const post = router({
   all: publicProcedure
@@ -20,4 +27,9 @@ export const post = router({
     .input(postNewInputSchema)
     .output(postNewOutputSchema)
     .mutation(postNewController),
+  like: protectedProcedure
+    .meta(postLikeMeta)
+    .input(postLikeInputSchema)
+    .output(postLikeOutputSchema)
+    .mutation(postLikeController),
 })

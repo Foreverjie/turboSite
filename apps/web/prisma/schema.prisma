@@ -53,16 +53,14 @@ model Post {
   repostBy Post[] @relation("repost")
 
   likeBy User[] @relation(name: "likes")
-  //   @relation(fields: [likeByIds], references: [id], name: "likes")
-  // likeByIds Int[] @db.ObjectId
 
   content String
   files   String[]
 
   comments Comment[]
 
-  author   User @relation(fields: [authorId], references: [id])
-  authorId Int
+  author   User @relation(fields: [authorId], references: [userId])
+  authorId String
 
   isBlocked Boolean  @default(false)
   isDeleted Boolean  @default(false)

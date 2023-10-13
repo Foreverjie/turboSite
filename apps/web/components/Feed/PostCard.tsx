@@ -1,63 +1,35 @@
-import React, { ElementType } from 'react'
+import { useUser } from '@clerk/nextjs'
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from 'ui/src/card'
-import { Avatar, AvatarFallback, AvatarImage } from 'ui/src/avatar'
-import {
-  MoreHorizontalIcon,
   HeartIcon,
-  ThumbsUpIcon,
   MessageCircleIcon,
+  MoreHorizontalIcon,
+  ThumbsUpIcon,
 } from 'lucide-react'
+import { Avatar, AvatarFallback, AvatarImage } from 'ui/src/avatar'
+import { Card, CardContent, CardFooter, CardHeader } from 'ui/src/card'
+import { PostAllOutput } from '../../server/schemas/posts'
 import { trpc } from '../../utils/trpc'
-import { AuthModal } from '../../components/AuthModal'
-import { requireAuth } from '../../utils/auth'
-import { useSession } from 'next-auth/react'
-import { useQueryClient } from '@tanstack/react-query'
-import { RouterOutput } from '../../client/trpcClient'
+import { cn } from 'ui/src/utils'
 
-function PostCard({
-  id,
-  author,
-  content,
-}: RouterOutput['post']['all'][number]) {
-  // function PostCard() {
-  // const utils = trpc.useContext()
-  // const queryClient = useQueryClient()
-  // const likePost = trpc.post.like.useMutation({
-  //   onSuccess: () => {
-  //     utils.post.all.invalidate()
-  //   },
-  // })
-  // const dislikePost = trpc.post.dislike.useMutation({
-  //   onSuccess: () => {
-  //     utils.post.all.invalidate()
-  //   },
-  // })
-
-  // const { data, status } = useSession()
+function PostCard({ id, author, content, likeBy }: PostAllOutput[number]) {
+  const utils = trpc.useContext()
+  const { user } = useUser()
+  const likePost = trpc.post.like.useMutation({
+    onSuccess: () => {
+      utils.post.all.invalidate()
+    },
+  })
 
   const openCommentList = () => {}
 
-  // console.log('likeByIds', likeByIds)
-  // const alreadyLike = data?.user?.id && likeByIds.includes(data.user.id)
-  const alreadyLike = false
+  const alreadyLike = user?.id && likeBy.map(l => l.userId).includes(user?.id)
 
   const toggleLikePost = () => {
-    // if (alreadyLike) {
-    //   dislikePost.mutate({ id })
-    // } else {
-    //   likePost.mutate({ id })
-    // }
+    likePost.mutate({ id, like: alreadyLike ? false : true })
   }
 
   return (
-    <Card>
+    <Card key={id}>
       <CardHeader>
         <div className="flex justify-between">
           <div className="flex">
@@ -81,14 +53,17 @@ function PostCard({
       </CardContent>
       <CardFooter>
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <button
-              className="flex items-center space-x-1 text-gray-500 hover:text-gray-900"
+          <div className="flex items-center space-x-4">
+            <div
+              className={cn(
+                'flex items-center space-x-1 text-gray-500',
+                alreadyLike ? 'text-red-500' : '',
+              )}
               onClick={toggleLikePost}
             >
               <ThumbsUpIcon />
-              <span>0</span>
-            </button>
+              <span>{likeBy.length}</span>
+            </div>
             <button className="flex items-center space-x-1 text-gray-500 hover:text-gray-900">
               <MessageCircleIcon />
               <span>0</span>

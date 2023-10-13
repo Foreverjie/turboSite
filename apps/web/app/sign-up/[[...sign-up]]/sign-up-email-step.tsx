@@ -40,7 +40,7 @@ export function SignUpEmailStep({ onDone }: SignUpEmailStepProps) {
 
   const onSubmit = async function (value: z.infer<typeof emailInputSchema>) {
     try {
-      // await sendClerkOtp(value)
+      await sendClerkOtp(value)
       onDone()
     } catch (error) {
       form.setError('email', {
