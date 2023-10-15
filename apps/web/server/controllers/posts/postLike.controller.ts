@@ -30,6 +30,7 @@ export const postLikeController = async ({
     })
     return true
   } catch (e) {
+    console.log('e', e)
     return false
   }
 }

@@ -15,7 +15,39 @@ function PostCard({ id, author, content, likeBy }: PostAllOutput[number]) {
   const utils = trpc.useContext()
   const { user } = useUser()
   const likePost = trpc.post.like.useMutation({
+    onMutate: async ({ id, like }) => {
+      // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
+      await utils.post.all.cancel()
+
+      // Snapshot the previous value
+      const previousPosts = utils.post.all.getData()
+
+      // Optimistically update to the new value
+      utils.post.all.setData(undefined, oldQueryData => {
+        return oldQueryData?.map(post => {
+          if (post.id === id && user?.id) {
+            return {
+              ...post,
+              likeBy: like
+                ? [...post.likeBy, { userId: user.id }]
+                : post.likeBy.filter(l => l.userId !== user?.id),
+            }
+          }
+          return post
+        })
+      })
+
+      // Return a context object with the snapshotted value
+      return { previousPosts }
+    },
     onSuccess: () => {
+      // utils.post.all.invalidate()
+    },
+    onError: (err, like, context) => {
+      console.log('like post err', err, like)
+      utils.post.all.setData(undefined, context?.previousPosts)
+    },
+    onSettled: () => {
       utils.post.all.invalidate()
     },
   })
@@ -25,7 +57,7 @@ function PostCard({ id, author, content, likeBy }: PostAllOutput[number]) {
   const alreadyLike = user?.id && likeBy.map(l => l.userId).includes(user?.id)
 
   const toggleLikePost = () => {
-    likePost.mutate({ id, like: alreadyLike ? false : true })
+    likePost.mutate({ id, like: !alreadyLike })
   }
 
   return (
