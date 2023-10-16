@@ -1,12 +1,27 @@
 'use client'
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import {
+  MutationCache,
+  QueryCache,
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query'
 import { getFetch, httpBatchLink, loggerLink } from '@trpc/client'
 import { useState } from 'react'
 import { trpc } from './trpc'
-import SuperJSON from 'superjson'
+import { useToast } from 'ui'
 
 export const TrpcProvider: React.FC<{ children: React.ReactNode }> = p => {
+  const { toast } = useToast()
+
+  const onError = (err: unknown) => {
+    toast({
+      title: 'Error',
+      variant: 'destructive',
+      description: err.message,
+    })
+  }
+
   function getBaseUrl() {
     if (typeof window !== 'undefined') {
       // browser should use relative path
@@ -25,7 +40,17 @@ export const TrpcProvider: React.FC<{ children: React.ReactNode }> = p => {
     return `http://localhost:${process.env.PORT ?? 9797}`
   }
 
-  const [queryClient] = useState(() => new QueryClient())
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        queryCache: new QueryCache({
+          onError: onError,
+        }),
+        mutationCache: new MutationCache({
+          onError: onError,
+        }),
+      }),
+  )
   const [trpcClient] = useState(() =>
     trpc.createClient({
       links: [

@@ -97,6 +97,10 @@ function Header() {
     }
   }, [])
 
+  const toMainPage = () => {
+    router.push('/')
+  }
+
   const cls = visible ? 'top-0' : 'top-[-80px]'
 
   return (
@@ -145,11 +149,10 @@ function Header() {
                   Sign Out
                 </Button>
               </div>
-              <div
-                onClick={toggleTheme}
-                className="flex justify-between items-center"
-              >
-                {theme === Theme.light ? <Sun /> : <Moon />}
+              <div className="flex justify-between items-center">
+                <div onClick={toggleTheme}>
+                  {theme === Theme.light ? <Sun /> : <Moon />}
+                </div>
                 <Button variant="link" onClick={() => signOut()}>
                   Sign Out
                 </Button>
@@ -158,7 +161,13 @@ function Header() {
           </SheetContent>
         </Sheet>
       </ShouldRender>
-      <Image src="/flash.svg" alt="Icon" width={40} height={40} />
+      <Image
+        src="/flash.svg"
+        alt="Icon"
+        width={40}
+        height={40}
+        onClick={toMainPage}
+      />
       <ShouldRender if={isLoaded && isSignedIn}>
         <Sheet open={postOpen} onOpenChange={setPostOpen}>
           <SheetTrigger>

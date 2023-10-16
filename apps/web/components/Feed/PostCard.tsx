@@ -40,9 +40,6 @@ function PostCard({ id, author, content, likeBy }: PostAllOutput[number]) {
       // Return a context object with the snapshotted value
       return { previousPosts }
     },
-    onSuccess: () => {
-      // utils.post.all.invalidate()
-    },
     onError: (err, like, context) => {
       console.log('like post err', err, like)
       utils.post.all.setData(undefined, context?.previousPosts)
@@ -93,15 +90,15 @@ function PostCard({ id, author, content, likeBy }: PostAllOutput[number]) {
               )}
               onClick={toggleLikePost}
             >
-              <ThumbsUpIcon />
+              <ThumbsUpIcon size={16} strokeWidth={2} />
               <span>{likeBy.length}</span>
             </div>
-            <button className="flex items-center space-x-1 text-gray-500 hover:text-gray-900">
-              <MessageCircleIcon />
+            <button className="flex items-center space-x-1 text-gray-500">
+              <MessageCircleIcon size={16} strokeWidth={2} />
               <span>0</span>
             </button>
-            <button className="flex items-center space-x-1 text-gray-500 hover:text-gray-900">
-              <HeartIcon />
+            <button className="flex items-center space-x-1 text-gray-500">
+              <HeartIcon size={16} strokeWidth={2} />
               <span>0</span>
             </button>
           </div>

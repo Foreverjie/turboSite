@@ -8,13 +8,10 @@
  * @see https://trpc.io/docs/v10/procedures
  */
 import { initTRPC, TRPCError } from '@trpc/server'
-import superjson from 'superjson'
-import { restrictTo } from './middlewares'
+import { Webhook } from 'svix'
 import { z, ZodError } from 'zod'
 import { type Context } from './context'
-import { Webhook } from 'svix'
-import { buffer } from 'micro'
-import crypto from 'crypto'
+import { restrictTo } from './middlewares'
 
 // export const t = initTRPC.meta<TRPCPanelMeta>().create({
 const t = initTRPC.context<Context>().create({
@@ -40,7 +37,10 @@ const t = initTRPC.context<Context>().create({
 // check if the user is signed in, otherwise throw a UNAUTHORIZED CODE
 const isAuthed = t.middleware(({ next, ctx }) => {
   if (!ctx.auth.userId) {
-    throw new TRPCError({ code: 'UNAUTHORIZED' })
+    throw new TRPCError({
+      code: 'UNAUTHORIZED',
+      message: 'You need to Sign In first.',
+    })
   }
   return next({
     ctx: {
@@ -48,27 +48,6 @@ const isAuthed = t.middleware(({ next, ctx }) => {
     },
   })
 })
-
-// const webhookMiddleware = t.middleware(async ({ ctx, input, next, ...res }) => {
-//   // const payload = (await buffer(req)).toString();
-//   //   const headers = req.headers;
-
-//   //   const wh = new Webhook(secret);
-//   //   let msg;
-//   //   try {
-//   //       msg = wh.verify(payload, headers);
-//   //   } catch (err) {
-//   //       res.status(400).json({});
-//   //   }
-
-//   //   // Do something with the message...
-
-//   //   res.json({});
-
-//   console.log('webhookMiddleware', ctx, input, res)
-
-//   return next()
-// })
 
 /**
  * Create a router

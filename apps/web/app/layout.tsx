@@ -7,6 +7,7 @@ import { Inter } from 'next/font/google'
 import { cookies } from 'next/headers'
 import { dark } from '@clerk/themes'
 import dynamic from 'next/dynamic'
+import { Toaster } from 'ui'
 
 const Header = dynamic(() => import('~/components/Header'), { ssr: false })
 
@@ -37,6 +38,7 @@ export default function RootLayout({
             <Header />
             <div className="pt-[80px]">{children}</div>
             {/* <Footer /> */}
+            <Toaster />
           </TrpcProvider>
         </body>
       </html>

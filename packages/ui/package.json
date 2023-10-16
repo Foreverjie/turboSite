@@ -47,6 +47,7 @@
     "@radix-ui/react-separator": "^1.0.3",
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-tabs": "^1.0.4",
+    "@radix-ui/react-toast": "^1.1.5",
     "@react-aria/button": "^3.6.2",
     "@react-aria/checkbox": "^3.7.1",
     "@react-aria/dialog": "^3.4.0",
