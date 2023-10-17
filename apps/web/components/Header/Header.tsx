@@ -82,7 +82,7 @@ function Header() {
     const root = document.getElementsByTagName('html')[0]
     root.classList.remove(Theme.dark, Theme.light)
     root.classList.add(targetTheme)
-    document.cookie = `theme=${targetTheme}`
+    document.cookie = `theme=${targetTheme};path=/;`
     setTheme(targetTheme)
   }
 
@@ -105,7 +105,7 @@ function Header() {
 
   return (
     <div
-      className={`fixed shadow-md w-full flex bg-background p-4 z-50 items-center justify-between transition-all duration-500 ease-in-out ${cls}`}
+      className={`fixed backdrop-filter backdrop-blur-sm shadow-md w-full flex p-4 z-50 items-center justify-between transition-all duration-500 ease-in-out ${cls}`}
     >
       <ShouldRender if={!isLoaded || !isSignedIn}>
         <Avatar className="flex justify-center items-center" onClick={goSignIn}>
