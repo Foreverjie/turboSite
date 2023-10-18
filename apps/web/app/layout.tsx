@@ -36,7 +36,7 @@ export default function RootLayout({
         <body className={inter.className}>
           <TrpcProvider>
             <Header />
-            <div className="pt-[80px]">{children}</div>
+            <div>{children}</div>
             {/* <Footer /> */}
             <Toaster />
           </TrpcProvider>

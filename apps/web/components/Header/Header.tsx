@@ -62,12 +62,18 @@ function Header() {
 
   const [position, setPosition] = useState(window.scrollY)
   const [visible, setVisible] = useState(true)
+  const [headerClass, setHeaderClass] = useState('')
   useEffect(() => {
     const handleScroll = () => {
-      let moving = window.scrollY
-
-      setVisible(position > moving)
-      setPosition(moving)
+      const moving = window.scrollY
+      if (moving > 0) {
+        setVisible(position > moving)
+        setPosition(moving)
+        setHeaderClass('top-0 sticky backdrop-filter backdrop-blur-sm')
+      } else {
+        setVisible(true)
+        setHeaderClass('')
+      }
     }
     window.addEventListener('scroll', handleScroll)
     return () => {
@@ -105,7 +111,7 @@ function Header() {
 
   return (
     <div
-      className={`fixed backdrop-filter backdrop-blur-sm shadow-md w-full flex p-4 z-50 items-center justify-between transition-all duration-500 ease-in-out ${cls}`}
+      className={`w-full flex p-4 z-50 items-center justify-between transition-all duration-500 ease-in-out ${cls} ${headerClass}`}
     >
       <ShouldRender if={!isLoaded || !isSignedIn}>
         <Avatar className="flex justify-center items-center" onClick={goSignIn}>
