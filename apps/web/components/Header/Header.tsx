@@ -11,20 +11,11 @@ import {
   SheetContent,
   SheetHeader,
   SheetTrigger,
-  Textarea,
 } from 'ui'
-
-import { useUser, useClerk } from '@clerk/nextjs'
-import {
-  ImageIcon,
-  MapPinIcon,
-  Moon,
-  PlusCircleIcon,
-  Sun,
-  UserIcon,
-} from 'lucide-react'
+import { useClerk, useUser } from '@clerk/nextjs'
+import { Moon, PlusCircleIcon, Sun, UserIcon } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
-import { trpc } from '../../utils/trpc'
+import PostEditor from '../PostEditor'
 import ShouldRender from '../ShouldRender'
 
 export enum Theme {
@@ -36,29 +27,13 @@ function Header() {
   const { user, isSignedIn, isLoaded } = useUser()
   const router = useRouter()
   const path = usePathname()
-  const [post, setPost] = useState('')
   const [postOpen, setPostOpen] = useState(false)
-  const utils = trpc.useContext()
-  const newPost = trpc.post.new.useMutation({
-    onSuccess: () => {
-      utils.post.all.invalidate()
-    },
-  })
-  const { signOut } = useClerk()
 
-  const addPost = async () => {
-    if (!post) return
-    await newPost.mutateAsync({ content: post })
-    setPostOpen(false)
-    setPost('')
-  }
+  const { signOut } = useClerk()
 
   const goSignIn = () => {
     router.push(`/sign-in?redirect=${path}`)
   }
-
-  const handleImageClick = () => {}
-  const handleLocationClick = () => {}
 
   const [position, setPosition] = useState(window.scrollY)
   const [visible, setVisible] = useState(true)
@@ -181,22 +156,7 @@ function Header() {
           </SheetTrigger>
           <SheetContent side={'bottom'} className="h-4/5 flex flex-col">
             <SheetHeader title="Add Post" />
-            <Textarea
-              className="flex flex-1"
-              value={post}
-              onChange={e => {
-                setPost(e.target.value)
-              }}
-            />
-            <div className="flex justify-between">
-              <div className="flex items-center justify-start">
-                <ImageIcon className="mr-2" onClick={handleImageClick} />
-                <MapPinIcon className="mr-2" onClick={handleLocationClick} />
-              </div>
-              <Button onClick={addPost} loading={newPost.isLoading}>
-                Post
-              </Button>
-            </div>
+            <PostEditor onPostAdded={() => setPostOpen(false)} />
           </SheetContent>
         </Sheet>
       </ShouldRender>

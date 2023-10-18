@@ -1,6 +1,8 @@
+import { withUt } from "uploadthing/tw";
+
 /** @type {import('tailwindcss').Config} */
 const sharedConfig = require("tailwind-config");
-module.exports = {
+module.exports = withUt({
   ...sharedConfig,
   content: [
     './app/**/*.{js,ts,jsx,tsx,mdx}',
@@ -9,4 +11,4 @@ module.exports = {
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     '../../packages/ui/**/*.{js,ts,jsx,tsx,mdx}',
   ],
-}
+})

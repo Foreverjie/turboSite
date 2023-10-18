@@ -50,7 +50,8 @@
 			"picton",
 			"superjson",
 			"svix",
-			"tanstack"
+			"tanstack",
+			"uploadthing"
 		],
 	}
 }
