@@ -35,10 +35,12 @@ const PostEditor = ({ onPostAdded }: { onPostAdded?: () => void }) => {
       />
       <div className="flex justify-between">
         <div className="flex items-center justify-start">
-          <ImageIcon className="mr-2" onClick={handleImageClick} />
-          <MapPinIcon className="mr-2" onClick={handleLocationClick} />
           <UploadButton
+            className="ut-button:bg-transparent ut-button:w-fit ut-button:h-fit ut-allowed-content:hidden mr-2"
             endpoint="imageUploader"
+            content={{
+              button: <ImageIcon />,
+            }}
             onClientUploadComplete={res => {
               // Do something with the response
               console.log('Files: ', res)
@@ -49,6 +51,7 @@ const PostEditor = ({ onPostAdded }: { onPostAdded?: () => void }) => {
               alert(`ERROR! ${error.message}`)
             }}
           />
+          <MapPinIcon className="mr-2" onClick={handleLocationClick} />
         </div>
         <Button onClick={addPost} loading={newPost.isLoading}>
           Post
