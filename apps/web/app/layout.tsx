@@ -1,7 +1,6 @@
 import Footer from '~/components/Footer'
 import './globals.css'
 import { TrpcProvider } from '~/utils'
-import Sidebar from '~/components/Sidebar'
 import { ClerkProvider } from '@clerk/nextjs'
 import { Inter } from 'next/font/google'
 import { cookies } from 'next/headers'

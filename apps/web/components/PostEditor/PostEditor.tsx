@@ -1,22 +1,33 @@
+'use client'
+
 import React, { useState } from 'react'
-import { Button, Textarea } from 'ui'
+import { Button, Textarea, useToast } from 'ui'
 import { trpc } from '../../utils/trpc'
-import { ImageIcon, MapPinIcon } from 'lucide-react'
+import { ImageIcon, MapPinIcon, XIcon } from 'lucide-react'
 import { UploadButton } from '~/utils/uploadthing'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import 'swiper/css'
 
 const PostEditor = ({ onPostAdded }: { onPostAdded?: () => void }) => {
+  const { toast } = useToast()
   const utils = trpc.useContext()
   const newPost = trpc.post.new.useMutation({
     onSuccess: () => {
       utils.post.all.invalidate()
     },
   })
+  const [files, setFiles] = useState<string[]>([
+    // 'https://utfs.io/f/559b5383-81b3-4bb7-8f57-df773c3396a2-d15hxz.png',
+    // 'https://utfs.io/f/f8283c93-3d7b-4fab-a848-b64e3e5fdf27-fqinaq.png',
+    // 'https://utfs.io/f/559b5383-81b3-4bb7-8f57-df773c3396a2-d15hxz.png',
+    // 'https://utfs.io/f/f8283c93-3d7b-4fab-a848-b64e3e5fdf27-fqinaq.png',
+  ])
 
   const [post, setPost] = useState('')
 
   const addPost = async () => {
     if (!post) return
-    await newPost.mutateAsync({ content: post })
+    await newPost.mutateAsync({ content: post, files })
     setPost('')
     onPostAdded && onPostAdded()
   }
@@ -33,6 +44,36 @@ const PostEditor = ({ onPostAdded }: { onPostAdded?: () => void }) => {
           setPost(e.target.value)
         }}
       />
+
+      {files.length > 0 && (
+        <Swiper
+          slidesPerView={'auto'}
+          spaceBetween={24}
+          className="photo-swiper m-0 flex items-center justify-start"
+        >
+          {files.map((file, i) => (
+            <SwiperSlide key={i} className="w-fit">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                className="h-24 aspect-auto"
+                src={file}
+                alt="Image"
+                onClick={handleImageClick}
+              />
+              <button
+                className="absolute top-0 right-0 mt-1 mr-1"
+                onClick={() => {
+                  const newFiles = [...files]
+                  newFiles.splice(i, 1)
+                  setFiles(newFiles)
+                }}
+              >
+                <XIcon size={16} />
+              </button>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      )}
       <div className="flex justify-between">
         <div className="flex items-center justify-start">
           <UploadButton
@@ -42,13 +83,21 @@ const PostEditor = ({ onPostAdded }: { onPostAdded?: () => void }) => {
               button: <ImageIcon />,
             }}
             onClientUploadComplete={res => {
-              // Do something with the response
-              console.log('Files: ', res)
-              alert('Upload Completed')
+              const newFiles = [...files]
+              res?.map(r => {
+                newFiles.push(r.url)
+              })
+              setFiles(newFiles)
+              toast({
+                description: 'Upload Success!',
+              })
             }}
             onUploadError={(error: Error) => {
-              // Do something with the error.
-              alert(`ERROR! ${error.message}`)
+              toast({
+                title: 'Error',
+                variant: 'destructive',
+                description: error.message || 'Something went wrong',
+              })
             }}
           />
           <MapPinIcon className="mr-2" onClick={handleLocationClick} />

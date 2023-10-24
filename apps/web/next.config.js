@@ -18,6 +18,13 @@ module.exports = {
         port: '',
         pathname: '/*',
       },
+      // not working ... why?
+      // {
+      //   protocol: 'https',
+      //   hostname: 'utfs.io',
+      //   port: '',
+      //   pathname: '*',
+      // }
     ],
   },
 }
