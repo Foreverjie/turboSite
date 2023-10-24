@@ -1,7 +1,7 @@
 'use client'
 
-import React, { useState } from 'react'
-import { Button, Textarea, useToast } from 'ui'
+import React, { useCallback, useState } from 'react'
+import { Button, Progress, Textarea, useToast } from 'ui'
 import { trpc } from '../../utils/trpc'
 import { ImageIcon, MapPinIcon, XIcon } from 'lucide-react'
 import { UploadButton } from '~/utils/uploadthing'
@@ -16,6 +16,8 @@ const PostEditor = ({ onPostAdded }: { onPostAdded?: () => void }) => {
       utils.post.all.invalidate()
     },
   })
+
+  const [progress, setProgress] = useState(0)
   const [files, setFiles] = useState<string[]>([
     // 'https://utfs.io/f/559b5383-81b3-4bb7-8f57-df773c3396a2-d15hxz.png',
     // 'https://utfs.io/f/f8283c93-3d7b-4fab-a848-b64e3e5fdf27-fqinaq.png',
@@ -34,6 +36,10 @@ const PostEditor = ({ onPostAdded }: { onPostAdded?: () => void }) => {
 
   const handleImageClick = () => {}
   const handleLocationClick = () => {}
+
+  const UploadProgress = useCallback(() => {
+    return <Progress value={progress} />
+  }, [progress])
 
   return (
     <>
@@ -82,8 +88,17 @@ const PostEditor = ({ onPostAdded }: { onPostAdded?: () => void }) => {
             content={{
               button: <ImageIcon />,
             }}
+            onUploadBegin={() => {
+              toast({
+                description: <UploadProgress />,
+              })
+            }}
+            onUploadProgress={progress => {
+              setProgress(progress)
+            }}
             onClientUploadComplete={res => {
               const newFiles = [...files]
+              setProgress(0)
               res?.map(r => {
                 newFiles.push(r.url)
               })

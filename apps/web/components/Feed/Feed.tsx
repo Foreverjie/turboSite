@@ -3,7 +3,6 @@ import { trpc } from '../../utils/trpc'
 import PostCard from './PostCard'
 import PostCardLoading from './PostCardLoading'
 
-// inferQueryOutput<'post.All'>
 const Feed = (): ReactElement => {
   const { data: posts, isLoading } = trpc.post.all.useQuery()
 
