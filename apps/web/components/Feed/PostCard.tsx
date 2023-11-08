@@ -10,8 +10,16 @@ import { Card, CardContent, CardFooter, CardHeader } from 'ui/src/card'
 import { PostAllOutput } from '../../server/schemas/posts'
 import { trpc } from '../../utils/trpc'
 import { cn } from 'ui/src/utils'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import 'swiper/css'
 
-function PostCard({ id, author, content, likeBy }: PostAllOutput[number]) {
+function PostCard({
+  id,
+  author,
+  content,
+  likeBy,
+  files,
+}: PostAllOutput[number]) {
   const utils = trpc.useContext()
   const { user } = useUser()
   const likePost = trpc.post.like.useMutation({
@@ -41,7 +49,7 @@ function PostCard({ id, author, content, likeBy }: PostAllOutput[number]) {
       return { previousPosts }
     },
     onError: (err, like, context) => {
-      console.log('like post err', err, like)
+      console.error('Like post err', err, like)
       utils.post.all.setData(undefined, context?.previousPosts)
     },
     onSettled: () => {
@@ -79,6 +87,22 @@ function PostCard({ id, author, content, likeBy }: PostAllOutput[number]) {
       </CardHeader>
       <CardContent>
         <div className="font-sm">{content}</div>
+        {files.length > 0 && (
+          <Swiper
+            slidesPerView={'auto'}
+            spaceBetween={24}
+            className="photo-swiper m-0 flex items-center justify-start mt-2"
+          >
+            {files.map(file => (
+              <SwiperSlide key={file}>
+                <div className="w-32 h-32 mr-2 mb-2 bg-gray-100 rounded-md">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={file} className="w-full h-full" alt="Img" />
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        )}
       </CardContent>
       <CardFooter>
         <div className="flex items-center justify-between">
