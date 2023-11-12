@@ -4,11 +4,11 @@ import type {
   SignedInAuthObject,
   SignedOutAuthObject,
 } from '@clerk/nextjs/server'
-import * as trpcNext from '@trpc/server/adapters/next'
+import { NextRequest } from 'next/server'
 
 interface InnerContext {
   auth: SignedInAuthObject | SignedOutAuthObject
-  opts: trpcNext.CreateNextContextOptions
+  headers: Headers
 }
 
 /**
@@ -16,14 +16,14 @@ interface InnerContext {
  * it, you can export it from here
  *
  * Examples of things you may need it for:
- * - testing, so we dont have to mock Next.js' req/res
+ * - testing, so we don't have to mock Next.js' req/res
  * - trpc's `createSSGHelpers` where we don't have req/res
  * @see https://create.t3.gg/en/usage/trpc#-servertrpccontextts
  */
-const createInnerTRPCContext = ({ auth, opts }: InnerContext) => {
+const createInnerTRPCContext = ({ auth, headers }: InnerContext) => {
   return {
     auth,
-    ...opts,
+    headers,
   }
 }
 
@@ -32,12 +32,13 @@ const createInnerTRPCContext = ({ auth, opts }: InnerContext) => {
  * process every request that goes through your tRPC endpoint
  * @link https://trpc.io/docs/context
  */
-export const createTRPCContext = async (
-  opts: trpcNext.CreateNextContextOptions,
-) => {
+export const createTRPCContext = async (opts: { req: NextRequest }) => {
   const { req } = opts
 
-  return createInnerTRPCContext({ auth: getAuth(req), opts })
+  return createInnerTRPCContext({
+    auth: getAuth(req),
+    headers: req.headers,
+  })
 }
 
 export type Context = trpc.inferAsyncReturnType<typeof createTRPCContext>

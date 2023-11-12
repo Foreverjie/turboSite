@@ -21,6 +21,8 @@ export const postAllOutputSchema = z
       name: z.string(),
       avatar: z.string(),
     }),
+    createdAt: z.date(),
+    updatedAt: z.date(),
   })
   .array()
 

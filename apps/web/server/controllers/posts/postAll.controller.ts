@@ -27,6 +27,8 @@ export const postAllController = async (): Promise<PostAllOutput> => {
       id: true,
       content: true,
       files: true,
+      createdAt: true,
+      updatedAt: true,
     },
   })
   return posts

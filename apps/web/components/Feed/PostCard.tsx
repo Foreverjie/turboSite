@@ -19,6 +19,8 @@ function PostCard({
   content,
   likeBy,
   files,
+  createdAt,
+  updatedAt,
 }: PostAllOutput[number]) {
   const utils = trpc.useContext()
   const { user } = useUser()

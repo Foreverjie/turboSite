@@ -10,6 +10,8 @@
 import { initTRPC, TRPCError } from '@trpc/server'
 import { Webhook } from 'svix'
 import { z, ZodError } from 'zod'
+import superjson from 'superjson'
+
 import { type Context } from './context'
 import { restrictTo } from './middlewares'
 
@@ -18,7 +20,7 @@ const t = initTRPC.context<Context>().create({
   /**
    * @see https://trpc.io/docs/v10/data-transformers
    */
-  // transformer: superjson,
+  transformer: superjson,
   /**
    * @see https://trpc.io/docs/v10/error-formatting
    */

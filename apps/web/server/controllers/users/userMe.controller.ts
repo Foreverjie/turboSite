@@ -13,8 +13,30 @@ export const userMeController = async ({ ctx }: any): Promise<UserMeOutput> => {
       phone: true,
       role: true,
       avatar: true,
-      likes: true,
       gender: true,
+      createdAt: true,
+      Post: {
+        select: {
+          id: true,
+          content: true,
+          createdAt: true,
+          updatedAt: true,
+          files: true,
+          type: true,
+          author: {
+            select: {
+              id: true,
+              name: true,
+              avatar: true,
+            },
+          },
+          likeBy: {
+            select: {
+              userId: true,
+            },
+          },
+        },
+      },
     },
   })
   if (!user) {

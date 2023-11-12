@@ -4,6 +4,7 @@ import { httpBatchLink, loggerLink } from '@trpc/client'
 import { createTRPCReact } from '@trpc/react-query'
 import { useState } from 'react'
 import { toast } from 'react-toastify'
+import superjson from 'superjson'
 import type { AppRouter } from '~/server/routers'
 
 export const trpc = createTRPCReact<AppRouter>({
@@ -17,7 +18,7 @@ export const trpc = createTRPCReact<AppRouter>({
   },
 })
 
-function getBaseUrl() {
+export function getBaseUrl() {
   if (typeof window !== 'undefined')
     // browser should use relative path
     return ''
@@ -50,7 +51,7 @@ export function ClientProvider(props: { children: React.ReactNode }) {
           url: `${getBaseUrl()}/api/trpc`,
         }),
       ],
-      // transformer: superjson,
+      transformer: superjson,
     }),
   )
   return (

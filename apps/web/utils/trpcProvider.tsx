@@ -10,6 +10,7 @@ import { getFetch, httpBatchLink, loggerLink } from '@trpc/client'
 import { useState } from 'react'
 import { trpc } from './trpc'
 import { useToast } from 'ui'
+import superjson from 'superjson'
 
 export const TrpcProvider: React.FC<{ children: React.ReactNode }> = p => {
   const { toast } = useToast()
@@ -68,7 +69,7 @@ export const TrpcProvider: React.FC<{ children: React.ReactNode }> = p => {
           },
         }),
       ],
-      // transformer: SuperJSON,
+      transformer: superjson,
     }),
   )
   return (
