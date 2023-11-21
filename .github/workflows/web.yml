@@ -88,10 +88,10 @@ jobs:
           cat .env.local
           mv .env.local ./apps/web/
 
-      - name: Restart PM2
-        run: |
-            /root/.local/share/pnpm/pm2 list
-            /root/.local/share/pnpm/pm2 restart web
+      # - name: Restart PM2
+      #   run: |
+      #       /root/.local/share/pnpm/pm2 list
+      #       /root/.local/share/pnpm/pm2 restart web
         # sudo pm2 restart web
         # pm2 start pnpm --name "web" --run start:web # 第一次运行
   #     - name: Setup Pages
