@@ -24,7 +24,6 @@ git --version
 # 安装
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
-# https://www.alicode.pro/blog/dev-tools/better-use-terminal-with-zsh
 ```
 
 ## Docker
@@ -143,8 +142,8 @@ sudo ufw allow 'Nginx Full'
 sudo apt update
 sudo apt install nodejs npm
 # nvm install
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
-nvm install v16
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
+nvm install v18
 
 npm install -g pnpm
 pnpm setup
