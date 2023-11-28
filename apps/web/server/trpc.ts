@@ -100,7 +100,7 @@ export const webhookProcedure = t.procedure
       })
     }
     try {
-      const headersList = ctx.req.headers as any
+      const headersList = ctx.headers as any
 
       const headers = {
         'svix-id': headersList.get('svix-id'),
