@@ -36,6 +36,9 @@ export const userMeController = async ({ ctx }: any): Promise<UserMeOutput> => {
             },
           },
         },
+        orderBy: {
+          updatedAt: 'desc',
+        },
       },
     },
   })

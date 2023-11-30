@@ -20,7 +20,7 @@ const t = initTRPC.context<Context>().create({
   /**
    * @see https://trpc.io/docs/v10/data-transformers
    */
-  transformer: superjson,
+  // transformer: superjson,
   /**
    * @see https://trpc.io/docs/v10/error-formatting
    */
@@ -92,7 +92,7 @@ const webhookSecret = process.env.WEBHOOK_SECRET
  */
 export const webhookProcedure = t.procedure
   .input(z.any())
-  .use(async ({ input, next, ctx }) => {
+  .use(async ({ input, next, ctx, ...opts }) => {
     if (!webhookSecret) {
       throw new TRPCError({
         code: 'UNAUTHORIZED',
@@ -100,13 +100,13 @@ export const webhookProcedure = t.procedure
       })
     }
     try {
-      const headersList = ctx.headers as any
+      const headersList = ctx.headers
 
       const headers = {
         'svix-id': headersList.get('svix-id'),
         'svix-signature': headersList.get('svix-signature'),
         'svix-timestamp': headersList.get('svix-timestamp'),
-      }
+      } as Record<string, string>
 
       const wh = new Webhook(webhookSecret)
       wh.verify(JSON.stringify(input), headers)

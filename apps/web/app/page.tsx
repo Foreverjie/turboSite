@@ -21,7 +21,6 @@ const Home: CustomPage = () => {
 
   const { data: userStatus, isLoading: userStatusLoading } =
     trpc.user.status.useQuery(undefined, { enabled: isSignedIn })
-  const { data, isLoading } = trpc.cat.list.useQuery()
 
   const router = useRouter()
 

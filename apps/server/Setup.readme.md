@@ -197,5 +197,3 @@ This makes npm and node available to all users.
   pnpm run generate
   pm2 start "pnpm run dev:server" --name server
   ```
-
-### 启动Web服务

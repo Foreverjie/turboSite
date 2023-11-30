@@ -46,10 +46,11 @@ model User {
 
 model Post {
   id   Int      @id @default(autoincrement())
+  postId String   @unique @default(uuid())
   type PostType @default(POST)
 
-  repostId Int?
-  repost   Post?  @relation("repost", fields: [repostId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  repostId String?
+  repost   Post?  @relation("repost", fields: [repostId], references: [postId], onDelete: Cascade, onUpdate: Cascade)
   repostBy Post[] @relation("repost")
 
   likeBy User[] @relation(name: "likes")
@@ -73,13 +74,14 @@ model Post {
 
 model Comment {
   id      Int    @id @default(autoincrement())
+  commentId String @unique @default(uuid())
   content String
 
-  post   Post @relation(fields: [postId], references: [id])
-  postId Int
+  post   Post @relation(fields: [postId], references: [postId])
+  postId String @unique
 
-  author   User @relation(fields: [authorId], references: [id])
-  authorId Int
+  author   User @relation(fields: [authorId], references: [userId])
+  authorId String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt

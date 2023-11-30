@@ -28,6 +28,7 @@ function Header() {
   const router = useRouter()
   const path = usePathname()
   const [postOpen, setPostOpen] = useState(false)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   const { signOut } = useClerk()
 
@@ -82,6 +83,11 @@ function Header() {
     router.push('/')
   }
 
+  const toPage = (path: string) => {
+    router.push(path)
+    setSidebarOpen(false)
+  }
+
   const cls = visible ? 'top-0' : 'top-[-80px]'
 
   return (
@@ -94,7 +100,7 @@ function Header() {
         </Avatar>
       </ShouldRender>
       <ShouldRender if={isLoaded && isSignedIn}>
-        <Sheet>
+        <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
           <SheetTrigger>
             <Avatar>
               <AvatarImage src={user?.imageUrl} />
@@ -108,26 +114,17 @@ function Header() {
                 <AvatarFallback>{user?.username}</AvatarFallback>
               </Avatar>
               <div className="flex flex-col space-y-2">
-                <Button variant="link" onClick={() => router.push('/profile')}>
+                <Button variant="link" onClick={() => toPage('/profile')}>
                   Profile
                 </Button>
-                <Button
-                  variant="link"
-                  onClick={() => router.push('/notifications')}
-                >
+                <Button variant="link" onClick={() => toPage('/notifications')}>
                   Notifications
                 </Button>
-                <Button
-                  variant="link"
-                  onClick={() => router.push('/favorites')}
-                >
+                <Button variant="link" onClick={() => toPage('/favorites')}>
                   Favorites
                 </Button>
-                <Button variant="link" onClick={() => router.push('/settings')}>
+                <Button variant="link" onClick={() => toPage('/settings')}>
                   Settings
-                </Button>
-                <Button variant="link" onClick={() => router.push('/sign-out')}>
-                  Sign Out
                 </Button>
               </div>
               <div className="flex justify-between items-center">

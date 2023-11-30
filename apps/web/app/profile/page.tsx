@@ -2,7 +2,7 @@
 
 import React from 'react'
 import Image from 'next/image'
-import { trpc, trpcApi } from '../../utils/trpc'
+import { trpc } from '../../utils/trpc'
 import { dateFormat } from '../../utils'
 import PostCard from '../../components/Feed/PostCard'
 
@@ -36,13 +36,13 @@ const ProfilePage = () => {
 
         {user?.Post?.length ? (
           <div className="mt-8">
-            <div className="flex flex-col justify-between items-center">
-              <h3 className="text-lg leading-6 font-medium">Posts</h3>
-              <p className="text-sm leading-5">
+            <div className="flex flex-col justify-between">
+              <h3 className="text-lg leading-6 font-medium mb-2">Posts</h3>
+              <p className="text-sm leading-5 mb-2">
                 {user?.Post?.length} posts in total
               </p>
               {user.Post.map(post => (
-                <PostCard {...post} />
+                <PostCard {...post} key={post.id} />
               ))}
             </div>
           </div>

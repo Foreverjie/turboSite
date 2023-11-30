@@ -44,7 +44,7 @@
     "jest-environment-jsdom": "^29.7.0",
     "jest-watch-typeahead": "^2.2.2",
     "prettier": "latest",
-    "superjson": "^1.9.1",
+    "superjson": "^1.13.3",
     "turbo": "^1.2.16"
   },
   "config": {
