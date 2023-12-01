@@ -43,10 +43,8 @@ export const postAllController = async (input: {
   })
   let nextCursor: string | undefined = undefined
 
-  console.log('posts', posts.length)
   if (posts.length > (limit ?? 20)) {
     const nextPost = posts.pop()
-    console.log('nextPost', nextPost)
     nextCursor = nextPost?.postId
   }
   return {

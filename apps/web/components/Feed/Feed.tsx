@@ -4,7 +4,7 @@ import PostCard from './PostCard'
 import PostCardLoading from './PostCardLoading'
 
 const Feed = (): ReactElement => {
-  const { data, isLoading } = trpc.post.all.useQuery(
+  const { data, isLoading } = trpc.post.all.useInfiniteQuery(
     {
       limit: 10,
     },
@@ -16,10 +16,9 @@ const Feed = (): ReactElement => {
   return (
     <Fragment>
       {isLoading && [1, 2, 3, 4].map(i => <PostCardLoading key={i} />)}
-      {data?.posts &&
-        data?.posts.map(p => {
-          return <PostCard key={p.id} {...p} />
-        })}
+      {data?.pages.map(page =>
+        page?.posts?.map(post => <PostCard key={post.id} {...post} />),
+      )}
     </Fragment>
   )
 }

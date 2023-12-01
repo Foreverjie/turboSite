@@ -4,12 +4,10 @@ import { z } from 'zod'
 export const postAllMeta: TRPCPanelMeta = {
   description: 'List all posts',
 }
-export const postAllInputSchema = z
-  .object({
-    limit: z.number().min(1).max(100).nullish(),
-    cursor: z.string().nullish(),
-  })
-  .nullish()
+export const postAllInputSchema = z.object({
+  limit: z.number().min(1).max(100).nullish(),
+  cursor: z.any(),
+})
 export const postAllOutputSchema = z.object({
   posts: z
     .object({

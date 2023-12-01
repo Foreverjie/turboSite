@@ -21,8 +21,8 @@ function PostCard({
   files,
   createdAt,
   updatedAt,
-}: PostAllOutput[number]) {
-  const utils = trpc.useContext()
+}: PostAllOutput['posts'][number]) {
+  const utils = trpc.useUtils()
   const { user } = useUser()
   const likePost = trpc.post.like.useMutation({
     onMutate: async ({ id, like }) => {
@@ -30,32 +30,55 @@ function PostCard({
       await utils.post.all.cancel()
 
       // Snapshot the previous value
-      const previousPosts = utils.post.all.getData()
+      const previousPosts = utils.post.all.getInfiniteData()
 
       // Optimistically update to the new value
-      utils.post.all.setData(undefined, oldQueryData => {
-        return oldQueryData?.map(post => {
-          if (post.id === id && user?.id) {
+      utils.post.all.setInfiniteData(
+        {
+          limit: 10,
+        },
+        oldQueryData => {
+          if (!oldQueryData) {
             return {
-              ...post,
-              likeBy: like
-                ? [...post.likeBy, { userId: user.id }]
-                : post.likeBy.filter(l => l.userId !== user?.id),
+              pages: [],
+              pageParams: [],
             }
           }
-          return post
-        })
-      })
+          return {
+            ...oldQueryData,
+            pages: oldQueryData.pages.map(page => ({
+              ...page,
+              posts: page.posts.map(post => {
+                if (post.id === id && user?.id) {
+                  return {
+                    ...post,
+                    likeBy: like
+                      ? [...post.likeBy, { userId: user.id }]
+                      : post.likeBy.filter(l => l.userId !== user?.id),
+                  }
+                }
+
+                return post
+              }),
+            })),
+          }
+        },
+      )
 
       // Return a context object with the snapshotted value
       return { previousPosts }
     },
     onError: (err, like, context) => {
       console.error('Like post err', err, like)
-      utils.post.all.setData(undefined, context?.previousPosts)
+      utils.post.all.setInfiniteData(
+        {
+          limit: 10,
+        },
+        context?.previousPosts,
+      )
     },
     onSettled: () => {
-      utils.post.all.invalidate()
+      // utils.post.all.invalidate()
     },
   })
 
@@ -68,7 +91,7 @@ function PostCard({
   }
 
   return (
-    <Card key={id}>
+    <Card>
       <CardHeader>
         <div className="flex justify-between">
           <div className="flex">
