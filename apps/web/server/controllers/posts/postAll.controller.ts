@@ -11,9 +11,15 @@ export const postAllController = async (input: {
 
   const posts = await prisma.post.findMany({
     take: (limit ?? 20) + 1, // get an extra item at the end which we'll use as next cursor
-    orderBy: {
-      createdAt: 'desc',
-    },
+    orderBy: [
+      {
+        updatedAt: 'desc', // not unique key, so need to add another key to order by, otherwise it will be missing data
+      },
+      {
+        id: 'desc',
+      },
+    ],
+    cursor: cursor ? { postId: cursor } : undefined,
     where: {
       isBlocked: false,
       isDeleted: false,
@@ -39,7 +45,6 @@ export const postAllController = async (input: {
       createdAt: true,
       updatedAt: true,
     },
-    cursor: cursor ? { postId: cursor } : undefined,
   })
   let nextCursor: string | undefined = undefined
 
