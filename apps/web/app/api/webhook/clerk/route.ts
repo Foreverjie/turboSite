@@ -1,6 +1,7 @@
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 import { Webhook } from 'svix'
+import crypto from 'crypto'
 
 import { clerkEvent } from './type'
 import { userSyncController } from '~/server/controllers/users'
@@ -36,7 +37,34 @@ export async function POST(req: NextRequest) {
     const event = r.data.type
 
     const wh = new Webhook(webhookSecret)
-    wh.verify(JSON.stringify(r.data), headers)
+
+    wh.verify(JSON.stringify(json), headers)
+
+    // manually verify
+    // const signedContent = `${headersList.get('svix-id')}.${headersList.get(
+    //   'svix-timestamp',
+    // )}.${JSON.stringify(r.data)}`
+
+    // const secretBytes = new Buffer(webhookSecret.split('_')[1], 'base64')
+    // const signature = crypto
+    //   .createHmac('sha256', secretBytes)
+    //   .update(signedContent)
+    //   .digest('base64')
+    // const expectedSignature = headers['svix-signature']
+    //   .split(' ')
+    //   .map((s: string) => s.split(',')[1])
+
+    // console.log('signature', signature)
+
+    // if (expectedSignature.includes(signature)) {
+    //   return NextResponse.json({ success: true })
+    // } else {
+    //   return NextResponse.json(
+    //     { error: 'Incorrect Signature' },
+    //     { status: 401 },
+    //   )
+    // }
+
     switch (event) {
       case 'user.created':
       case 'user.updated':
