@@ -1,45 +1,31 @@
 import {
   userALlController,
-  userMeController,
-  userUpdateController,
-  userStatusController,
   userCreateController,
-  userSyncController,
+  userMeController,
+  userStatusController,
+  userUpdateController,
 } from '../controllers/users'
 import {
   userAllInputSchema,
   userAllMeta,
   userAllOutputSchema,
+  userCreateInputSchema,
+  userCreateMeta,
+  userCreateOutputSchema,
   userMeInputSchema,
   userMeMeta,
   userMeOutputSchema,
+  userStatusInputSchema,
+  userStatusMeta,
+  userStatusOutputSchema,
   userUpdateInputSchema,
   userUpdateMeta,
   userUpdateOutputSchema,
-  userStatusMeta,
-  userStatusInputSchema,
-  userStatusOutputSchema,
-  userCreateMeta,
-  userCreateInputSchema,
-  userCreateOutputSchema,
-  userSyncMeta,
-  userSyncInputSchema,
-  userSyncOutputSchema,
 } from '../schemas/users'
-import {
-  adminProcedure,
-  protectedProcedure,
-  router,
-  webhookProcedure,
-} from '../trpc'
+import { adminProcedure, protectedProcedure, router } from '../trpc'
 
 // export default router
 export const user = router({
-  sync: webhookProcedure
-    .meta(userSyncMeta)
-    .input(userSyncInputSchema)
-    .output(userSyncOutputSchema)
-    .mutation(userSyncController),
   create: protectedProcedure
     .meta(userCreateMeta)
     .input(userCreateInputSchema)
