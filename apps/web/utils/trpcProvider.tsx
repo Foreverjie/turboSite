@@ -69,7 +69,7 @@ export const TrpcProvider: React.FC<{ children: React.ReactNode }> = p => {
           },
         }),
       ],
-      // transformer: superjson,
+      transformer: superjson,
     }),
   )
   return (

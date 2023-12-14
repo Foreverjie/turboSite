@@ -51,7 +51,7 @@ export function ClientProvider(props: { children: React.ReactNode }) {
           url: `${getBaseUrl()}/api/trpc`,
         }),
       ],
-      // transformer: superjson,
+      transformer: superjson,
     }),
   )
   return (

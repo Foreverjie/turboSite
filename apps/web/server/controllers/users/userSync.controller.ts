@@ -16,7 +16,7 @@ export const userSyncController = async ({
   }
 
   try {
-    const userSync = input.data
+    const userSync = input.data.data
 
     const user = await prisma.user.upsert({
       create: {

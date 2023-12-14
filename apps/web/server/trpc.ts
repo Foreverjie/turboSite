@@ -8,9 +8,8 @@
  * @see https://trpc.io/docs/v10/procedures
  */
 import { initTRPC, TRPCError } from '@trpc/server'
-import { Webhook } from 'svix'
-import { z, ZodError } from 'zod'
 import superjson from 'superjson'
+import { ZodError } from 'zod'
 
 import { type Context } from './context'
 import { restrictTo } from './middlewares'
@@ -20,7 +19,7 @@ const t = initTRPC.context<Context>().create({
   /**
    * @see https://trpc.io/docs/v10/data-transformers
    */
-  // transformer: superjson,
+  transformer: superjson,
   /**
    * @see https://trpc.io/docs/v10/error-formatting
    */
@@ -80,67 +79,5 @@ export const mergeRouters = t.mergeRouters
  * @see https://trpc.io/docs/procedures
  */
 export const protectedProcedure = t.procedure.use(isAuthed)
-
-const webhookSecret = process.env.WEBHOOK_SECRET
-
-/**
- * webhook procedure
- *
- * If you want a query or mutation to ONLY be accessible to webhook, use
- * this. It verifies the session is valid
- *
- */
-export const webhookProcedure = t.procedure
-  .input(z.any())
-  .use(async ({ input, next, ctx, ...opts }) => {
-    if (!webhookSecret) {
-      throw new TRPCError({
-        code: 'UNAUTHORIZED',
-        message: 'Webhook secret not found',
-      })
-    }
-    try {
-      const headersList = ctx.headers
-
-      const headers = {
-        'svix-id': headersList.get('svix-id'),
-        'svix-signature': headersList.get('svix-signature'),
-        'svix-timestamp': headersList.get('svix-timestamp'),
-      } as Record<string, string>
-
-      const wh = new Webhook(webhookSecret)
-      wh.verify(JSON.stringify(input), headers)
-      return next()
-
-      // manually verify
-      // const signedContent = `${headersList.get('svix-id')}.${headersList.get(
-      //   'svix-timestamp',
-      // )}.${JSON.stringify(input)}`
-
-      // const secretBytes = new Buffer(webhookSecret.split('_')[1], 'base64')
-      // const signature = crypto
-      //   .createHmac('sha256', secretBytes)
-      //   .update(signedContent)
-      //   .digest('base64')
-      // const expectedSignature = headersList
-      //   .get('svix-signature')
-      //   .split(' ')
-      //   .map((s: string) => s.split(',')[1])
-
-      // if (expectedSignature.includes(signature)) {
-      //   return next()
-      // } else {
-      //   throw new TRPCError({
-      //     code: 'UNAUTHORIZED',
-      //     message: 'Incorrect Signature',
-      //   })
-      // }
-    } catch (err) {
-      throw new TRPCError({
-        code: 'UNAUTHORIZED',
-        message: `Verify webhook failed. ${err}`,
-      })
-    }
-  })
 
 export const adminProcedure = protectedProcedure.use(restrictTo(['admin']))
