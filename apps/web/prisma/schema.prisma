@@ -114,3 +114,38 @@ enum Gender {
   FEMALE
   SECRET
 }
+
+model Category {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+  type CategoryType @default(CATEGORY)
+  slug String @unique
+  createdAt DateTime @default(now())
+}
+
+enum CategoryType {
+  CATEGORY
+  TAG
+}
+
+
+model Page {
+  id   Int    @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  slug String @unique
+  title String
+  text String
+  images String[]
+
+  subtitle String?
+  order Int?
+  type PageType @default(MD)
+  options Json?
+}
+
+enum PageType {
+  MD
+  HTML
+  FRAME
+}

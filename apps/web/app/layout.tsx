@@ -8,6 +8,10 @@ import { dark } from '@clerk/themes'
 import dynamic from 'next/dynamic'
 import { Toaster } from 'ui'
 
+import PKG from '~/package.json'
+
+const { version } = PKG
+
 const Header = dynamic(() => import('~/components/Header'), { ssr: false })
 
 const inter = Inter({ subsets: ['latin'] })
@@ -32,6 +36,9 @@ export default function RootLayout({
       }}
     >
       <html lang="en" className={theme?.value}>
+        <head>
+          <SayHi />
+        </head>
         <body className={inter.className}>
           <TrpcProvider>
             <Header />
@@ -43,4 +50,27 @@ export default function RootLayout({
       </html>
     </ClerkProvider>
   )
+}
+
+const SayHi = () => {
+  return (
+    <script
+      dangerouslySetInnerHTML={{
+        __html: `var version = "${version}";
+    (${function () {
+      console.log(
+        `%c Flash ${window.version} %c https://jie1203.com `,
+        'color: #fff; margin: 1em 0; padding: 5px 0; background: #39C5BB;',
+        'margin: 1em 0; padding: 5px 0; background: #efefef;',
+      )
+    }.toString()})();`,
+      }}
+    />
+  )
+}
+
+declare global {
+  interface Window {
+    version: string
+  }
 }
