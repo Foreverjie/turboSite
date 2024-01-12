@@ -44,15 +44,19 @@
 			"animejs",
 			"Authed",
 			"clsx",
+			"Genshin",
 			"hookform",
 			"lucide",
 			"manypkg",
+			"Netease",
 			"openapi",
 			"picton",
 			"superjson",
 			"svix",
 			"tanstack",
-			"uploadthing"
+			"Typora",
+			"uploadthing",
+			"wechat"
 		],
 	}
 }

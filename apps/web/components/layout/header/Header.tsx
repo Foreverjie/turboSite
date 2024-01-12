@@ -11,6 +11,7 @@ import {
   HeaderLeftButtonArea,
   HeaderLogoArea,
 } from './internal/HeaderArea'
+import { HeaderDrawerButton } from './internal/HeaderDrawerButton'
 
 export const Header = () => {
   return (
