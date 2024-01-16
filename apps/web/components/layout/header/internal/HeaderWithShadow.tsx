@@ -1,3 +1,5 @@
+'use client'
+
 import { cn } from 'ui/src/utils'
 import { useHeaderBgOpacity } from './hooks'
 import { usePageScrollLocationSelector } from '~/providers/root/page-scroll-info-provider'

@@ -23,3 +23,31 @@ export const useHeaderBgOpacity = () => {
 
   return bgOpacity
 }
+
+export const useMenuOpacity = () => {
+  const headerOpacity = useHeaderBgOpacity()
+
+  return 1 - headerOpacity
+}
+
+export const useHeaderMetaShouldShow = () => {
+  const v = useMenuOpacity() > 0
+  const { title, description } = useHeaderMetaInfo()
+
+  return title !== '' && description !== '' && !v
+}
+
+export const useHeaderMetaInfo = () => {
+  const [title, setTitle] = useState('')
+  const [description, setDescription] = useState('')
+  const [slug, setSlug] = useState('')
+
+  return {
+    title,
+    setTitle,
+    description,
+    setDescription,
+    slug,
+    setSlug,
+  }
+}

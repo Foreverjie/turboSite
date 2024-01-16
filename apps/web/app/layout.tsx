@@ -1,18 +1,15 @@
-import Footer from '~/components/Footer'
 import './globals.css'
 import { TrpcProvider } from '~/utils'
 import { ClerkProvider } from '@clerk/nextjs'
 import { Inter } from 'next/font/google'
 import { cookies } from 'next/headers'
 import { dark } from '@clerk/themes'
-import dynamic from 'next/dynamic'
 import { Toaster } from 'ui'
+import { Header } from '~/components/layout/header/Header'
 
 import PKG from '~/package.json'
 
 const { version } = PKG
-
-const Header = dynamic(() => import('~/components/Header'), { ssr: false })
 
 const inter = Inter({ subsets: ['latin'] })
 

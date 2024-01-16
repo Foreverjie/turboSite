@@ -10,3 +10,7 @@ export interface AppConfig {
     vercel?: boolean
   }
 }
+
+export interface Bilibili {
+  liveId: number
+}

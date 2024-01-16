@@ -5,18 +5,14 @@ import React, { memo, useEffect, useMemo } from 'react'
 import { AnimatePresence, m } from 'framer-motion'
 import Image from 'next/image'
 
-import {
-  setActivityMediaInfo,
-  setActivityProcessName,
-  useActivity,
-} from '~/atoms/activity'
-import { ImpressionView } from '~/components/common/ImpressionTracker'
-import { FloatPopover } from '~/components/ui/float-popover'
-import { softBouncePreset } from '~/constants/spring'
-import { TrackerAction } from '~/constants/tracker'
+import { useActivity } from '~/utils/activity'
+// import { ImpressionView } from '~/components/common/ImpressionTracker'
+import { HoverCard, HoverCardContent, HoverCardTrigger } from 'ui'
+import { softBouncePreset } from 'ui/src/transition/spring'
+// import { TrackerAction } from '~/constants/tracker'
 import useDebounceValue from '~/hooks/common/use-debounce-value'
 import { usePageIsActive } from '~/hooks/common/use-is-active'
-import { apiClient } from '~/lib/request'
+// import { apiClient } from '~/lib/request'
 import {
   useAggregationSelector,
   useAppConfigSelector,
@@ -126,53 +122,62 @@ const appLabels: { [app: string]: string } = {
   卡拉彼丘: 'calatopia',
   'Yuanshen.exe': 'genshin',
 }
-// autocorrect: true
+
 export const Activity = memo(() => {
   const { appConfig } = useAppConfigSelector()
   const activityConfig = appConfig?.module.activity
   const { enable = false, endpoint = '/fn/ps/update' } = activityConfig || {}
-  const activity = useActivity()
+  const { activity, setActivity } = useActivity()
 
   const isPageActive = usePageIsActive()
-  const { data } = useQuery({
-    queryKey: ['activity'],
-    queryFn: async () => {
-      return await apiClient
-        .proxy(endpoint)
-        .post<{
-          processName: string
-          mediaInfo?: {
-            title: string
-            artist: string
-          }
-        }>()
-        .then(res => res)
-        .catch(() => {
-          return { processName: '', mediaInfo: undefined }
-        })
-    },
-    refetchInterval: 1000 * 5 * 60,
-    refetchOnMount: 'always',
-    retry: false,
-    refetchOnReconnect: true,
-    refetchOnWindowFocus: 'always',
-    enabled: enable && isPageActive,
-    meta: {
-      persist: false,
-    },
-  })
+  //   const { data } = useQuery({
+  //     queryKey: ['activity'],
+  //     queryFn: async () => {
+  //       return await apiClient
+  //         .proxy(endpoint)
+  //         .post<{
+  //           processName: string
+  //           mediaInfo?: {
+  //             title: string
+  //             artist: string
+  //           }
+  //         }>()
+  //         .then(res => res)
+  //         .catch(() => {
+  //           return { processName: '', mediaInfo: undefined }
+  //         })
+  //     },
+  //     refetchInterval: 1000 * 5 * 60,
+  //     refetchOnMount: 'always',
+  //     retry: false,
+  //     refetchOnReconnect: true,
+  //     refetchOnWindowFocus: 'always',
+  //     enabled: enable && isPageActive,
+  //     meta: {
+  //       persist: false,
+  //     },
+  //   })
 
-  useEffect(() => {
-    if (!data) return
-    if (data.mediaInfo) {
-      setActivityMediaInfo(data.mediaInfo)
-    } else {
-      setActivityMediaInfo(null)
-    }
-    setActivityProcessName(data.processName)
-  }, [data])
+  //   useEffect(() => {
+  //     if (!data) return
+  //     if (data.mediaInfo) {
+  //       setActivity({
+  //         ...activity,
+  //         media: data.mediaInfo,
+  //       })
+  //     } else {
+  //       setActivity({
+  //         ...activity,
+  //         media: null,
+  //       })
+  //     }
+  //     setActivity({
+  //       ...activity,
+  //       processName: data.processName,
+  //     })
+  //   }, [activity, data, setActivity])
 
-  const ownerName = useAggregationSelector(data => data.user.name)
+  const ownerName = useAggregationSelector().aggregationData?.user?.name || ''
   const memoProcessName = useMemo(
     () => ({ processName: activity?.processName || '' }),
     [activity?.processName],
@@ -192,14 +197,14 @@ export const Activity = memo(() => {
           <div className="absolute inset-0 z-[-1] flex center">
             <div className="h-6 w-6 rounded-md ring-2 ring-red-500 dark:ring-red-400" />
           </div>
-          <FloatPopover
-            TriggerComponent={TriggerComponent}
-            triggerComponentProps={cMusicProps}
-            type="tooltip"
-            strategy="fixed"
-          >
-            {ownerName} 正在听 {media.title} - {media.artist}
-          </FloatPopover>
+          <HoverCard>
+            <HoverCardTrigger>
+              <TriggerComponent processName={cMusicProps.processName} />
+            </HoverCardTrigger>
+            <HoverCardContent>
+              {ownerName} 正在听 {media.title} - {media.artist}
+            </HoverCardContent>
+          </HoverCard>
         </m.div>
       )}
       {isPageActive && (
@@ -223,22 +228,22 @@ export const Activity = memo(() => {
               }}
               transition={softBouncePreset}
             >
-              <FloatPopover
-                TriggerComponent={TriggerComponent}
-                triggerComponentProps={memoProcessName}
-                type="tooltip"
-                strategy="fixed"
-              >
-                <ImpressionView
+              <HoverCard>
+                <HoverCardTrigger>
+                  <TriggerComponent processName={memoProcessName.processName} />
+                </HoverCardTrigger>
+                <HoverCardContent>
+                  {/* <ImpressionView
                   action={TrackerAction.Impression}
                   trackerMessage="Activity"
-                >
+                > */}
                   {ownerName} 正在使用 {processName}
                   {appDescription[processName]
                     ? ` ${appDescription[processName]}`
                     : ''}
-                </ImpressionView>
-              </FloatPopover>
+                  {/* </ImpressionView> */}
+                </HoverCardContent>
+              </HoverCard>
             </m.div>
           )}
         </AnimatePresence>

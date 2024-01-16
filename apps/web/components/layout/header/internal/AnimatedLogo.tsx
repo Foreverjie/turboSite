@@ -5,17 +5,27 @@ import { useCallback } from 'react'
 import { AnimatePresence, m } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 
-import { isLogged, useResolveAdminUrl, useViewport } from '~/hooks/common'
+import { useViewport } from '~/utils/viewport'
+import { useResolveAdminUrl } from '~/utils/url'
 import { useSingleAndDoubleClick } from '~/hooks/common/use-single-double-click'
-import { noopObj } from '~/lib/noop'
-import { Routes } from '~/lib/route-builder'
+import { Routes } from '~/utils/route-builder'
 import { useAppConfigSelector } from '~/providers/root/aggregation-data-provider'
 
 import { Activity } from './Activity'
 import { useHeaderMetaShouldShow } from './hooks'
 import { SiteOwnerAvatar } from './SiteOwnerAvatar'
+import { Bilibili } from '~/app/config'
+import { useUser } from '@clerk/nextjs'
+import { trpc } from '~/utils/trpc'
+import { UserType } from '@prisma/client'
 
 const TapLogo = () => {
+  const { isSignedIn } = useUser()
+
+  const { data: userData } = trpc.user.me.useQuery(undefined, {
+    enabled: isSignedIn,
+  })
+
   const router = useRouter()
 
   const { data: isLiving } = useQuery({
@@ -23,8 +33,8 @@ const TapLogo = () => {
     enabled: false,
   })
 
-  const { liveId } = (useAppConfigSelector(config => config.module?.bilibili) ||
-    noopObj) as Bilibili
+  const { liveId } = (useAppConfigSelector().appConfig?.module.bilibili ||
+    {}) as Bilibili
 
   const goLive = useCallback(() => {
     window.open(`https://live.bilibili.com/${liveId}`)
@@ -38,7 +48,7 @@ const TapLogo = () => {
       router.push(Routes.Home)
     },
     () => {
-      if (isLogged()) {
+      if (isSignedIn && userData?.role === UserType.ADMIN) {
         location.href = resolveAdminUrl()
 
         return
@@ -59,12 +69,13 @@ const TapLogo = () => {
 export const AnimatedLogo = () => {
   const shouldShowMeta = useHeaderMetaShouldShow()
 
-  const isDesktop = useViewport($ => $.lg && $.w !== 0)
+  const viewport = useViewport()
+  const isDesktop = viewport?.lg && viewport?.w !== 0
 
   if (isDesktop)
     return (
       <>
-        <TapableLogo />
+        <TapLogo />
         <Activity />
       </>
     )

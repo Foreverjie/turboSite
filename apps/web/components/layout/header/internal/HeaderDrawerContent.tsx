@@ -29,14 +29,12 @@ export const HeaderDrawerContent = ({
             key={section.path}
           >
             <Link
-              className="block"
+              className="flex items-center space-x-2 py-2 text-lg"
               href={section.path}
               onClick={() => setOpen(false)}
             >
-              <span className="flex items-center space-x-2 py-2 text-lg">
-                <i>{section.icon}</i>
-                <h2>{section.title}</h2>
-              </span>
+              <i>{section.icon}</i>
+              <span>{section.title}</span>
             </Link>
 
             {section.subMenu && (

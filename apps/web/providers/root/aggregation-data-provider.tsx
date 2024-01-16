@@ -8,15 +8,21 @@ import {
   useRef,
   useState,
 } from 'react'
-import { Page, Category } from '@prisma/client'
+import { Page, Category, User } from '@prisma/client'
 
 import { useBeforeMounted } from '~/hooks/common/use-before-mounted'
 import { AppConfig } from '~/app/config'
 
+interface Url {
+  wsUrl: string
+  serverUrl: string
+  webUrl: string
+}
+
 export interface AggregateRoot {
-  //   user: UserModel
+  user: User
   //   seo: SeoOptionModel
-  //   url: Url
+  url: Url
   categories: Category[]
   pageMeta: Pick<Page, 'title' | 'id' | 'slug' | 'order'>[] | null
 
