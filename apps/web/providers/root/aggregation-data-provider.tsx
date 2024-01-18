@@ -8,7 +8,7 @@ import {
   useRef,
   useState,
 } from 'react'
-import { Page, Category, User } from '@prisma/client'
+import { Page, Category, User, CategoryType } from '@prisma/client'
 
 import { useBeforeMounted } from '~/hooks/common/use-before-mounted'
 import { AppConfig } from '~/app/config'
@@ -20,16 +20,44 @@ interface Url {
 }
 
 export interface AggregateRoot {
-  user: User
-  //   seo: SeoOptionModel
   url: Url
   categories: Category[]
   pageMeta: Pick<Page, 'title' | 'id' | 'slug' | 'order'>[] | null
-
-  //   latestNoteId: { id: string; nid: number }
 }
 
-const aggregationDataAtom: AggregateRoot | null = null
+// mock some data
+const aggregationDataAtom: AggregateRoot | null = {
+  url: {
+    wsUrl: '',
+    serverUrl: '',
+    webUrl: '',
+  },
+  categories: [
+    {
+      id: 1,
+      name: 'Category 1',
+      type: CategoryType.CATEGORY,
+      slug: 'category-1',
+      createdAt: new Date(),
+    },
+    {
+      id: 2,
+      name: 'Category 2',
+      type: CategoryType.CATEGORY,
+      slug: 'category-2',
+      createdAt: new Date(),
+    },
+    {
+      id: 3,
+      name: 'Category 3',
+      type: CategoryType.CATEGORY,
+      slug: 'category-3',
+      createdAt: new Date(),
+    },
+  ],
+  pageMeta: null,
+}
+
 const appConfigAtom: AppConfig | null = null
 
 export const useAggregationSelector = () =>

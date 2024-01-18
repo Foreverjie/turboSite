@@ -10,7 +10,6 @@ import {
 } from '~/providers/root/aggregation-data-provider'
 
 export const SiteOwnerAvatar: Component = ({ className }) => {
-  const avatar = useAggregationSelector().aggregationData?.user.avatar
   //   const liveId = useAppConfigSelector(
   //     (config) => config.module?.bilibili?.liveId,
   //   )
@@ -36,7 +35,6 @@ export const SiteOwnerAvatar: Component = ({ className }) => {
   //     },
   //   })
 
-  if (!avatar) return
   return (
     <div
       role={isLiving ? 'button' : 'img'}
@@ -49,7 +47,7 @@ export const SiteOwnerAvatar: Component = ({ className }) => {
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src={avatar}
+        src={'/images/avatar.jpg'}
         alt="Site Owner Avatar"
         width={40}
         height={40}
