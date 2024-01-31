@@ -3,9 +3,13 @@
 import { cn } from 'ui/src/utils'
 
 import { useHeaderBgOpacity } from './hooks'
+import { useContext } from 'react'
+import { PageScrollInfoContext } from '~/providers/root/page-scroll-info-provider'
 
 export const BlurredBackground = () => {
-  const headerOpacity = useHeaderBgOpacity()
+  const { y } = useContext(PageScrollInfoContext) ?? { y: 0 }
+
+  const headerOpacity = useHeaderBgOpacity({ y })
   return (
     <div
       className={cn(

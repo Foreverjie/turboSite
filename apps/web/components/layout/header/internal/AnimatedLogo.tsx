@@ -2,7 +2,7 @@
 
 import { useQuery } from '@tanstack/react-query'
 import { useCallback } from 'react'
-import { AnimatePresence, m } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 
 import { useViewport } from '~/utils/viewport'
@@ -83,7 +83,7 @@ export const AnimatedLogo = () => {
   return (
     <AnimatePresence>
       {!shouldShowMeta && (
-        <m.div
+        <motion.div
           layout
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -92,7 +92,7 @@ export const AnimatedLogo = () => {
         >
           <Activity />
           <TapLogo />
-        </m.div>
+        </motion.div>
       )}
     </AnimatePresence>
   )

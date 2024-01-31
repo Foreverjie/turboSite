@@ -47,7 +47,7 @@ export const SiteOwnerAvatar: Component = ({ className }) => {
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src={'/images/avatar.jpg'}
+        src={'https://avatars.githubusercontent.com/u/20612607?v=4'}
         alt="Site Owner Avatar"
         width={40}
         height={40}

@@ -28,14 +28,18 @@
   },
   "packageManager": "pnpm@7.3.0",
   "dependencies": {
+    "@iconify/tailwind": "^0.1.4",
     "@manypkg/cli": "^0.19.2",
+    "@tailwindcss/typography": "^0.5.10",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/react-hooks": "^8.0.1",
     "@testing-library/user-event": "^14.2.1",
     "@types/jest": "^29.5.9",
+    "@types/node": "17.0.4",
     "cz-conventional-changelog": "^3.3.0",
     "cz-git": "^1.5.0",
+    "daisyui": "^4.6.0",
     "esbuild": "^0.14.48",
     "esbuild-jest": "^0.5.0",
     "eslint-config-custom": "0.0.0",
@@ -45,11 +49,17 @@
     "jest-watch-typeahead": "^2.2.2",
     "prettier": "latest",
     "superjson": "^1.13.3",
+    "tailwind-scrollbar": "^3.0.5",
+    "tailwind-variants": "^0.1.20",
+    "tailwindcss": "^3.4.1",
     "turbo": "^1.2.16"
   },
   "config": {
     "commitizen": {
       "path": "node_modules/cz-git"
     }
+  },
+  "devDependencies": {
+    "@iconify-json/mingcute": "^1.1.15"
   }
 }

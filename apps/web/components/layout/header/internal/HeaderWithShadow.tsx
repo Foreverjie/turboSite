@@ -2,16 +2,17 @@
 
 import { cn } from 'ui/src/utils'
 import { useHeaderBgOpacity } from './hooks'
-import { usePageScrollLocationSelector } from '~/providers/root/page-scroll-info-provider'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
+import { PageScrollInfoContext } from '~/providers/root/page-scroll-info-provider'
 
 export const HeaderWithShadow: Component = ({ children }) => {
-  const headerOpacity = useHeaderBgOpacity()
   const [showShadow, setShowShadow] = useState(false)
-  const { y } = usePageScrollLocationSelector()
+  const scrollInfo = useContext(PageScrollInfoContext)
+  const { y } = scrollInfo ?? { y: 0 }
+  const headerOpacity = useHeaderBgOpacity({ y })
 
   useEffect(() => {
-    setShowShadow(y > 100 && headerOpacity > 0.8)
+    setShowShadow(y > 100)
   }, [y, headerOpacity])
 
   return (

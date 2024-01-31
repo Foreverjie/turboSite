@@ -1,14 +1,11 @@
 import { useIsMobile } from '~/utils/viewport'
-import { usePageScrollLocationSelector } from '~/providers/root/page-scroll-info-provider'
 import { useEffect, useState } from 'react'
 
-export const useHeaderBgOpacity = () => {
+export const useHeaderBgOpacity = ({ y }: { y: number }) => {
   const threshold = 50
   const isMobile = useIsMobile()
   //   const headerShouldShowBg = useHeaderShouldShowBg() || isMobile
   const headerShouldShowBg = true
-
-  const { y } = usePageScrollLocationSelector()
 
   const [bgOpacity, setBgOpacity] = useState(0)
 
@@ -25,7 +22,7 @@ export const useHeaderBgOpacity = () => {
 }
 
 export const useMenuOpacity = () => {
-  const headerOpacity = useHeaderBgOpacity()
+  const headerOpacity = useHeaderBgOpacity({ y: 0 })
 
   return 1 - headerOpacity
 }

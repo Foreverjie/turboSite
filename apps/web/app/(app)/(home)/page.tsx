@@ -3,7 +3,7 @@
 import { useQuery } from '@tanstack/react-query'
 import React, { createElement, forwardRef, useCallback, useRef } from 'react'
 import { cn } from 'ui/src/utils'
-import { m, useInView } from 'framer-motion'
+import { m, motion, useInView } from 'framer-motion'
 import Link from 'next/link'
 import type { PropsWithChildren } from 'react'
 // import { isSupportIcon, SocialIcon } from 'lucide-react'
@@ -13,7 +13,7 @@ import type { PropsWithChildren } from 'react'
 // import { ButtonMotionBase } from 'ui'
 // import { RelativeTime } from '~/components/ui/relative-time'
 import { BottomToUpTransitionView } from 'ui/src/transition/BottomToUpTransitionView'
-// import { TextUpTransitionView } from '~/components/ui/transition/TextUpTransitionView'
+import { TextUpTransitionView } from 'ui/src/transition/TextUpTransitionView'
 import {
   microReboundPreset,
   softBouncePreset,
@@ -30,9 +30,6 @@ import { ButtonMotionBase } from 'ui'
 
 // import { useHomeQueryData } from './query'
 
-const debugStyle = {
-  outline: '1px solid #0088cc',
-}
 const Screen = forwardRef<
   HTMLDivElement,
   PropsWithChildren<{
@@ -110,24 +107,62 @@ const Welcome = () => {
   //       ...config.hero,
   //     }
   //   })!
+  const title = {
+    template: [
+      {
+        type: 'h1',
+        text: "Hi, I'm ",
+        class: 'font-light text-4xl',
+      },
+      {
+        type: 'h1',
+        text: 'Shane',
+        class: 'font-medium mx-2 text-4xl',
+      },
+      {
+        type: 'h1',
+        text: '👋。',
+        class: 'font-light text-4xl',
+      },
+      {
+        type: 'br',
+      },
+      {
+        type: 'h1',
+        text: 'A',
+        class: 'font-light text-4xl',
+      },
+      {
+        type: 'code',
+        text: '<Developer/>',
+        class:
+          'font-medium mx-2 text-3xl rounded p-1 bg-gray-200 dark:bg-gray-800/0 hover:dark:bg-gray-800/100 bg-opacity-0 hover:bg-opacity-100 transition-background duration-200',
+      },
+      {
+        type: 'span',
+        class:
+          'inline-block w-[1px] h-8 -bottom-2 relative bg-gray-800/80 dark:bg-gray-200/80 opacity-0 group-hover:opacity-100 transition-opacity duration-200 group-hover:animation-blink',
+      },
+    ],
+  }
   //   const siteOwner = useAggregationSelector(agg => agg.user)
   //   const { avatar, socialIds } = siteOwner || {}
 
-  //   const titleAnimateD =
-  //     title.template.reduce((acc, cur) => {
-  //       return acc + (cur.text?.length || 0)
-  //     }, 0) * 50
+  const titleAnimateD =
+    title.template.reduce((acc, cur) => {
+      return acc + (cur.text?.length || 0)
+    }, 0) * 50
   return (
     <Screen className="mt-20 lg:mt-[-4.5rem]">
       <TwoColumnLayout leftContainerClassName="mt-[120px] lg:mt-0 h-[15rem] lg:h-1/2">
         <>
-          <m.div
+          <motion.div
             className="group relative leading-[4] [&_*]:inline-block"
             initial={{ opacity: 0.0001, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={softBouncePreset}
           >
-            {/* {title.template.map((t, i) => {
+            {title.template.map((t, i) => {
               const { type } = t
               const prevAllTextLength = title.template
                 .slice(0, i)
@@ -146,16 +181,15 @@ const Welcome = () => {
                   </TextUpTransitionView>
                 ),
               )
-            })} */}
-          </m.div>
+            })}
+          </motion.div>
 
           <BottomToUpTransitionView
-            // delay={titleAnimateD + 500}
-            delay={500}
+            delay={titleAnimateD + 500}
             transition={softBouncePreset}
             className="my-3"
           >
-            <span className="opacity-80">{'Some Welcome description'}</span>
+            <span className="opacity-80">{'Welcome'}</span>
           </BottomToUpTransitionView>
 
           {/* <ul className="mt-8 flex space-x-4 center lg:mt-[7rem] lg:block">
@@ -177,25 +211,26 @@ const Welcome = () => {
           </ul> */}
         </>
 
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        {/* <img
-          src={avatar}
-          alt="Site Owner Avatar"
-          className={cn(
-            'aspect-square rounded-full border border-slate-200 dark:border-neutral-800',
-            'lg:h-[300px] lg:w-[300px]',
-            'h-[200px] w-[200px]',
-          )}
-        /> */}
+        <div className={cn('lg:h-[300px] lg:w-[300px]', 'h-[200px] w-[200px]')}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={'https://avatars.githubusercontent.com/u/20612607?v=4'}
+            alt="Site Owner Avatar"
+            className={cn(
+              'aspect-square rounded-full border border-slate-200 dark:border-neutral-800',
+              'lg:h-[300px] lg:w-[300px]',
+              'h-[200px] w-[200px]',
+            )}
+          />
+        </div>
 
-        <m.div
+        <motion.div
           initial={{ opacity: 0.0001, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={softBouncePreset}
           className={cn(
             'absolute bottom-0 left-0 right-0 flex flex-col center',
-
-            'text-neutral-800/80 center dark:text-neutral-200/80',
+            'text-neutral-800/80 dark:text-neutral-200/80',
           )}
         >
           <small>
@@ -204,7 +239,7 @@ const Welcome = () => {
           <span className="mt-8 animate-bounce">
             <i className="icon-[mingcute--right-line] rotate-90 text-2xl" />
           </span>
-        </m.div>
+        </motion.div>
       </TwoColumnLayout>
     </Screen>
   )

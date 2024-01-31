@@ -1,14 +1,13 @@
-import '../globals.css'
 import { TrpcProvider } from '~/utils'
 import { ClerkProvider } from '@clerk/nextjs'
 import { Inter } from 'next/font/google'
 import { cookies } from 'next/headers'
 import { dark } from '@clerk/themes'
 import { Toaster } from 'ui'
-import { Header } from '~/components/layout/header/Header'
 
 import PKG from '~/package.json'
-import { AggregationProvider } from '../../providers/root/aggregation-data-provider'
+import { Root } from '../../components/layout/root/Root'
+import { AppProviders } from '../../providers/root'
 
 const { version } = PKG
 
@@ -37,18 +36,20 @@ export default function RootLayout({
         <head>
           <SayHi />
         </head>
-        <body className={inter.className}>
-          <TrpcProvider>
-            {/* <AggregationProvider
+        <body className={`${inter.className} m-0 h-full p-0 font-sans`}>
+          <AppProviders>
+            <TrpcProvider>
+              {/* <AggregationProvider
               aggregationData={data}
               appConfig={data.themeConfig.config}
             > */}
-            <Header />
-            <div>{children}</div>
-            {/* <Footer /> */}
-            <Toaster />
-            {/* </AggregationProvider> */}
-          </TrpcProvider>
+
+              <Root>{children}</Root>
+              {/* <Footer /> */}
+              <Toaster />
+              {/* </AggregationProvider> */}
+            </TrpcProvider>
+          </AppProviders>
         </body>
       </html>
     </ClerkProvider>
