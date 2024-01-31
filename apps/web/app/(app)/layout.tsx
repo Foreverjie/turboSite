@@ -1,6 +1,8 @@
 import { TrpcProvider } from '~/utils'
+import { ClerkProvider } from '@clerk/nextjs'
 import { Inter } from 'next/font/google'
 import { cookies } from 'next/headers'
+import { dark } from '@clerk/themes'
 import { Toaster } from 'ui'
 
 import PKG from '~/package.json'
@@ -25,26 +27,32 @@ export default function RootLayout({
   const theme = cookies().get('theme')
 
   return (
-    <html lang="en" className={theme?.value}>
-      <head>
-        <SayHi />
-      </head>
-      <body className={`${inter.className} m-0 h-full p-0 font-sans`}>
-        <AppProviders>
-          <TrpcProvider>
-            {/* <AggregationProvider
+    <ClerkProvider
+      appearance={{
+        baseTheme: theme?.value === 'dark' ? dark : undefined,
+      }}
+    >
+      <html lang="en" className={theme?.value}>
+        <head>
+          <SayHi />
+        </head>
+        <body className={`${inter.className} m-0 h-full p-0 font-sans`}>
+          <AppProviders>
+            <TrpcProvider>
+              {/* <AggregationProvider
               aggregationData={data}
               appConfig={data.themeConfig.config}
             > */}
 
-            <Root>{children}</Root>
-            {/* <Footer /> */}
-            <Toaster />
-            {/* </AggregationProvider> */}
-          </TrpcProvider>
-        </AppProviders>
-      </body>
-    </html>
+              <Root>{children}</Root>
+              {/* <Footer /> */}
+              <Toaster />
+              {/* </AggregationProvider> */}
+            </TrpcProvider>
+          </AppProviders>
+        </body>
+      </html>
+    </ClerkProvider>
   )
 }
 
