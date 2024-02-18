@@ -6,9 +6,9 @@ generator client {
 }
 
 datasource db {
-  provider     = "postgresql"
-  url          = env("DATABASE_URL")
-  directUrl    = env("DIRECT_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model Cat {
@@ -17,15 +17,15 @@ model Cat {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  userId   String @unique
-  name     String
-  email    String @unique
-  gender   Gender?
-  phone    String? @unique
-  role     UserType @default(USER)
-  avatar   String @default("https://gravatar.com/avatar/placeholder?s=200")
-  status   UserStatus @default(NEED_ONBOARDING)
+  id     Int        @id @default(autoincrement())
+  userId String     @unique
+  name   String
+  email  String     @unique
+  gender Gender?
+  phone  String?    @unique
+  role   UserType   @default(USER)
+  avatar String     @default("https://gravatar.com/avatar/placeholder?s=200")
+  status UserStatus @default(NEED_ONBOARDING)
 
   // posts    Post[] @relation(fields: [postIDs], references: [id], name: "posts")
   // postIDs    String[] @db.ObjectId
@@ -46,13 +46,13 @@ model User {
 }
 
 model Post {
-  id   Int      @id @default(autoincrement())
+  id     Int      @id @default(autoincrement())
   postId String   @unique @default(uuid())
-  type PostType @default(POST)
+  type   PostType @default(POST)
 
   repostId String?
-  repost   Post?  @relation("repost", fields: [repostId], references: [postId], onDelete: Cascade, onUpdate: Cascade)
-  repostBy Post[] @relation("repost")
+  repost   Post?   @relation("repost", fields: [repostId], references: [postId], onDelete: Cascade, onUpdate: Cascade)
+  repostBy Post[]  @relation("repost")
 
   likeBy User[] @relation(name: "likes")
 
@@ -61,7 +61,7 @@ model Post {
 
   comments Comment[]
 
-  author   User @relation(fields: [authorId], references: [userId])
+  author   User   @relation(fields: [authorId], references: [userId])
   authorId String
 
   isBlocked Boolean  @default(false)
@@ -74,14 +74,14 @@ model Post {
 }
 
 model Comment {
-  id      Int    @id @default(autoincrement())
+  id        Int    @id @default(autoincrement())
   commentId String @unique @default(uuid())
-  content String
+  content   String
 
-  post   Post @relation(fields: [postId], references: [postId])
+  post   Post   @relation(fields: [postId], references: [postId])
   postId String @unique
 
-  author   User @relation(fields: [authorId], references: [userId])
+  author   User   @relation(fields: [authorId], references: [userId])
   authorId String
 
   createdAt DateTime @default(now())
@@ -117,11 +117,11 @@ enum Gender {
 }
 
 model Category {
-  id   Int    @id @default(autoincrement())
-  name String @unique
-  type CategoryType @default(CATEGORY)
-  slug String @unique
-  createdAt DateTime @default(now())
+  id        Int          @id @default(autoincrement())
+  name      String       @unique
+  type      CategoryType @default(CATEGORY)
+  slug      String       @unique
+  createdAt DateTime     @default(now())
 }
 
 enum CategoryType {
@@ -129,20 +129,19 @@ enum CategoryType {
   TAG
 }
 
-
 model Page {
-  id   Int    @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
-  slug String @unique
-  title String
-  text String
-  images String[]
+  slug      String   @unique
+  title     String
+  text      String
+  images    String[]
 
   subtitle String?
-  order Int?
-  type PageType @default(MD)
-  options Json?
+  order    Int?
+  type     PageType @default(MD)
+  options  Json?
 }
 
 enum PageType {

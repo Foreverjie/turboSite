@@ -32,7 +32,7 @@ export default function RootLayout({
         baseTheme: theme?.value === 'dark' ? dark : undefined,
       }}
     >
-      <html lang="en" className={theme?.value}>
+      <html lang="en" className={theme?.value} suppressHydrationWarning>
         <head>
           <SayHi />
         </head>
