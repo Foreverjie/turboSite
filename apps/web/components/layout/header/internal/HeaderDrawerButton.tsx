@@ -36,7 +36,7 @@ export const HeaderDrawerButton = () => {
         <div>
           <AnimatePresence>
             {open && (
-              <SheetDescription>
+              <>
                 <SheetClose asChild>
                   <ButtonMotionBase
                     aria-label="Close Header Drawer"
@@ -50,7 +50,7 @@ export const HeaderDrawerButton = () => {
                 </SheetClose>
 
                 <HeaderDrawerContent setOpen={setOpen} />
-              </SheetDescription>
+              </>
             )}
           </AnimatePresence>
         </div>
