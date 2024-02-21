@@ -1,25 +1,27 @@
 'use client'
 
 import { Dispatch, SetStateAction, memo } from 'react'
-import { m } from 'framer-motion'
+import { motion } from 'framer-motion'
 import Link from 'next/link'
 
 import { reboundPreset } from 'ui/src/transition/spring'
 
-import { useHeaderConfig } from './HeaderDataConfigureProvider'
+// import { useHeaderConfig } from './HeaderDataConfigureProvider'
+
+import { headerMenuConfig } from '../config'
 
 export const HeaderDrawerContent = ({
   setOpen,
 }: {
   setOpen: Dispatch<SetStateAction<boolean>>
 }) => {
-  const { config } = useHeaderConfig()
+  // const { config } = useHeaderConfig()
 
   return (
     <div className="mt-12 max-h-screen w-[90vw] space-y-4 overflow-auto pb-24 scrollbar-none">
-      {config.map((section, index) => {
+      {headerMenuConfig.map((section, index) => {
         return (
-          <m.section
+          <motion.section
             initial={{ y: 30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{
@@ -38,12 +40,12 @@ export const HeaderDrawerContent = ({
             </Link>
 
             {section.subMenu && (
-              <ul className="my-2 grid grid-cols-2 gap-2">
+              <ul className="my-2 ml-8 grid grid-cols-1 gap-2">
                 {section.subMenu.map(sub => {
                   return (
                     <li key={sub.path}>
                       <Link
-                        className="inline-block p-2"
+                        className="inline-block py-2 px-1"
                         href={sub.path}
                         onClick={() => setOpen(false)}
                       >
@@ -54,7 +56,7 @@ export const HeaderDrawerContent = ({
                 })}
               </ul>
             )}
-          </m.section>
+          </motion.section>
         )
       })}
     </div>

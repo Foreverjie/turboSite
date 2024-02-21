@@ -9,7 +9,7 @@ import {
   SheetTrigger,
   ButtonMotionBase,
 } from 'ui'
-import { AnimatePresence, m } from 'framer-motion'
+import { AnimatePresence } from 'framer-motion'
 
 import { XIcon } from 'lucide-react'
 // import { DialogOverlay } from '~/components/ui/dialog/DialogOverlay'
@@ -36,32 +36,21 @@ export const HeaderDrawerButton = () => {
         <div>
           <AnimatePresence>
             {open && (
-              <>
-                {/* <DialogOverlay /> */}
-
-                <SheetDescription>
-                  <m.dialog
-                    className="fixed left-0 right-0 top-0 z-[12] m-0 block h-screen w-full overflow-auto rounded-xl bg-base-100/90 px-3 backdrop-blur-sm"
-                    initial={{ opacity: 0.8 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
+              <SheetDescription>
+                <SheetClose asChild>
+                  <ButtonMotionBase
+                    aria-label="Close Header Drawer"
+                    className="absolute right-0 top-0 z-[9] p-8"
+                    onClick={() => {
+                      setOpen(false)
+                    }}
                   >
-                    <SheetClose asChild>
-                      <ButtonMotionBase
-                        aria-label="Close Header Drawer"
-                        className="absolute right-0 top-0 z-[9] p-8"
-                        onClick={() => {
-                          setOpen(false)
-                        }}
-                      >
-                        <XIcon />
-                      </ButtonMotionBase>
-                    </SheetClose>
+                    <XIcon />
+                  </ButtonMotionBase>
+                </SheetClose>
 
-                    <HeaderDrawerContent setOpen={setOpen} />
-                  </m.dialog>
-                </SheetDescription>
-              </>
+                <HeaderDrawerContent setOpen={setOpen} />
+              </SheetDescription>
             )}
           </AnimatePresence>
         </div>
