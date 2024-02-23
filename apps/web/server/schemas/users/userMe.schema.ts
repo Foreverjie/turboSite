@@ -34,6 +34,8 @@ export const userMeOutputSchema = z.object({
         .array(),
     }),
   ),
+  lastLoginIp: z.string().nullable(),
+  lastLoginTime: z.date().nullable(),
 })
 
 export type UserMeOutput = z.TypeOf<typeof userMeOutputSchema>

@@ -43,6 +43,9 @@ model User {
   updatedAt DateTime  @default(now()) @updatedAt
   Post      Post[]
   Comment   Comment[]
+
+  lastLoginIp String?
+  lastLoginTime DateTime?
 }
 
 model Post {

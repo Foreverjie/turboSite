@@ -15,6 +15,8 @@ export const userMeController = async ({ ctx }: any): Promise<UserMeOutput> => {
       avatar: true,
       gender: true,
       createdAt: true,
+      lastLoginIp: true,
+      lastLoginTime: true,
       Post: {
         select: {
           id: true,

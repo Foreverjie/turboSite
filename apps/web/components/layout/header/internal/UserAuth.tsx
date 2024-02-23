@@ -19,7 +19,7 @@ import { HeaderActionButton } from './HeaderActionButton'
 import { UserButton, SignedIn, SignedOut, SignInButton } from '@clerk/nextjs'
 
 const OwnerAvatar = () => {
-  const ownerAvatar = useAggregationSelector().aggregationData?.user.avatar
+  // const ownerAvatar = useAggregationSelector().aggregationData?.user.avatar
   //   const resolveAdminUrl = useResolveAdminUrl()
   return (
     <ButtonMotionBase
@@ -31,7 +31,11 @@ const OwnerAvatar = () => {
     >
       <span className="sr-only">Go to dashboard</span>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img className="rounded-full" src={ownerAvatar} alt="site owner" />
+      <img
+        className="rounded-full"
+        src={'https://avatars.githubusercontent.com/u/20612607?v=4'}
+        alt="site owner"
+      />
       {/* <UserAuthFromIcon className="absolute -bottom-1 -right-1" /> */}
     </ButtonMotionBase>
   )
