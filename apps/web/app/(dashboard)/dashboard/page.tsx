@@ -32,28 +32,30 @@ export default function Page() {
 
 const UserLoginStat = () => {
   const { data: user, isLoading } = trpc.user.me.useQuery()
-  if (isLoading) return <div className="loading loading-dots" />
+  const { data: ipInfo, isLoading: ipInfoLoading } = trpc.ip.info.useQuery()
+
+  if (isLoading || ipInfoLoading)
+    return <div className="loading loading-dots" />
   if (!user) return null
   return (
     <div>
       <h3 className="mb-4 text-xl font-light text-opacity-80">登录记录</h3>
       <div className="relative -mt-2 mb-3 text-gray-500">
-        <span className="flex items-center">
-          <span>上次登录 IP: </span>
-          <IpInfoPopover ip={user.lastLoginIp ?? '8.8.8.8'} />
-          {/* {user.lastLoginIp ? <IpInfoPopover ip={user.lastLoginIp} /> : 'N/A'} */}
-        </span>
+        {ipInfo?.ip ? (
+          <span className="flex items-center">
+            <span className="mr-2">登录 IP: </span>
+            <IpInfoPopover {...ipInfo} />
+          </span>
+        ) : null}
         <div className="pt-[.5rem]" />
-        <span>
-          上次登录时间:{' '}
-          {/* {user.lastLoginTime ? (
-            <time>
-              {parseDate(user.lastLoginTime, 'YYYY 年 M 月 D 日 dddd')}
+        {user.lastLoginTime ? (
+          <span>
+            登录时间:
+            <time className="ml-2">
+              {new Date(user.lastLoginTime).toDateString()}
             </time>
-          ) : (
-            'N/A'
-          )} */}
-        </span>
+          </span>
+        ) : null}
       </div>
     </div>
   )

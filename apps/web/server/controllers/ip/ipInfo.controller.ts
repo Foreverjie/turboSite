@@ -1,4 +1,5 @@
-import { IpInfoOutput, ipInfoInput } from '~/server/schemas/ip'
+import { IpInfoOutput } from '~/server/schemas/ip'
+import prisma from '~/prisma/prisma-client'
 
 export const ipInfoController = async ({
   ctx,
@@ -11,14 +12,29 @@ export const ipInfoController = async ({
     const ipInfo = await fetch(`https://ipinfo.io/${ip}?token=602560278ff283`)
     const ipInfoJson = await ipInfo.json()
 
-    console.log('ipInfo', ipInfoJson)
+    if (ipInfoJson.region) {
+      // can alert user different login location & ip
+      // update user last login info
+      await prisma.user.update({
+        where: {
+          userId: ctx.auth.userId,
+        },
+        data: {
+          lastLoginIp: ip,
+          lastLoginTime: new Date(),
+        },
+      })
+    }
+
     return {
+      ip,
       city: ipInfoJson.city ?? 'unknown',
       country: ipInfoJson.country ?? 'unknown',
       region: ipInfoJson.region ?? 'unknown',
     }
   } else {
     return {
+      ip: null,
       city: 'unknown',
       country: 'unknown',
       region: 'unknown',

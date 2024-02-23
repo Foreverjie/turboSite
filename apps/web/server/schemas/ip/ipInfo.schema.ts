@@ -4,7 +4,7 @@ import { z } from 'zod'
 export const ipInfoMeta: TRPCPanelMeta = {
   description: 'Get ip Info',
 }
-export const ipInfoInputSchema = z.string()
+export const ipInfoInputSchema = z.void()
 // ie.
 // "city": "Shenzhen",
 // "region": "Guangdong",
@@ -13,7 +13,7 @@ export const ipInfoOutputSchema = z.object({
   city: z.string(),
   region: z.string(),
   country: z.string(),
+  ip: z.string().nullable(),
 })
 
-export type ipInfoInput = z.TypeOf<typeof ipInfoInputSchema>
 export type IpInfoOutput = z.TypeOf<typeof ipInfoOutputSchema>

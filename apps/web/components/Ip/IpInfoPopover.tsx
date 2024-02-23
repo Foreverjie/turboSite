@@ -1,94 +1,26 @@
-import { useQuery } from '@tanstack/react-query'
-import { useLayoutEffect, useState } from 'react'
+import { HoverCard, HoverCardContent, HoverCardTrigger } from 'ui'
 
-// import { PopOver } from 'ui'
-import { trpc } from '../../utils/trpc'
+import { IpInfoOutput } from '../../server/schemas/ip'
 
-interface IpInfoPopoverProps {
-  ip: string
-}
-export const IpInfoPopover: Component<IpInfoPopoverProps> = props => {
-  const [ipInfo, setIpInfo] = useState<string | null>(null)
-
-  const setIpInfoText = (info: IP) => {
-    setIpInfo(`IP: ${info.ip}<br />
-      城市：${
-        [info.countryName, info.regionName, info.cityName]
-          .filter(Boolean)
-          .join(' - ') || 'N/A'
-      }<br />
-      ISP: ${info.ispDomain || 'N/A'}<br />
-      组织：${info.ownerDomain || 'N/A'}<br />
-      范围：${info.range ? Object.values(info.range).join(' - ') : 'N/A'}
-      `)
-  }
-
-  const { ip, className } = props
-
-  const { data, isLoading } = trpc.ip.info.useQuery(ip)
-
-  console.log('ip data', { ip, data })
-  //   const { data, isLoading, refetch } = useQuery({
-  //     queryKey: ['ip', ip],
-  //     queryFn: async () => {
-  //       const data: any = await apiClient.proxy.fn('built-in').ip.get({
-  //         params: {
-  //           ip,
-  //         },
-  //       })
-  //       return data
-  //     },
-  //     enabled: false,
-  //     retry: false,
-  // //   })
-
-  // .useLayoutEffect(() => {
-  //   if (data) setIpInfoText(data as IP)
-  // }, [data])
+export const IpInfoPopover: Component<IpInfoOutput> = props => {
+  const { ip, city, country, region, className } = props
 
   return (
-    // <FloatPopover
-    //   type="tooltip"
-    //   wrapperClassName="truncate"
-    //   onOpen={() => {
-    //     refetch()
-    //   }}
-    //   TriggerComponent={() => <span className={className}>{ip}</span>}
-    // >
-    //   {isLoading ? (
-    //     '...'
-    //   ) : (
-    //     <div
-    //       dangerouslySetInnerHTML={{
-    //         __html: ipInfo as any,
-    //       }}
-    //     />
-    //   )}
-    // </FloatPopover>
-    <>
-      <span className={className}>{ip}</span>
-      {isLoading ? (
-        '...'
-      ) : (
-        <div
-          dangerouslySetInnerHTML={{
-            __html: ipInfo as any,
-          }}
-        />
-      )}
-    </>
+    <HoverCard>
+      <HoverCardTrigger>
+        <span className={className}>{ip}</span>
+      </HoverCardTrigger>
+      <HoverCardContent>
+        <div>
+          <span>IP: {ip}</span>
+          <br />
+          <span>地区: {region}</span>
+          <br />
+          <span>城市: {city}</span>
+          <br />
+          <span>国家: {country}</span>
+        </div>
+      </HoverCardContent>
+    </HoverCard>
   )
-}
-
-interface IP {
-  ip: string
-  countryName: string
-  regionName: string
-  cityName: string
-  ownerDomain: string
-  ispDomain: string
-  range?: {
-    from: string
-    to: string
-  }
 }
