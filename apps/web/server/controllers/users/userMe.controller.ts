@@ -42,6 +42,17 @@ export const userMeController = async ({ ctx }: any): Promise<UserMeOutput> => {
           updatedAt: 'desc',
         },
       },
+      Comment: {
+        select: {
+          commentId: true,
+          postId: true,
+          content: true,
+          updatedAt: true,
+        },
+        orderBy: {
+          updatedAt: 'desc',
+        },
+      },
     },
   })
   if (!user) {

@@ -14,11 +14,11 @@ export const IpInfoPopover: Component<IpInfoOutput> = props => {
         <div>
           <span>IP: {ip}</span>
           <br />
-          <span>地区: {region}</span>
+          <span>Region: {region}</span>
           <br />
-          <span>城市: {city}</span>
+          <span>City: {city}</span>
           <br />
-          <span>国家: {country}</span>
+          <span>Country: {country}</span>
         </div>
       </HoverCardContent>
     </HoverCard>
