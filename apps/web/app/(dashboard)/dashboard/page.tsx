@@ -16,7 +16,9 @@ export default function Page() {
             <Hitokoto />
           </div> */}
         <div>
-          <h3 className="my-[10px] font-light text-opacity-80">Today's Poem</h3>
+          <h3 className="my-[10px] font-light text-opacity-80">
+            Today&apos;s Poem
+          </h3>
           <Poem />
         </div>
       </div>
