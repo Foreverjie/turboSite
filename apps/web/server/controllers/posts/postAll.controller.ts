@@ -1,9 +1,13 @@
 import { PostAllOutput, PostAllInput } from '../../schemas/posts'
 import prisma from '../../../prisma/prisma-client'
 
-export const postAllController = async (input: {
-  input: PostAllInput
-}): Promise<PostAllOutput> => {
+export const postAllController = async (
+  input: {
+    input: PostAllInput
+    ctx: any
+  },
+  onlyMe: boolean = false,
+): Promise<PostAllOutput> => {
   const { limit, cursor } = input.input ?? {
     limit: 20,
     cursor: undefined,
@@ -23,6 +27,7 @@ export const postAllController = async (input: {
     where: {
       isBlocked: false,
       isDeleted: false,
+      authorId: onlyMe ? input.ctx.auth.userId : undefined,
     },
     select: {
       type: true,

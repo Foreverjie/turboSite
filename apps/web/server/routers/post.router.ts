@@ -32,4 +32,9 @@ export const post = router({
     .input(postLikeInputSchema)
     .output(postLikeOutputSchema)
     .mutation(postLikeController),
+  meAll: protectedProcedure
+    .meta(postAllMeta)
+    .input(postAllInputSchema)
+    .output(postAllOutputSchema)
+    .query((...args) => postAllController(...args, true)),
 })
