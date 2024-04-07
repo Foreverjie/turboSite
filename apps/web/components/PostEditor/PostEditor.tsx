@@ -10,7 +10,7 @@ import 'swiper/css'
 
 const PostEditor = ({ onPostAdded }: { onPostAdded?: () => void }) => {
   const { toast } = useToast()
-  const utils = trpc.useContext()
+  const utils = trpc.useUtils()
   const newPost = trpc.post.new.useMutation({
     onSuccess: () => {
       utils.post.all.invalidate()

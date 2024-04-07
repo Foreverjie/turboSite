@@ -2,4 +2,5 @@
 export * from './postAll.controller'
 export * from './postNew.controller'
 export * from './postLike.controller'
-// export * from './postEdit.controller'
+export * from './postId.controller'
+export * from './postEdit.controller'

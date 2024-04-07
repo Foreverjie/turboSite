@@ -119,7 +119,7 @@ export function Card(props: CardProps) {
         )} */}
         <Link
           className="absolute inset-0 bottom-8 z-[1]"
-          href={`/dashboard/posts/edit?id=${data.id}`}
+          href={`/dashboard/posts/edit?id=${data.postId}`}
         />
       </>
     </div>

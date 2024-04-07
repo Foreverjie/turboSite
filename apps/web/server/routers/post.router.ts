@@ -9,11 +9,19 @@ import {
   postLikeMeta,
   postLikeInputSchema,
   postLikeOutputSchema,
+  postIdMeta,
+  postIdInputSchema,
+  postIdOutputSchema,
+  postEditMeta,
+  postEditInputSchema,
+  postEditOutputSchema,
 } from '../schemas/posts'
 import {
   postAllController,
   postLikeController,
   postNewController,
+  postIdController,
+  postEditController,
 } from '../controllers/posts'
 
 export const post = router({
@@ -37,4 +45,14 @@ export const post = router({
     .input(postAllInputSchema)
     .output(postAllOutputSchema)
     .query((...args) => postAllController(...args, true)),
+  getById: publicProcedure
+    .meta(postIdMeta)
+    .input(postIdInputSchema)
+    .output(postIdOutputSchema)
+    .query(postIdController),
+  edit: protectedProcedure
+    .meta(postEditMeta)
+    .input(postEditInputSchema)
+    .output(postEditOutputSchema)
+    .mutation(postEditController),
 })

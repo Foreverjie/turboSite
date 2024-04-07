@@ -5,6 +5,7 @@ import { ThemeProvider } from 'next-themes'
 import type { PropsWithChildren } from 'react'
 import { ProviderComposer } from './ProviderComposer'
 import { PageScrollInfoProvider } from './page-scroll-info-provider'
+import { useBeforeUnload } from '~/hooks/common/use-before-unload'
 
 const loadFeatures = () =>
   import('./framer-lazy-feature').then(res => res.default)
@@ -12,6 +13,7 @@ const loadFeatures = () =>
 const baseContexts: JSX.Element[] = [
   <ThemeProvider key="themeProvider" />,
   <PageScrollInfoProvider />,
+  <useBeforeUnload.Provider />,
 
   //   <LazyMotion features={loadFeatures} strict key="framer" />,
 ]

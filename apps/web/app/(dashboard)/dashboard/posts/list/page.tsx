@@ -23,13 +23,13 @@ export default (function Page() {
     },
   )
 
-  const router = useRouter()
+  // const router = useRouter()
   if (isLoading) return <PageLoading />
 
   return (
     <div className="relative mt-8">
-      {userPosts?.pages.map(page => (
-        <CardMasonry data={page.posts} />
+      {userPosts?.pages.map((page, index) => (
+        <CardMasonry data={page.posts} key={index} />
       ))}
 
       {hasNextPage && (
