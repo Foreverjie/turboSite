@@ -50,8 +50,6 @@ import { XIcon, ImageIcon, MapPinIcon } from 'lucide-react'
 import { UploadButton } from '~/utils/uploadthing'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
-// import { adminQueries } from '~/queries/definition'
-// import { useCreatePost, useUpdatePost } from '~/queries/definition/post'
 
 export default function Page() {
   const search = useSearchParams()
@@ -83,9 +81,9 @@ export default function Page() {
 
   const [postContent, setPostContent] = useState<string>()
   const [files, setFiles] = useState<string[]>([])
-  const isMobile = useIsMobile()
   const { toast } = useToast()
   const [progress, setProgress] = useState(0)
+  const router = useRouter()
 
   useEffect(() => {
     if (data) {
@@ -100,9 +98,12 @@ export default function Page() {
 
   const addPost = async () => {
     if (!postContent) return
-    // await createPost({ content: post, files })
-    setPostContent('')
-    // onPostAdded && onPostAdded()
+    if (data) {
+      await updatePost({ postId: data.postId, content: postContent, files })
+    } else {
+      await createPost({ content: postContent, files })
+    }
+    router.push('/dashboard/posts')
   }
 
   const handleImageClick = () => {}
@@ -115,20 +116,20 @@ export default function Page() {
 
       {/* <Writing middleSlot={SlugInput} /> */}
       <Textarea
-        className="flex flex-1 mt-4"
+        className="flex flex-grow mt-4"
         value={postContent}
         onChange={e => {
           setPostContent(e.target.value)
         }}
       />
 
-      {!!data?.files?.length && (
+      {!!files?.length && (
         <Swiper
           slidesPerView={'auto'}
           spaceBetween={24}
           className="photo-swiper m-0 flex items-center justify-start mt-4"
         >
-          {data.files.map((file, i) => (
+          {files.map((file, i) => (
             <SwiperSlide key={i} className="w-fit">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -140,7 +141,7 @@ export default function Page() {
               <button
                 className="absolute top-0 right-0 mt-1 mr-1"
                 onClick={() => {
-                  const newFiles = [...data.files]
+                  const newFiles = [...files]
                   newFiles.splice(i, 1)
                   setFiles(newFiles)
                 }}
@@ -188,7 +189,7 @@ export default function Page() {
           />
           <MapPinIcon className="mr-2" onClick={handleLocationClick} />
         </div>
-        <Button onClick={addPost} loading={isPending}>
+        <Button onClick={addPost} loading={isPending} disabled={!postContent}>
           {data ? 'Edit' : 'Post'}
         </Button>
       </div>

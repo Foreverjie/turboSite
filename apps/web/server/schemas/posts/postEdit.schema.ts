@@ -5,7 +5,7 @@ export const postEditMeta: TRPCPanelMeta = {
   description: 'Edit post by id',
 }
 export const postEditInputSchema = z.object({
-  id: z.string().nullable(),
+  postId: z.string().nullable(),
   content: z.string().optional(),
   isBlocked: z.boolean().optional(),
   files: z.string().array().optional(),
