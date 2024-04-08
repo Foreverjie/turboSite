@@ -50,6 +50,9 @@ import { XIcon, ImageIcon, MapPinIcon } from 'lucide-react'
 import { UploadButton } from '~/utils/uploadthing'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
+import 'swiper/css/pagination'
+
+import './style.css'
 
 export default function Page() {
   const search = useSearchParams()
@@ -103,7 +106,7 @@ export default function Page() {
     } else {
       await createPost({ content: postContent, files })
     }
-    router.push('/dashboard/posts')
+    router.push('/dashboard/posts/list')
   }
 
   const handleImageClick = () => {}
@@ -124,16 +127,12 @@ export default function Page() {
       />
 
       {!!files?.length && (
-        <Swiper
-          slidesPerView={'auto'}
-          spaceBetween={24}
-          className="photo-swiper m-0 flex items-center justify-start mt-4"
-        >
+        <Swiper slidesPerView={'auto'} spaceBetween={24} className="mt-4">
           {files.map((file, i) => (
             <SwiperSlide key={i} className="w-fit">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                className="h-24 aspect-auto"
+                className="h-24 aspect-auto rounded-md"
                 src={file}
                 alt="Image"
                 onClick={handleImageClick}
@@ -196,3 +195,4 @@ export default function Page() {
     </BaseWritingProvider>
   )
 }
+//

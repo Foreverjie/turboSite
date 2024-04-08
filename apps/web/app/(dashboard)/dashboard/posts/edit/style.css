@@ -1,0 +1,8 @@
+.swiper {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.swiper-slide {
+    width: fit-content;
+}
