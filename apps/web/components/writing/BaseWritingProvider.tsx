@@ -10,6 +10,7 @@ import { EmitKeyMap } from '~/constants/keys'
 import { useBeforeUnload } from '~/hooks/common/use-before-unload'
 // import { useForceUpdate } from '~/hooks/common/use-force-update'
 import { throttle } from 'lodash'
+import { buildNSKey } from '../../lib/ns'
 
 type BaseModelType = {
   title: string
@@ -35,17 +36,11 @@ export const BaseWritingProvider = <T extends BaseModelType>(
   }, [])
   useBeforeUnload(isFormDirty)
 
-  return (
-    <AutoSaverProvider>
-      {/* <BaseWritingContext.Provider> */}
-      {props.children}
-      {/* </BaseWritingContext.Provider> */}
-    </AutoSaverProvider>
-  )
+  return <AutoSaverProvider>{props.children}</AutoSaverProvider>
 }
 
 const AutoSaverContext = createContext({
-  reset(id?: string) {},
+  reset(postId?: string) {},
 })
 
 const AutoSaverProvider: FC<PropsWithChildren> = ({ children }) => {
@@ -53,7 +48,11 @@ const AutoSaverProvider: FC<PropsWithChildren> = ({ children }) => {
     const handler = throttle((e: any) => {
       const ev = e as WriteEditEvent
 
-      const id = 'new-post'
+      const { postId, content } = ev.data
+
+      const id = postId || 'new-post'
+      const key = `auto-saved-${id}`
+      localStorage.setItem(buildNSKey(key), JSON.stringify(content))
     }, 300)
     window.addEventListener(EmitKeyMap.EditDataUpdate, handler)
 
@@ -66,8 +65,11 @@ const AutoSaverProvider: FC<PropsWithChildren> = ({ children }) => {
     <AutoSaverContext.Provider
       value={useMemo(() => {
         return {
-          reset() {
-            const id = 'new-post'
+          reset(nsKey?: string) {
+            const id = nsKey || 'new-post'
+            const key = `auto-saved-${id}`
+            console.log('reset', key)
+            localStorage.removeItem(buildNSKey(key))
           },
         }
       }, [])}

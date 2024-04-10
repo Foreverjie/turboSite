@@ -45,7 +45,7 @@ import { cn } from 'ui/src/utils'
 import { MilkdownEditor, MilkdownRef } from '~/components/ui/editor'
 import { BaseWritingProvider } from '~/components/writing/BaseWritingProvider'
 import { EditorLayer } from '~/components/writing/EditorLayer'
-import { post } from 'cypress/types/jquery'
+import { useResetAutoSaverData } from '~/components/writing/BaseWritingProvider'
 import { XIcon, ImageIcon, MapPinIcon } from 'lucide-react'
 import { UploadButton } from '~/utils/uploadthing'
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -53,10 +53,12 @@ import 'swiper/css'
 import 'swiper/css/pagination'
 
 import './style.css'
+import { WriteEditEvent } from '../../../../../events'
 
 export default function Page() {
   const search = useSearchParams()
   const id = search.get('id')
+  const resetAutoSaver = useResetAutoSaverData()
 
   const { data, isLoading } = trpc.post.getById.useQuery(
     {
@@ -71,12 +73,14 @@ export default function Page() {
   const { mutateAsync: createPost, isLoading: p1 } = trpc.post.new.useMutation({
     onSuccess: () => {
       utils.post.all.invalidate()
+      resetAutoSaver()
     },
   })
   const { mutateAsync: updatePost, isLoading: p2 } = trpc.post.edit.useMutation(
     {
       onSuccess: () => {
         utils.post.all.invalidate()
+        resetAutoSaver(data?.postId)
       },
     },
   )
@@ -106,7 +110,7 @@ export default function Page() {
     } else {
       await createPost({ content: postContent, files })
     }
-    router.push('/dashboard/posts/list')
+    // router.push('/dashboard/posts/list')
   }
 
   const handleImageClick = () => {}
@@ -122,6 +126,12 @@ export default function Page() {
         className="flex flex-grow mt-4"
         value={postContent}
         onChange={e => {
+          window.dispatchEvent(
+            new WriteEditEvent({
+              content: e.target.value,
+              postId: data?.postId,
+            }),
+          )
           setPostContent(e.target.value)
         }}
       />
