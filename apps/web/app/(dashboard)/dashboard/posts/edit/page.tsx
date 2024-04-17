@@ -36,7 +36,8 @@ import { callCommand } from '@milkdown/utils'
 //   useEditorRef,
 //   Writing,
 // } from '~/components/modules/dashboard/writing/Writing'
-import { Button, Textarea, useToast, Progress } from 'ui'
+import { toast } from 'ui'
+import { Button, Textarea, Progress } from 'ui'
 import { useEventCallback } from '~/hooks/common/use-event-callback'
 import { cloneDeep } from 'lodash'
 import { trpc } from '~/utils/trpc'
@@ -88,7 +89,6 @@ export default function Page() {
 
   const [postContent, setPostContent] = useState<string>()
   const [files, setFiles] = useState<string[]>([])
-  const { toast } = useToast()
   const [progress, setProgress] = useState(0)
   const router = useRouter()
 
@@ -110,7 +110,8 @@ export default function Page() {
     } else {
       await createPost({ content: postContent, files })
     }
-    // router.push('/dashboard/posts/list')
+    toast.success(data ? 'Post updated' : 'Post added')
+    router.push('/dashboard/posts/list')
   }
 
   const handleImageClick = () => {}
@@ -170,9 +171,9 @@ export default function Page() {
               button: <ImageIcon />,
             }}
             onUploadBegin={() => {
-              toast({
-                description: <UploadProgress />,
-              })
+              // toast({
+              //   description: <UploadProgress />,
+              // })
             }}
             onUploadProgress={progress => {
               setProgress(progress)
@@ -184,16 +185,16 @@ export default function Page() {
                 newFiles.push(r.url)
               })
               setFiles(newFiles)
-              toast({
-                description: 'Upload Success!',
-              })
+              // toast({
+              //   description: 'Upload Success!',
+              // })
             }}
             onUploadError={(error: Error) => {
-              toast({
-                title: 'Error',
-                variant: 'destructive',
-                description: error.message || 'Something went wrong',
-              })
+              // toast({
+              //   title: 'Error',
+              //   variant: 'destructive',
+              //   description: error.message || 'Something went wrong',
+              // })
             }}
           />
           <MapPinIcon className="mr-2" onClick={handleLocationClick} />

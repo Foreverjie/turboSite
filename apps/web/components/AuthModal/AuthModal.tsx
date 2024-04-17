@@ -3,8 +3,7 @@
 import { signIn, SignInResponse } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import React, { MutableRefObject, useState } from 'react'
-import { toast } from 'react-toastify'
-import { Modal, Text, Input, Row, Button, Checkbox } from 'ui'
+import { Modal, Text, Input, Row, Button, Checkbox, toast } from 'ui'
 import { Password, Mail } from '.'
 
 function AuthModal({

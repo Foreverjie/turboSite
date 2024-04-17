@@ -6,7 +6,7 @@ import { TrpcProvider } from '~/utils'
 import { ClerkProvider } from '@clerk/nextjs'
 import { Inter } from 'next/font/google'
 import { cookies } from 'next/headers'
-import { Toaster } from 'ui'
+import { ToastContainer } from 'react-toastify'
 
 import PKG from '~/package.json'
 import { Root } from '~/components/layout/root/Root'
@@ -52,7 +52,7 @@ export default function RootLayout({
                 <Root>{children}</Root>
               </div>
               {/* <Footer /> */}
-              <Toaster />
+              <ToastContainer />
               {/* </AggregationProvider> */}
             </TrpcProvider>
           </AppProviders>

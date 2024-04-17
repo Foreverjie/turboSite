@@ -9,18 +9,12 @@ import {
 import { getFetch, httpBatchLink, loggerLink } from '@trpc/client'
 import { useState } from 'react'
 import { trpc } from './trpc'
-import { useToast } from 'ui'
+import { toast } from 'ui'
 import superjson from 'superjson'
 
 export const TrpcProvider: React.FC<{ children: React.ReactNode }> = p => {
-  const { toast } = useToast()
-
   const onError = (err: unknown) => {
-    toast({
-      title: 'Error',
-      variant: 'destructive',
-      description: err.message,
-    })
+    toast.error(err instanceof Error ? err.message : 'Unknown error')
   }
 
   function getBaseUrl() {

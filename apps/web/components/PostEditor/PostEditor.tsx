@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useCallback, useState } from 'react'
-import { Button, Progress, Textarea, useToast } from 'ui'
+import { Button, Progress, Textarea, toast } from 'ui'
 import { trpc } from '../../utils/trpc'
 import { ImageIcon, MapPinIcon, XIcon } from 'lucide-react'
 import { UploadButton } from '~/utils/uploadthing'
@@ -9,7 +9,6 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 
 const PostEditor = ({ onPostAdded }: { onPostAdded?: () => void }) => {
-  const { toast } = useToast()
   const utils = trpc.useUtils()
   const newPost = trpc.post.new.useMutation({
     onSuccess: () => {
@@ -89,9 +88,7 @@ const PostEditor = ({ onPostAdded }: { onPostAdded?: () => void }) => {
               button: <ImageIcon />,
             }}
             onUploadBegin={() => {
-              toast({
-                description: <UploadProgress />,
-              })
+              // toast.info(<UploadProgress />)
             }}
             onUploadProgress={progress => {
               setProgress(progress)
@@ -103,16 +100,16 @@ const PostEditor = ({ onPostAdded }: { onPostAdded?: () => void }) => {
                 newFiles.push(r.url)
               })
               setFiles(newFiles)
-              toast({
-                description: 'Upload Success!',
-              })
+              // toast({
+              //   description: 'Upload Success!',
+              // })
             }}
             onUploadError={(error: Error) => {
-              toast({
-                title: 'Error',
-                variant: 'destructive',
-                description: error.message || 'Something went wrong',
-              })
+              // toast({
+              //   title: 'Error',
+              //   variant: 'destructive',
+              //   description: error.message || 'Something went wrong',
+              // })
             }}
           />
           <MapPinIcon className="mr-2" onClick={handleLocationClick} />

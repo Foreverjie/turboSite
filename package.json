@@ -28,6 +28,7 @@
   },
   "packageManager": "pnpm@7.3.0",
   "dependencies": {
+    "@iconify-json/mingcute": "^1.1.15",
     "@iconify/tailwind": "^0.1.4",
     "@manypkg/cli": "^0.19.2",
     "@tailwindcss/typography": "^0.5.10",
@@ -58,8 +59,5 @@
     "commitizen": {
       "path": "node_modules/cz-git"
     }
-  },
-  "devDependencies": {
-    "@iconify-json/mingcute": "^1.1.15"
   }
 }
