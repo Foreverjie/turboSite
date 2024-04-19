@@ -4,7 +4,7 @@ import { Loader2Icon } from 'lucide-react'
 import { trpc } from '../../utils/trpc'
 import PostCard from './PostCard'
 import PostCardLoading from './PostCardLoading'
-import { usePullToRefresh } from './use-pull-to-refresh'
+import { usePullToRefresh } from '../../hooks/common/use-pull-to-refresh'
 
 const Feed = (): ReactElement => {
   const PAGE_COUNT = 10

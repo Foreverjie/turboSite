@@ -7,7 +7,6 @@ import {
   PropsWithChildren,
   createContext,
   startTransition,
-  useEffect,
   useRef,
   useState,
 } from 'react'
@@ -70,12 +69,4 @@ export const PageScrollInfoProvider: FC<PropsWithChildren> = ({ children }) => {
       {children}
     </PageScrollInfoContext.Provider>
   )
-}
-
-const usePageScrollDirectionSelector = () => {
-  const [direction, setDirection] = useState<'up' | 'down' | null>('down')
-  return {
-    direction,
-    setDirection,
-  }
 }

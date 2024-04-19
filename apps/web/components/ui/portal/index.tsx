@@ -1,7 +1,7 @@
 'use client'
 
 import { createPortal } from 'react-dom'
-import type { FC, PropsWithChildren } from 'react'
+import { useEffect, type FC, type PropsWithChildren } from 'react'
 
 import { useIsClient } from '~/hooks/common/use-is-client'
 

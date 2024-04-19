@@ -48,3 +48,12 @@ export const useHeaderMetaInfo = () => {
     setSlug,
   }
 }
+
+export const useHeaderShouldShowBg = () => {
+  const [shouldShow, setShouldShow] = useState(true)
+
+  return {
+    shouldShow,
+    setShouldShow,
+  }
+}
