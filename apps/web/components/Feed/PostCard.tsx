@@ -91,7 +91,7 @@ function PostCard({
   }
 
   return (
-    <Card>
+    <Card className="my-4 min-w-60">
       <CardHeader>
         <div className="flex justify-between">
           <div className="flex">

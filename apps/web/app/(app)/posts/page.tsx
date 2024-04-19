@@ -16,16 +16,7 @@ import { trpc } from '~/utils/trpc'
 import { usePullToRefresh } from '~/hooks/common/use-pull-to-refresh'
 import PostCard from '../../../components/Feed/PostCard'
 
-interface Props {
-  limit?: number
-  cursor?: string
-  // sortBy?: string
-  // orderBy?: string
-}
-
-const PAGE_COUNT = 10
-
-const Page = (props: Props) => {
+const Page = () => {
   const PAGE_COUNT = 10
   const containerRef = useRef<HTMLDivElement>(null)
   const [isInView, setIsInView] = useState(false)
@@ -75,25 +66,34 @@ const Page = (props: Props) => {
 
   const { showRefresh } = usePullToRefresh(containerRef, refetch)
 
-  if (!data?.pages.length) {
+  if (!data?.pages.length && !isLoading) {
     return <NothingFound />
   }
   return (
     <NormalContainer>
-      <ul>
-        {data.pages.map(page =>
-          page.posts.map((post, index) => (
-            <BottomToUpTransitionView
-              lcpOptimization
-              key={post.postId}
-              as="li"
-              delay={index * 100}
-            >
-              <PostCard {...post} />
-            </BottomToUpTransitionView>
-          )),
+      <div ref={containerRef}>
+        {(isRefetching || isLoading || showRefresh) && (
+          <div className="flex justify-center my-4">
+            <Loader2Icon
+              className={`${isRefetching ? 'animate-spin' : undefined}`}
+            />
+          </div>
         )}
-      </ul>
+        <ul>
+          {data?.pages.map(page =>
+            page.posts.map((post, index) => (
+              <BottomToUpTransitionView
+                lcpOptimization
+                key={post.postId}
+                as="li"
+                delay={index * 100}
+              >
+                <PostCard {...post} />
+              </BottomToUpTransitionView>
+            )),
+          )}
+        </ul>
+      </div>
 
       {/* <PostsSortingFab />
       <PostTagsFAB />
