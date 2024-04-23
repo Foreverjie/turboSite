@@ -70,7 +70,7 @@ const Page = () => {
     return <NothingFound />
   }
   return (
-    <NormalContainer>
+    <NormalContainer className="w-full">
       <div ref={containerRef}>
         {(isRefetching || isLoading || showRefresh) && (
           <div className="flex justify-center my-4">
