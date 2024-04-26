@@ -177,7 +177,7 @@ export const Activity = memo(() => {
   //     })
   //   }, [activity, data, setActivity])
 
-  const ownerName = useAggregationSelector().aggregationData?.user?.name || ''
+  const ownerName = useAggregationSelector().aggregationData?.url.webUrl || ''
   const memoProcessName = useMemo(
     () => ({ processName: activity?.processName || '' }),
     [activity?.processName],

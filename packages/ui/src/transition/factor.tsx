@@ -1,7 +1,7 @@
 'use client'
 
 import { forwardRef, memo, useMemo } from 'react'
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import type {
   HTMLMotionProps,
   Spring,
@@ -44,7 +44,7 @@ export const createTransitionView = ({
 
     const { enter = delay, exit = delay } = timeout
 
-    const MotionComponent = motion[as] as ForwardRefExoticComponent<
+    const MotionComponent = m[as] as ForwardRefExoticComponent<
       HTMLMotionProps<any> & RefAttributes<HTMLElement>
     >
 

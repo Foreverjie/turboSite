@@ -3,7 +3,7 @@
 import { useQuery } from '@tanstack/react-query'
 import React, { createElement, forwardRef, useCallback, useRef } from 'react'
 import { cn } from 'ui/src/utils'
-import { m, motion, useInView } from 'framer-motion'
+import { m, useInView } from 'framer-motion'
 import Link from 'next/link'
 import type { PropsWithChildren } from 'react'
 // import { isSupportIcon, SocialIcon } from 'lucide-react'
@@ -156,7 +156,7 @@ const Welcome = () => {
     <Screen className="mt-20 lg:mt-[-4.5rem]">
       <TwoColumnLayout leftContainerClassName="mt-[120px] lg:mt-0 h-[15rem] lg:h-1/2">
         <>
-          <motion.div
+          <m.div
             className="group relative leading-[4] [&_*]:inline-block"
             initial={{ opacity: 0.0001, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
@@ -182,7 +182,7 @@ const Welcome = () => {
                 ),
               )
             })}
-          </motion.div>
+          </m.div>
 
           <BottomToUpTransitionView
             delay={titleAnimateD + 500}
@@ -224,7 +224,7 @@ const Welcome = () => {
           />
         </div>
 
-        <motion.div
+        <m.div
           initial={{ opacity: 0.0001, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={softBouncePreset}
@@ -239,7 +239,7 @@ const Welcome = () => {
           <span className="mt-8 animate-bounce">
             <i className="icon-[mingcute--right-line] rotate-90 text-2xl" />
           </span>
-        </motion.div>
+        </m.div>
       </TwoColumnLayout>
     </Screen>
   )

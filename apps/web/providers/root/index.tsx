@@ -15,7 +15,7 @@ const baseContexts: JSX.Element[] = [
   <PageScrollInfoProvider />,
   <useBeforeUnload.Provider />,
 
-  //   <LazyMotion features={loadFeatures} strict key="framer" />,
+  <LazyMotion features={loadFeatures} strict key="framer" />,
 ]
 
 export function AppProviders({ children }: PropsWithChildren) {

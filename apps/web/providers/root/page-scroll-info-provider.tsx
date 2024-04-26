@@ -7,6 +7,7 @@ import {
   PropsWithChildren,
   createContext,
   startTransition,
+  useContext,
   useRef,
   useState,
 } from 'react'
@@ -14,19 +15,18 @@ import {
 type PageScrollInfoContextType = {
   y: number
   direction: 'up' | 'down' | null
-} | null
+}
 
-export const PageScrollInfoContext =
-  createContext<PageScrollInfoContextType>(null)
+export const PageScrollInfoContext = createContext<PageScrollInfoContextType>({
+  y: 0,
+  direction: null,
+})
 
 export const PageScrollInfoProvider: FC<PropsWithChildren> = ({ children }) => {
   const [y, setY] = useState(0)
   const [direction, setDirection] = useState<'up' | 'down' | null>('down')
   const prevScrollY = useRef(0)
   const setIsInteractiveOnceRef = useRef(false)
-
-  // const lastTime = useRef(0)
-  // const setScrollSpeed = useSetAtom(pageScrollSpeedAtom)
 
   useIsomorphicLayoutEffect(() => {
     const scrollHandler = throttle(
@@ -69,4 +69,10 @@ export const PageScrollInfoProvider: FC<PropsWithChildren> = ({ children }) => {
       {children}
     </PageScrollInfoContext.Provider>
   )
+}
+
+export const useIsScrollUpAndPageIsOver = (threshold: number) => {
+  const { y, direction } = useContext(PageScrollInfoContext)
+
+  return direction === 'up' && y > threshold
 }

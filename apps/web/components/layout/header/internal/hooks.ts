@@ -1,10 +1,8 @@
-import { useIsMobile } from '~/utils/viewport'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
+import { PageScrollInfoContext } from '../../../../providers/root/page-scroll-info-provider'
 
 export const useHeaderBgOpacity = ({ y }: { y: number }) => {
   const threshold = 50
-  const isMobile = useIsMobile()
-  //   const headerShouldShowBg = useHeaderShouldShowBg() || isMobile
   const headerShouldShowBg = true
 
   const [bgOpacity, setBgOpacity] = useState(0)
@@ -13,7 +11,7 @@ export const useHeaderBgOpacity = ({ y }: { y: number }) => {
     const opacity = headerShouldShowBg
       ? y >= threshold
         ? 1
-        : Math.floor(((y / threshold) * 100) / 100)
+        : Math.floor((y / threshold) * 100) / 100
       : 0
     setBgOpacity(opacity)
   }, [headerShouldShowBg, y])
@@ -22,7 +20,8 @@ export const useHeaderBgOpacity = ({ y }: { y: number }) => {
 }
 
 export const useMenuOpacity = () => {
-  const headerOpacity = useHeaderBgOpacity({ y: 0 })
+  const { y } = useContext(PageScrollInfoContext)
+  const headerOpacity = useHeaderBgOpacity({ y })
 
   return 1 - headerOpacity
 }

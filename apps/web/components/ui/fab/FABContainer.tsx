@@ -9,7 +9,7 @@ import React, {
   useState,
 } from 'react'
 import { typescriptHappyForwardRef } from 'foxact/typescript-happy-forward-ref'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, m } from 'framer-motion'
 import type { HTMLMotionProps } from 'framer-motion'
 import type { PropsWithChildren, ReactNode } from 'react'
 
@@ -42,7 +42,7 @@ export const FABBase = typescriptHappyForwardRef(
     return (
       <AnimatePresence mode="wait">
         {show && (
-          <motion.button
+          <m.button
             ref={ref}
             aria-label="Floating action button"
             initial={{ opacity: 0.3, scale: 0.8 }}
@@ -61,7 +61,7 @@ export const FABBase = typescriptHappyForwardRef(
             {...rest}
           >
             {children}
-          </motion.button>
+          </m.button>
         )}
       </AnimatePresence>
     )

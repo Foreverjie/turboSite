@@ -9,7 +9,7 @@ import { SignUpInformationStep } from './sign-up-information-step'
 import { SignUpDoneStep } from './sign-up-done-step'
 import { useSession } from '@clerk/nextjs'
 import { Button } from 'ui'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, m } from 'framer-motion'
 
 enum SignUpStep {
   EMAIL,
@@ -60,7 +60,7 @@ export default function Page() {
     switch (step) {
       case SignUpStep.EMAIL:
         return (
-          <motion.div
+          <m.div
             key="sign-up-email-step"
             variants={variants}
             initial="initial"
@@ -68,11 +68,11 @@ export default function Page() {
             exit="out"
           >
             <SignUpEmailStep onDone={nextStep} />
-          </motion.div>
+          </m.div>
         )
       case SignUpStep.CODE:
         return (
-          <motion.div
+          <m.div
             key="sign-up-code-step"
             variants={variants}
             initial="initial"
@@ -80,7 +80,7 @@ export default function Page() {
             exit="out"
           >
             <SignUpCodeStep onDone={nextStep} />
-          </motion.div>
+          </m.div>
         )
       case SignUpStep.PASSWORD:
         return <SignUpPasswordStep onDone={nextStep} />
