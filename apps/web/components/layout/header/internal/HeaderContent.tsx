@@ -27,14 +27,12 @@ export const HeaderContent = () => {
       <AnimatedMenu>
         <ForDesktop />
       </AnimatedMenu>
-      <AccessibleMenu />
+      {/* <AccessibleMenu /> */}
     </LayoutGroup>
   )
 }
 
 const AccessibleMenu: Component = () => {
-  //   const hasMetaInfo = useHeaderHasMetaInfo()
-
   const showShow = useDebounceValue(useIsScrollUpAndPageIsOver(600), 120)
 
   return (
@@ -59,18 +57,12 @@ const AccessibleMenu: Component = () => {
 const AnimatedMenu: Component = ({ children }) => {
   const opacity = useMenuOpacity()
 
-  console.log('opacity', opacity)
+  const shouldHideNavBg = opacity === 0
 
   return (
-    <m.div
-      className="duration-100"
-      style={{
-        opacity,
-        visibility: opacity === 0 ? 'hidden' : 'visible',
-      }}
-    >
+    <m.div className="duration-100">
       {/* @ts-ignore */}
-      {React.cloneElement(children)}
+      {React.cloneElement(children, { shouldHideNavBg })}
     </m.div>
   )
 }
@@ -131,13 +123,10 @@ const ForDesktop: Component<{
               section={section}
               key={section.path}
               subItemActive={section.subMenu?.[subItemActive]}
-              isActive={true}
-              //     pathname === section.path ||
-              //     (pathname.startsWith(`${section.path}/`) &&
-              //       !section.exclude?.includes(pathname)) ||
-              //     subItemActive > -1 ||
-              //     false
-              //   }
+              isActive={
+                pathname === section.path ||
+                pathname.startsWith(`${section.path}/`)
+              }
             />
           )
         })}
