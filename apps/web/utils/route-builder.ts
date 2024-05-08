@@ -43,8 +43,7 @@ export type PostsParams = Pagination & {
 }
 
 type PostParams = {
-  category: string
-  slug: string
+  postId: string
 }
 type NotesParams = never
 type NoteParams = WithId & {
@@ -102,7 +101,7 @@ export function routeBuilder<T extends Routes>(
     }
     case Routes.Post: {
       const p = params as PostParams
-      href += `${p.category}/${p.slug}`
+      href += `${p.postId}`
       break
     }
     case Routes.Posts: {

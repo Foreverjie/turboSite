@@ -17,6 +17,8 @@
     "@clerk/nextjs": "^4.29.3",
     "@clerk/themes": "^1.7.9",
     "@clerk/types": "^3.58.0",
+    "@floating-ui/react": "^0.26.13",
+    "@floating-ui/react-dom": "^2.0.9",
     "@heroicons/react": "^2.0.18",
     "@hookform/resolvers": "^3.3.2",
     "@milkdown/core": "^7.3.5",
@@ -95,6 +97,7 @@
   },
   "devDependencies": {
     "@headlessui/react": "^1.7.17",
+    "@iconify-json/material-symbols": "^1.1.79",
     "@trpc/next": "^10.44.1",
     "@types/enzyme": "^3.10.16",
     "@types/enzyme-adapter-react-16": "^1.0.9",

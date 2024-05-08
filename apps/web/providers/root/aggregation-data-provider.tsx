@@ -11,7 +11,6 @@ import {
 import { Page, Category, User, CategoryType } from '@prisma/client'
 
 import { useBeforeMounted } from '~/hooks/common/use-before-mounted'
-import { AppConfig } from '~/app/config'
 
 interface Url {
   wsUrl: string

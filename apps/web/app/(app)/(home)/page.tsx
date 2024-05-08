@@ -26,7 +26,18 @@ import {
   useAppConfigSelector,
 } from '~/providers/root/aggregation-data-provider'
 import { trpc } from '../../../utils/trpc'
-import { ButtonMotionBase } from 'ui'
+import { Button, ButtonMotionBase, toast } from 'ui'
+import {
+  Disc3Icon,
+  FolderArchiveIcon,
+  HeartHandshakeIcon,
+  HistoryIcon,
+  PodcastIcon,
+  SparkleIcon,
+  StickyNoteIcon,
+} from 'lucide-react'
+import { NumberSmoothTransition } from '../../../components/ui/number-smooth-transition/NumberSmoothTransition'
+import { RelativeTime } from '../../../components/ui/RelativeTime'
 
 // import { useHomeQueryData } from './query'
 
@@ -63,7 +74,7 @@ export default function Home() {
 
       {/* <NoteScreen /> */}
       {/* <FriendScreen /> */}
-      <MoreScreen />
+      <WindSock />
     </div>
   )
 }
@@ -91,7 +102,7 @@ const TwoColumnLayout = ({
               i === 0 ? leftContainerClassName : rightContainerClassName,
             )}
           >
-            <div className="relative max-w-full lg:max-w-xl">{child}</div>
+            <div className="relative w-full lg:max-w-xl">{child}</div>
           </div>
         )
       })}
@@ -234,7 +245,8 @@ const Welcome = () => {
           )}
         >
           <small>
-            当第一颗卫星飞向大气层外，我们便以为自己终有一日会征服宇宙。
+            When the first satellite flew out of the atmosphere <br />
+            We thought we would conquer the universe one day.
           </small>
           <span className="mt-8 animate-bounce">
             <i className="icon-[mingcute--right-line] rotate-90 text-2xl" />
@@ -265,14 +277,14 @@ const PostScreen = () => {
           transition={softSpringPreset}
           className="text-3xl font-medium leading-loose"
         >
-          这里或许有那么一些对于生活的感慨
+          Maybe there are some reflections on life here.
           <br />
-          也或许有那么一些对于技术的记录。
+          Or some thoughts on technology.
         </m.h2>
         <div>
-          {/* <ul className="space-y-4">
-            {posts?.posts.map((post, i) => {
-              const imageSrc = post.images?.[0]?.src
+          <ul className="space-y-4">
+            {posts?.posts.slice(0, 3).map((post, i) => {
+              const imageSrc = post.files.length > 0 ? post.files[0] : null
 
               return (
                 <m.li
@@ -287,25 +299,41 @@ const PostScreen = () => {
                   }}
                   key={post.id}
                   className={cn(
-                    'relative h-[100px] w-full overflow-hidden rounded-md',
+                    'relative w-full overflow-hidden rounded-md',
                     'border border-slate-200 dark:border-neutral-700/80',
-                    'group p-4 pb-0',
+                    'group p-4',
                   )}
                 >
                   <Link
-                    className="flex h-full w-full flex-col"
+                    className="flex h-full w-full flex-col gap-4"
                     href={routeBuilder(Routes.Post, {
-                      category: post.category.slug,
-                      slug: post.slug,
+                      postId: post.postId,
                     })}
                   >
-                    <h4 className="truncate text-xl font-medium">
-                      {post.title}
-                    </h4>
-                    <PostMetaBar meta={post} className="-mb-2" />
+                    <div className="flex flex-row items-center">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={post.author.avatar}
+                        alt={post.author.name.substring(0, 2)}
+                        className="w-8 rounded-full"
+                      />
+                      <div className="flex flex-col gap-1">
+                        <span className="ml-2 text-sm opacity-80">
+                          {post.author.name}
+                        </span>
+                        <span className="ml-2 text-xs opacity-60">
+                          @{post.author.id}
+                        </span>
+                      </div>
+                    </div>
+                    <h4 className="truncate text-xl">{post.content}</h4>
+                    <span className="text-xs opacity-60">
+                      <RelativeTime date={post.updatedAt} />
+                    </span>
+                    {/* <PostMetaBar meta={post} className="-mb-2" /> */}
 
                     <ButtonMotionBase className="absolute bottom-4 right-4 flex items-center p-2 text-accent/95 opacity-0 duration-200 group-hover:opacity-100">
-                      阅读全文
+                      Detail
                       <i className="icon-[mingcute--arrow-right-line]" />
                     </ButtonMotionBase>
 
@@ -326,15 +354,14 @@ const PostScreen = () => {
                 </m.li>
               )
             })}
-          </ul> */}
+          </ul>
 
           <m.div
             initial={{ opacity: 0.0001, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{
               ...softBouncePreset,
-              //   delay: 0.3 + 0.2 * posts.length,
-              delay: 0.3 + 0.2 * 5,
+              delay: 0.3 + 0.2 * (posts?.posts.length || 0),
             }}
             className="relative mt-12 w-full text-center"
           >
@@ -343,7 +370,7 @@ const PostScreen = () => {
                 className="shiro-link--underline"
                 href={routeBuilder(Routes.Posts, {})}
               >
-                还有更多，要不要看看？
+                There are more, feel free to explore.
               </Link>
             </ButtonMotionBase>
           </m.div>
@@ -353,13 +380,152 @@ const PostScreen = () => {
   )
 }
 
-const MoreScreen = () => {
-  return null
-  return (
-    <Screen>
-      <h2 className="text-2xl font-medium">感谢看到这里。</h2>
+const windsock = [
+  {
+    title: 'Post',
+    path: '/posts',
+    type: 'Post',
+    subMenu: [],
+    icon: PodcastIcon,
+  },
+  {
+    title: 'Note',
+    type: 'Note',
+    path: '/notes',
+    icon: StickyNoteIcon,
+  },
+  {
+    title: 'History',
+    icon: HistoryIcon,
+    path: '/timeline',
+  },
+  {
+    title: 'Friends',
+    icon: HeartHandshakeIcon,
+    path: '/friends',
+  },
+  {
+    title: 'Thinking',
+    icon: SparkleIcon,
+    path: '/thinking',
+  },
+  {
+    title: 'Projects',
+    icon: FolderArchiveIcon,
+    path: '/projects',
+  },
+  {
+    title: 'Says',
+    path: '/says',
+    icon: Disc3Icon,
+  },
+]
 
-      <div className="mt-12 flex w-full center">TODO</div>
-    </Screen>
+const WindSock = () => {
+  const count = 123
+
+  return (
+    <>
+      <div className="mt-28 flex flex-col center">
+        <div className="my-5 text-2xl font-medium">Let the wind tell you</div>
+        <div className="mb-24 opacity-90">Go somewhere else?</div>
+        <ul className="flex flex-col flex-wrap gap-2 gap-y-8 opacity-80 lg:flex-row">
+          {windsock.map((item, index) => {
+            return (
+              <m.li
+                initial={{ opacity: 0.0001, y: 10 }}
+                viewport={{ once: true }}
+                whileInView={{
+                  opacity: 1,
+                  y: 0,
+                  transition: {
+                    stiffness: 641,
+                    damping: 23,
+                    mass: 3.9,
+                    type: 'spring',
+                    delay: index * 0.05,
+                  },
+                }}
+                transition={{
+                  delay: 0.001,
+                }}
+                whileHover={{
+                  y: -10,
+                  transition: {
+                    ...microReboundPreset,
+                    delay: 0.001,
+                  },
+                }}
+                key={index}
+                className="flex items-center justify-between text-sm"
+              >
+                <a
+                  href={item.path}
+                  className="flex items-center gap-4 text-neutral-800 duration-200 hover:!text-accent dark:text-neutral-200"
+                >
+                  {createElement(item.icon, { className: 'w-6 h-6' })}
+                  <span>{item.title}</span>
+                </a>
+
+                {index != windsock.length - 1 && (
+                  <span className="mx-4 hidden select-none lg:inline"> · </span>
+                )}
+              </m.li>
+            )
+          })}
+        </ul>
+      </div>
+
+      <div className="mt-24 flex justify-center gap-4">
+        <Button
+          className="flex gap-2 bg-red-400 center"
+          onClick={() => {
+            // apiClient
+            //   .proxy('like_this')
+            //   .post()
+            //   .then(() => {
+            //     queryClient.setQueryData(likeQueryKey, (prev: any) => {
+            //       return prev + 1
+            //     })
+            //   })
+
+            toast('Thank You!', undefined, {
+              iconElement: (
+                <m.i
+                  className="icon-[mingcute--heart-fill] text-uk-red-light"
+                  initial={{
+                    scale: 0.96,
+                  }}
+                  animate={{
+                    scale: 1.22,
+                  }}
+                  transition={{
+                    easings: ['easeInOut'],
+                    delay: 0.3,
+                    repeat: 5,
+                    repeatDelay: 0.3,
+                  }}
+                />
+              ),
+            })
+          }}
+        >
+          喜欢本站 <i className="icon-[mingcute--heart-fill]" />{' '}
+          <NumberSmoothTransition>
+            {count as any as string}
+          </NumberSmoothTransition>
+        </Button>
+
+        <Button
+          className="flex gap-2 center"
+          onClick={() => {
+            // presentSubscribe()
+          }}
+        >
+          Subscribe
+          <i className="icon-[material-symbols--notifications-active]" />
+        </Button>
+      </div>
+    </>
   )
 }
