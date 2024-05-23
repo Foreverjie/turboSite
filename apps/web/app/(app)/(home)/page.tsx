@@ -1,17 +1,14 @@
 'use client'
 
-import { useQuery } from '@tanstack/react-query'
 import React, { createElement, forwardRef, useCallback, useRef } from 'react'
 import { cn } from 'ui/src/utils'
 import { m, useInView } from 'framer-motion'
 import Link from 'next/link'
 import type { PropsWithChildren } from 'react'
-// import { isSupportIcon, SocialIcon } from 'lucide-react'
+import { isSupportIcon, SocialIcon } from '~/components/SocialIcon'
 
 // import { PeekLink } from '~/components/modules/peek/PeekLink'
 // import { PostMetaBar } from '~/components/modules/post'
-// import { ButtonMotionBase } from 'ui'
-// import { RelativeTime } from '~/components/ui/relative-time'
 import { BottomToUpTransitionView } from 'ui/src/transition/BottomToUpTransitionView'
 import { TextUpTransitionView } from 'ui/src/transition/TextUpTransitionView'
 import {
@@ -21,10 +18,6 @@ import {
 } from 'ui/src/transition/spring'
 // import { shuffle } from '~/lib/_'
 import { routeBuilder, Routes } from '~/utils/route-builder'
-import {
-  useAggregationSelector,
-  useAppConfigSelector,
-} from '~/providers/root/aggregation-data-provider'
 import { trpc } from '../../../utils/trpc'
 import { Button, ButtonMotionBase, toast } from 'ui'
 import {
@@ -41,37 +34,11 @@ import { RelativeTime } from '../../../components/ui/RelativeTime'
 
 // import { useHomeQueryData } from './query'
 
-const Screen = forwardRef<
-  HTMLDivElement,
-  PropsWithChildren<{
-    className?: string
-  }>
->((props, ref) => {
-  const inViewRef = useRef<HTMLSpanElement>(null)
-  const inView = useInView(inViewRef, { once: true })
-
-  return (
-    <div
-      ref={ref}
-      className={cn(
-        'relative flex h-screen min-h-[900px] flex-col center',
-        props.className,
-      )}
-    >
-      <span ref={inViewRef} />
-      {inView && props.children}
-    </div>
-  )
-})
-Screen.displayName = 'Screen'
-
 export default function Home() {
   return (
     <div>
       <Welcome />
-
       <PostScreen />
-
       {/* <NoteScreen /> */}
       {/* <FriendScreen /> */}
       <WindSock />
@@ -82,6 +49,9 @@ const TwoColumnLayout = ({
   children,
   leftContainerClassName,
   rightContainerClassName,
+  leftChildrenClassName,
+  rightChildrenClassName,
+  className,
 }: {
   children:
     | [React.ReactNode, React.ReactNode]
@@ -89,20 +59,34 @@ const TwoColumnLayout = ({
 
   leftContainerClassName?: string
   rightContainerClassName?: string
+  leftChildrenClassName?: string
+  rightChildrenClassName?: string
+  className?: string
 }) => {
   return (
-    <div className="relative flex h-full w-full flex-col flex-wrap items-center lg:flex-row">
+    <div
+      className={cn(
+        'relative mx-auto block size-full min-w-0 max-w-[1800px] flex-col flex-wrap items-center lg:flex lg:flex-row',
+        className,
+      )}
+    >
       {children.slice(0, 2).map((child, i) => {
         return (
           <div
             key={i}
             className={cn(
-              'flex h-1/2 w-full flex-col center lg:h-auto lg:w-1/2',
-
+              'flex w-full flex-col center lg:h-auto lg:w-1/2',
               i === 0 ? leftContainerClassName : rightContainerClassName,
             )}
           >
-            <div className="relative w-full lg:max-w-xl">{child}</div>
+            <div
+              className={cn(
+                'relative max-w-full lg:max-w-2xl',
+                i === 0 ? leftChildrenClassName : rightChildrenClassName,
+              )}
+            >
+              {child}
+            </div>
           </div>
         )
       })}
@@ -113,11 +97,12 @@ const TwoColumnLayout = ({
 }
 
 const Welcome = () => {
-  //   const { title, description } = useAppConfigSelector(config => {
-  //     return {
-  //       ...config.hero,
-  //     }
-  //   })!
+  const socialIds = {
+    github: 'Foreverjie',
+    wechat: 'zzjshane',
+    bilibili: '86848823',
+  }
+
   const title = {
     template: [
       {
@@ -156,19 +141,17 @@ const Welcome = () => {
       },
     ],
   }
-  //   const siteOwner = useAggregationSelector(agg => agg.user)
-  //   const { avatar, socialIds } = siteOwner || {}
 
   const titleAnimateD =
     title.template.reduce((acc, cur) => {
       return acc + (cur.text?.length || 0)
     }, 0) * 50
   return (
-    <Screen className="mt-20 lg:mt-[-4.5rem]">
+    <div className="mt-0 min-w-0 max-w-screen overflow-hidden lg:mt-[-4.5rem] lg:h-dvh lg:min-h-[800px]">
       <TwoColumnLayout leftContainerClassName="mt-[120px] lg:mt-0 h-[15rem] lg:h-1/2">
         <>
           <m.div
-            className="group relative leading-[4] [&_*]:inline-block"
+            className="group relative text-center leading-[4] lg:text-left [&_*]:inline-block"
             initial={{ opacity: 0.0001, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={softBouncePreset}
@@ -198,31 +181,30 @@ const Welcome = () => {
           <BottomToUpTransitionView
             delay={titleAnimateD + 500}
             transition={softBouncePreset}
-            className="my-3"
+            className="my-3 flex center md:block"
           >
             <span className="opacity-80">{'Welcome'}</span>
           </BottomToUpTransitionView>
 
-          {/* <ul className="mt-8 flex space-x-4 center lg:mt-[7rem] lg:block">
-            {Object.entries(socialIds || {}).map(
-              ([type, id]: any, index) => {
-                if (!isSupportIcon(type)) return null
-                return (
-                  <BottomToUpTransitionView
-                    key={type}
-                    delay={index * 100 + titleAnimateD + 500}
-                    className="inline-block"
-                    as="li"
-                  >
-                    <SocialIcon id={id} type={type} />
-                  </BottomToUpTransitionView>
-                )
-              },
-            )}
-          </ul> */}
+          <ul className="mx-[60px] mt-8 flex flex-wrap gap-4 center lg:mx-auto lg:mt-28 lg:justify-start">
+            {Object.entries(socialIds).map(([type, id]: any, index) => {
+              console.log({ type, id })
+              if (!isSupportIcon(type)) return null
+              return (
+                <BottomToUpTransitionView
+                  key={type}
+                  delay={index * 100 + titleAnimateD + 500}
+                  className="inline-block"
+                  as="li"
+                >
+                  <SocialIcon id={id} type={type} />
+                </BottomToUpTransitionView>
+              )
+            })}
+          </ul>
         </>
 
-        <div className={cn('lg:h-[300px] lg:w-[300px]', 'h-[200px] w-[200px]')}>
+        <div className={cn('lg:size-[300px]', 'size-[200px]', 'mt-24 lg:mt-0')}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={'https://avatars.githubusercontent.com/u/20612607?v=4'}
@@ -240,8 +222,8 @@ const Welcome = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={softBouncePreset}
           className={cn(
-            'absolute bottom-0 left-0 right-0 flex flex-col center',
-            'text-neutral-800/80 dark:text-neutral-200/80',
+            'inset-x-0 bottom-0 mt-12 flex flex-col center lg:absolute lg:mt-0',
+            'text-neutral-800/80 center dark:text-neutral-200/80',
           )}
         >
           <small>
@@ -253,7 +235,7 @@ const Welcome = () => {
           </span>
         </m.div>
       </TwoColumnLayout>
-    </Screen>
+    </div>
   )
 }
 
@@ -263,8 +245,11 @@ const PostScreen = () => {
     cursor: null,
   })
   return (
-    <Screen className="h-fit min-h-[120vh]">
-      <TwoColumnLayout leftContainerClassName="h-[30rem] lg:h-1/2">
+    <div className="lg:mt-24">
+      <TwoColumnLayout
+        leftContainerClassName="h-[30rem] lg:h-1/2"
+        rightChildrenClassName="w-full"
+      >
         <m.h2
           initial={{
             opacity: 0.0001,
@@ -277,9 +262,7 @@ const PostScreen = () => {
           transition={softSpringPreset}
           className="text-3xl font-medium leading-loose"
         >
-          Maybe there are some reflections on life here.
-          <br />
-          Or some thoughts on technology.
+          What&apos;s happening
         </m.h2>
         <div>
           <ul className="space-y-4">
@@ -376,7 +359,7 @@ const PostScreen = () => {
           </m.div>
         </div>
       </TwoColumnLayout>
-    </Screen>
+    </div>
   )
 }
 
