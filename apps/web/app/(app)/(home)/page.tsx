@@ -240,14 +240,14 @@ const Welcome = () => {
 }
 
 const PostScreen = () => {
-  const { data: posts } = trpc.post.all.useQuery({
+  const { data: posts, isLoading } = trpc.post.all.useQuery({
     limit: 5,
     cursor: null,
   })
   return (
     <div className="lg:mt-24">
       <TwoColumnLayout
-        leftContainerClassName="h-[30rem] lg:h-1/2"
+        leftContainerClassName="my-[5rem] lg:h-1/2"
         rightChildrenClassName="w-full"
       >
         <m.h2
@@ -266,7 +266,19 @@ const PostScreen = () => {
         </m.h2>
         <div>
           <ul className="space-y-4">
-            {posts?.posts.slice(0, 3).map((post, i) => {
+            {isLoading &&
+              [...Array(1)].map((_, i) => (
+                <li key={i} className="animate-pulse flex space-x-4">
+                  <div className="flex-1 space-y-4 py-1">
+                    <div className="h-4 bg-gray-400 rounded w-3/4"></div>
+                    <div className="space-y-2">
+                      <div className="h-4 bg-gray-400 rounded"></div>
+                      <div className="h-4 bg-gray-400 rounded w-5/6"></div>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            {posts?.posts.slice(0, 5).map((post, i) => {
               const imageSrc = post.files.length > 0 ? post.files[0] : null
 
               return (

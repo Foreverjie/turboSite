@@ -44,7 +44,7 @@ model User {
   Post      Post[]
   Comment   Comment[]
 
-  lastLoginIp String?
+  lastLoginIp   String?
   lastLoginTime DateTime?
 }
 
@@ -119,12 +119,35 @@ enum Gender {
   SECRET
 }
 
+model Feed {
+  id        Int      @id @default(autoincrement())
+  feedId    String   @unique
+  title     String
+  link      String
+  url   String
+  content   String
+  tags     String[]
+
+  category  Category @relation(fields: [categoryId], references: [categoryId])
+  categoryId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
 model Category {
-  id        Int          @id @default(autoincrement())
-  name      String       @unique
-  type      CategoryType @default(CATEGORY)
-  slug      String       @unique
-  createdAt DateTime     @default(now())
+  id      Int          @id @default(autoincrement())
+  categoryId String      @unique
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now()) @updatedAt
+  
+  name    String       @unique
+  type    CategoryType @default(CATEGORY)
+  feedUrl String?
+  siteUrl String?
+  icon      String?
+
+  feeds Feed[]
 }
 
 enum CategoryType {

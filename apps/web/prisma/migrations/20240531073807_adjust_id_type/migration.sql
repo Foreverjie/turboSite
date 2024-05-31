@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Category" ALTER COLUMN "categoryId" SET DATA TYPE TEXT,
+ALTER COLUMN "icon" DROP NOT NULL;
