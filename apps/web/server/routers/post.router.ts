@@ -15,9 +15,6 @@ import {
   postEditMeta,
   postEditInputSchema,
   postEditOutputSchema,
-  postNewHookMeta,
-  postNewHookInputSchema,
-  postNewHookOutputSchema,
 } from '../schemas/posts'
 import {
   postAllController,
@@ -39,11 +36,6 @@ export const post = router({
     .input(postNewInputSchema)
     .output(postNewOutputSchema)
     .mutation(postNewController),
-  newHook: publicProcedure
-    // .meta(postNewHookMeta)
-    .input(postNewHookInputSchema)
-    .output(postNewHookOutputSchema)
-    .mutation(postNewHookController),
   like: protectedProcedure
     .meta(postLikeMeta)
     .input(postLikeInputSchema)
