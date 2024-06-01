@@ -11,6 +11,7 @@ import { ToastContainer } from 'react-toastify'
 import PKG from '~/package.json'
 import { Root } from '~/components/layout/root/Root'
 import { AppProviders } from '~/providers/root'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 
 const { version } = PKG
 
@@ -56,6 +57,7 @@ export default function RootLayout({
               {/* </AggregationProvider> */}
             </TrpcProvider>
           </AppProviders>
+          <SpeedInsights />
         </body>
       </html>
     </ClerkProvider>
