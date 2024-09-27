@@ -7,12 +7,11 @@ context('Utilities', () => {
 
   it('Cypress._ - call a lodash method', () => {
     // https://on.cypress.io/_
-    cy.request('https://jsonplaceholder.cypress.io/users')
-      .then((response) => {
-        let ids = Cypress._.chain(response.body).map('id').take(3).value()
+    cy.request('https://jsonplaceholder.cypress.io/users').then(response => {
+      let ids = Cypress._.chain(response.body).map('id').take(3).value()
 
-        expect(ids).to.deep.eq([1, 2, 3])
-      })
+      expect(ids).to.deep.eq([1, 2, 3])
+    })
   })
 
   it('Cypress.$ - call a jQuery method', () => {
@@ -27,11 +26,14 @@ context('Utilities', () => {
 
   it('Cypress.Blob - blob utilities and base64 string conversion', () => {
     // https://on.cypress.io/blob
-    cy.get('.utility-blob').then(($div) => {
+    cy.get('.utility-blob').then($div => {
       // https://github.com/nolanlawson/blob-util#imgSrcToDataURL
       // get the dataUrl string for the javascript-logo
-      return Cypress.Blob.imgSrcToDataURL('https://example.cypress.io/assets/img/javascript-logo.png', undefined, 'anonymous')
-      .then((dataUrl) => {
+      return Cypress.Blob.imgSrcToDataURL(
+        'https://example.cypress.io/assets/img/javascript-logo.png',
+        undefined,
+        'anonymous',
+      ).then(dataUrl => {
         // create an <img> element and set its src to the dataUrl
         let img = Cypress.$('<img />', { src: dataUrl })
 
@@ -40,8 +42,7 @@ context('Utilities', () => {
         // append the image
         $div.append(img)
 
-        cy.get('.utility-blob img').click()
-          .should('have.attr', 'src', dataUrl)
+        cy.get('.utility-blob img').click().should('have.attr', 'src', dataUrl)
       })
     })
   })
@@ -83,7 +84,7 @@ context('Utilities', () => {
     /**
      * @return Bluebird<string>
      */
-    function waitOneSecond () {
+    function waitOneSecond() {
       // return a promise that resolves after 1 second
       return new Cypress.Promise((resolve, reject) => {
         setTimeout(() => {
@@ -99,7 +100,7 @@ context('Utilities', () => {
     cy.then(() => {
       // return a promise to cy.then() that
       // is awaited until it resolves
-      return waitOneSecond().then((str) => {
+      return waitOneSecond().then(str => {
         expect(str).to.eq('foo')
         expect(waited).to.be.true
       })

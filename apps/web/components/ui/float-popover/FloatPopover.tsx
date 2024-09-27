@@ -44,8 +44,8 @@ export const FloatPopover = function <T extends {}>(
     const Child = triggerElement
       ? triggerElement
       : TriggerComponent
-      ? createElement(TriggerComponent as any, triggerComponentProps)
-      : null
+        ? createElement(TriggerComponent as any, triggerComponentProps)
+        : null
 
     return (
       <PresentSheet content={props.children} {...props.sheet}>

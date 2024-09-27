@@ -4,9 +4,7 @@
     "baseUrl": ".",
     "noEmit": true,
     "paths": {
-      "~/*": [
-        "*"
-      ]
+      "~/*": ["*"]
     },
     "plugins": [
       {
@@ -16,11 +14,6 @@
     "strictNullChecks": true,
     "strict": true
   },
-  "include": [
-    ".",
-    ".next/types/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": [".", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
 }

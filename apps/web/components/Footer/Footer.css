@@ -3,11 +3,11 @@
 }
 
 .tab-bar button.active {
-  color: #7EE9F2;
+  color: #7ee9f2;
 }
 
 .tab-bar button.home {
-  --tab-bar-home-scale: .7;
+  --tab-bar-home-scale: 0.7;
   --tab-bar-home-opacity: 1;
 }
 
@@ -23,7 +23,6 @@
   left: 50%;
   top: 42.5%;
 }
-
 
 .tab-bar button.chart {
   --tab-bar-chart-1-offset: 6px;
@@ -53,7 +52,7 @@
 }
 
 .tab-bar button.marker {
-  --tab-bar-marker-scale: .7;
+  --tab-bar-marker-scale: 0.7;
   --tab-bar-marker-opacity: 1;
 }
 
@@ -72,7 +71,7 @@
 
 .tab-bar button.trophy {
   --tab-bar-trophy-x: 0px;
-  --tab-bar-trophy-scale: .75;
+  --tab-bar-trophy-scale: 0.75;
 }
 
 .tab-bar button.trophy:before,
@@ -83,18 +82,19 @@
 
 .tab-bar button.trophy:before {
   width: 2px;
-  transform: translateX(-50%) scaleX(.75) translateZ(0);
+  transform: translateX(-50%) scaleX(0.75) translateZ(0);
   top: 28px;
   bottom: 15px;
-} 
+}
 
 .tab-bar button.trophy:after {
   height: 2px;
   width: 10px;
   border-radius: 1px;
-  transform: translateX(-50%) scaleX(var(--tab-bar-trophy-scale)) scaleY(.75) translateZ(0);
+  transform: translateX(-50%) scaleX(var(--tab-bar-trophy-scale)) scaleY(0.75)
+    translateZ(0);
   top: 32px;
-} 
+}
 
 .tab-bar button.trophy .left,
 .tab-bar button.trophy .right {
@@ -105,7 +105,8 @@
   overflow: hidden;
 }
 
-.tab-bar button.trophy .left svg, .tab-bar button.trophy .right svg {
+.tab-bar button.trophy .left svg,
+.tab-bar button.trophy .right svg {
   display: block;
   position: absolute;
   top: 0;
@@ -131,7 +132,7 @@
 
 .tab-bar button.user {
   --tab-bar-user-y: 0px;
-  --tab-bar-user-scale: .7;
+  --tab-bar-user-scale: 0.7;
   --tab-bar-user-opacity: 1;
 }
 

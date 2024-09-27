@@ -64,26 +64,26 @@ type OnlyId = {
 export type RouteParams<T extends Routes> = T extends Routes.Home
   ? HomeParams
   : T extends Routes.Note
-  ? NoteParams
-  : T extends Routes.Notes
-  ? NotesParams
-  : T extends Routes.Posts
-  ? PostsParams
-  : T extends Routes.Post
-  ? PostParams
-  : T extends Routes.Timeline
-  ? TimelineParams
-  : T extends Routes.NoteTopic
-  ? OnlySlug
-  : T extends Routes.NoteTopics
-  ? never
-  : T extends Routes.Page
-  ? OnlySlug
-  : T extends Routes.Category
-  ? OnlySlug
-  : T extends Routes.Project
-  ? OnlyId
-  : {}
+    ? NoteParams
+    : T extends Routes.Notes
+      ? NotesParams
+      : T extends Routes.Posts
+        ? PostsParams
+        : T extends Routes.Post
+          ? PostParams
+          : T extends Routes.Timeline
+            ? TimelineParams
+            : T extends Routes.NoteTopic
+              ? OnlySlug
+              : T extends Routes.NoteTopics
+                ? never
+                : T extends Routes.Page
+                  ? OnlySlug
+                  : T extends Routes.Category
+                    ? OnlySlug
+                    : T extends Routes.Project
+                      ? OnlyId
+                      : {}
 
 export function routeBuilder<T extends Routes>(
   route: T,

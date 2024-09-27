@@ -1,12 +1,12 @@
 module.exports = {
   root: true,
   extends: ['custom'],
-  "rules": {
-    "react-hooks/exhaustive-deps": [
-      "warn",
+  rules: {
+    'react-hooks/exhaustive-deps': [
+      'warn',
       {
-        "additionalHooks": "useIsomorphicLayoutEffect"
-      }
-    ]
-  }
+        additionalHooks: 'useIsomorphicLayoutEffect',
+      },
+    ],
+  },
 }

@@ -21,13 +21,16 @@ context('Files', () => {
 
     // when application makes an Ajax request matching "GET **/comments/*"
     // Cypress will intercept it and reply with the object in `example.json` fixture
-    cy.intercept('GET', '**/comments/*', { fixture: 'example.json' }).as('getComment')
+    cy.intercept('GET', '**/comments/*', { fixture: 'example.json' }).as(
+      'getComment',
+    )
 
     // we have code that gets a comment when
     // the button is clicked in scripts.js
     cy.get('.fixture-btn').click()
 
-    cy.wait('@getComment').its('response.body')
+    cy.wait('@getComment')
+      .its('response.body')
       .should('have.property', 'name')
       .and('include', 'Using fixtures to represent data')
   })
@@ -36,12 +39,12 @@ context('Files', () => {
     // we are inside the "function () { ... }"
     // callback and can use test context object "this"
     // "this.example" was loaded in "beforeEach" function callback
-    expect(this.example, 'fixture in the test context')
-      .to.deep.equal(requiredExample)
+    expect(this.example, 'fixture in the test context').to.deep.equal(
+      requiredExample,
+    )
 
     // or use "cy.wrap" and "should('deep.equal', ...)" assertion
-    cy.wrap(this.example)
-      .should('deep.equal', requiredExample)
+    cy.wrap(this.example).should('deep.equal', requiredExample)
   })
 
   it('cy.readFile() - read file contents', () => {
@@ -49,7 +52,7 @@ context('Files', () => {
 
     // You can read a file and yield its contents
     // The filePath is relative to your project's root.
-    cy.readFile(Cypress.config('configFile')).then((config) => {
+    cy.readFile(Cypress.config('configFile')).then(config => {
       expect(config).to.be.an('string')
     })
   })
@@ -61,12 +64,11 @@ context('Files', () => {
 
     // Use a response from a request to automatically
     // generate a fixture file for use later
-    cy.request('https://jsonplaceholder.cypress.io/users')
-      .then((response) => {
-        cy.writeFile('cypress/fixtures/users.json', response.body)
-      })
+    cy.request('https://jsonplaceholder.cypress.io/users').then(response => {
+      cy.writeFile('cypress/fixtures/users.json', response.body)
+    })
 
-    cy.fixture('users').should((users) => {
+    cy.fixture('users').should(users => {
       expect(users[0].name).to.exist
     })
 
@@ -78,7 +80,7 @@ context('Files', () => {
       email: 'jane@example.com',
     })
 
-    cy.fixture('profile').should((profile) => {
+    cy.fixture('profile').should(profile => {
       expect(profile.name).to.eq('Jane')
     })
   })

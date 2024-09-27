@@ -1,6 +1,5 @@
 @media print {
-    [data-hide-print] {
-      display: none !important;
-    }
+  [data-hide-print] {
+    display: none !important;
   }
-  
+}
