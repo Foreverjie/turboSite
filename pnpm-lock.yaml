@@ -457,8 +457,8 @@ importers:
         specifier: ^1.3.4
         version: 1.3.4(@trpc/server@10.44.1)(zod@3.22.4)
       ui:
-        specifier: 0.0.0
-        version: 0.0.0
+        specifier: workspace:*
+        version: link:../../packages/ui
       unist-util-visit:
         specifier: ^5.0.0
         version: 5.0.0
@@ -12839,9 +12839,6 @@ packages:
     resolution: {integrity: sha512-RwNA9Z/7PrK06rYLIzFMlaF+l73iwpzsqRIFgbMLbTcLD6cOao82TaWefPXQvB2fOC4AjuYSEndS7N/mTCbkdQ==}
     engines: {node: '>= 0.8'}
 
-  std@0.1.22:
-    resolution: {integrity: sha512-9/FVOX4zTJjfhtSPj4V2djwwehDeCdUMZoaK/WzX6z1frjB6dKxmjA/r99JFgn2+bexG+ZeuTQ4z0c5xP7mPiA==}
-
   stop-iteration-iterator@1.0.0:
     resolution: {integrity: sha512-iCGQj+0l0HOdZ2AEeBADlsRC+vsnDsZsbdSiH1yNSjcfKM7fdpCMfqAL/dwF5BLiw/XhRft/Wax6zQbhq2BcjQ==}
     engines: {node: '>= 0.4'}
@@ -13646,9 +13643,6 @@ packages:
     resolution: {integrity: sha512-T9q82TJI9e/C1TAxYvfb16xO120tMVFZrGA3f9/P4424DNu6ypK103y0GPFVa17yotwSyZW5iYXgjYHkGrJW/g==}
     engines: {node: '>=0.8.0'}
     hasBin: true
-
-  ui@0.0.0:
-    resolution: {integrity: sha512-4SNyA7f7p3Humu36+yRJEcVq9XY8z/ivPA4p5SHczgjiwMT+bbyuAaB4Ba7rVKidVzb5UW7Whk8nKhVYwBQrLA==}
 
   unbox-primitive@1.0.2:
     resolution: {integrity: sha512-61pPlCD9h51VoreyJ0BReideM3MDKMKnh6+V9L08331ipq6Q8OFXZYiqP6n/tbHx4s5I9uRhcye6BrbkizkBDw==}
@@ -24035,7 +24029,7 @@ snapshots:
 
   eslint-import-resolver-node@0.3.9:
     dependencies:
-      debug: 3.2.7(supports-color@5.5.0)
+      debug: 3.2.7(supports-color@8.1.1)
       is-core-module: 2.13.1
       resolve: 1.22.8
     transitivePeerDependencies:
@@ -24072,7 +24066,7 @@ snapshots:
 
   eslint-module-utils@2.8.1(@typescript-eslint/parser@6.21.0(eslint@7.32.0)(typescript@4.9.5))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.1(@typescript-eslint/parser@6.21.0(eslint@7.32.0)(typescript@4.9.5))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.29.1)(eslint@7.32.0))(eslint@7.32.0):
     dependencies:
-      debug: 3.2.7(supports-color@5.5.0)
+      debug: 3.2.7(supports-color@8.1.1)
     optionalDependencies:
       '@typescript-eslint/parser': 6.21.0(eslint@7.32.0)(typescript@4.9.5)
       eslint: 7.32.0
@@ -24087,7 +24081,7 @@ snapshots:
       array.prototype.findlastindex: 1.2.4
       array.prototype.flat: 1.3.2
       array.prototype.flatmap: 1.3.2
-      debug: 3.2.7(supports-color@5.5.0)
+      debug: 3.2.7(supports-color@8.1.1)
       doctrine: 2.1.0
       eslint: 7.32.0
       eslint-import-resolver-node: 0.3.9
@@ -30722,8 +30716,6 @@ snapshots:
 
   statuses@2.0.1: {}
 
-  std@0.1.22: {}
-
   stop-iteration-iterator@1.0.0:
     dependencies:
       internal-slot: 1.0.7
@@ -31722,10 +31714,6 @@ snapshots:
   uglify-js@3.17.4:
     optional: true
 
-  ui@0.0.0:
-    dependencies:
-      std: 0.1.22
-
   unbox-primitive@1.0.2:
     dependencies:
       call-bind: 1.0.7
@@ -32230,7 +32218,7 @@ snapshots:
 
   webpack-virtual-modules@0.2.2:
     dependencies:
-      debug: 3.2.7(supports-color@5.5.0)
+      debug: 3.2.7(supports-color@8.1.1)
     transitivePeerDependencies:
       - supports-color
 
