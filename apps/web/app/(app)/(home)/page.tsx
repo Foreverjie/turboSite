@@ -240,10 +240,15 @@ const Welcome = () => {
 }
 
 const PostScreen = () => {
-  const { data: posts, isLoading } = trpc.post.all.useQuery({
-    limit: 5,
-    cursor: null,
-  })
+  const { data: posts, isLoading } = trpc.post.all.useQuery(
+    {
+      limit: 5,
+      cursor: null,
+    },
+    {
+      enabled: false,
+    },
+  )
   return (
     <div className="lg:mt-24">
       <TwoColumnLayout

@@ -3,8 +3,7 @@
 import React, { useEffect } from 'react'
 import { AnimatePresence } from 'framer-motion'
 import { usePathname } from 'next/navigation'
-
-import { useSignIn, useUser } from '@clerk/nextjs'
+import { signIn } from '~/auth'
 
 import { UserCircleIcon } from 'lucide-react'
 import {
@@ -16,7 +15,8 @@ import {
 import { useAggregationSelector } from '~/providers/root/aggregation-data-provider'
 
 import { HeaderActionButton } from './HeaderActionButton'
-import { UserButton, SignedIn, SignedOut, SignInButton } from '@clerk/nextjs'
+import { TriggerComponent } from './TriggerComponent'
+// import { signInFromServer } from './action'
 
 const OwnerAvatar = () => {
   // const ownerAvatar = useAggregationSelector().aggregationData?.user.avatar
@@ -43,48 +43,23 @@ const OwnerAvatar = () => {
 
 export function UserAuth() {
   const pathname = usePathname()
-  const { isSignedIn } = useUser()
 
-  if (isSignedIn) {
-    return <OwnerAvatar />
-  }
+  // if (isSignedIn) {
+  //   return <OwnerAvatar />
+  // }
 
   return (
     <AnimatePresence>
-      <SignedIn key="user-info">
-        <div className="pointer-events-auto flex h-10 w-full items-center justify-center">
-          <div className="relative">
-            <UserButton
-              afterSignOutUrl={'/'}
-              appearance={{
-                elements: {
-                  logoBox: 'w-9 h-9 ring-2 ring-white/20 rounded-full',
-                },
-              }}
-            />
-            {/* <UserAuthFromIcon className="absolute -bottom-1 -right-1" /> */}
-          </div>
-        </div>
-      </SignedIn>
+      <div className="pointer-events-auto flex h-10 w-full items-center justify-center">
+        <div className="relative"></div>
+      </div>
 
-      <SignedOut key="sign-in">
-        <HoverCard>
-          <HoverCardTrigger>
-            <TriggerComponent />
-          </HoverCardTrigger>
-          <HoverCardContent>Sign In</HoverCardContent>
-        </HoverCard>
-      </SignedOut>
+      <HoverCard>
+        <HoverCardTrigger>
+          <TriggerComponent />
+        </HoverCardTrigger>
+        <HoverCardContent>Sign In</HoverCardContent>
+      </HoverCard>
     </AnimatePresence>
-  )
-}
-
-const TriggerComponent = () => {
-  return (
-    <SignInButton mode="modal" redirectUrl={'/'}>
-      <HeaderActionButton aria-label="Guest Login">
-        <UserCircleIcon className="h-4 w-4" />
-      </HeaderActionButton>
-    </SignInButton>
   )
 }

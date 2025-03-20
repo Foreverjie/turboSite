@@ -1,160 +1,184 @@
 // var request = require("request");
 
-const PENDING = 'pending';
-const FULLFILLED = 'fullfilled';
-const REJECTED = 'rejected';
+const PENDING = 'pending'
+const FULLFILLED = 'fullfilled'
+const REJECTED = 'rejected'
 
-const MyPromise = function(fn) {
-    this.status = PENDING;
-    this.value = null;
-    this.reason = null;
+const MyPromise = function (fn) {
+  this.status = PENDING
+  this.value = null
+  this.reason = null
 
-    this.onFullfilledCallback = []
-    this.onRejectedCallback = []
+  this.onFullfilledCallback = []
+  this.onRejectedCallback = []
 
-    const that = this;
+  const that = this
 
-    function resolve(value) {
-        if (that.status === PENDING) {
-            that.value = value;
-            that.status = FULLFILLED;
-            that.onFullfilledCallback.forEach(f => {
-                f(this.value)
-            })
-        }
+  function resolve(value) {
+    if (that.status === PENDING) {
+      that.value = value
+      that.status = FULLFILLED
+      that.onFullfilledCallback.forEach(f => {
+        f(this.value)
+      })
     }
+  }
 
-    function reject(reason) {
-        if (that.status === PENDING) {
-            that.reason = reason;
-            that.status = REJECTED;
-            that.onRejectedCallback.forEach(f => {
-                f(this.reason)
-            })
-        }
+  function reject(reason) {
+    if (that.status === PENDING) {
+      that.reason = reason
+      that.status = REJECTED
+      that.onRejectedCallback.forEach(f => {
+        f(this.reason)
+      })
     }
+  }
 
-    try {
-        fn(resolve, reject)
-    } catch (e) {
-        reject(e)
-    }
+  try {
+    fn(resolve, reject)
+  } catch (e) {
+    reject(e)
+  }
 }
 
-MyPromise.prototype.then = function(onFullfilled, onRejected) {
-    let _onFullfilled = onFullfilled
-    if (typeof _onFullfilled !== 'function') {
-        _onFullfilled = function(value) {
-            return value
+MyPromise.prototype.then = function (onFullfilled, onRejected) {
+  let _onFullfilled = onFullfilled
+  if (typeof _onFullfilled !== 'function') {
+    _onFullfilled = function (value) {
+      return value
+    }
+  }
+
+  let _onRejected = onRejected
+  if (typeof _onRejected !== 'function') {
+    _onRejected = function (reason) {
+      if (reason instanceof Error) {
+        throw reason
+      } else {
+        throw new Error(reason)
+      }
+    }
+  }
+
+  if (this.status === FULLFILLED) {
+    let newPromise = new MyPromise((resolve, reject) => {
+      try {
+        _onFullfilled(this.value)
+        resolve(this.value)
+      } catch (e) {
+        reject(e)
+      }
+    })
+
+    return newPromise
+  }
+  if (this.status === REJECTED) {
+    let newPromise = new MyPromise((resolve, reject) => {
+      try {
+        _onRejected(this.reason)
+        resolve()
+      } catch (e) {
+        reject(e)
+      }
+    })
+
+    return newPromise
+  }
+  if (this.status === PENDING) {
+    let newPromise = new MyPromise((resolve, reject) => {
+      this.onFullfilledCallback.push(() => {
+        try {
+          _onFullfilled(this.value)
+        } catch (e) {
+          reject(e)
         }
-    }
-
-    let _onRejected = onRejected
-    if (typeof _onRejected !== 'function') {
-        _onRejected = function(reason) {
-            if (reason instanceof Error) {
-                throw reason
-            } else {
-                throw new Error(reason)
-            }
+      })
+      this.onRejectedCallback.push(() => {
+        try {
+          _onRejected(this.reason)
+        } catch (e) {
+          reject(e)
         }
-    }
+      })
+    })
 
-    if (this.status === FULLFILLED) {
-        let newPromise = new MyPromise((resolve, reject) => {
-            try {
-                _onFullfilled(this.value)
-                resolve(this.value)
-            } catch (e) {
-                reject(e)
-            }
-        })
-
-        return newPromise
-    }
-    if (this.status === REJECTED) {
-        let newPromise = new MyPromise((resolve, reject) => {
-            try {
-                _onRejected(this.reason)
-                resolve()
-            } catch (e) {
-                reject(e)
-            }
-        })
-
-        return newPromise
-    }
-    if (this.status === PENDING) {
-        let newPromise = new MyPromise((resolve, reject) => {
-            this.onFullfilledCallback.push(() => {
-                try {
-                    _onFullfilled(this.value)
-                } catch (e) {
-                    reject(e)
-                }
-            })
-            this.onRejectedCallback.push(() => {
-                try {
-                    _onRejected(this.reason)
-                } catch (e) {
-                    reject(e)
-                }
-            })
-        })
-
-        return newPromise
-    }
+    return newPromise
+  }
 }
 
 const p11 = new Promise((resolve, reject) => {
-    // request('https://baidu.com')
-    resolve(200)
-}).then((value) => {
-    console.log('[promise] http status', value)
-    return value
-}, (e) => {
-    console.log('[promise] http error', e)
-}).then((value) => {
-    console.log('[promise] p1 then value', value)
+  // request('https://baidu.com')
+  resolve(200)
 })
+  .then(
+    value => {
+      console.log('[promise] http status', value)
+      return value
+    },
+    e => {
+      console.log('[promise] http error', e)
+    },
+  )
+  .then(value => {
+    console.log('[promise] p1 then value', value)
+  })
 
 const p1 = new MyPromise((resolve, reject) => {
-    // request('https://baidu.com')
-    resolve(200)
-}).then((value) => {
-    console.log('[mypromise] http status', value)
-    return value
-}, (e) => {
-    console.log('[mypromise] http error', e)
-}).then((value) => {
-    console.log('[mypromise] p1 then value', value)
+  // request('https://baidu.com')
+  resolve(200)
 })
-
+  .then(
+    value => {
+      console.log('[mypromise] http status', value)
+      return value
+    },
+    e => {
+      console.log('[mypromise] http error', e)
+    },
+  )
+  .then(value => {
+    console.log('[mypromise] p1 then value', value)
+  })
 
 const p22 = new Promise((resolve, reject) => {
-    // request('https://baidu.com')
-    reject(200)
-}).then((value) => {
-    console.log('[promise] http status', value)
-}, (e) => {
-    console.log('[promise] http error', e)
-    throw e
-}).then(() => {}, (e) => {
-    console.log('[promise] error then error', e)
+  // request('https://baidu.com')
+  reject(200)
 })
+  .then(
+    value => {
+      console.log('[promise] http status', value)
+    },
+    e => {
+      console.log('[promise] http error', e)
+      throw e
+    },
+  )
+  .then(
+    () => {},
+    e => {
+      console.log('[promise] error then error', e)
+    },
+  )
 
 const p2 = new MyPromise((resolve, reject) => {
-    // request('https://baidu.com')
-    reject(200)
-}).then((value) => {
-    console.log('[mypromise] http status', value)
-}, (e) => {
-    console.log('[mypromise] http error', e)
-    throw e
-}).then(() => {}, (e) => {
-    console.log('[mypromise] error then error', e)
+  // request('https://baidu.com')
+  reject(200)
 })
-
+  .then(
+    value => {
+      console.log('[mypromise] http status', value)
+    },
+    e => {
+      console.log('[mypromise] http error', e)
+      throw e
+    },
+  )
+  .then(
+    () => {},
+    e => {
+      console.log('[mypromise] error then error', e)
+    },
+  )
 
 // JavaScript 实现一个带并发限制的异步调度器 Scheduler，保证同时运行的任务最多有两个。完善代码中 Scheduler类，使得以下程序能正确输出。
 
@@ -162,73 +186,74 @@ const p2 = new MyPromise((resolve, reject) => {
 // add 函数后面有个.then 所以add函数是一个Promise对象
 
 class Scheduler {
-    constructor() {
-        this.task = []
-        this.runningTask = []
-    }
+  constructor() {
+    this.task = []
+    this.runningTask = []
+  }
 
-    add(promiseCreator) {
-        return new Promise((resolve, reject) => {
-            promiseCreator.resolve = resolve
-            if (this.runningTask.length < 2) {
-                this.run(promiseCreator)
-            } else {
-                this.task.push(promiseCreator)
-            }
-        })
-    }
+  add(promiseCreator) {
+    return new Promise((resolve, reject) => {
+      promiseCreator.resolve = resolve
+      if (this.runningTask.length < 2) {
+        this.run(promiseCreator)
+      } else {
+        this.task.push(promiseCreator)
+      }
+    })
+  }
 
-    run(promiseCreator) {
-        this.runningTask.push(promiseCreator)
-        promiseCreator().then(() => {
-            promiseCreator.resolve()
-            let index = this.runningTask.findIndex(promiseCreator)
-            this.runningTask.splice(index, 1)
-            if (this.task.length > 0) {
-                this.run(this.task.shift())
-            }
-        })
-    }
+  run(promiseCreator) {
+    this.runningTask.push(promiseCreator)
+    promiseCreator().then(() => {
+      promiseCreator.resolve()
+      let index = this.runningTask.findIndex(promiseCreator)
+      this.runningTask.splice(index, 1)
+      if (this.task.length > 0) {
+        this.run(this.task.shift())
+      }
+    })
+  }
 }
 
 class NewScheduler {
-    constructor(n) {
-        this.taskQueue = []
-        this.max = n
-        setTimeout(() => this.run(), 0)
-    }
+  constructor(n) {
+    this.taskQueue = []
+    this.max = n
+    setTimeout(() => this.run(), 0)
+  }
 
-    add(task) {
-        // this.taskQueue.push(task)
-        return new Promise((resolve) => {
-            const wrapFunc = () => task().then(resolve)
-            this,this.taskQueue.push(wrapFunc)
-        })
-    }
+  add(task) {
+    // this.taskQueue.push(task)
+    return new Promise(resolve => {
+      const wrapFunc = () => task().then(resolve)
+      this, this.taskQueue.push(wrapFunc)
+    })
+  }
 
-    run() {
-        const remainTaskLen = Math.min(this.max, this.taskQueue.length)
-        for (let i = 0; i < remainTaskLen; i++) {
-            this.max--;
-            const task = this.taskQueue.shift()
-            task().then(() => {
-                this.max++
-                this.run()
-            })
-        }
+  run() {
+    const remainTaskLen = Math.min(this.max, this.taskQueue.length)
+    for (let i = 0; i < remainTaskLen; i++) {
+      this.max--
+      const task = this.taskQueue.shift()
+      task().then(() => {
+        this.max++
+        this.run()
+      })
     }
+  }
 }
 
-const timeout = (time) => new Promise((resolve) => {
+const timeout = time =>
+  new Promise(resolve => {
     setTimeout(resolve, time)
-})
+  })
 
 const scheduler = new Scheduler()
 const newS = new NewScheduler(2)
 const addTask = (time, index) => {
-    // scheduler.add(() => timeout(time)).then(() => console.log(index))
+  // scheduler.add(() => timeout(time)).then(() => console.log(index))
 
-    newS.add(() => timeout(time)).then(() => console.log(index))
+  newS.add(() => timeout(time)).then(() => console.log(index))
 }
 
 addTask(400, 4)
@@ -237,30 +262,32 @@ addTask(100, 1)
 addTask(300, 3)
 
 const curry = (fn, ...args) => {
-    return args.length >= fn.length ? fn(...args): (..._args) => curry(fn, ...args, ..._args)
+  return args.length >= fn.length
+    ? fn(...args)
+    : (..._args) => curry(fn, ...args, ..._args)
 }
 
 console.log('aaaa')
 
 function add(x, y, z) {
-    return x + y + z;
-  }
+  return x + y + z
+}
 
-  var curriedAdd = curry(add);
+var curriedAdd = curry(add)
 
-  console.log('curried add', curriedAdd(1)(2)(3))
-  console.log('add', add(1,2,3))
+console.log('curried add', curriedAdd(1)(2)(3))
+console.log('add', add(1, 2, 3))
 
 // 实现一个sum
 
 const sum = (...args) => {
-    const fn = (..._args) => sum(...args, ..._args)
-    fn.count = () => args.reduce((a, b) => a + b, 0)
-    return fn
+  const fn = (..._args) => sum(...args, ..._args)
+  fn.count = () => args.reduce((a, b) => a + b, 0)
+  return fn
 }
 
 console.log(sum(1)(2)(3).count()) // 6
-console.log(sum(1)(2,4)(3).count()) // 10
+console.log(sum(1)(2, 4)(3).count()) // 10
 
 // promise.all 如果数组里不是promise对象呢？
 
