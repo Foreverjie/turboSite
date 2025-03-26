@@ -12,7 +12,6 @@ import {
   SheetHeader,
   SheetTrigger,
 } from 'ui'
-import { useClerk, useUser } from '@clerk/nextjs'
 import { Moon, PlusCircleIcon, Sun, UserIcon } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import PostEditor from '../PostEditor'
@@ -24,13 +23,19 @@ export enum Theme {
 }
 
 function Header() {
-  const { user, isSignedIn, isLoaded } = useUser()
+  const { user, isSignedIn, isLoaded } = {
+    user: {
+      id: '1',
+      username: 'test',
+      imageUrl: 'https://avatars.githubusercontent.com/u/244008?v=4',
+    },
+    isSignedIn: true,
+    isLoaded: true,
+  }
   const router = useRouter()
   const path = usePathname()
   const [postOpen, setPostOpen] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(false)
-
-  const { signOut } = useClerk()
 
   const goSignIn = () => {
     router.push(`/sign-in?redirect=${path}`)
@@ -131,7 +136,7 @@ function Header() {
                 <div onClick={toggleTheme}>
                   {theme === Theme.light ? <Sun /> : <Moon />}
                 </div>
-                <Button variant="link" onClick={() => signOut()}>
+                <Button variant="link" onClick={() => {}}>
                   Sign Out
                 </Button>
               </div>

@@ -1,5 +1,4 @@
 import { createUploadthing, type FileRouter } from 'uploadthing/next'
-import { getAuth } from '@clerk/nextjs/server'
 
 const f = createUploadthing()
 
@@ -10,7 +9,7 @@ export const ourFileRouter = {
     // Set permissions and file types for this FileRoute
     .middleware(async ({ req }) => {
       // if the user is not signed in redirect them to the sign in page.
-      const { userId } = getAuth(req)
+      // const { userId } = getAuth(req)
 
       if (!userId) {
         throw new Error('Unauthorized')

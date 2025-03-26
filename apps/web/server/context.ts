@@ -1,13 +1,10 @@
 import * as trpc from '@trpc/server'
-import { getAuth } from '@clerk/nextjs/server'
-import type {
-  SignedInAuthObject,
-  SignedOutAuthObject,
-} from '@clerk/nextjs/server'
 import { NextRequest } from 'next/server'
+import { type User } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '../utils/supabase/server'
 
 interface InnerContext {
-  auth: SignedInAuthObject | SignedOutAuthObject
+  user: User | null
   headers: Headers
 }
 
@@ -20,9 +17,9 @@ interface InnerContext {
  * - trpc's `createSSGHelpers` where we don't have req/res
  * @see https://create.t3.gg/en/usage/trpc#-servertrpccontextts
  */
-const createInnerTRPCContext = ({ auth, headers }: InnerContext) => {
+const createInnerTRPCContext = async ({ user, headers }: InnerContext) => {
   return {
-    auth,
+    user,
     headers,
   }
 }
@@ -35,8 +32,13 @@ const createInnerTRPCContext = ({ auth, headers }: InnerContext) => {
 export const createTRPCContext = async (opts: { req: NextRequest }) => {
   const { req } = opts
 
+  const supabase = await createClient()
+  const userRes = await supabase.auth.getUser()
+
+  console.log('user', userRes.data?.user)
+
   return createInnerTRPCContext({
-    auth: getAuth(req),
+    user: userRes.data?.user ?? null,
     headers: req.headers,
   })
 }

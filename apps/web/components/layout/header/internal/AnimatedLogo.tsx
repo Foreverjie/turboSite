@@ -15,12 +15,13 @@ import { Activity } from './Activity'
 import { useHeaderMetaShouldShow } from './hooks'
 import { SiteOwnerAvatar } from './SiteOwnerAvatar'
 import { Bilibili } from '~/app/config'
-import { useUser } from '@clerk/nextjs'
 import { trpc } from '~/utils/trpc'
 import { UserType } from '@prisma/client'
 
 const TapLogo = () => {
-  const { isSignedIn } = useUser()
+  const { isSignedIn } = {
+    isSignedIn: true,
+  }
 
   const { data: userData } = trpc.user.me.useQuery(undefined, {
     enabled: isSignedIn,

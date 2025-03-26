@@ -3,7 +3,6 @@
 import React, { useEffect } from 'react'
 import { AnimatePresence } from 'framer-motion'
 import { usePathname } from 'next/navigation'
-import { signIn } from '~/auth'
 
 import { UserCircleIcon } from 'lucide-react'
 import {

@@ -39,7 +39,7 @@ export const user = router({
   me: protectedProcedure
     .meta(userMeMeta)
     .input(userMeInputSchema)
-    .output(userMeOutputSchema)
+    // .output(userMeOutputSchema)
     .query(userMeController),
   update: protectedProcedure
     .meta(userUpdateMeta)
