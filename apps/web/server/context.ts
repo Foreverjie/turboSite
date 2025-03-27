@@ -35,8 +35,6 @@ export const createTRPCContext = async (opts: { req: NextRequest }) => {
   const supabase = await createClient()
   const userRes = await supabase.auth.getUser()
 
-  console.log('user', userRes.data?.user)
-
   return createInnerTRPCContext({
     user: userRes.data?.user ?? null,
     headers: req.headers,
