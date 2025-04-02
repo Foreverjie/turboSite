@@ -1,5 +1,5 @@
 import { forwardRef } from 'react'
-import type { ForwardRefComponent } from 'framer-motion'
+import type { ForwardRefComponent } from 'motion/react'
 
 import { cn } from 'ui/src/utils'
 

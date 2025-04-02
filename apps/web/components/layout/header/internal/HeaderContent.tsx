@@ -7,7 +7,7 @@ import {
   m,
   useMotionTemplate,
   useMotionValue,
-} from 'framer-motion'
+} from 'motion/react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import type { IHeaderMenu } from '../config'

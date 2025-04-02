@@ -2,7 +2,7 @@
 
 import React, { useEffect, Fragment } from 'react'
 import Image from 'next/image'
-import { AnimatePresence } from 'framer-motion'
+import { AnimatePresence } from 'motion/react'
 import { usePathname } from 'next/navigation'
 
 import { UserCircleIcon } from 'lucide-react'

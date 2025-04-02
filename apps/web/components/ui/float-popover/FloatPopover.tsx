@@ -17,13 +17,13 @@ import React, {
   useRef,
   useState,
 } from 'react'
-import { AnimatePresence, m } from 'framer-motion'
+import { AnimatePresence, m } from 'motion/react'
 import type { UseFloatingOptions } from '@floating-ui/react-dom'
 import type { FC, PropsWithChildren, ReactElement } from 'react'
 import type { PresentSheetProps } from '../sheet'
 
 import { useIsMobile } from '~/utils/viewport'
-import { microReboundPreset } from 'ui/src/transition/spring'
+import { microReboundPreset } from '~/components/ui/transition/spring'
 import useClickAway from '~/hooks/common/use-click-away'
 import { useEventCallback } from '~/hooks/common/use-event-callback'
 import { cn } from 'ui/src/utils'
@@ -44,8 +44,8 @@ export const FloatPopover = function <T extends {}>(
     const Child = triggerElement
       ? triggerElement
       : TriggerComponent
-        ? createElement(TriggerComponent as any, triggerComponentProps)
-        : null
+      ? createElement(TriggerComponent as any, triggerComponentProps)
+      : null
 
     return (
       <PresentSheet content={props.children} {...props.sheet}>

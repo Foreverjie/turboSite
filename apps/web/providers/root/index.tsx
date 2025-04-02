@@ -1,6 +1,6 @@
 'use client'
 
-import { LazyMotion } from 'framer-motion'
+import { LazyMotion } from 'motion/react'
 import { ThemeProvider } from 'next-themes'
 import type { PropsWithChildren } from 'react'
 import { ProviderComposer } from './ProviderComposer'

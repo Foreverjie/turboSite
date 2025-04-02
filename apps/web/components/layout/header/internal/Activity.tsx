@@ -2,13 +2,13 @@
 
 import { useQuery } from '@tanstack/react-query'
 import React, { memo, useEffect, useMemo } from 'react'
-import { AnimatePresence, m } from 'framer-motion'
+import { AnimatePresence, m } from 'motion/react'
 import Image from 'next/image'
 
 import { useActivity } from '~/utils/activity'
 // import { ImpressionView } from '~/components/common/ImpressionTracker'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from 'ui'
-import { softBouncePreset } from 'ui/src/transition/spring'
+import { softBouncePreset } from '~/components/ui/transition/spring'
 // import { TrackerAction } from '~/constants/tracker'
 import useDebounceValue from '~/hooks/common/use-debounce-value'
 import { usePageIsActive } from '~/hooks/common/use-is-active'

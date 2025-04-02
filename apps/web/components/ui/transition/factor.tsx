@@ -1,13 +1,13 @@
 'use client'
 
 import { forwardRef, memo, useMemo } from 'react'
-import { m } from 'framer-motion'
+import { m } from 'motion/react'
 import type {
   HTMLMotionProps,
   Spring,
   Target,
   TargetAndTransition,
-} from 'framer-motion'
+} from 'motion/react'
 import type {
   ForwardRefExoticComponent,
   PropsWithChildren,

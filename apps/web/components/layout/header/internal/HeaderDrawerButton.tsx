@@ -9,7 +9,7 @@ import {
   SheetTrigger,
   ButtonMotionBase,
 } from 'ui'
-import { AnimatePresence } from 'framer-motion'
+import { AnimatePresence } from 'motion/react'
 
 import { XIcon } from 'lucide-react'
 // import { DialogOverlay } from '~/components/ui/dialog/DialogOverlay'

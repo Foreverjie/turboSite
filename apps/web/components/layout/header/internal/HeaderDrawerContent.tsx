@@ -1,10 +1,10 @@
 'use client'
 
 import { Dispatch, SetStateAction, memo } from 'react'
-import { m } from 'framer-motion'
+import { m } from 'motion/react'
 import Link from 'next/link'
 
-import { reboundPreset } from 'ui/src/transition/spring'
+import { reboundPreset } from '~/components/ui/transition/spring'
 
 // import { useHeaderConfig } from './HeaderDataConfigureProvider'
 

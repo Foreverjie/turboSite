@@ -9,8 +9,8 @@ import React, {
   useState,
 } from 'react'
 import { typescriptHappyForwardRef } from 'foxact/typescript-happy-forward-ref'
-import { AnimatePresence, m } from 'framer-motion'
-import type { HTMLMotionProps } from 'framer-motion'
+import { AnimatePresence, m } from 'motion/react'
+import type { HTMLMotionProps } from 'motion/react'
 import type { PropsWithChildren, ReactNode } from 'react'
 
 import { cn } from 'ui/src/utils'

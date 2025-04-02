@@ -2,20 +2,20 @@
 
 import React, { createElement, forwardRef, useCallback, useRef } from 'react'
 import { cn } from 'ui/src/utils'
-import { m, useInView } from 'framer-motion'
+import { m, useInView } from 'motion/react'
 import Link from 'next/link'
 import type { PropsWithChildren } from 'react'
 import { isSupportIcon, SocialIcon } from '~/components/SocialIcon'
 
 // import { PeekLink } from '~/components/modules/peek/PeekLink'
 // import { PostMetaBar } from '~/components/modules/post'
-import { BottomToUpTransitionView } from 'ui/src/transition/BottomToUpTransitionView'
-import { TextUpTransitionView } from 'ui/src/transition/TextUpTransitionView'
+import { BottomToUpTransitionView } from '~/components/ui/transition/BottomToUpTransitionView'
+import { TextUpTransitionView } from '~/components/ui/transition/TextUpTransitionView'
 import {
   microReboundPreset,
   softBouncePreset,
   softSpringPreset,
-} from 'ui/src/transition/spring'
+} from '~/components/ui/transition/spring'
 // import { shuffle } from '~/lib/_'
 import { routeBuilder, Routes } from '~/utils/route-builder'
 import { trpc } from '../../../utils/trpc'
@@ -188,7 +188,7 @@ const Welcome = () => {
 
           <ul className="mx-[60px] mt-8 flex flex-wrap gap-4 center lg:mx-auto lg:mt-28 lg:justify-start">
             {Object.entries(socialIds).map(([type, id]: any, index) => {
-              console.log({ type, id })
+              // console.log({ type, id })
               if (!isSupportIcon(type)) return null
               return (
                 <BottomToUpTransitionView

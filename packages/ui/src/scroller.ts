@@ -1,8 +1,8 @@
 'use client'
 
-import { animateValue } from 'framer-motion'
+import { animateValue } from 'motion/react'
 
-import { microDampingPreset } from './transition//spring'
+import { microDampingPreset } from '../../../apps/web/components/ui/transition/spring'
 
 // TODO scroller lock
 export const springScrollTo = (y: number) => {

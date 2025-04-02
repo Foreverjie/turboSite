@@ -1,8 +1,8 @@
 'use client'
 
-import { AnimatePresence, m } from 'framer-motion'
+import { AnimatePresence, m } from 'motion/react'
 
-import { microDampingPreset } from 'ui/src/transition/spring'
+import { microDampingPreset } from '~/components/ui/transition/spring'
 import useDebounceValue from '~/hooks/common/use-debounce-value'
 
 export const NumberSmoothTransition = (props: {
