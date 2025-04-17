@@ -1,6 +1,14 @@
-import React, { useEffect, useMemo, useState } from 'react'
-import { Drawer, DrawerContent, DrawerTitle, DrawerTrigger } from 'ui'
+import { atom, useStore } from 'jotai'
 import type { FC, PropsWithChildren, ReactNode } from 'react'
+import * as React from 'react'
+import {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+  useState,
+} from 'react'
+import { Drawer } from 'vaul'
 
 import { SheetContext } from './context'
 
@@ -16,7 +24,16 @@ export interface PresentSheetProps {
   triggerAsChild?: boolean
 }
 
-export const PresentSheet: FC<PropsWithChildren<PresentSheetProps>> = props => {
+export const sheetStackAtom = atom([] as HTMLDivElement[])
+
+export type SheetRef = {
+  dismiss: () => void
+}
+
+export const PresentSheet = forwardRef<
+  SheetRef,
+  PropsWithChildren<PresentSheetProps>
+>((props, ref) => {
   const {
     content,
     children,
@@ -28,6 +45,12 @@ export const PresentSheet: FC<PropsWithChildren<PresentSheetProps>> = props => {
   } = props
 
   const [isOpen, setIsOpen] = useState(props.open ?? defaultOpen)
+
+  useImperativeHandle(ref, () => ({
+    dismiss: () => {
+      setIsOpen(false)
+    },
+  }))
 
   const nextRootProps = useMemo(() => {
     const nextProps = {
@@ -53,45 +76,72 @@ export const PresentSheet: FC<PropsWithChildren<PresentSheetProps>> = props => {
     }
   }, [props.open])
   const [holderRef, setHolderRef] = useState<HTMLDivElement | null>()
+  const store = useStore()
+
+  useEffect(() => {
+    const holder = holderRef
+    if (!holder) return
+    store.set(sheetStackAtom, p => {
+      return p.concat(holder)
+    })
+
+    return () => {
+      store.set(sheetStackAtom, p => {
+        return p.filter(item => item !== holder)
+      })
+    }
+  }, [holderRef, store])
+
+  const { Root } = Drawer
 
   const overlayZIndex = zIndex - 1
   const contentZIndex = zIndex
 
   return (
-    <Drawer dismissible={dismissible} {...nextRootProps}>
-      <DrawerTrigger asChild={triggerAsChild}>{children}</DrawerTrigger>
-      <DrawerContent
-        style={{
-          zIndex: contentZIndex,
-        }}
-        className="fixed inset-x-0 bottom-0 mt-24 flex max-h-[95vh] flex-col rounded-t-[10px] bg-base-100 p-4"
-      >
-        {dismissible && (
-          <div className="mx-auto mb-8 h-1.5 w-12 shrink-0 rounded-full bg-zinc-300 dark:bg-neutral-800" />
-        )}
-
-        {title && (
-          <DrawerTitle className="-mt-4 mb-4 flex justify-center text-lg font-medium">
-            {title}
-          </DrawerTitle>
-        )}
-
-        <SheetContext.Provider
-          value={useMemo(
-            () => ({
-              dismiss() {
-                setIsOpen(false)
-              },
-            }),
-            [setIsOpen],
-          )}
+    <Root dismissible={dismissible} {...nextRootProps}>
+      {!!children && (
+        <Drawer.Trigger asChild={triggerAsChild}>{children}</Drawer.Trigger>
+      )}
+      <Drawer.Portal>
+        <Drawer.Content
+          style={{
+            zIndex: contentZIndex,
+          }}
+          className="fixed inset-x-0 bottom-0 flex max-h-[calc(100svh-5rem)] flex-col rounded-t-[10px] bg-base-100 p-4"
         >
-          {typeof content === 'function'
-            ? React.createElement(content)
-            : content}
-        </SheetContext.Provider>
-        {/* <div ref={setHolderRef} /> */}
-      </DrawerContent>
-    </Drawer>
+          {dismissible && (
+            <div className="mx-auto mb-8 h-1.5 w-12 shrink-0 rounded-full bg-zinc-300 dark:bg-neutral-800" />
+          )}
+
+          {title && (
+            <Drawer.Title className="-mt-4 mb-4 flex justify-center text-lg font-medium">
+              {title}
+            </Drawer.Title>
+          )}
+
+          <SheetContext.Provider
+            value={useMemo(
+              () => ({
+                dismiss() {
+                  setIsOpen(false)
+                },
+              }),
+              [setIsOpen],
+            )}
+          >
+            {typeof content === 'function'
+              ? React.createElement(content)
+              : content}
+          </SheetContext.Provider>
+          <div ref={setHolderRef} />
+        </Drawer.Content>
+        <Drawer.Overlay
+          className="fixed inset-0 bg-neutral-800/40"
+          style={{
+            zIndex: overlayZIndex,
+          }}
+        />
+      </Drawer.Portal>
+    </Root>
   )
-}
+})

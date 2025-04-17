@@ -12,9 +12,7 @@ const Help = () => {
     <FloatPopover
       mobileAsSheet
       as="span"
-      triggerElement={
-        <i className="icon-[mingcute--question-line] cursor-help" />
-      }
+      triggerElement={<i className="i-mingcute-question-line cursor-help" />}
       type="tooltip"
       asChild
       sheet={{
@@ -23,7 +21,7 @@ const Help = () => {
     >
       <div className="space-y-2 leading-relaxed">
         <p className="flex items-center space-x-1 opacity-80">
-          <i className="icon-[mingcute--question-line]" />
+          <i className="i-mingcute-question-line" />
           <span className="font-medium">How is this implemented?</span>
         </p>
         <p>

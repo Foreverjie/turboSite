@@ -17,25 +17,25 @@ const iconSet: Record<
 > = {
   github: [
     'Github',
-    <i className="icon-[mingcute--github-line]" />,
+    <i className="i-mingcute-github-line" />,
     '#181717',
     id => `https://github.com/${id}`,
   ],
   twitter: [
     'Twitter',
-    <i className="icon-[mingcute--twitter-line]" />,
+    <i className="i-mingcute-twitter-line" />,
     '#1DA1F2',
     id => `https://twitter.com/${id}`,
   ],
   telegram: [
     'Telegram',
-    <i className="icon-[mingcute--telegram-line]" />,
+    <i className="i-mingcute-telegram-line" />,
     '#0088cc',
     id => `https://t.me/${id}`,
   ],
   mail: [
     'Email',
-    <i className="icon-[mingcute--mail-line]" />,
+    <i className="i-mingcute-mail-line" />,
     '#D44638',
     id => `mailto:${id}`,
   ],
@@ -45,12 +45,7 @@ const iconSet: Record<
   get feed() {
     return this.rss
   },
-  rss: [
-    'RSS',
-    <i className="icon-[mingcute--rss-line]" />,
-    '#FFA500',
-    id => id,
-  ],
+  rss: ['RSS', <i className="i-mingcute-rss-line" />, '#FFA500', id => id],
   bilibili: [
     'Bilibili',
     <BilibiliIcon />,
@@ -59,13 +54,13 @@ const iconSet: Record<
   ],
   qq: [
     'QQ',
-    <i className="icon-[mingcute--qq-fill]" />,
+    <i className="i-mingcute-qq-fill" />,
     '#1e6fff',
     id => `https://wpa.qq.com/msgrd?v=3&uin=${id}&site=qq&menu=yes`,
   ],
   wechat: [
     'Wechat',
-    <i className="icon-[mingcute--wechat-fill]" />,
+    <i className="i-mingcute-wechat-fill" />,
     '#2DC100',
     id => null,
   ],

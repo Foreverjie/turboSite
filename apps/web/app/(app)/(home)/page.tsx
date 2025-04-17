@@ -231,7 +231,7 @@ const Welcome = () => {
             We thought we would conquer the universe one day.
           </small>
           <span className="mt-8 animate-bounce">
-            <i className="icon-[mingcute--right-line] rotate-90 text-2xl" />
+            <i className="i-mingcute-right-line rotate-90 text-2xl" />
           </span>
         </m.div>
       </TwoColumnLayout>
@@ -334,7 +334,7 @@ const PostScreen = () => {
 
                     <ButtonMotionBase className="absolute bottom-4 right-4 flex items-center p-2 text-accent/95 opacity-0 duration-200 group-hover:opacity-100">
                       Detail
-                      <i className="icon-[mingcute--arrow-right-line]" />
+                      <i className="i-mingcute-arrow-right-line" />
                     </ButtonMotionBase>
 
                     {!!imageSrc && (
@@ -492,7 +492,7 @@ const WindSock = () => {
             toast('Thank You!', undefined, {
               iconElement: (
                 <m.i
-                  className="icon-[mingcute--heart-fill] text-uk-red-light"
+                  className="i-mingcute-heart-fill text-uk-red-light"
                   initial={{
                     scale: 0.96,
                   }}
@@ -510,7 +510,7 @@ const WindSock = () => {
             })
           }}
         >
-          喜欢本站 <i className="icon-[mingcute--heart-fill]" />{' '}
+          喜欢本站 <i className="i-mingcute-heart-fill" />{' '}
           <NumberSmoothTransition>
             {count as any as string}
           </NumberSmoothTransition>
@@ -523,7 +523,7 @@ const WindSock = () => {
           }}
         >
           Subscribe
-          <i className="icon-[material-symbols--notifications-active]" />
+          <i className="i-material-symbols-notifications-active" />
         </Button>
       </div>
     </>

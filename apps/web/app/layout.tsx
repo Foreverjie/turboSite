@@ -4,13 +4,13 @@ import { init } from './init'
 
 import { TrpcProvider } from '~/utils'
 import { Inter } from 'next/font/google'
-import { cookies } from 'next/headers'
 import { ToastContainer } from 'react-toastify'
 
 import PKG from '~/package.json'
 import { Root } from '~/components/layout/root/Root'
 import { AppProviders } from '~/providers/root'
 import { SpeedInsights } from '@vercel/speed-insights/next'
+import { sansFont, serifFont } from '~/lib/fonts'
 
 const { version } = PKG
 
@@ -29,11 +29,13 @@ export default async function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className="noise themed" suppressHydrationWarning>
       <head>
         <SayHi />
       </head>
-      <body className={`${inter.className} m-0 h-full p-0 font-sans`}>
+      <body
+        className={`${sansFont.variable} ${serifFont.variable} m-0 h-full p-0 font-sans`}
+      >
         <AppProviders>
           <TrpcProvider>
             {/* <AggregationProvider
@@ -47,6 +49,7 @@ export default async function RootLayout({
             <ToastContainer />
             {/* </AggregationProvider> */}
           </TrpcProvider>
+          <div className="fixed inset-y-0 right-0 w-[var(--removed-body-scroll-bar-size)]" />
         </AppProviders>
         <SpeedInsights />
       </body>

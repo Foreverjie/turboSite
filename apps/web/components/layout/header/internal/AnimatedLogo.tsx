@@ -18,55 +18,51 @@ import { Bilibili } from '~/app/config'
 import { trpc } from '~/utils/trpc'
 import { UserType } from '@prisma/client'
 
-const TapLogo = () => {
-  const { isSignedIn } = {
-    isSignedIn: true,
-  }
+// const TapLogo = () => {
+//   const { isSignedIn } = {
+//     isSignedIn: true,
+//   }
 
-  const { data: userData } = trpc.user.me.useQuery(undefined, {
-    enabled: isSignedIn,
-  })
+//   const router = useRouter()
 
-  const router = useRouter()
+//   const { data: isLiving } = useQuery({
+//     queryKey: ['live-check'],
+//     enabled: false,
+//   })
 
-  const { data: isLiving } = useQuery({
-    queryKey: ['live-check'],
-    enabled: false,
-  })
+//   const { liveId } = (useAppConfigSelector().appConfig?.module.bilibili ||
+//     {}) as Bilibili
 
-  const { liveId } = (useAppConfigSelector().appConfig?.module.bilibili ||
-    {}) as Bilibili
+//   const goLive = useCallback(() => {
+//     window.open(`https://live.bilibili.com/${liveId}`)
+//   }, [liveId])
 
-  const goLive = useCallback(() => {
-    window.open(`https://live.bilibili.com/${liveId}`)
-  }, [liveId])
+//   const resolveAdminUrl = useResolveAdminUrl()
 
-  const resolveAdminUrl = useResolveAdminUrl()
+//   const fn = useSingleAndDoubleClick(
+//     () => {
+//       if (isLiving) return goLive()
+//       router.push(Routes.Home)
+//     },
+//     () => {
+//       if (isSignedIn && userData?.role === UserType.ADMIN) {
+//         location.href = resolveAdminUrl()
 
-  const fn = useSingleAndDoubleClick(
-    () => {
-      if (isLiving) return goLive()
-      router.push(Routes.Home)
-    },
-    () => {
-      if (isSignedIn && userData?.role === UserType.ADMIN) {
-        location.href = resolveAdminUrl()
-
-        return
-      }
-      router.push(
-        `${Routes.Login}?redirect=${encodeURIComponent(location.pathname)}`,
-      )
-    },
-  )
-  // return <Logo onClick={fn} className="cursor-pointer" />
-  return (
-    <button onClick={fn}>
-      <SiteOwnerAvatar className="cursor-pointer" />
-      <span className="sr-only">Owner Avatar</span>
-    </button>
-  )
-}
+//         return
+//       }
+//       router.push(
+//         `${Routes.Login}?redirect=${encodeURIComponent(location.pathname)}`,
+//       )
+//     },
+//   )
+//   // return <Logo onClick={fn} className="cursor-pointer" />
+//   return (
+//     <button onClick={fn}>
+//       <SiteOwnerAvatar className="cursor-pointer" />
+//       <span className="sr-only">Owner Avatar</span>
+//     </button>
+//   )
+// }
 export const AnimatedLogo = () => {
   const shouldShowMeta = useHeaderMetaShouldShow()
 
@@ -76,7 +72,7 @@ export const AnimatedLogo = () => {
   if (isDesktop)
     return (
       <>
-        <TapLogo />
+        {/* <TapLogo /> */}
         <Activity />
       </>
     )
@@ -92,7 +88,7 @@ export const AnimatedLogo = () => {
           // className="scale-75"
         >
           <Activity />
-          <TapLogo />
+          {/* <TapLogo /> */}
         </m.div>
       )}
     </AnimatePresence>

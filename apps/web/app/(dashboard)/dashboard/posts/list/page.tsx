@@ -47,7 +47,7 @@ export default (function Page() {
           }}
           className="card-shadow"
         >
-          <i className="icon-[mingcute--add-line] text-white" />
+          <i className="i-mingcute-add-line text-white" />
         </ButtonMotionBase>
       </OffsetHeaderLayout> */}
     </div>
