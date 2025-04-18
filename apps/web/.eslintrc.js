@@ -8,5 +8,7 @@ module.exports = {
         additionalHooks: 'useIsomorphicLayoutEffect',
       },
     ],
+    //  displayName is not needed in the app
+    'react/display-name': 'off',
   },
 }

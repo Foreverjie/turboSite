@@ -1,7 +1,14 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import {
+  Suspense,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import dayjs from 'dayjs'
 import { useRouter, useSearchParams } from 'next/navigation'
 import type { FC } from 'react'
@@ -57,8 +64,9 @@ import './style.css'
 import { WriteEditEvent } from '../../../../../events'
 
 export default function Page() {
-  const search = useSearchParams()
-  const id = search.get('id')
+  // const search = useSearchParams()
+  // const id = search.get('id')
+  const id = null
   const resetAutoSaver = useResetAutoSaverData()
 
   const { data, isLoading } = trpc.post.getById.useQuery(
@@ -117,93 +125,95 @@ export default function Page() {
   const handleImageClick = () => {}
   const handleLocationClick = () => {}
 
-  if (id && isLoading) return <PageLoading />
+  // if (id && isLoading) return <PageLoading />
   return (
-    <BaseWritingProvider>
-      <div className="text-2xl font-bold">{data ? 'Edit' : 'New'}</div>
+    <Suspense fallback={<PageLoading />}>
+      <BaseWritingProvider>
+        <div className="text-2xl font-bold">{data ? 'Edit' : 'New'}</div>
 
-      {/* <Writing middleSlot={SlugInput} /> */}
-      <Textarea
-        className="flex flex-grow mt-4"
-        value={postContent}
-        onChange={e => {
-          window.dispatchEvent(
-            new WriteEditEvent({
-              content: e.target.value,
-              postId: data?.postId,
-            }),
-          )
-          setPostContent(e.target.value)
-        }}
-      />
+        {/* <Writing middleSlot={SlugInput} /> */}
+        <Textarea
+          className="flex flex-grow mt-4"
+          value={postContent}
+          onChange={e => {
+            window.dispatchEvent(
+              new WriteEditEvent({
+                content: e.target.value,
+                postId: data?.postId,
+              }),
+            )
+            setPostContent(e.target.value)
+          }}
+        />
 
-      {!!files?.length && (
-        <Swiper slidesPerView={'auto'} spaceBetween={24} className="mt-4">
-          {files.map((file, i) => (
-            <SwiperSlide key={i} className="w-fit">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                className="h-24 aspect-auto rounded-md"
-                src={file}
-                alt="Image"
-                onClick={handleImageClick}
-              />
-              <button
-                className="absolute top-0 right-0 mt-1 mr-1"
-                onClick={() => {
-                  const newFiles = [...files]
-                  newFiles.splice(i, 1)
-                  setFiles(newFiles)
-                }}
-              >
-                <XIcon size={16} />
-              </button>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      )}
-      <div className="flex justify-between mt-4">
-        <div className="flex items-center justify-start">
-          <UploadButton
-            className="ut-button:bg-transparent ut-button:w-fit ut-button:h-fit ut-allowed-content:hidden mr-2"
-            endpoint="imageUploader"
-            content={{
-              button: <ImageIcon />,
-            }}
-            onUploadBegin={() => {
-              // toast({
-              //   description: <UploadProgress />,
-              // })
-            }}
-            onUploadProgress={progress => {
-              setProgress(progress)
-            }}
-            onClientUploadComplete={res => {
-              const newFiles = [...files]
-              setProgress(0)
-              res?.map(r => {
-                newFiles.push(r.url)
-              })
-              setFiles(newFiles)
-              // toast({
-              //   description: 'Upload Success!',
-              // })
-            }}
-            onUploadError={(error: Error) => {
-              // toast({
-              //   title: 'Error',
-              //   variant: 'destructive',
-              //   description: error.message || 'Something went wrong',
-              // })
-            }}
-          />
-          <MapPinIcon className="mr-2" onClick={handleLocationClick} />
+        {!!files?.length && (
+          <Swiper slidesPerView={'auto'} spaceBetween={24} className="mt-4">
+            {files.map((file, i) => (
+              <SwiperSlide key={i} className="w-fit">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  className="h-24 aspect-auto rounded-md"
+                  src={file}
+                  alt="Image"
+                  onClick={handleImageClick}
+                />
+                <button
+                  className="absolute top-0 right-0 mt-1 mr-1"
+                  onClick={() => {
+                    const newFiles = [...files]
+                    newFiles.splice(i, 1)
+                    setFiles(newFiles)
+                  }}
+                >
+                  <XIcon size={16} />
+                </button>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        )}
+        <div className="flex justify-between mt-4">
+          <div className="flex items-center justify-start">
+            <UploadButton
+              className="ut-button:bg-transparent ut-button:w-fit ut-button:h-fit ut-allowed-content:hidden mr-2"
+              endpoint="imageUploader"
+              content={{
+                button: <ImageIcon />,
+              }}
+              onUploadBegin={() => {
+                // toast({
+                //   description: <UploadProgress />,
+                // })
+              }}
+              onUploadProgress={progress => {
+                setProgress(progress)
+              }}
+              onClientUploadComplete={res => {
+                const newFiles = [...files]
+                setProgress(0)
+                res?.map(r => {
+                  newFiles.push(r.url)
+                })
+                setFiles(newFiles)
+                // toast({
+                //   description: 'Upload Success!',
+                // })
+              }}
+              onUploadError={(error: Error) => {
+                // toast({
+                //   title: 'Error',
+                //   variant: 'destructive',
+                //   description: error.message || 'Something went wrong',
+                // })
+              }}
+            />
+            <MapPinIcon className="mr-2" onClick={handleLocationClick} />
+          </div>
+          <Button onClick={addPost} loading={isPending} disabled={!postContent}>
+            {data ? 'Edit' : 'Post'}
+          </Button>
         </div>
-        <Button onClick={addPost} loading={isPending} disabled={!postContent}>
-          {data ? 'Edit' : 'Post'}
-        </Button>
-      </div>
-    </BaseWritingProvider>
+      </BaseWritingProvider>
+    </Suspense>
   )
 }
 //
