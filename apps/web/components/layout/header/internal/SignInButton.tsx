@@ -5,7 +5,15 @@ import { sendOTP, signIn, signOut } from './action'
 import { HeaderActionButton } from './HeaderActionButton'
 import { ButtonMotionBase, DropdownMenuItem } from 'ui'
 import { useModalStack } from '../../../ui/modal'
-import { FC, useCallback, useMemo, useState } from 'react'
+import {
+  FC,
+  Fragment,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import { useIsMobile } from '../../../../utils/viewport'
 import { m } from 'motion/react'
 import { cn } from 'ui/src/utils'
@@ -14,9 +22,20 @@ import { Input } from '../../../ui/input'
 import { StyledButton } from '../../../ui/button/StyledButton'
 import Link from 'next/link'
 import { XOR } from '../../../../lib/types'
+import { trpc } from '../../../../utils/trpc'
 
 const AuthLoginModalContent = () => {
   const isMobile = useIsMobile()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [otp, setOtp] = useState('')
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false)
+  const [otpSent, setOtpSent] = useState(false)
+  const [otpTimer, setOtpTimer] = useState(60) // Initial countdown time: 60 seconds
+  const timerRef = useRef<NodeJS.Timeout | null>(null) // Ref to store timer ID
+
+  const { mutateAsync: signInWithPwd, isLoading: signInLoading } =
+    trpc.user.signIn.useMutation()
 
   const handleEmailSignIn = ({
     email,
@@ -35,8 +54,9 @@ const AuthLoginModalContent = () => {
       return
     }
     if (password && !otp) {
+      console.log('Signing in with password', email, password)
       // Handle password sign-in
-      signIn({
+      signInWithPwd({
         email,
         password,
       })
@@ -49,124 +69,47 @@ const AuthLoginModalContent = () => {
       {
         key: 'password',
         title: 'Password',
-        component: () => {
-          const [email, setEmail] = useState('')
-          const [password, setPassword] = useState('')
-          const [isPasswordVisible, setIsPasswordVisible] = useState(false)
-
-          return (
-            <div className="mt-6">
-              <div className="flex flex-col items-center gap-4 px-4">
-                <Input
-                  autoFocus
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  type="text"
-                  placeholder="Email"
-                  className="w-full"
-                />
-                <div className="w-full relative">
-                  <Input
-                    value={password}
-                    onChange={e => setPassword(e.target.value)}
-                    type={isPasswordVisible ? 'text' : 'password'}
-                    placeholder="Password"
-                    className="w-full"
-                  />
-                  <ButtonMotionBase
-                    className={
-                      'absolute right-4 top-1/2 -translate-y-1/2 flex items-center'
-                    }
-                    onClick={() => {
-                      setIsPasswordVisible(!isPasswordVisible)
-                    }}
-                  >
-                    <i
-                      className={cn(
-                        'text-lg text-gray-500',
-
-                        isPasswordVisible
-                          ? 'i-mingcute-eye-line'
-                          : 'i-mingcute-eye-close-line',
-                      )}
-                    />
-                  </ButtonMotionBase>
-                </div>
-                <div className="flex justify-between w-full">
-                  <ButtonMotionBase variant={'link'} className="text-neutral">
-                    <Link href="/forgot-password">Forgot Password?</Link>
-                  </ButtonMotionBase>
-                  <StyledButton
-                    disabled={!email || !password}
-                    onClick={() => {
-                      handleEmailSignIn({
-                        email,
-                        password,
-                      })
-                    }}
-                  >
-                    Login
-                  </StyledButton>
-                </div>
-              </div>
-            </div>
-          )
-        },
       },
       {
         key: 'otp',
         title: 'OTP',
-        component: () => {
-          const [email, setEmail] = useState('')
-          const [otp, setOtp] = useState('')
-          return (
-            <div className="mt-6">
-              <div className="flex flex-col items-center gap-4 px-4">
-                <Input
-                  autoFocus
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  type="text"
-                  placeholder="Email"
-                  className="w-full"
-                />
-                <div className="w-full relative">
-                  <Input
-                    value={otp}
-                    maxLength={6}
-                    onChange={e => setOtp(e.target.value)}
-                    type="text"
-                    placeholder="OTP"
-                    className="w-full"
-                  />
-                  <ButtonMotionBase
-                    className={
-                      'absolute right-4 top-1/2 -translate-y-1/2 flex items-center'
-                    }
-                    onClick={() => {
-                      sendOTP(email)
-                    }}
-                  >
-                    <div className="text-sm text-gray-500">Send OTP</div>
-                  </ButtonMotionBase>
-                </div>
-
-                <div className="flex justify-end w-full">
-                  <StyledButton
-                    disabled={!email || !otp}
-                    onClick={() => handleEmailSignIn({ email, otp })}
-                  >
-                    Login
-                  </StyledButton>
-                </div>
-              </div>
-            </div>
-          )
-        },
       },
     ],
     [],
   )
+
+  useEffect(() => {
+    // Clear timer on component unmount
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current)
+      }
+    }
+  }, [])
+
+  useEffect(() => {
+    if (otpSent) {
+      // Start the countdown timer
+      setOtpTimer(60) // Reset timer to 60 when sending OTP
+      timerRef.current = setInterval(() => {
+        setOtpTimer(prevTimer => {
+          if (prevTimer <= 1) {
+            clearInterval(timerRef.current!)
+            setOtpSent(false) // Re-enable the button
+            return 60 // Reset timer display value (optional, could keep 0 until next send)
+          }
+          return prevTimer - 1
+        })
+      }, 1000)
+
+      // Cleanup function to clear interval when otpSent becomes false or component unmounts
+      return () => {
+        if (timerRef.current) {
+          clearInterval(timerRef.current)
+        }
+      }
+    }
+  }, [otpSent])
 
   const [tab, setTab] = useState('password')
 
@@ -198,10 +141,114 @@ const AuthLoginModalContent = () => {
           ))}
         </Tabs.List>
       </Tabs.Root>
-      {TABS.map(({ key, component: Component }) => {
-        if (key.toString() === tab) return <Component key={key} />
-        return null
-      })}
+      <div className="mt-6">
+        <div className="flex flex-col items-center gap-4 px-4">
+          <Input
+            autoFocus
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            type="text"
+            placeholder="Email"
+            className="w-full"
+          />
+          {tab === 'password' ? (
+            <>
+              <div className="w-full relative">
+                <Input
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                  type={isPasswordVisible ? 'text' : 'password'}
+                  placeholder="Password"
+                  className="w-full"
+                />
+                <ButtonMotionBase
+                  className={
+                    'absolute right-4 top-1/2 -translate-y-1/2 flex items-center'
+                  }
+                  onClick={() => {
+                    setIsPasswordVisible(!isPasswordVisible)
+                  }}
+                >
+                  <i
+                    className={cn(
+                      'text-lg text-gray-500',
+
+                      isPasswordVisible
+                        ? 'i-mingcute-eye-line'
+                        : 'i-mingcute-eye-close-line',
+                    )}
+                  />
+                </ButtonMotionBase>
+              </div>
+              <div className="flex justify-between w-full">
+                <StyledButton variant={'link'} className="text-neutral">
+                  <Link href="/forgot-password">Forgot Password?</Link>
+                </StyledButton>
+                <StyledButton
+                  disabled={!email || !password}
+                  isLoading={signInLoading}
+                  onClick={() => {
+                    handleEmailSignIn({
+                      email,
+                      password,
+                    })
+                  }}
+                >
+                  Login
+                </StyledButton>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="w-full relative">
+                <Input
+                  value={otp}
+                  maxLength={6}
+                  onChange={e => setOtp(e.target.value)}
+                  type="text"
+                  placeholder="OTP"
+                  className="w-full"
+                />
+                <ButtonMotionBase
+                  disabled={otpSent} // Disable button during countdown
+                  className={
+                    'absolute right-4 top-1/2 -translate-y-1/2 flex items-center disabled:opacity-50' // Add disabled style
+                  }
+                  onClick={async () => {
+                    if (!email) {
+                      // Add some user feedback, e.g., using a toast notification
+                      console.error('Email is required to send OTP')
+                      return
+                    }
+                    const res = await sendOTP(email)
+                    if (!res?.error) {
+                      // Handle OTP sent successfully
+                      console.log('OTP sent successfully')
+                      setOtpSent(true)
+                    } else {
+                      // Handle error, maybe show a toast
+                      console.error('Failed to send OTP:', res.error)
+                    }
+                  }}
+                >
+                  <div className="text-sm text-gray-500">
+                    {otpSent ? `Resend in ${otpTimer}s` : 'Send OTP'}
+                  </div>
+                </ButtonMotionBase>
+              </div>
+
+              <div className="flex justify-end w-full">
+                <StyledButton
+                  disabled={!email || !otp}
+                  onClick={() => handleEmailSignIn({ email, otp })}
+                >
+                  Login
+                </StyledButton>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
 
       <div className="mt-6">
         <AuthProvidersRender />
@@ -238,7 +285,7 @@ export const AuthProvidersRender: FC = () => {
     <>
       {providers && (
         <ul className="flex items-center justify-center gap-3">
-          {providers.map(provider => (
+          {providers.map((provider: string) => (
             <li key={provider}>
               <ButtonMotionBase
                 // disabled={authProcessingLockSet.has(provider)}

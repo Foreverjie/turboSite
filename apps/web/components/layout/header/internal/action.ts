@@ -36,11 +36,14 @@ export const signIn = async ({
 export const sendOTP = async (email: string) => {
   try {
     const supabase = await createClient()
-    await supabase.auth.signInWithOtp({
+    return await supabase.auth.signInWithOtp({
       email,
     })
   } catch (err) {
     handleError(err)
+    return {
+      error: 'Unknown error',
+    }
   }
 }
 

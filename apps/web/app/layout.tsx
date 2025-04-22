@@ -36,8 +36,8 @@ export default async function RootLayout({
       <body
         className={`${sansFont.variable} ${serifFont.variable} m-0 h-full p-0 font-sans`}
       >
-        <AppProviders>
-          <TrpcProvider>
+        <TrpcProvider>
+          <AppProviders>
             {/* <AggregationProvider
               aggregationData={data}
               appConfig={data.themeConfig.config}
@@ -48,9 +48,9 @@ export default async function RootLayout({
             {/* <Footer /> */}
             <ToastContainer />
             {/* </AggregationProvider> */}
-          </TrpcProvider>
-          <div className="fixed inset-y-0 right-0 w-[var(--removed-body-scroll-bar-size)]" />
-        </AppProviders>
+            <div className="fixed inset-y-0 right-0 w-[var(--removed-body-scroll-bar-size)]" />
+          </AppProviders>
+        </TrpcProvider>
         <SpeedInsights />
       </body>
     </html>

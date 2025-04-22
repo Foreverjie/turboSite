@@ -4,6 +4,7 @@ import {
   userMeController,
   userStatusController,
   userUpdateController,
+  userSignInController,
 } from '../controllers/users'
 import {
   userAllInputSchema,
@@ -22,7 +23,17 @@ import {
   userUpdateMeta,
   userUpdateOutputSchema,
 } from '../schemas/users'
-import { adminProcedure, protectedProcedure, router } from '../trpc'
+import {
+  userSignInInputSchema,
+  userSignInMeta,
+  userSignInOutputSchema,
+} from '../schemas/users/userSignIn.schema'
+import {
+  adminProcedure,
+  protectedProcedure,
+  router,
+  publicProcedure,
+} from '../trpc'
 
 // export default router
 export const user = router({
@@ -31,6 +42,11 @@ export const user = router({
     .input(userCreateInputSchema)
     .output(userCreateOutputSchema)
     .mutation(userCreateController),
+  signIn: publicProcedure
+    // .meta(userSignInMeta)
+    .input(userSignInInputSchema)
+    .output(userSignInOutputSchema)
+    .mutation(userSignInController),
   status: protectedProcedure
     .meta(userStatusMeta)
     .input(userStatusInputSchema)
