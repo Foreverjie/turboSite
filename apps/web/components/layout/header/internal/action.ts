@@ -1,15 +1,44 @@
 'use server'
 
 import { createClient } from '~/utils/supabase/server'
+import { XOR } from '../../../../lib/types'
 
-export const signIn = async () => {
+export const signIn = async ({
+  email,
+  password,
+  otp,
+}: {
+  email: string
+} & XOR<{ password: string }, { otp: string }>) => {
   try {
     const supabase = await createClient()
-    const res = await supabase.auth.signInWithPassword({
-      email: '864129545@qq.com',
-      password: 'zzj123,.',
+    if (!email) {
+      throw new Error('Email is required')
+    }
+
+    if (password) {
+      await supabase.auth.signInWithPassword({
+        email,
+        password,
+      })
+    } else if (otp) {
+      await supabase.auth.verifyOtp({
+        email,
+        token: otp,
+        type: 'email',
+      })
+    }
+  } catch (err) {
+    handleError(err)
+  }
+}
+
+export const sendOTP = async (email: string) => {
+  try {
+    const supabase = await createClient()
+    await supabase.auth.signInWithOtp({
+      email,
     })
-    console.log('Sign in response:', res)
   } catch (err) {
     handleError(err)
   }

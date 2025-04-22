@@ -2,10 +2,9 @@
 
 import { ErrorBoundary as ErrorBoundaryLib } from 'react-error-boundary'
 import type { FC, PropsWithChildren } from 'react'
+import { StyledButton } from '../ui/button/StyledButton'
 
 // import { captureException } from '@sentry/nextjs'
-
-import { Button } from 'ui'
 
 const FallbackComponent = () => {
   return (
@@ -18,13 +17,13 @@ const FallbackComponent = () => {
         zhangzjsysu@foxmail.com
       </a>
       .
-      <Button
+      <StyledButton
         onClick={() => {
           window.location.reload()
         }}
       >
         Reload Page
-      </Button>
+      </StyledButton>
     </div>
   )
 }

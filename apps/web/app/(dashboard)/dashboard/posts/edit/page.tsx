@@ -44,7 +44,7 @@ import { callCommand } from '@milkdown/utils'
 //   Writing,
 // } from '~/components/modules/dashboard/writing/Writing'
 import { toast } from 'ui'
-import { Button, Textarea, Progress } from 'ui'
+import { Textarea, Progress } from 'ui'
 import { useEventCallback } from '~/hooks/common/use-event-callback'
 import { cloneDeep } from 'lodash'
 import { trpc } from '~/utils/trpc'
@@ -62,6 +62,7 @@ import 'swiper/css/pagination'
 
 import './style.css'
 import { WriteEditEvent } from '../../../../../events'
+import { StyledButton } from '../../../../../components/ui/button/StyledButton'
 
 export default function Page() {
   // const search = useSearchParams()
@@ -208,9 +209,13 @@ export default function Page() {
             />
             <MapPinIcon className="mr-2" onClick={handleLocationClick} />
           </div>
-          <Button onClick={addPost} loading={isPending} disabled={!postContent}>
+          <StyledButton
+            onClick={addPost}
+            isLoading={isPending}
+            disabled={!postContent}
+          >
             {data ? 'Edit' : 'Post'}
-          </Button>
+          </StyledButton>
         </div>
       </BaseWritingProvider>
     </Suspense>

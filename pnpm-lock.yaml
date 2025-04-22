@@ -170,6 +170,7 @@ importers:
       '@prisma/client': ^5.6.0
       '@prosemirror-adapter/react': ^0.2.6
       '@radix-ui/react-dialog': ^1.0.4
+      '@radix-ui/react-tabs': ^1.0.4
       '@supabase/auth-helpers-nextjs': ^0.10.0
       '@supabase/ssr': ^0.5.2
       '@supabase/supabase-js': ^2.49.1
@@ -297,6 +298,7 @@ importers:
       '@prisma/client': 5.22.0_prisma@5.22.0
       '@prosemirror-adapter/react': 0.2.6_nnrd3gsncyragczmpvfhocinkq
       '@radix-ui/react-dialog': 1.1.6_nbhgz5l75cguw3e2v6mx4uhmya
+      '@radix-ui/react-tabs': 1.1.3_nbhgz5l75cguw3e2v6mx4uhmya
       '@supabase/auth-helpers-nextjs': 0.10.0_dgwkrndrcu72wfvyqtshhmhavi
       '@supabase/ssr': 0.5.2_dgwkrndrcu72wfvyqtshhmhavi
       '@supabase/supabase-js': 2.49.4
@@ -6562,6 +6564,29 @@ packages:
       react: 18.3.1
     dev: false
 
+  /@radix-ui/react-collection/1.1.2_nbhgz5l75cguw3e2v6mx4uhmya:
+    resolution: {integrity: sha512-9z54IEKRxIa9VityapoEYMuByaG42iSy1ZXlY2KcuLSEtq8x4987/N6m15ppoMffgZX72gER2uHe1D9Y6Unlcw==}
+    peerDependencies:
+      '@types/react': '*'
+      '@types/react-dom': '*'
+      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+      react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+    dependencies:
+      '@radix-ui/react-compose-refs': 1.1.1_dnzsf2nnh6nwc7aotxzbfpgygy
+      '@radix-ui/react-context': 1.1.1_dnzsf2nnh6nwc7aotxzbfpgygy
+      '@radix-ui/react-primitive': 2.0.2_nbhgz5l75cguw3e2v6mx4uhmya
+      '@radix-ui/react-slot': 1.1.2_dnzsf2nnh6nwc7aotxzbfpgygy
+      '@types/react': 18.3.19
+      '@types/react-dom': 18.3.5_@types+react@18.3.19
+      react: 18.3.1
+      react-dom: 18.3.1_react@18.3.1
+    dev: false
+
   /@radix-ui/react-compose-refs/1.0.1_dnzsf2nnh6nwc7aotxzbfpgygy:
     resolution: {integrity: sha512-fDSBgd44FKHa1FRMU59qBMPFcl2PZE+2nmqunj+BWFyYYjnhIDWL2ItDs3rrbJDQOtzt5nIebLCQc4QRfz6LJw==}
     peerDependencies:
@@ -7272,6 +7297,34 @@ packages:
       react: 18.3.1
     dev: false
 
+  /@radix-ui/react-roving-focus/1.1.2_nbhgz5l75cguw3e2v6mx4uhmya:
+    resolution: {integrity: sha512-zgMQWkNO169GtGqRvYrzb0Zf8NhMHS2DuEB/TiEmVnpr5OqPU3i8lfbxaAmC2J/KYuIQxyoQQ6DxepyXp61/xw==}
+    peerDependencies:
+      '@types/react': '*'
+      '@types/react-dom': '*'
+      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+      react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+    dependencies:
+      '@radix-ui/primitive': 1.1.1
+      '@radix-ui/react-collection': 1.1.2_nbhgz5l75cguw3e2v6mx4uhmya
+      '@radix-ui/react-compose-refs': 1.1.1_dnzsf2nnh6nwc7aotxzbfpgygy
+      '@radix-ui/react-context': 1.1.1_dnzsf2nnh6nwc7aotxzbfpgygy
+      '@radix-ui/react-direction': 1.1.0_dnzsf2nnh6nwc7aotxzbfpgygy
+      '@radix-ui/react-id': 1.1.0_dnzsf2nnh6nwc7aotxzbfpgygy
+      '@radix-ui/react-primitive': 2.0.2_nbhgz5l75cguw3e2v6mx4uhmya
+      '@radix-ui/react-use-callback-ref': 1.1.0_dnzsf2nnh6nwc7aotxzbfpgygy
+      '@radix-ui/react-use-controllable-state': 1.1.0_dnzsf2nnh6nwc7aotxzbfpgygy
+      '@types/react': 18.3.19
+      '@types/react-dom': 18.3.5_@types+react@18.3.19
+      react: 18.3.1
+      react-dom: 18.3.1_react@18.3.1
+    dev: false
+
   /@radix-ui/react-scroll-area/1.2.3_mxyivhbtw7iptsqcubmafjbsum:
     resolution: {integrity: sha512-l7+NNBfBYYJa9tNqVcP2AGvxdE3lmE6kFTBXdvHgUaZuy+4wGCL1Cl2AfaR7RKyimj7lZURGLwFO59k4eBnDJQ==}
     peerDependencies:
@@ -7411,6 +7464,33 @@ packages:
       '@types/react': 18.3.19
       '@types/react-dom': 18.3.5_@types+react@18.3.19
       react: 18.3.1
+    dev: false
+
+  /@radix-ui/react-tabs/1.1.3_nbhgz5l75cguw3e2v6mx4uhmya:
+    resolution: {integrity: sha512-9mFyI30cuRDImbmFF6O2KUJdgEOsGh9Vmx9x/Dh9tOhL7BngmQPQfwW4aejKm5OHpfWIdmeV6ySyuxoOGjtNng==}
+    peerDependencies:
+      '@types/react': '*'
+      '@types/react-dom': '*'
+      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+      react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+    dependencies:
+      '@radix-ui/primitive': 1.1.1
+      '@radix-ui/react-context': 1.1.1_dnzsf2nnh6nwc7aotxzbfpgygy
+      '@radix-ui/react-direction': 1.1.0_dnzsf2nnh6nwc7aotxzbfpgygy
+      '@radix-ui/react-id': 1.1.0_dnzsf2nnh6nwc7aotxzbfpgygy
+      '@radix-ui/react-presence': 1.1.2_nbhgz5l75cguw3e2v6mx4uhmya
+      '@radix-ui/react-primitive': 2.0.2_nbhgz5l75cguw3e2v6mx4uhmya
+      '@radix-ui/react-roving-focus': 1.1.2_nbhgz5l75cguw3e2v6mx4uhmya
+      '@radix-ui/react-use-controllable-state': 1.1.0_dnzsf2nnh6nwc7aotxzbfpgygy
+      '@types/react': 18.3.19
+      '@types/react-dom': 18.3.5_@types+react@18.3.19
+      react: 18.3.1
+      react-dom: 18.3.1_react@18.3.1
     dev: false
 
   /@radix-ui/react-toast/1.2.6_mxyivhbtw7iptsqcubmafjbsum:

@@ -19,7 +19,7 @@ import {
 // import { shuffle } from '~/lib/_'
 import { routeBuilder, Routes } from '~/utils/route-builder'
 import { trpc } from '../../../utils/trpc'
-import { Button, ButtonMotionBase, toast } from 'ui'
+import { ButtonMotionBase, toast } from 'ui'
 import {
   Disc3Icon,
   FolderArchiveIcon,
@@ -31,6 +31,7 @@ import {
 } from 'lucide-react'
 import { NumberSmoothTransition } from '../../../components/ui/number-smooth-transition/NumberSmoothTransition'
 import { RelativeTime } from '../../../components/ui/RelativeTime'
+import { StyledButton } from '../../../components/ui/button/StyledButton'
 
 // import { useHomeQueryData } from './query'
 
@@ -477,7 +478,7 @@ const WindSock = () => {
       </div>
 
       <div className="mt-24 flex justify-center gap-4">
-        <Button
+        <StyledButton
           className="flex gap-2 bg-red-400 center"
           onClick={() => {
             // apiClient
@@ -514,9 +515,9 @@ const WindSock = () => {
           <NumberSmoothTransition>
             {count as any as string}
           </NumberSmoothTransition>
-        </Button>
+        </StyledButton>
 
-        <Button
+        <StyledButton
           className="flex gap-2 center"
           onClick={() => {
             // presentSubscribe()
@@ -524,7 +525,7 @@ const WindSock = () => {
         >
           Subscribe
           <i className="i-material-symbols-notifications-active" />
-        </Button>
+        </StyledButton>
       </div>
     </>
   )

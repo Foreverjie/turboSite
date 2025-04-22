@@ -1,8 +1,8 @@
-import { Button } from 'ui'
 import { trpc } from '../../utils/trpc'
 import { RelativeTime } from '../ui/RelativeTime'
 import { MessageCircleIcon, TwitterIcon } from 'lucide-react'
 import { cn } from 'ui/src/utils'
+import { StyledButton } from '../ui/button/StyledButton'
 
 export const DataStatus = () => {
   const { data: userData } = trpc.user.me.useQuery()
@@ -70,14 +70,14 @@ export const DataStatus = () => {
               <div className="mt-4 flex flex-wrap gap-2">
                 {stat.actions?.map(action => {
                   return (
-                    <Button
-                      variant={action.primary ? 'default' : 'secondary'}
+                    <StyledButton
+                      variant={action.primary ? 'primary' : 'secondary'}
                       key={action.name}
                       className="rounded-md shadow-none"
                       onClick={action.onClick}
                     >
                       {action.name}
-                    </Button>
+                    </StyledButton>
                   )
                 })}
               </div>
