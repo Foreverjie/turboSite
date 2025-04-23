@@ -3,10 +3,11 @@ import type { JSX } from 'react'
 import { forwardRef } from 'react'
 
 export const HeaderActionButton = forwardRef<
-  HTMLDivElement,
-  JSX.IntrinsicElements['div']
+  HTMLButtonElement,
+  JSX.IntrinsicElements['button']
 >(({ children, ...rest }, ref) => (
-  <div
+  <button
+    ref={ref}
     role="button"
     tabIndex={1}
     className={cn(
@@ -16,11 +17,10 @@ export const HeaderActionButton = forwardRef<
       'center flex',
     )}
     {...rest}
-    ref={ref}
     aria-label="Header Action"
   >
     {children}
-  </div>
+  </button>
 ))
 
 HeaderActionButton.displayName = 'HeaderActionButton'

@@ -36,8 +36,6 @@ import { StyledButton } from '../../../components/ui/button/StyledButton'
 // import { useHomeQueryData } from './query'
 
 export default function Home() {
-  const user = trpc.user.me.useQuery()
-
   return (
     <div>
       <Welcome />

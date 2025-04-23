@@ -43,42 +43,28 @@ export const StyledButton: FC<ButtonProps> = ({
   className,
   isLoading,
   href,
-
+  children,
   ...props
 }) => {
-  const Wrapper = isLoading ? LoadingButtonWrapper : 'div'
-  return (
-    <Wrapper>
-      {href ? (
-        <Link
-          href={href}
-          className={variantStyles({
-            variant,
-            className,
-          })}
-          {...(props as any)}
-        />
-      ) : (
-        <ButtonMotionBase
-          className={variantStyles({
-            variant,
-            className,
-          })}
-          {...(props as any)}
-        />
-      )}
-    </Wrapper>
-  )
-}
+  const commonProps = {
+    className: variantStyles({
+      variant,
+      className: cn(className, isLoading && 'relative text-transparent'),
+    }),
+    ...(props as any),
+  }
 
-const LoadingButtonWrapper: FC<PropsWithChildren> = ({ children }) => {
-  return (
-    <div className="relative">
-      {children}
+  const loadingSpinner = isLoading ? (
+    <div className="loading loading-spinner size-5" />
+  ) : null
 
-      <div className="absolute inset-0 z-[1] flex items-center justify-center">
-        <div className="loading loading-spinner size-5" />
-      </div>
-    </div>
+  return href ? (
+    <Link href={href} {...commonProps}>
+      {isLoading ? loadingSpinner : children}
+    </Link>
+  ) : (
+    <ButtonMotionBase {...commonProps} disabled={isLoading}>
+      {isLoading ? loadingSpinner : children}
+    </ButtonMotionBase>
   )
 }

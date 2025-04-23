@@ -35,7 +35,14 @@ const AuthLoginModalContent = () => {
   const timerRef = useRef<NodeJS.Timeout | null>(null) // Ref to store timer ID
 
   const { mutateAsync: signInWithPwd, isLoading: signInLoading } =
-    trpc.user.signIn.useMutation()
+    trpc.user.signIn.useMutation({
+      onSuccess: () => {
+        // Handle successful sign-in
+        console.log('Sign in successful')
+        // refresh the page
+        window.location.reload()
+      },
+    })
 
   const handleEmailSignIn = ({
     email,
@@ -328,7 +335,7 @@ export const AuthProvidersRender: FC = () => {
   )
 }
 
-export const SignInButton = () => {
+export const SignInButton = ({ isLoading }: { isLoading: boolean }) => {
   const { present } = useModalStack()
 
   const handleSignIn = useCallback(() => {
@@ -345,21 +352,35 @@ export const SignInButton = () => {
       onClick={() => {
         handleSignIn()
       }}
+      disabled={isLoading}
     >
-      <UserCircleIcon size={20} />
+      {isLoading ? (
+        <i className="loading loading-spinner loading-xs opacity-50" />
+      ) : (
+        <UserCircleIcon size={20} />
+      )}
     </HeaderActionButton>
   )
 }
 
 export const SignOutButton = () => {
+  const { mutateAsync: signOut, isLoading } = trpc.user.signOut.useMutation({
+    onSuccess: () => {
+      // Handle successful sign out
+      window.location.reload()
+    },
+  })
+
   return (
     <DropdownMenuItem
       onClick={() => {
         signOut()
       }}
-      icon={<i className="i-mingcute-exit-line size-4" />}
     >
-      Sign Out
+      <StyledButton variant="link" isLoading={isLoading}>
+        <i className="i-mingcute-exit-line size-4" />
+        Sign Out
+      </StyledButton>
     </DropdownMenuItem>
   )
 }

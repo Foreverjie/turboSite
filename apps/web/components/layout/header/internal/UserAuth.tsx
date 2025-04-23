@@ -1,3 +1,5 @@
+'use client'
+
 import { AnimatePresence } from 'motion/react'
 import { Fragment } from 'react'
 
@@ -11,19 +13,15 @@ import {
   DropdownMenuTrigger,
 } from 'ui'
 
-import { createClient } from '../../../../utils/supabase/client'
-import { getUser } from './action'
 import { SignInButton, SignOutButton } from './SignInButton'
+import { trpc } from '../../../../utils/trpc'
 
-export async function UserAuth() {
-  const user = await getUser()
+export function UserAuth() {
+  const user = trpc.user.me.useQuery(undefined, {
+    retry: false,
+  })
 
-  const isSignedIn = !!user
-
-  // if (isSignedIn) {
-  //   return <OwnerAvatar />
-  // }
-  // console.log('UserAuth function executed', session)
+  const isSignedIn = !!user.data
 
   return (
     <AnimatePresence>
@@ -50,12 +48,12 @@ export async function UserAuth() {
                         <DropdownMenuLabel className="min-w-0">
                           <div className="-mt-1 flex min-w-0 items-center gap-2">
                             <img
-                              src={user.user_metadata.avatar_url}
+                              src={user.data.user_metadata.avatar_url}
                               className="size-8 rounded-full"
                             />
                             <div className="min-w-0 max-w-40 leading-none">
                               <div className="truncate">
-                                {user.user_metadata.name}
+                                {user.data.user_metadata.name}
                               </div>
                               {/* <EllipsisHorizontalTextWithTooltip className="min-w-0 truncate text-xs text-base-content/60">
                                     {session?.handle
@@ -75,7 +73,7 @@ export async function UserAuth() {
               )}
             </DropdownMenu>
           ) : (
-            <SignInButton />
+            <SignInButton isLoading={user.isLoading} />
           )}
         </div>
       </div>

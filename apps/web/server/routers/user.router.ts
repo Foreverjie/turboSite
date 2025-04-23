@@ -5,6 +5,7 @@ import {
   userStatusController,
   userUpdateController,
   userSignInController,
+  userSignOutController,
 } from '../controllers/users'
 import {
   userAllInputSchema,
@@ -16,6 +17,11 @@ import {
   userMeInputSchema,
   userMeMeta,
   userMeOutputSchema,
+  userSignInInputSchema,
+  userSignInMeta,
+  userSignInOutputSchema,
+  userSignOutMeta,
+  userSignOutOutputSchema,
   userStatusInputSchema,
   userStatusMeta,
   userStatusOutputSchema,
@@ -23,11 +29,6 @@ import {
   userUpdateMeta,
   userUpdateOutputSchema,
 } from '../schemas/users'
-import {
-  userSignInInputSchema,
-  userSignInMeta,
-  userSignInOutputSchema,
-} from '../schemas/users/userSignIn.schema'
 import {
   adminProcedure,
   protectedProcedure,
@@ -43,10 +44,14 @@ export const user = router({
     .output(userCreateOutputSchema)
     .mutation(userCreateController),
   signIn: publicProcedure
-    // .meta(userSignInMeta)
+    .meta(userSignInMeta)
     .input(userSignInInputSchema)
     .output(userSignInOutputSchema)
     .mutation(userSignInController),
+  signOut: protectedProcedure
+    .meta(userSignOutMeta)
+    .output(userSignOutOutputSchema)
+    .mutation(userSignOutController),
   status: protectedProcedure
     .meta(userStatusMeta)
     .input(userStatusInputSchema)
