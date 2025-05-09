@@ -1,12 +1,64 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { m } from 'motion/react'
 import { login } from './actions'
+import { StyledButton } from '../../../../components/ui/button/StyledButton'
+import { Input } from '../../../../components/ui/input'
+import { ButtonMotionBase } from 'ui'
+import { useIsMobile } from '../../../../utils/viewport'
+import Link from 'next/link'
+import { cn } from 'ui/src/utils'
+import { trpc } from '../../../../utils/trpc'
+import { XOR } from '../../../../lib/types'
 
 export default function LoginPage() {
+  const isMobile = useIsMobile()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [otp, setOtp] = useState('')
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false)
+  const [otpSent, setOtpSent] = useState(false)
+  const [otpTimer, setOtpTimer] = useState(60) // Initial countdown time: 60 seconds
+  const timerRef = useRef<NodeJS.Timeout | null>(null) // Ref to store timer ID
+
+  const { mutateAsync: signInWithPwd, isLoading: signInLoading } =
+    trpc.user.signIn.useMutation({
+      onSuccess: () => {
+        // Handle successful sign-in
+        console.log('Sign in successful')
+        // refresh the page
+        window.location.reload()
+      },
+    })
+
+  const handleEmailSignIn = ({
+    email,
+    password,
+    otp,
+  }: {
+    email: string
+  } & XOR<{ password: string }, { otp: string }>) => {
+    // Implement PKCE flow for email/password sign-in
+    // if (otp && !password) {
+    //   // Handle OTP sign-in
+    //   signInWithPwd({
+    //     email,
+    //     password,
+    //     // otp,
+    //   })
+    //   return
+    // }
+    if (password && !otp) {
+      console.log('Signing in with password', email, password)
+      // Handle password sign-in
+      signInWithPwd({
+        email,
+        password,
+      })
+      return
+    }
+  }
 
   const handleLogin = async (e: React.MouseEvent) => {
     e.preventDefault()
@@ -18,82 +70,73 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen ">
-      <m.div
-        initial={{ opacity: 0, y: -50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className=" p-8 rounded-lg shadow-md w-full max-w-md"
-      >
-        <h1 className="text-2xl font-bold text-center mb-6">Welcome Back</h1>
-        <form className="space-y-4">
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Email
-            </label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              required
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+    <div className="flex flex-col items-center justify-center min-h-screen ">
+      <div className="flex flex-col items-center gap-4 px-4 min-w-[300px]">
+        <Input
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+          type="text"
+          placeholder="Email"
+          className="w-full"
+        />
+        <div className="w-full relative">
+          <Input
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            type={isPasswordVisible ? 'text' : 'password'}
+            placeholder="Password"
+            className="w-full"
+          />
+          <ButtonMotionBase
+            className={
+              'absolute right-4 top-1/2 -translate-y-1/2 flex items-center'
+            }
+            onClick={() => {
+              setIsPasswordVisible(!isPasswordVisible)
+            }}
+          >
+            <i
+              className={cn(
+                'text-lg text-gray-500',
+
+                isPasswordVisible
+                  ? 'i-mingcute-eye-line'
+                  : 'i-mingcute-eye-close-line',
+              )}
             />
-          </div>
-          <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Password
-            </label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              required
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            />
-          </div>
-          <div className="flex items-center justify-between">
-            <button
-              onClick={e => {
-                handleLogin(e)
-              }}
-              className="w-full py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-            >
-              Sign In
-            </button>
-          </div>
-          <div className="flex items-center justify-between mt-4">
-            <button
-              type="button"
-              className="text-sm text-blue-600 hover:underline"
-            >
-              Forgot password?
-            </button>
-          </div>
-        </form>
-        <m.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          className="mt-6 text-center"
+          </ButtonMotionBase>
+        </div>
+        <div className="flex justify-between w-full">
+          <StyledButton variant={'link'} className="text-neutral">
+            <Link href="/forgot-password">Forgot Password?</Link>
+          </StyledButton>
+          <StyledButton
+            disabled={!email || !password}
+            isLoading={signInLoading}
+            onClick={() => {
+              handleEmailSignIn({
+                email,
+                password,
+              })
+            }}
+          >
+            Login
+          </StyledButton>
+        </div>
+      </div>
+
+      <hr className="mt-4 mx-4 border-neutral-200 dark:border-neutral-700" />
+      <div className="mt-6 mb-2 px-4 flex items-center justify-center">
+        <div className="text-neutral-800 dark:text-neutral-200">
+          Don't have an account?
+        </div>
+        <StyledButton
+          variant="link"
+          className="ml-2 text-neutral-800 dark:text-neutral-200"
         >
-          <p className="text-sm text-gray-600">
-            Don’t have an account?{' '}
-            <a href="/sign-up" className="text-blue-600 hover:underline">
-              Sign up
-            </a>
-          </p>
-        </m.div>
-      </m.div>
+          <Link href="/sign-up">Sign Up</Link>
+        </StyledButton>
+      </div>
     </div>
   )
 }

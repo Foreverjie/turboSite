@@ -257,9 +257,22 @@ const AuthLoginModalContent = () => {
         </div>
       </div>
 
-      <div className="mt-6">
-        <AuthProvidersRender />
+      <hr className="mt-4 mx-4 border-neutral-200 dark:border-neutral-700" />
+      <div className="mt-6 mb-2 px-4 flex items-center justify-center">
+        <div className="text-neutral-800 dark:text-neutral-200">
+          Don't have an account?
+        </div>
+        <StyledButton
+          variant="link"
+          className="ml-2 text-neutral-800 dark:text-neutral-200"
+        >
+          <Link href="/sign-up">Sign Up</Link>
+        </StyledButton>
       </div>
+
+      {/* <div className="mt-6">
+        <AuthProvidersRender />
+      </div> */}
     </>
   )
 
