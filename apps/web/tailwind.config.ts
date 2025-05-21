@@ -1,317 +1,154 @@
-import './plugins/tw-css-plugin.js'
+import plugin from 'tailwindcss/plugin'
+import { extendConfig } from './plugins/web'
 
-import { getIconCollections, iconsPlugin } from '@egoist/tailwindcss-icons'
-import typography from '@tailwindcss/typography'
-import daisyui from 'daisyui'
-import { withTV } from 'tailwind-variants/transformer'
-import type { Config } from 'tailwindcss'
-import { neutral } from 'tailwindcss/colors'
-
-const UIKitColors = {
-  red: {
-    light: '#FF3B30',
-    dark: '#FF453A',
-  },
-  orange: {
-    light: '#FF9500',
-    dark: '#FF9F0A',
-  },
-  yellow: {
-    light: '#FFCC00',
-    dark: '#FFD60A',
-  },
-  green: {
-    light: '#34C759',
-    dark: '#30D158',
-  },
-  mint: {
-    light: '#00C7BE',
-    dark: '#63E6E2',
-  },
-  teal: {
-    light: '#30B0C7',
-    dark: '#40CBE0',
-  },
-  cyan: {
-    light: '#32ADE6',
-    dark: '#64D2FF',
-  },
-  blue: {
-    light: '#007AFF',
-    dark: '#0A84FF',
-  },
-  indigo: {
-    light: '#5856D6',
-    dark: '#5E5CE6',
-  },
-  purple: {
-    light: '#AF52DE',
-    dark: '#BF5AF2',
-  },
-  pink: {
-    light: '#FF2D55',
-    dark: '#FF375F',
-  },
-  brown: {
-    light: '#A2845E',
-    dark: '#AC8E68',
-  },
-  grey: {
-    light: '#8E8E93',
-    dark: '#8E8E93',
-  },
-  grey2: {
-    light: '#AEAEB2',
-    dark: '#636366',
-  },
-  grey3: {
-    light: '#C7C7CC',
-    dark: '#48484A',
-  },
-  grey4: {
-    light: '#D1D1D6',
-    dark: '#3A3A3C',
-  },
-  gray5: {
-    light: '#E5E5EA',
-    dark: '#2C2C2E',
-  },
-  grey6: {
-    light: '#F2F2F7',
-    dark: '#1C1C1E',
-  },
-
-  // Separator
-  separator: {
-    opaque: {
-      light: '#C6C6C8',
-      dark: '#38383A',
-    },
-    non_opaque: {
-      light: 'rgba(60, 60, 67, 0.36)',
-      dark: 'rgba(84, 84, 88, 0.65)',
-    },
-  },
-
-  // Label
-  label: {
-    primary: {
-      dark: '#FFF',
-      light: '#000',
-    },
-    secondary: {
-      light: '#3C3C4399',
-      dark: '#EBEBF599',
-    },
-    tertiary: {
-      light: '#3C3C434D',
-      dark: '#EBEBF54D',
-    },
-    quarternary: {
-      light: '#3C3C432E',
-      dark: '#EBEBF529',
-    },
-  },
-
-  // Background
-  background: {
-    primary: {
-      light: '#fff',
-      dark: '#1C1C1E',
-    },
-    secondary: {
-      light: '#F2F2F7',
-      dark: '#2C2C2E',
-    },
-    tertiary: {
-      light: '#FFFFFF',
-      dark: '#3A3A3C',
-    },
-  },
-
-  // Grouped Background
-  grouped: {
-    primary: {
-      light: '#F2F2F7',
-      dark: '#1C1C1E',
-    },
-    secondary: {
-      light: '#FFFFFF',
-      dark: '#2C2C2E',
-    },
-    tertiary: {
-      light: '#F2F2F7',
-      dark: '#3A3A3C',
-    },
-  },
-
-  // Fill
-  fill: {
-    primary: {
-      light: '#78788033',
-      dark: '#7878805C',
-    },
-    secondary: {
-      light: '#78788029',
-      dark: '#78788052',
-    },
-    tertiary: {
-      light: '#7676801F',
-      dark: '#7676803D',
-    },
-    quarternary: {
-      light: '#74748014',
-      dark: '#7474802E',
-    },
-  },
-}
-
-const twConfig: Config = {
+const isWebBuild =
+  !!process.env.WEB_BUILD || !!process.env.RN_BUILD || !!process.env.VERCEL
+const TailwindConfig = extendConfig({
   content: [
     './app/**/*.{js,ts,jsx,tsx,mdx}',
     './layout/**/*.{js,ts,jsx,tsx,mdx}',
-    './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
   ],
-  darkMode: ['class', '[data-theme="dark"]'],
-  safelist: [
-    'font-light',
-    'text-3xl',
-    'rounded',
-    'p-1',
-    'bg-gray-200',
-    'dark:bg-gray-800/0',
-    'hover:dark:bg-gray-800/100',
-    'bg-opacity-0',
-    'hover:bg-opacity-100',
-    'transition-background',
-
-    'w-[1px]',
-    'h-8',
-    '-bottom-2',
-    'bg-gray-800/80',
-    'dark:bg-gray-200/80',
-    'group-hover:opacity-100',
-    'transition-opacity',
-    'group-hover:animation-blink',
-
-    '!w-full',
-    'w-full',
-  ],
+  future: {
+    hoverOnlyWhenSupported: isWebBuild,
+  },
   theme: {
     extend: {
-      fontFamily: {
-        sans: 'var(--font-sans),system-ui,-apple-system,PingFang SC,"Microsoft YaHei",Segoe UI,Roboto,Helvetica,noto sans sc,hiragino sans gb,"sans-serif",Apple Color Emoji,Segoe UI Emoji,Not Color Emoji',
-        serif:
-          '"Noto Serif CJK SC","Noto Serif SC",var(--font-serif),"Source Han Serif SC","Source Han Serif",source-han-serif-sc,SongTi SC,SimSum,"Hiragino Sans GB",system-ui,-apple-system,Segoe UI,Roboto,Helvetica,"Microsoft YaHei","WenQuanYi Micro Hei",sans-serif',
-        mono: `"OperatorMonoSSmLig Nerd Font","Cascadia Code PL","FantasqueSansMono Nerd Font","operator mono",JetBrainsMono,"Fira code Retina","Fira code","Consolas", Monaco, "Hannotate SC", monospace, -apple-system`,
+      cursor: {
+        button: 'var(--cursor-button)',
+        select: 'var(--cursor-select)',
+        checkbox: 'var(--cursor-checkbox)',
+        link: 'var(--cursor-link)',
+        menu: 'var(--cursor-menu)',
+        radio: 'var(--cursor-radio)',
+        switch: 'var(--cursor-switch)',
+        card: 'var(--cursor-card)',
       },
-      screens: {
-        'light-mode': { raw: '(prefers-color-scheme: light)' },
-        'dark-mode': { raw: '(prefers-color-scheme: dark)' },
 
-        'w-screen': '100vw',
-        'h-screen': '100vh',
-      },
-      maxWidth: {
-        screen: '100vw',
-      },
       width: {
-        screen: '100vw',
+        'feed-col': 'var(--fo-feed-col-w)',
       },
+      spacing: {
+        'safe-inset-top': 'var(--fo-window-padding-top, 0)',
+        'margin-macos-traffic-light-x':
+          'var(--fo-macos-traffic-light-width, 0)',
+        'margin-macos-traffic-light-y':
+          'var(--fo-macos-traffic-light-height, 0)',
+      },
+
       height: {
-        screen: '100vh',
+        screen: '100svh',
       },
-      maxHeight: {
-        screen: '100vh',
-      },
-
       colors: {
-        uk: UIKitColors,
-        muted: neutral,
+        sidebar: 'hsl(var(--fo-sidebar) / <alpha-value>)',
+      },
 
-        themed: {
-          bg_opacity: 'var(--bg-opacity)',
+      keyframes: {
+        'caret-blink': {
+          '0%,70%,100%': { opacity: '1' },
+          '20%,50%': { opacity: '0' },
         },
+        glow: {
+          '0%, 100%': { opacity: '0.5' },
+          '50%': { opacity: '0.7' },
+        },
+        'accordion-down': {
+          from: { height: '0' },
+          to: { height: 'var(--radix-accordion-content-height)' },
+        },
+        'accordion-up': {
+          from: { height: 'var(--radix-accordion-content-height)' },
+          to: { height: '0' },
+        },
+        'gradient-x': {
+          '0%, 100%': {
+            backgroundPosition: '0% 50%',
+          },
+          '50%': {
+            backgroundPosition: '100% 50%',
+          },
+        },
+      },
+      animation: {
+        'caret-blink': 'caret-blink 1.25s ease-out infinite',
+        'accordion-down': 'accordion-down 0.2s ease-out',
+        'accordion-up': 'accordion-up 0.2s ease-out',
+        'gradient-x': 'gradient-x 3s linear infinite',
+        glow: 'glow 1.5s ease-in-out infinite',
       },
     },
   },
-
-  daisyui: {
-    logs: false,
-    themes: [
-      {
-        light: {
-          'color-scheme': 'light',
-          // 浅葱
-          primary: '#33A6B8',
-          secondary: '#A8D8B9',
-          accent: '#33A6B8',
-          'accent-content': '#fafafa',
-
-          neutral: UIKitColors.grey3.light,
-
-          'base-100': UIKitColors.background.primary.light,
-          'base-content': UIKitColors.label.primary.light,
-
-          info: UIKitColors.blue.light,
-          success: UIKitColors.green.light,
-          warning: UIKitColors.orange.light,
-          error: UIKitColors.red.light,
-
-          '--rounded-btn': '1.9rem',
-          '--tab-border': '2px',
-          '--tab-radius': '.5rem',
-        },
-      },
-      {
-        dark: {
-          'color-scheme': 'dark',
-          // 桃
-          primary: '#F596AA',
-          // 洗朱
-          secondary: '#FB966E',
-          accent: '#F596AA',
-
-          neutral: UIKitColors.grey3.dark,
-
-          'base-100': UIKitColors.background.primary.dark,
-          'base-content': UIKitColors.label.primary.dark,
-
-          info: UIKitColors.blue.dark,
-          success: UIKitColors.green.dark,
-          warning: UIKitColors.orange.dark,
-          error: UIKitColors.red.dark,
-
-          '--rounded-btn': '1.9rem',
-          '--tab-border': '2px',
-          '--tab-radius': '.5rem',
-        },
-      },
-    ],
-    darkTheme: 'dark',
-  },
-
   plugins: [
-    iconsPlugin({
-      collections: {
-        ...getIconCollections(['mingcute', 'material-symbols']),
-      },
+    plugin(({ addVariant }) => {
+      addVariant('f-motion-reduce', '[data-motion-reduce="true"] &')
+      addVariant(
+        'group-motion-reduce',
+        ':merge(.group)[data-motion-reduce="true"] &',
+      )
+      addVariant(
+        'peer-motion-reduce',
+        ':merge(.peer)[data-motion-reduce="true"] ~ &',
+      )
+
+      addVariant(
+        'zen-mode-macos',
+        ":where(html[data-zen-mode='true'][data-os='macOS']) &",
+      )
+      addVariant(
+        'zen-mode-windows',
+        ":where(html[data-zen-mode='true'][data-os='Windows']) &",
+      )
+
+      addVariant('zen-mode', ":where(html[data-zen-mode='true']) &")
+      addVariant('macos', ":where(html[data-os='macOS']) &")
+      addVariant('windows', ":where(html[data-os='Windows']) &")
     }),
+    require('tailwindcss-multi'),
+    plugin(({ addUtilities, matchUtilities, theme }) => {
+      addUtilities({
+        '.safe-inset-top': {
+          top: 'var(--fo-window-padding-top, 0)',
+        },
+      })
 
-    typography,
-    daisyui,
+      const safeInsetTopVariants: Record<string, { top: string }> = {}
+      for (let i = 1; i <= 16; i++) {
+        safeInsetTopVariants[`.safe-inset-top-${i}`] = {
+          top: `calc(var(--fo-window-padding-top, 0px) + ${theme(
+            `spacing.${i}`,
+          )})`,
+        }
+      }
+      addUtilities(safeInsetTopVariants)
 
-    require('tailwind-scrollbar'),
-    require('@tailwindcss/container-queries'),
-    require('tailwindcss-animated'),
-    require('tailwindcss-animate'),
-    require('tailwindcss-motion'),
+      // left macos traffic light
+      const leftMacosTrafficLightVariants: Record<string, { left: string }> = {}
+      addUtilities({
+        '.left-macos-traffic-light': {
+          left: 'var(--fo-macos-traffic-light-width, 0)',
+        },
+      })
 
-    require('./styles/theme.css'),
-    require('./styles/layer.css'),
-    require('./styles/animation.css'),
+      for (let i = 1; i <= 16; i++) {
+        leftMacosTrafficLightVariants[`.left-macos-traffic-light-${i}`] = {
+          left: `calc(var(--fo-macos-traffic-light-width, 0px) + ${theme(
+            `spacing.${i}`,
+          )})`,
+        }
+      }
+      addUtilities(leftMacosTrafficLightVariants)
+
+      // Add arbitrary value support
+      matchUtilities(
+        {
+          'safe-inset-top': value => ({
+            top: `calc(var(--fo-window-padding-top, 0px) + ${value})`,
+          }),
+        },
+        { values: theme('spacing') },
+      )
+    }),
   ],
-}
+})
 
-export default withTV(twConfig)
+export default TailwindConfig

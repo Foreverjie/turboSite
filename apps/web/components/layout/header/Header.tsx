@@ -13,8 +13,9 @@ import {
 } from './internal/HeaderArea'
 import { HeaderDrawerButton } from './internal/HeaderDrawerButton'
 import { AnimatedLogo } from './internal/AnimatedLogo'
-import { UserAuth } from './internal/UserAuth'
+import { UserAvatar } from './internal/UserAvatar'
 import { HeaderContent } from './internal/HeaderContent'
+import { ProfileButton } from './internal/ProfileButton'
 
 export const Header = () => {
   return (
@@ -55,7 +56,7 @@ const MemoHeader = memo(() => {
         </HeaderCenterArea>
 
         <div className="flex size-full items-center">
-          <UserAuth />
+          <ProfileButton method="modal" animatedAvatar />
         </div>
       </div>
     </HeaderWithShadow>

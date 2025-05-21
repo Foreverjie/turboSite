@@ -4,7 +4,7 @@ import { UserCircleIcon } from 'lucide-react'
 import { sendOTP, signIn, signOut } from './action'
 import { HeaderActionButton } from './HeaderActionButton'
 import { ButtonMotionBase, DropdownMenuItem } from 'ui'
-import { useModalStack } from '../../../ui/modal'
+import { useModalStack } from '../../../ui/modal/stacked/hooks'
 import {
   FC,
   Fragment,

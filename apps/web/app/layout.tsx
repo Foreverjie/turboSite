@@ -1,4 +1,5 @@
 import '../styles/index.css'
+import '../styles/tailwindcss.css'
 
 import { init } from './init'
 

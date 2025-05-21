@@ -8,11 +8,13 @@ import { PageScrollInfoProvider } from './page-scroll-info-provider'
 import { useBeforeUnload } from '~/hooks/common/use-before-unload'
 import { JotaiStoreProvider } from './jotai-provider'
 import { ModalStackProvider } from '../../components/ui/modal'
+import { HotkeyProvider } from './hotkeys-provider'
 
 const loadFeatures = () =>
   import('./framer-lazy-feature').then(res => res.default)
 
 const baseContexts: JSX.Element[] = [
+  <HotkeyProvider />,
   <ThemeProvider key="themeProvider" />,
   <JotaiStoreProvider key="jotaiStoreProvider" />,
 
@@ -26,8 +28,7 @@ export function AppProviders({ children }: PropsWithChildren) {
   return (
     <>
       <ProviderComposer contexts={baseContexts}>
-        {children}
-        <ModalStackProvider key="modalStackProvider" />
+        <ModalStackProvider>{children}</ModalStackProvider>
 
         {/* <DebugProvider key="debugProvider" /> */}
         {/* <ScriptInjectProvider /> */}

@@ -1,8 +1,11 @@
+const isWebBuild = !!process.env.WEB_BUILD || !!process.env.VERCEL
+
 module.exports = {
   plugins: {
-    'postcss-import': {},
-    'tailwindcss/nesting': {},
     tailwindcss: {},
-    autoprefixer: {},
+    'tailwindcss/nesting': {},
+
+    ...(isWebBuild ? { autoprefixer: {} } : {}),
+    ...(process.env.NODE_ENV === 'production' ? { cssnano: {} } : {}),
   },
 }

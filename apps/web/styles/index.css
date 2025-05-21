@@ -1,12 +1,14 @@
-@import './tailwindcss.css';
-@import './variables.css';
-
+@import './base.css';
+@import './additional.css';
 @import './scrollbar.css';
-@import './print.css';
+@import './cursor.css';
 
-@import './image-zoom.css';
-@import './sonner.css';
-
-@import './theme.css';
-@import './webfont.css';
-@import './mask.css';
+@media print {
+  * {
+    overflow: visible !important;
+    page-break-after: avoid;
+    page-break-before: avoid;
+    break-inside: avoid;
+    height: max-content;
+  }
+}
