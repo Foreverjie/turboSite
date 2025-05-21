@@ -5,10 +5,18 @@ import { modalStackAtom } from './atom'
 import { useModalStack } from './hooks'
 import { ModalInternal } from './modal'
 import { useModalStackCalculationAndEffect } from './modal-stack.shared'
+import { useEffect } from 'react'
 
 export const ModalStack = () => {
   const { present } = useModalStack()
-  window.presentModal = present
+  useEffect(() => {
+    window.presentModal = present
+    // Cleanup function to remove it when the component unmounts
+    return () => {
+      // @ts-expect-error
+      delete window.presentModal
+    }
+  }, [present])
 
   const stack = useAtomValue(modalStackAtom)
 

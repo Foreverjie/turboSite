@@ -75,10 +75,10 @@ export const ActionButton = ({
   React.HTMLAttributes<HTMLButtonElement> & {
     ref?: React.Ref<HTMLButtonElement | null>
   }) => {
-  const finalShortcut =
-    getOS() === 'Windows'
-      ? shortcut?.replace('meta', 'ctrl').replace('Meta', 'Ctrl')
-      : shortcut
+  const finalShortcut = shortcut
+  // getOS() === 'Windows'
+  //   ? shortcut?.replace('meta', 'ctrl').replace('Meta', 'Ctrl')
+  // : shortcut
   const buttonRef = React.useRef<HTMLButtonElement>(null)
   React.useImperativeHandle(ref, () => buttonRef.current!)
 

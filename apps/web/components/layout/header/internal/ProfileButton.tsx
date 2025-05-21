@@ -99,7 +99,7 @@ export const ProfileButton: FC<ProfileButtonProps> = memo(props => {
             <a
               // href={UrlBuilder.profile(user.handle)}
               href={'#'}
-              target="_blank"
+              // target="_blank"
               className="block"
             >
               <EllipsisHorizontalTextWithTooltip className="mt-0.5 truncate text-xs font-medium text-zinc-500">

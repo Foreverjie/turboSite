@@ -474,7 +474,6 @@ const ModalContext: FC<
 
   return (
     <CurrentModalContext.Provider value={modalContextProps}>
-      {/* eslint-disable-next-line @eslint-react/no-context-provider */}
       <CurrentModalStateContext.Provider
         value={useMemo(
           () => ({

@@ -2,7 +2,7 @@
 
 import { useInView } from 'react-intersection-observer'
 
-import { Loading } from '~/components/ui/loading'
+// import { Loading } from '~/components/ui/loading'
 
 export const LoadMoreIndicator: Component<{
   onLoading: () => void
@@ -15,7 +15,7 @@ export const LoadMoreIndicator: Component<{
   })
   return (
     <div className={className} ref={ref}>
-      {children ?? <Loading />}
+      {children}
     </div>
   )
 }
