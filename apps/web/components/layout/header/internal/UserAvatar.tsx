@@ -1,26 +1,11 @@
 'use client'
 
 import { AnimatePresence } from 'motion/react'
-import { Fragment } from 'react'
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuPortal,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from 'ui'
+import { Avatar, AvatarFallback, AvatarImage } from 'ui'
 
-import { SignInButton, SignOutButton } from './SignInButton'
-import { trpc } from '../../../../utils/trpc'
-import { useModalStack } from '../../../ui/modal/stacked/hooks'
-import { usePresentUserProfileModal } from './hooks'
 import { cn } from 'ui/src/utils'
+import { trpc } from '../../../../utils/trpc'
 import { LoginProps } from './LoginButton'
 
 export const UserAvatar = ({
@@ -43,68 +28,50 @@ export const UserAvatar = ({
   React.HTMLAttributes<HTMLDivElement> & {
     ref?: React.Ref<HTMLDivElement>
   }) => {
-  const user = trpc.user.me.useQuery(undefined, {
-    retry: false,
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-    retryOnMount: false,
-  })
-
-  const isSignedIn = !!user.data
-
-  const presentUserProfile = usePresentUserProfileModal('drawer')
+  const trpcUtils = trpc.useUtils()
+  const user = trpcUtils.user.me.getData()
 
   return (
     <AnimatePresence>
       <div className="pointer-events-auto flex h-10 w-full items-center justify-center">
         <div className="relative">
-          {isSignedIn ? (
-            <div
-              style={style}
-              ref={ref}
-              onClick={e => {
-                // console.log('click', e)
-                // presentUserProfile(userId || 'ttt')
-                // if (enableModal) {
-                //   presentUserProfile(userId)
-                // }
-                // presentUserProfile(userId)
-                // onClick?.(e)
-              }}
-              {...props}
+          <div
+            style={style}
+            ref={ref}
+            {...props}
+            className={cn(
+              'text-text-secondary flex h-20 items-center justify-center gap-2 px-5 py-2 font-medium',
+              className,
+            )}
+          >
+            <Avatar
               className={cn(
-                'text-text-secondary flex h-20 items-center justify-center gap-2 px-5 py-2 font-medium',
-                className,
+                'aspect-square h-full w-auto overflow-hidden rounded-full border bg-stone-300',
+                avatarClassName,
               )}
             >
-              <Avatar
-                className={cn(
-                  'aspect-square h-full w-auto overflow-hidden rounded-full border bg-stone-300',
-                  avatarClassName,
-                )}
-              >
-                <AvatarImage
-                  className="animate-in fade-in-0 duration-200"
-                  src={user.data.user_metadata.avatar_url}
-                  alt={user.data.user_metadata.name}
-                />
-                <AvatarFallback
-                  style={
-                    {
-                      // backgroundColor: getColorScheme(randomColor, true).light
-                      //   .accent,
-                    }
+              <AvatarImage
+                className="animate-in fade-in-0 duration-200"
+                // src={user?.user_metadata.avatar_url}
+                src={
+                  'https://pub-18930b7066dd4886b3a5570f7af52c94.r2.dev/Avatar.jpeg'
+                }
+                alt={user?.user_metadata.name}
+              />
+              <AvatarFallback
+                style={
+                  {
+                    // backgroundColor: getColorScheme(randomColor, true).light
+                    //   .accent,
                   }
-                  className="text-xs text-white"
-                >
-                  {user.data.email}
-                </AvatarFallback>
-              </Avatar>
-              {!hideName && <div>{user.data.user_metadata.name}</div>}
-            </div>
-          ) : (
-            <SignInButton isLoading={user.isLoading} />
-          )}
+                }
+                className="text-xs text-white"
+              >
+                {user?.email}
+              </AvatarFallback>
+            </Avatar>
+            {!hideName && <div>{user?.user_metadata.name}</div>}
+          </div>
         </div>
       </div>
     </AnimatePresence>

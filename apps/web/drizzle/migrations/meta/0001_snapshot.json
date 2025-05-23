@@ -1,0 +1,80 @@
+{
+  "id": "8e2eaf9e-c6c1-4287-b86a-f2938e4d4d27",
+  "prevId": "436ce5ea-d75c-4a4b-9330-1c103129c957",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.user_with_meta_data": {
+      "name": "user_with_meta_data",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "user_meta_data": {
+          "name": "user_meta_data",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "user_with_meta_data_user_id_users_id_fk": {
+          "name": "user_with_meta_data_user_id_users_id_fk",
+          "tableFrom": "user_with_meta_data",
+          "tableTo": "users",
+          "schemaTo": "auth",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "user_with_meta_data_id_unique": {
+          "name": "user_with_meta_data_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "id"
+          ]
+        },
+        "user_with_meta_data_user_id_unique": {
+          "name": "user_with_meta_data_user_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "user_id"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

@@ -18,6 +18,12 @@ const LazyUserProfileModalContent = lazy(() =>
   })),
 )
 
+const LazyUserPreferenceModalContent = lazy(() =>
+  import('./UserPreferenceModal').then(mod => ({
+    default: mod.UserPreferenceModalContent,
+  })),
+)
+
 export const useHeaderBgOpacity = ({ y }: { y: number }) => {
   const threshold = 50
   const headerShouldShowBg = true
@@ -118,6 +124,54 @@ export const usePresentUserProfileModal = (variant: Variant = 'dialog') => {
         autoFocus: false,
         modalContainerClassName:
           finalVariant === 'drawer'
+            ? cn`right-4 left-[auto] safe-inset-top-4 bottom-4`
+            : 'overflow-hidden',
+      })
+    },
+    // [present, presentAsync, variant],
+    [present, variant],
+  )
+}
+
+export const usePresentUserPreferenceModal = (variant: Variant = 'dialog') => {
+  const { present } = useModalStack()
+  // const presentAsync = useAsyncModal()
+  return useCallback(
+    () => {
+      // if (isMobile()) {
+      //   const useDataFetcher = () => {
+      //     const user = useAuthQuery(users.profile({ userId }))
+      //     const subscriptions = useUserSubscriptionsQuery(user.data?.id)
+      //     return {
+      //       ...user,
+      //       isLoading: user.isLoading || subscriptions.isLoading,
+      //     }
+      //   }
+      //   type ResponseType = Awaited<ReturnType<ReturnType<typeof useDataFetcher>["fn"]>>
+      //   return presentAsync<ResponseType>({
+      //     id: `user-profile-${userId}`,
+      //     title: (data: ResponseType) => `${data.name}'s Profile`,
+
+      //     content: () => createElement(LazyUserProfileModalContent, { userId }),
+      //     useDataFetcher,
+      //     overlay: true,
+      //   })
+      // }
+
+      present({
+        title: 'User Preference',
+        id: `user-preference`,
+        content: () =>
+          createElement(LazyUserPreferenceModalContent, {
+            variant,
+          }),
+        CustomModalComponent: PlainModal,
+        clickOutsideToDismiss: true,
+        modal: variant === 'dialog',
+        overlay: variant === 'dialog',
+        autoFocus: false,
+        modalContainerClassName:
+          variant === 'drawer'
             ? cn`right-4 left-[auto] safe-inset-top-4 bottom-4`
             : 'overflow-hidden',
       })

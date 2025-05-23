@@ -1,28 +1,21 @@
 'use client'
 
 import { UserCircleIcon } from 'lucide-react'
-import { sendOTP, signIn, signOut } from './action'
-import { HeaderActionButton } from './HeaderActionButton'
-import { ButtonMotionBase, DropdownMenuItem } from 'ui'
-import { useModalStack } from '../../../ui/modal/stacked/hooks'
-import {
-  FC,
-  Fragment,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
-import { useIsMobile } from '../../../../utils/viewport'
 import { m } from 'motion/react'
-import { cn } from 'ui/src/utils'
-import { Tabs } from '../../../ui/tabs'
-import { Input } from '../../../ui/input'
-import { StyledButton } from '../../../ui/button/StyledButton'
 import Link from 'next/link'
+import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { ButtonMotionBase, DropdownMenuItem } from 'ui'
+import { cn } from 'ui/src/utils'
 import { XOR } from '../../../../lib/types'
 import { trpc } from '../../../../utils/trpc'
+import { useIsMobile } from '../../../../utils/viewport'
+import { StyledButton } from '../../../ui/button/StyledButton'
+import { Input } from '../../../ui/input'
+import { PlainModal } from '../../../ui/modal/stacked/custom-modal'
+import { useModalStack } from '../../../ui/modal/stacked/hooks'
+import { Tabs } from '../../../ui/tabs'
+import { sendOTP, signIn } from './action'
+import { HeaderActionButton } from './HeaderActionButton'
 
 const AuthLoginModalContent = () => {
   const isMobile = useIsMobile()
@@ -288,7 +281,7 @@ const AuthLoginModalContent = () => {
       transition={{ type: 'spring' }}
       className="absolute left-1/2 top-1/2"
     >
-      <div className="w-[360px] -translate-x-1/2 -translate-y-1/2 rounded-xl border bg-base-100 p-3 shadow-2xl shadow-stone-300 dark:border-neutral-700 dark:shadow-stone-800">
+      <div className="w-[360px] bg-theme-background -translate-x-1/2 -translate-y-1/2 rounded-xl border bg-base-100 p-3 shadow-2xl shadow-stone-300 dark:border-neutral-700 dark:shadow-stone-800">
         {Inner}
       </div>
     </m.div>
@@ -356,7 +349,7 @@ export const SignInButton = ({ isLoading }: { isLoading: boolean }) => {
       title: '',
       overlay: true,
       clickOutsideToDismiss: true,
-      CustomModalComponent: ({ children }) => <div>{children}</div>,
+      CustomModalComponent: PlainModal,
       content: AuthLoginModalContent,
     })
   }, [present])

@@ -26,7 +26,10 @@ import {
 } from '~/components/ui/dropdown-menu/dropdown-menu'
 // import { UrlBuilder } from '~/lib/url-builder'
 // import { useAchievementModal } from '~/modules/achievement/hooks'
-import { usePresentUserProfileModal } from './hooks'
+import {
+  usePresentUserPreferenceModal,
+  usePresentUserProfileModal,
+} from './hooks'
 // import { useSettingModal } from '~/modules/settings/modal/use-setting-modal-hack'
 // import { signOut, useSession } from '~/queries/auth'
 // import { useWallet } from '~/queries/wallet'
@@ -40,6 +43,7 @@ import type { LoginProps } from './LoginButton'
 import { UserAvatar } from './UserAvatar'
 import { ActionButton } from '../../../ui/button/ActionButton'
 import { trpc } from '../../../../utils/trpc'
+import { SignInButton } from './SignInButton'
 
 // const rsshubLogo = new URL(rsshubLogoUrl, import.meta.url).href
 
@@ -51,12 +55,28 @@ export const ProfileButton: FC<ProfileButtonProps> = memo(props => {
   // const { status, session } = useSession()
   // const { user } = session || {}
   const trpcUtils = trpc.useUtils()
-  const user = trpcUtils.user.me.getData()
+  const { data: user, isLoading } = trpc.user.me.useQuery(undefined, {
+    retry: false,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    retryOnMount: false,
+  })
+  const { mutateAsync: signOut } = trpc.user.signOut.useMutation({
+    onSuccess: () => {
+      trpcUtils.user.me.setData(undefined, undefined)
+      window.location.reload()
+    },
+  })
+
+  const handleSignOut = async () => {
+    await signOut()
+  }
+
   // const user = trpc.user.me.useQuery(undefined, {
   //   retry: false,
   // })
-  // const settingModalPresent = useSettingModal()
   const presentUserProfile = usePresentUserProfileModal('dialog')
+  const presentUserPreference = usePresentUserPreferenceModal()
   // const presentAchievement = useAchievementModal()
   // const { t } = useTranslation()
 
@@ -72,6 +92,10 @@ export const ProfileButton: FC<ProfileButtonProps> = memo(props => {
   // const zenModeSetting = useIsZenMode()
   // const setZenMode = useSetZenMode()
   // const isInMASReview = useIsInMASReview()
+
+  if (!user) {
+    return <SignInButton isLoading={isLoading} />
+  }
 
   return (
     <DropdownMenu onOpenChange={setDropdown}>
@@ -197,7 +221,7 @@ export const ProfileButton: FC<ProfileButtonProps> = memo(props => {
         <DropdownMenuItem
           className="pl-3"
           onClick={() => {
-            // settingModalPresent()
+            presentUserPreference()
           }}
           icon={<i className="i-mgc-settings-7-cute-re" />}
         >
@@ -221,7 +245,7 @@ export const ProfileButton: FC<ProfileButtonProps> = memo(props => {
         )} */}
         <DropdownMenuItem
           className="pl-3"
-          // onClick={signOut}
+          onClick={handleSignOut}
           icon={<i className="i-mgc-exit-cute-re" />}
         >
           {/* {t('user_button.log_out')} */}

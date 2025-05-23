@@ -1,4 +1,3 @@
-import { Gender, UserType } from '@prisma/client'
 import { TRPCPanelMeta } from 'trpc-panel'
 import { z } from 'zod'
 
@@ -7,17 +6,15 @@ export const userUpdateMeta: TRPCPanelMeta = {
 }
 export const userUpdateInputSchema = z.object({
   name: z.string().optional(),
-  avatar: z.string().optional(),
-  email: z.string().email().optional(),
-  role: z.nativeEnum(UserType).optional(),
-  gender: z.nativeEnum(Gender).optional(),
+  image: z.string().optional(),
+  handle: z.string().optional(),
 })
 export const userUpdateOutputSchema = z.object({
-  name: z.string(),
-  email: z.string().nullable(),
-  role: z.nativeEnum(UserType),
-  avatar: z.string(),
-  gender: z.nativeEnum(Gender).nullable(),
+  error: z
+    .object({
+      message: z.string(),
+    })
+    .nullable(),
 })
 
 export type UserUpdateInput = z.TypeOf<typeof userUpdateInputSchema>

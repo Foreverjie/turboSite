@@ -55,7 +55,7 @@ const MemoHeader = memo(() => {
           {/* <HeaderMeta /> */}
         </HeaderCenterArea>
 
-        <div className="flex size-full items-center">
+        <div className="flex size-full items-center justify-center">
           <ProfileButton method="modal" animatedAvatar />
         </div>
       </div>

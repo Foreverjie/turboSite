@@ -1,10 +1,15 @@
-import { defineConfig } from 'drizzle-kit'
+import type { Config } from 'drizzle-kit'
 
-export default defineConfig({
-  // schema: './schema/*',
-  out: './drizzle',
+if (!process.env.POSTGRES_URL) {
+  throw new Error('Missing POSTGRES_URL')
+}
+
+const nonPoolingUrl = process.env.POSTGRES_URL.replace(':6543', ':5432')
+
+export default {
+  schema: './drizzle/schema.ts',
+  out: './drizzle/migrations',
   dialect: 'postgresql',
-  dbCredentials: {
-    url: 'postgres://postgres:postgres@120.79.158.31:5432/miniflux?sslmode=disable',
-  },
-})
+  dbCredentials: { url: nonPoolingUrl },
+  casing: 'snake_case',
+} satisfies Config
