@@ -17,6 +17,7 @@ export const UserAvatar = ({
   enableModal,
   style,
   onClick,
+  isLoading = false,
   ...props
 }: {
   className?: string
@@ -24,6 +25,7 @@ export const UserAvatar = ({
   hideName?: boolean
   userId?: string
   enableModal?: boolean
+  isLoading?: boolean
 } & LoginProps &
   React.HTMLAttributes<HTMLDivElement> & {
     ref?: React.Ref<HTMLDivElement>
@@ -52,10 +54,7 @@ export const UserAvatar = ({
             >
               <AvatarImage
                 className="animate-in fade-in-0 duration-200"
-                // src={user?.user_metadata.avatar_url}
-                src={
-                  'https://pub-18930b7066dd4886b3a5570f7af52c94.r2.dev/Avatar.jpeg'
-                }
+                src={user?.user_metadata.image}
                 alt={user?.user_metadata.name}
               />
               <AvatarFallback
@@ -67,7 +66,7 @@ export const UserAvatar = ({
                 }
                 className="text-xs text-white"
               >
-                {user?.email}
+                {user?.user_metadata.name?.charAt(0)}
               </AvatarFallback>
             </Avatar>
             {!hideName && <div>{user?.user_metadata.name}</div>}

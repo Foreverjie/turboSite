@@ -11,11 +11,11 @@ import { trpc } from '../../../../utils/trpc'
 import { useIsMobile } from '../../../../utils/viewport'
 import { StyledButton } from '../../../ui/button/StyledButton'
 import { Input } from '../../../ui/input'
-import { PlainModal } from '../../../ui/modal/stacked/custom-modal'
 import { useModalStack } from '../../../ui/modal/stacked/hooks'
 import { Tabs } from '../../../ui/tabs'
 import { sendOTP } from './action'
 import { HeaderActionButton } from './HeaderActionButton'
+import { Button } from '~/components/ui/button'
 
 const AuthLoginModalContent = () => {
   const isMobile = useIsMobile()
@@ -208,11 +208,13 @@ const AuthLoginModalContent = () => {
                   placeholder="OTP"
                   className="w-full"
                 />
-                <ButtonMotionBase
+                <StyledButton
+                  // variant="ghost"
                   disabled={otpSent} // Disable button during countdown
                   className={
                     'absolute right-4 top-1/2 -translate-y-1/2 flex items-center disabled:opacity-50' // Add disabled style
                   }
+                  // isLoading={}
                   onClick={async () => {
                     if (!email) {
                       // Add some user feedback, e.g., using a toast notification
@@ -233,12 +235,13 @@ const AuthLoginModalContent = () => {
                   <div className="text-sm text-gray-500">
                     {otpSent ? `Resend in ${otpTimer}s` : 'Send OTP'}
                   </div>
-                </ButtonMotionBase>
+                </StyledButton>
               </div>
 
               <div className="flex justify-end w-full">
-                <StyledButton
+                <Button
                   disabled={!email || !otp}
+                  isLoading={signInLoading}
                   onClick={() => {
                     if (email && otp) {
                       handleEmailSignIn({ email, otp })
@@ -246,7 +249,7 @@ const AuthLoginModalContent = () => {
                   }}
                 >
                   Login
-                </StyledButton>
+                </Button>
               </div>
             </>
           )}

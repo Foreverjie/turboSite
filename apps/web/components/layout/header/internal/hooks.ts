@@ -6,13 +6,10 @@ import {
   useEffect,
   useState,
 } from 'react'
-import { PageScrollInfoContext } from '../../../../providers/root/page-scroll-info-provider'
-import { useModalStack } from '../../../ui/modal/stacked/hooks'
-import { isMobile } from '../../../../utils'
-import { PlainModal } from '../../../ui/modal/stacked/custom-modal'
 import { cn } from 'ui/src/utils'
-import { trpc } from '../../../../utils/trpc'
-import { useIsMobile } from '~/utils/viewport'
+import { PageScrollInfoContext } from '../../../../providers/root/page-scroll-info-provider'
+import { PlainModal } from '../../../ui/modal/stacked/custom-modal'
+import { useModalStack } from '../../../ui/modal/stacked/hooks'
 
 const LazyUserProfileModalContent = lazy(() =>
   import('./UserProfileModal').then(mod => ({
@@ -22,7 +19,7 @@ const LazyUserProfileModalContent = lazy(() =>
 
 const LazyUserPreferenceModalContent = lazy(() =>
   import('./UserPreferenceModal').then(mod => ({
-    default: mod.UserPreferenceModalContent,
+    default: mod.UserProfileModalContent,
   })),
 )
 
