@@ -18,13 +18,12 @@ import { jotaiStore } from '~/lib/store'
 
 export const ModalStack = () => {
   const { present } = useModalStack()
-  window.presentModal = present
 
   const stack = useAtomValue(modalStackAtom)
 
   useEffect(() => {
-    console.log('ModalStack mobile mounted')
-  }, [])
+    window.presentModal = present
+  }, [present])
 
   const { topModalIndex, overlayOptions } = useModalStackCalculationAndEffect()
 
