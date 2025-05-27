@@ -61,6 +61,7 @@ export const ProfileButton: FC<ProfileButtonProps> = memo(props => {
     refetchOnMount: false,
     retryOnMount: false,
   })
+  console.log('user', user)
   const { mutateAsync: signOut } = trpc.user.signOut.useMutation({
     onSuccess: () => {
       trpcUtils.user.me.setData(undefined, undefined)
@@ -221,7 +222,11 @@ export const ProfileButton: FC<ProfileButtonProps> = memo(props => {
         <DropdownMenuItem
           className="pl-3"
           onClick={() => {
-            presentUserPreference()
+            presentUserPreference({
+              userId: user.user_metadata.handle,
+              displayName: user.user_metadata.name,
+              isMobile: true,
+            })
           }}
           icon={<i className="i-mgc-settings-7-cute-re" />}
         >

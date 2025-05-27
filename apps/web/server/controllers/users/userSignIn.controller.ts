@@ -5,15 +5,26 @@ import {
 } from '../../schemas/users/userSignIn.schema'
 
 export const userSignInController = async ({
-  input: { email, password },
+  input: { email, password, otp },
 }: {
   input: UserSignInInput
 }): Promise<UserSignInOutput> => {
   const supabase = await createClient()
-  const { error } = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  })
+  let error
+  if (password) {
+    const result = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    })
+    error = result.error
+  } else if (otp) {
+    const result = await supabase.auth.verifyOtp({
+      email,
+      token: otp,
+      type: 'email',
+    })
+    error = result.error
+  }
 
   if (error) {
     return { error: { message: error.message } }

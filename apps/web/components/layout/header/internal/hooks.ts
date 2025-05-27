@@ -11,6 +11,8 @@ import { useModalStack } from '../../../ui/modal/stacked/hooks'
 import { isMobile } from '../../../../utils'
 import { PlainModal } from '../../../ui/modal/stacked/custom-modal'
 import { cn } from 'ui/src/utils'
+import { trpc } from '../../../../utils/trpc'
+import { useIsMobile } from '~/utils/viewport'
 
 const LazyUserProfileModalContent = lazy(() =>
   import('./UserProfileModal').then(mod => ({
@@ -83,31 +85,10 @@ export const useHeaderShouldShowBg = () => {
 type Variant = 'drawer' | 'dialog'
 export const usePresentUserProfileModal = (variant: Variant = 'dialog') => {
   const { present } = useModalStack()
-  // const presentAsync = useAsyncModal()
   return useCallback(
     (userId: string | undefined, overrideVariant?: Variant) => {
       if (!userId) return
       const finalVariant = overrideVariant || variant
-
-      // if (isMobile()) {
-      //   const useDataFetcher = () => {
-      //     const user = useAuthQuery(users.profile({ userId }))
-      //     const subscriptions = useUserSubscriptionsQuery(user.data?.id)
-      //     return {
-      //       ...user,
-      //       isLoading: user.isLoading || subscriptions.isLoading,
-      //     }
-      //   }
-      //   type ResponseType = Awaited<ReturnType<ReturnType<typeof useDataFetcher>["fn"]>>
-      //   return presentAsync<ResponseType>({
-      //     id: `user-profile-${userId}`,
-      //     title: (data: ResponseType) => `${data.name}'s Profile`,
-
-      //     content: () => createElement(LazyUserProfileModalContent, { userId }),
-      //     useDataFetcher,
-      //     overlay: true,
-      //   })
-      // }
 
       present({
         title: 'User Profile',
@@ -137,34 +118,28 @@ export const usePresentUserPreferenceModal = (variant: Variant = 'dialog') => {
   const { present } = useModalStack()
   // const presentAsync = useAsyncModal()
   return useCallback(
-    () => {
-      // if (isMobile()) {
-      //   const useDataFetcher = () => {
-      //     const user = useAuthQuery(users.profile({ userId }))
-      //     const subscriptions = useUserSubscriptionsQuery(user.data?.id)
-      //     return {
-      //       ...user,
-      //       isLoading: user.isLoading || subscriptions.isLoading,
-      //     }
-      //   }
-      //   type ResponseType = Awaited<ReturnType<ReturnType<typeof useDataFetcher>["fn"]>>
-      //   return presentAsync<ResponseType>({
-      //     id: `user-profile-${userId}`,
-      //     title: (data: ResponseType) => `${data.name}'s Profile`,
-
-      //     content: () => createElement(LazyUserProfileModalContent, { userId }),
-      //     useDataFetcher,
-      //     overlay: true,
-      //   })
-      // }
+    ({
+      userId,
+      displayName,
+      isMobile,
+    }: {
+      userId: string
+      displayName: string
+      isMobile: boolean
+    }) => {
+      if (isMobile) {
+        return present({
+          id: `user-profile-${userId}`,
+          title: `${displayName}'s Profile`,
+          content: () => createElement(LazyUserPreferenceModalContent),
+          overlay: true,
+        })
+      }
 
       present({
         title: 'User Preference',
         id: `user-preference`,
-        content: () =>
-          createElement(LazyUserPreferenceModalContent, {
-            variant,
-          }),
+        content: () => createElement(LazyUserPreferenceModalContent),
         CustomModalComponent: PlainModal,
         clickOutsideToDismiss: true,
         modal: variant === 'dialog',

@@ -1,12 +1,8 @@
 import * as Dialog from '@radix-ui/react-dialog'
+import { produce } from 'immer'
 import { useAtomValue, useSetAtom } from 'jotai'
 import { selectAtom } from 'jotai/utils'
-import {
-  BoundingBox,
-  m,
-  useAnimationControls,
-  useDragControls,
-} from 'motion/react'
+import { BoundingBox, m } from 'motion/react'
 import type { FC, PropsWithChildren, SyntheticEvent } from 'react'
 import {
   createElement,
@@ -19,36 +15,28 @@ import {
   useRef,
   useState,
 } from 'react'
-import { produce } from 'immer'
 
-import { useIsMobile } from '~/utils/viewport'
-import { XIcon } from 'lucide-react'
-import { Divider } from '~/components/ui/divider'
-import { useEventCallback } from '~/hooks/common/use-event-callback'
-import { useIsUnMounted } from '~/hooks/common/use-is-unmounted'
-import { nextFrame, preventDefault, stopPropagation } from '~/lib/dom'
 import { cn } from 'ui/src/utils'
-import { jotaiStore } from '~/lib/store'
+import { useEventCallback } from '~/hooks/common/use-event-callback'
+import { preventDefault, stopPropagation } from '~/lib/dom'
 import { RootPortalContext } from '../../portal/provider'
 
-import type { SheetRef } from '../../sheet'
-import { PresentSheet, sheetStackAtom } from '../../sheet'
+import { Resizable } from 're-resizable'
+import { useRefValue } from '../../../../hooks/common/use-ref-value'
+import { useSwitchHotKeyScope } from '../../../../hooks/common/use-switch-hot-key-scope'
+import { SafeFragment } from '../../../common/Fragment'
+import { EllipsisHorizontalTextWithTooltip } from '../../typography/EllipsisWithTooltip'
+import { ZIndexProvider } from '../../z-index'
+import { modalStackAtom } from './atom'
 import { MODAL_STACK_Z_INDEX, modalMontionConfig } from './constants'
 import type { CurrentModalContentProps, ModalActionsInternal } from './context'
 import { CurrentModalContext, CurrentModalStateContext } from './context'
-import type { ModalOverlayOptions, ModalProps } from './types'
-import { modalStackAtom } from './atom'
-import { Resizable } from 're-resizable'
-import { ModalOverlay } from './overlay'
-import { useModalResizeAndDrag } from './internal/use-drag'
 import { useModalAnimate } from './internal/use-animate'
-import { useModalSubscriber } from './internal/use-subscriber'
+import { useModalResizeAndDrag } from './internal/use-drag'
 import { useModalSelect } from './internal/use-select'
-import { useRefValue } from '../../../../hooks/common/use-ref-value'
-import { SafeFragment } from '../../../common/Fragment'
-import { EllipsisHorizontalTextWithTooltip } from '../../typography/EllipsisWithTooltip'
-import { useSwitchHotKeyScope } from '../../../../hooks/common/use-switch-hot-key-scope'
-import { ZIndexProvider } from '../../z-index'
+import { useModalSubscriber } from './internal/use-subscriber'
+import { ModalOverlay } from './overlay'
+import type { ModalOverlayOptions, ModalProps } from './types'
 
 const ELECTRON_BUILD = true
 

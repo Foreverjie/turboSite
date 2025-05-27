@@ -14,7 +14,7 @@ import { Input } from '../../../ui/input'
 import { PlainModal } from '../../../ui/modal/stacked/custom-modal'
 import { useModalStack } from '../../../ui/modal/stacked/hooks'
 import { Tabs } from '../../../ui/tabs'
-import { sendOTP, signIn } from './action'
+import { sendOTP } from './action'
 import { HeaderActionButton } from './HeaderActionButton'
 
 const AuthLoginModalContent = () => {
@@ -27,7 +27,7 @@ const AuthLoginModalContent = () => {
   const [otpTimer, setOtpTimer] = useState(60) // Initial countdown time: 60 seconds
   const timerRef = useRef<NodeJS.Timeout | null>(null) // Ref to store timer ID
 
-  const { mutateAsync: signInWithPwd, isLoading: signInLoading } =
+  const { mutateAsync: signIn, isLoading: signInLoading } =
     trpc.user.signIn.useMutation({
       onSuccess: () => {
         // Handle successful sign-in
@@ -44,7 +44,6 @@ const AuthLoginModalContent = () => {
   }: {
     email: string
   } & XOR<{ password: string }, { otp: string }>) => {
-    // Implement PKCE flow for email/password sign-in
     if (otp && !password) {
       // Handle OTP sign-in
       signIn({
@@ -56,7 +55,7 @@ const AuthLoginModalContent = () => {
     if (password && !otp) {
       console.log('Signing in with password', email, password)
       // Handle password sign-in
-      signInWithPwd({
+      signIn({
         email,
         password,
       })
@@ -114,7 +113,7 @@ const AuthLoginModalContent = () => {
   const [tab, setTab] = useState('password')
 
   const Inner = (
-    <>
+    <div className="bg-theme-background">
       <div className="text-center">
         登录到 <b>Flash</b>
       </div>
@@ -240,7 +239,11 @@ const AuthLoginModalContent = () => {
               <div className="flex justify-end w-full">
                 <StyledButton
                   disabled={!email || !otp}
-                  onClick={() => handleEmailSignIn({ email, otp })}
+                  onClick={() => {
+                    if (email && otp) {
+                      handleEmailSignIn({ email, otp })
+                    }
+                  }}
                 >
                   Login
                 </StyledButton>
@@ -266,7 +269,7 @@ const AuthLoginModalContent = () => {
       {/* <div className="mt-6">
         <AuthProvidersRender />
       </div> */}
-    </>
+    </div>
   )
 
   if (isMobile) {
@@ -349,7 +352,7 @@ export const SignInButton = ({ isLoading }: { isLoading: boolean }) => {
       title: '',
       overlay: true,
       clickOutsideToDismiss: true,
-      CustomModalComponent: PlainModal,
+      // CustomModalComponent: PlainModal,
       content: AuthLoginModalContent,
     })
   }, [present])
