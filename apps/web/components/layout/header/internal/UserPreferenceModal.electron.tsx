@@ -31,6 +31,7 @@ import {
 import type { SubscriptionModalContentProps } from './UserProfileModal.shared'
 import { Input } from '../../../ui/input'
 import { Button } from '../../../ui/button'
+import { toast } from 'sonner'
 
 type ItemVariant = 'loose' | 'compact'
 
@@ -57,9 +58,17 @@ export const UserPreferenceModalContent: FC = () => {
   const { mutateAsync: updateUser, isLoading } = trpc.user.update.useMutation({
     onSuccess: data => {
       console.log('update success', data)
-      // toast(t("profile.updateSuccess"), {
-      //   duration: 3000,
-      // })
+      // t("profile.updateSuccess")
+      toast('Profile updated successfully', {
+        duration: 3000,
+      })
+    },
+    onError: error => {
+      console.error('update error', error)
+      // t("profile.updateError")
+      toast.error('Failed to update profile', {
+        duration: 3000,
+      })
     },
   })
 

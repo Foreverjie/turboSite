@@ -2,23 +2,22 @@ import { Avatar, AvatarFallback, AvatarImage } from 'ui/src'
 // import { ActionButton } from '@follow/components/ui/button/index.js'
 import { LoadingCircle } from '~/components/ui/loading'
 // import { ScrollArea } from '@follow/components/ui/scroll-area/index.js'
-import { nextFrame, stopPropagation } from '~/lib/dom'
+import { nextFrame } from '~/lib/dom'
 // import { getStorageNS } from '@follow/utils/ns'
-import { throttle } from 'lodash'
 import { useAnimationControls } from 'motion/react'
 import type { FC } from 'react'
-import { Fragment, useEffect, useMemo, useRef, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 // import { useTranslation } from 'react-i18next'
 
-import { m } from 'motion/react'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { m } from 'motion/react'
 import { useCurrentModal } from '~/components/ui/modal/stacked/hooks'
 
 import { useForm } from 'react-hook-form'
 import { cn } from 'ui/src/utils'
 import { z } from 'zod'
 import { trpc } from '../../../../utils/trpc'
-import { ActionButton } from '../../../ui/button/ActionButton'
+import { Button } from '../../../ui/button'
 import {
   Form,
   FormControl,
@@ -28,9 +27,8 @@ import {
   FormLabel,
   FormMessage,
 } from '../../../ui/form'
-import type { SubscriptionModalContentProps } from './UserProfileModal.shared'
 import { Input } from '../../../ui/input'
-import { Button } from '../../../ui/button'
+import { toast } from 'sonner'
 
 const formSchema = z.object({
   handle: z.string().max(50).optional(),
@@ -55,9 +53,15 @@ export const UserPreferenceModalContent: FC = () => {
   const { mutateAsync: updateUser, isLoading } = trpc.user.update.useMutation({
     onSuccess: data => {
       console.log('update success', data)
-      // toast(t("profile.updateSuccess"), {
-      //   duration: 3000,
-      // })
+      toast('Profile updated successfully', {
+        duration: 3000,
+      })
+    },
+    onError: error => {
+      console.error('update error', error)
+      toast.error('Failed to update profile', {
+        duration: 3000,
+      })
     },
   })
 

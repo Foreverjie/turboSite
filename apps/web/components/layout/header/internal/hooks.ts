@@ -133,6 +133,8 @@ export const usePresentUserPreferenceModal = (variant: Variant = 'dialog') => {
         })
       }
 
+      console.log('presenting user preference modal')
+
       present({
         title: 'User Preference',
         id: `user-preference`,

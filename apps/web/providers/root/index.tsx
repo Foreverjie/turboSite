@@ -9,6 +9,7 @@ import { useBeforeUnload } from '~/hooks/common/use-before-unload'
 import { JotaiStoreProvider } from './jotai-provider'
 import { ModalStackProvider } from '../../components/ui/modal'
 import { HotkeyProvider } from './hotkeys-provider'
+import { Toaster } from '~/components/ui/toast'
 
 const loadFeatures = () =>
   import('./framer-lazy-feature').then(res => res.default)
@@ -29,6 +30,7 @@ export function AppProviders({ children }: PropsWithChildren) {
     <>
       <ProviderComposer contexts={baseContexts}>
         <ModalStackProvider>{children}</ModalStackProvider>
+        <Toaster />
 
         {/* <DebugProvider key="debugProvider" /> */}
         {/* <ScriptInjectProvider /> */}

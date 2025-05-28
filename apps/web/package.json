@@ -113,6 +113,7 @@
     "react-responsive-masonry": "^2.2.0",
     "react-toastify": "^10.0.5",
     "scheduler": "^0.26.0",
+    "sonner": "^2.0.3",
     "svix": "^1.14.0",
     "swagger-ui-react": "^4.19.1",
     "swiper": "^10.3.1",

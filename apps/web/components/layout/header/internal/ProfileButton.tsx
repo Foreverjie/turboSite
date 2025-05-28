@@ -44,6 +44,7 @@ import { UserAvatar } from './UserAvatar'
 import { ActionButton } from '../../../ui/button/ActionButton'
 import { trpc } from '../../../../utils/trpc'
 import { SignInButton } from './SignInButton'
+import { useIsMobile } from '~/utils/viewport'
 
 // const rsshubLogo = new URL(rsshubLogoUrl, import.meta.url).href
 
@@ -81,6 +82,7 @@ export const ProfileButton: FC<ProfileButtonProps> = memo(props => {
   // const { t } = useTranslation()
 
   const [dropdown, setDropdown] = useState(false)
+  const isMobile = useIsMobile()
 
   // const navigate = useNavigate()
 
@@ -224,7 +226,7 @@ export const ProfileButton: FC<ProfileButtonProps> = memo(props => {
             presentUserPreference({
               userId: user.user_metadata.handle,
               displayName: user.user_metadata.name,
-              isMobile: true,
+              isMobile,
             })
           }}
           icon={<i className="i-mgc-settings-7-cute-re" />}

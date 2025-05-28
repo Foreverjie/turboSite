@@ -1,68 +1,69 @@
 {
-	"folders": [
-		{
-			"path": "."
-		},
-		{
-			"name": "server",
-			"path": "apps/server"
-		},
-		{
-			"name": "web",
-			"path": "apps/web"
-		},
-		{
-			"name": "turbo-config",
-			"path": "packages/turbo-config"
-		},
-		{
-			"name": "eslint-config-custom",
-			"path": "packages/eslint-config-custom"
-		},
-		{
-			"name": "tsconfig",
-			"path": "packages/tsconfig"
-		},
-		{
-			"name": "ui",
-			"path": "packages/ui"
-		},
-		{
-			"name": "tailwind-config",
-			"path": "packages/tailwind-config"
-		}
-	],
-	"settings": {
-		"jest.disabledWorkspaceFolders": [
-			"turbo-config",
-			"eslint-config-custom",
-			"tsconfig",
-			"turboSite",
-			"tailwind-config"
-		],
-		"cSpell.words": [
-			"animejs",
-			"Authed",
-			"bilibili",
-			"clsx",
-			"commonmark",
-			"Foreverjie",
-			"Genshin",
-			"hookform",
-			"lucide",
-			"manypkg",
-			"Milkdown",
-			"Netease",
-			"openapi",
-			"picton",
-			"Prosemirror",
-			"superjson",
-			"svix",
-			"tanstack",
-			"Typora",
-			"uploadthing",
-			"wechat",
-			"zzjshane"
-		],
-	}
+  "folders": [
+    {
+      "path": ".",
+    },
+    {
+      "name": "server",
+      "path": "apps/server",
+    },
+    {
+      "name": "web",
+      "path": "apps/web",
+    },
+    {
+      "name": "turbo-config",
+      "path": "packages/turbo-config",
+    },
+    {
+      "name": "eslint-config-custom",
+      "path": "packages/eslint-config-custom",
+    },
+    {
+      "name": "tsconfig",
+      "path": "packages/tsconfig",
+    },
+    {
+      "name": "ui",
+      "path": "packages/ui",
+    },
+    {
+      "name": "tailwind-config",
+      "path": "packages/tailwind-config",
+    },
+  ],
+  "settings": {
+    "jest.disabledWorkspaceFolders": [
+      "turbo-config",
+      "eslint-config-custom",
+      "tsconfig",
+      "turboSite",
+      "tailwind-config",
+    ],
+    "cSpell.words": [
+      "animejs",
+      "Authed",
+      "bilibili",
+      "clsx",
+      "commonmark",
+      "Foreverjie",
+      "Genshin",
+      "hookform",
+      "lucide",
+      "manypkg",
+      "Milkdown",
+      "Netease",
+      "openapi",
+      "picton",
+      "Prosemirror",
+      "sonner",
+      "superjson",
+      "svix",
+      "tanstack",
+      "Typora",
+      "uploadthing",
+      "wechat",
+      "zzjshane",
+    ],
+  },
 }
