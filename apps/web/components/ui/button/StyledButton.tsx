@@ -4,6 +4,7 @@ import { tv } from 'tailwind-variants'
 
 import { ButtonMotionBase } from 'ui'
 import { cn } from 'ui/src/utils'
+import { LoadingCircle } from '../loading'
 
 const variantStyles = tv({
   base: 'inline-flex select-none cursor-default items-center gap-2 justify-center rounded-lg py-2 px-3 text-sm outline-offset-2 transition active:transition-none',
@@ -54,17 +55,17 @@ export const StyledButton: FC<ButtonProps> = ({
     ...(props as any),
   }
 
-  const loadingSpinner = isLoading ? (
-    <div className="loading loading-spinner size-5" />
-  ) : null
+  const loadingSpinner = isLoading ? <LoadingCircle size="small" /> : null
 
   return href ? (
     <Link href={href} {...commonProps}>
-      {isLoading ? loadingSpinner : children}
+      {isLoading && loadingSpinner}
+      {children}
     </Link>
   ) : (
     <ButtonMotionBase {...commonProps} disabled={isLoading}>
-      {isLoading ? loadingSpinner : children}
+      {isLoading && loadingSpinner}
+      {children}
     </ButtonMotionBase>
   )
 }

@@ -7,6 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from 'ui'
 import { cn } from 'ui/src/utils'
 import { trpc } from '../../../../utils/trpc'
 import { LoginProps } from './LoginButton'
+import { LoadingCircle } from '~/components/ui/loading'
 
 export const UserAvatar = ({
   ref,
@@ -17,7 +18,6 @@ export const UserAvatar = ({
   enableModal,
   style,
   onClick,
-  isLoading = false,
   ...props
 }: {
   className?: string

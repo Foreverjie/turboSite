@@ -16,6 +16,9 @@ import { Tabs } from '../../../ui/tabs'
 import { sendOTP } from './action'
 import { HeaderActionButton } from './HeaderActionButton'
 import { Button } from '~/components/ui/button'
+import { LoadingCircle } from '~/components/ui/loading'
+import { PlainModal } from '~/components/ui/modal/stacked/custom-modal'
+import { toast } from 'sonner'
 
 const AuthLoginModalContent = () => {
   const isMobile = useIsMobile()
@@ -34,6 +37,9 @@ const AuthLoginModalContent = () => {
         console.log('Sign in successful')
         // refresh the page
         window.location.reload()
+      },
+      onError: error => {
+        toast('Sign in failed, please check your input.')
       },
     })
 
@@ -183,7 +189,7 @@ const AuthLoginModalContent = () => {
                 <StyledButton variant={'link'} className="text-neutral">
                   <Link href="/forgot-password">Forgot Password?</Link>
                 </StyledButton>
-                <StyledButton
+                <Button
                   disabled={!email || !password}
                   isLoading={signInLoading}
                   onClick={() => {
@@ -194,7 +200,7 @@ const AuthLoginModalContent = () => {
                   }}
                 >
                   Login
-                </StyledButton>
+                </Button>
               </div>
             </>
           ) : (
@@ -209,12 +215,12 @@ const AuthLoginModalContent = () => {
                   className="w-full"
                 />
                 <StyledButton
-                  // variant="ghost"
+                  variant="link"
                   disabled={otpSent} // Disable button during countdown
                   className={
                     'absolute right-4 top-1/2 -translate-y-1/2 flex items-center disabled:opacity-50' // Add disabled style
                   }
-                  // isLoading={}
+                  isLoading={true}
                   onClick={async () => {
                     if (!email) {
                       // Add some user feedback, e.g., using a toast notification
@@ -349,16 +355,18 @@ export const AuthProvidersRender: FC = () => {
 
 export const SignInButton = ({ isLoading }: { isLoading: boolean }) => {
   const { present } = useModalStack()
+  const isMobile = useIsMobile()
 
   const handleSignIn = useCallback(() => {
     present({
       title: '',
       overlay: true,
       clickOutsideToDismiss: true,
-      // CustomModalComponent: PlainModal,
+      CustomModalComponent: isMobile ? undefined : PlainModal,
       content: AuthLoginModalContent,
     })
-  }, [present])
+  }, [present, isMobile])
+
   return (
     <HeaderActionButton
       onClick={() => {
@@ -367,7 +375,7 @@ export const SignInButton = ({ isLoading }: { isLoading: boolean }) => {
       disabled={isLoading}
     >
       {isLoading ? (
-        <i className="loading loading-spinner loading-xs opacity-50" />
+        <LoadingCircle size="small" />
       ) : (
         <UserCircleIcon size={20} />
       )}
