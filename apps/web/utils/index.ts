@@ -1,5 +1,8 @@
 export { TrpcProvider } from './trpcProvider'
 
+export const sleep = (ms: number) =>
+  new Promise<void>(resolve => setTimeout(resolve, ms))
+
 export async function copyToClipboard(text: string) {
   try {
     return await navigator.clipboard.writeText(text)
