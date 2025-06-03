@@ -79,6 +79,7 @@
     "eventsource-parser": "^0.1.0",
     "foxact": "^0.2.30",
     "immer": "^10.1.1",
+    "input-otp": "^1.4.2",
     "jojoo": "^0.3.0",
     "jotai": "^2.12.3",
     "jsonwebtoken": "^8.5.1",

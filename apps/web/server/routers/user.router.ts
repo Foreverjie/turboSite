@@ -8,6 +8,7 @@ import {
   userSignOutController,
   userSignUpController,
   userVerifyController,
+  userSendOtpController,
 } from '../controllers/users'
 import {
   userAllInputSchema,
@@ -36,6 +37,9 @@ import {
   userVerifyInputSchema,
   userVerifyMeta,
   userVerifyOutputSchema,
+  userSendOtpInputSchema,
+  userSendOtpMeta,
+  userSendOtpOutputSchema,
 } from '../schemas/users'
 import {
   adminProcedure,
@@ -70,6 +74,11 @@ export const user = router({
     .input(userVerifyInputSchema)
     .output(userVerifyOutputSchema)
     .mutation(userVerifyController),
+  sendOtp: publicProcedure
+    .meta(userSendOtpMeta)
+    .input(userSendOtpInputSchema)
+    .output(userSendOtpOutputSchema)
+    .mutation(userSendOtpController),
   status: protectedProcedure
     .meta(userStatusMeta)
     .input(userStatusInputSchema)

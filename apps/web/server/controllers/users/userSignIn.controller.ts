@@ -3,6 +3,7 @@ import {
   UserSignInOutput,
   UserSignInInput,
 } from '../../schemas/users/userSignIn.schema'
+import { TRPCError } from '@trpc/server'
 
 export const userSignInController = async ({
   input: { email, password, otp },
@@ -27,7 +28,10 @@ export const userSignInController = async ({
   }
 
   if (error) {
-    return { error: { message: error.message } }
+    throw new TRPCError({
+      code: 'BAD_REQUEST',
+      message: error.message,
+    })
   }
 
   console.log('Sign in successful')

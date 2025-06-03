@@ -1,7 +1,7 @@
 'use client'
 
 import { UserCircleIcon } from 'lucide-react'
-import { m } from 'motion/react'
+import { m, AnimatePresence } from 'motion/react'
 import Link from 'next/link'
 import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { ButtonMotionBase, DropdownMenuItem } from 'ui'
@@ -10,15 +10,19 @@ import { XOR } from '../../../../lib/types'
 import { trpc } from '../../../../utils/trpc'
 import { useIsMobile } from '../../../../utils/viewport'
 import { StyledButton } from '../../../ui/button/StyledButton'
-import { Input } from '../../../ui/input'
 import { useModalStack } from '../../../ui/modal/stacked/hooks'
 import { Tabs } from '../../../ui/tabs'
-import { sendOTP } from './action'
 import { HeaderActionButton } from './HeaderActionButton'
 import { Button } from '~/components/ui/button'
 import { LoadingCircle } from '~/components/ui/loading'
 import { PlainModal } from '~/components/ui/modal/stacked/custom-modal'
 import { toast } from 'sonner'
+import {
+  Input,
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+} from '~/components/ui/input'
 
 const AuthLoginModalContent = () => {
   const isMobile = useIsMobile()
@@ -28,7 +32,23 @@ const AuthLoginModalContent = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false)
   const [otpSent, setOtpSent] = useState(false)
   const [otpTimer, setOtpTimer] = useState(60) // Initial countdown time: 60 seconds
+  const [showOtpInput, setShowOtpInput] = useState(false)
+  const [tab, setTab] = useState('password')
   const timerRef = useRef<NodeJS.Timeout | null>(null) // Ref to store timer ID
+
+  const { mutateAsync: sendOTP, isLoading: sendOTPLoading } =
+    trpc.user.sendOtp.useMutation({
+      onSuccess: () => {
+        // Handle successful OTP send
+        toast('OTP sent successfully! Please check your email.')
+        setOtpSent(true) // Set otpSent to true to start the countdown
+        setShowOtpInput(true) // Show the OTP input
+      },
+      onError: error => {
+        toast('Failed to send OTP, please try again.')
+        console.error('Error sending OTP:', error)
+      },
+    })
 
   const { mutateAsync: signIn, isLoading: signInLoading } =
     trpc.user.signIn.useMutation({
@@ -68,6 +88,28 @@ const AuthLoginModalContent = () => {
       return
     }
   }
+
+  const handleSendOtp = async () => {
+    if (!email) {
+      toast('Please enter your email first')
+      return
+    }
+    await sendOTP({ email })
+  }
+
+  const resetOtpFlow = () => {
+    setShowOtpInput(false)
+    setOtpSent(false)
+    setOtp('')
+    if (timerRef.current) {
+      clearInterval(timerRef.current)
+    }
+  }
+
+  // Reset OTP flow when switching tabs or changing email
+  useEffect(() => {
+    resetOtpFlow()
+  }, [tab, email])
 
   const TABS = useMemo(
     () => [
@@ -116,8 +158,6 @@ const AuthLoginModalContent = () => {
     }
   }, [otpSent])
 
-  const [tab, setTab] = useState('password')
-
   const Inner = (
     <div className="bg-theme-background">
       <div className="text-center">
@@ -148,14 +188,17 @@ const AuthLoginModalContent = () => {
       </Tabs.Root>
       <div className="mt-6">
         <div className="flex flex-col items-center gap-4 px-4">
-          <Input
-            autoFocus
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            type="text"
-            placeholder="Email"
-            className="w-full"
-          />
+          {/* Only show email input when not in OTP input mode or in password tab */}
+          {(!showOtpInput || tab === 'password') && (
+            <Input
+              autoFocus
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              type="text"
+              placeholder="Email"
+              className="w-full"
+            />
+          )}
           {tab === 'password' ? (
             <>
               <div className="w-full relative">
@@ -205,58 +248,104 @@ const AuthLoginModalContent = () => {
             </>
           ) : (
             <>
-              <div className="w-full relative">
-                <Input
-                  value={otp}
-                  maxLength={6}
-                  onChange={e => setOtp(e.target.value)}
-                  type="text"
-                  placeholder="OTP"
-                  className="w-full"
-                />
-                <StyledButton
-                  variant="link"
-                  disabled={otpSent} // Disable button during countdown
-                  className={
-                    'absolute right-4 top-1/2 -translate-y-1/2 flex items-center disabled:opacity-50' // Add disabled style
-                  }
-                  isLoading={true}
-                  onClick={async () => {
-                    if (!email) {
-                      // Add some user feedback, e.g., using a toast notification
-                      console.error('Email is required to send OTP')
-                      return
-                    }
-                    const res = await sendOTP(email)
-                    if (!res?.error) {
-                      // Handle OTP sent successfully
-                      console.log('OTP sent successfully')
-                      setOtpSent(true)
-                    } else {
-                      // Handle error, maybe show a toast
-                      console.error('Failed to send OTP:', res.error)
-                    }
-                  }}
-                >
-                  <div className="text-sm text-gray-500">
-                    {otpSent ? `Resend in ${otpTimer}s` : 'Send OTP'}
-                  </div>
-                </StyledButton>
-              </div>
+              <AnimatePresence mode="wait">
+                {!showOtpInput ? (
+                  <m.div
+                    key="send-otp"
+                    initial={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="w-full"
+                  >
+                    <div className="flex justify-center w-full">
+                      <Button
+                        disabled={!email}
+                        isLoading={sendOTPLoading}
+                        onClick={handleSendOtp}
+                        buttonClassName="w-full"
+                      >
+                        Send OTP
+                      </Button>
+                    </div>
+                  </m.div>
+                ) : (
+                  <m.div
+                    key="otp-input"
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    transition={{ duration: 0.3 }}
+                    className="w-full"
+                  >
+                    <div className="flex flex-col items-center space-y-2 w-full">
+                      {/* Header with back button and instructions */}
+                      <div className="flex items-start space-x-3 w-full">
+                        <div className="flex-1">
+                          <p className="text-sm text-gray-600 dark:text-gray-400">
+                            We've sent a 6-digit code to{' '}
+                            <span className=" text-sm font-medium text-gray-900 dark:text-gray-100">
+                              {email || 'your'}
+                            </span>
+                          </p>
+                        </div>
+                      </div>
 
-              <div className="flex justify-end w-full">
-                <Button
-                  disabled={!email || !otp}
-                  isLoading={signInLoading}
-                  onClick={() => {
-                    if (email && otp) {
-                      handleEmailSignIn({ email, otp })
-                    }
-                  }}
-                >
-                  Login
-                </Button>
-              </div>
+                      {/* OTP Input */}
+                      <div className="flex flex-col items-center space-y-4 w-full">
+                        <InputOTP
+                          maxLength={6}
+                          value={otp}
+                          onChange={setOtp}
+                          onComplete={(value: string) => {
+                            if (value.length === 6) {
+                              handleEmailSignIn({ email, otp: value })
+                            }
+                          }}
+                        >
+                          <InputOTPGroup>
+                            <InputOTPSlot index={0} />
+                            <InputOTPSlot index={1} />
+                            <InputOTPSlot index={2} />
+                            <InputOTPSlot index={3} />
+                            <InputOTPSlot index={4} />
+                            <InputOTPSlot index={5} />
+                          </InputOTPGroup>
+                        </InputOTP>
+
+                        {/* Action buttons */}
+                        <div className="flex flex-col items-center space-y-2 w-full">
+                          <Button
+                            disabled={otp.length !== 6}
+                            isLoading={signInLoading}
+                            onClick={() => {
+                              if (email && otp) {
+                                handleEmailSignIn({ email, otp })
+                              }
+                            }}
+                            buttonClassName="w-full"
+                          >
+                            Verify & Login
+                          </Button>
+
+                          <div className="text-center">
+                            <span className="text-sm text-gray-500 dark:text-gray-400">
+                              Didn't receive the code?{' '}
+                            </span>
+                            <StyledButton
+                              variant="link"
+                              disabled={otpSent}
+                              isLoading={sendOTPLoading}
+                              onClick={handleSendOtp}
+                              className="text-sm font-medium p-0 h-auto"
+                            >
+                              {otpSent ? `Resend in ${otpTimer}s` : 'Resend'}
+                            </StyledButton>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </m.div>
+                )}
+              </AnimatePresence>
             </>
           )}
         </div>
