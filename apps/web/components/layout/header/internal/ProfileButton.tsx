@@ -62,7 +62,7 @@ export const ProfileButton: FC<ProfileButtonProps> = memo(props => {
     refetchOnMount: false,
     retryOnMount: false,
   })
-  const { mutateAsync: signOut } = trpc.user.signOut.useMutation({
+  const { mutateAsync: signOut, isLoading: isSigningOut } = trpc.user.signOut.useMutation({
     onSuccess: () => {
       trpcUtils.user.me.setData(undefined, undefined)
       window.location.reload()
@@ -100,9 +100,10 @@ export const ProfileButton: FC<ProfileButtonProps> = memo(props => {
   }
 
   return (
-    <DropdownMenu onOpenChange={setDropdown}>
+    <DropdownMenu onOpenChange={(open) => !isSigningOut && setDropdown(open)} open={dropdown || isSigningOut}>
       <DropdownMenuTrigger
         asChild
+        disabled={isSigningOut}
         className="focus-visible:bg-theme-item-hover !outline-none data-[state=open]:bg-transparent"
       >
         {props.animatedAvatar ? (
@@ -117,6 +118,14 @@ export const ProfileButton: FC<ProfileButtonProps> = memo(props => {
         side="bottom"
         align="center"
       >
+        {isSigningOut && (
+          <div className="absolute inset-0 z-10 flex items-center justify-center rounded-md bg-background/80 backdrop-blur-sm">
+            <div className="flex flex-col items-center gap-2">
+              <i className="i-mgc-loading-3-cute-re animate-spin text-lg" />
+              <span className="text-sm text-muted-foreground">Signing out...</span>
+            </div>
+          </div>
+        )}
         <DropdownMenuLabel>
           <div className="text-center leading-none">
             <EllipsisHorizontalTextWithTooltip className="mx-auto max-w-[20ch] truncate text-lg">
@@ -164,6 +173,7 @@ export const ProfileButton: FC<ProfileButtonProps> = memo(props => {
           onClick={() => {
             presentUserProfile(user?.id ?? 'test')
           }}
+          disabled={isSigningOut}
           icon={<i className="i-mgc-user-3-cute-re" />}
         >
           {/* {t('user_button.profile')} */}
@@ -202,6 +212,7 @@ export const ProfileButton: FC<ProfileButtonProps> = memo(props => {
           onClick={() => {
             // navigate('/action')
           }}
+          disabled={isSigningOut}
           icon={<i className="i-mgc-magic-2-cute-re" />}
         >
           {/* {t('words.actions')} */}
@@ -229,6 +240,7 @@ export const ProfileButton: FC<ProfileButtonProps> = memo(props => {
               isMobile,
             })
           }}
+          disabled={isSigningOut}
           icon={<i className="i-mgc-settings-7-cute-re" />}
         >
           {/* {t('user_button.preferences')} */}
@@ -252,10 +264,17 @@ export const ProfileButton: FC<ProfileButtonProps> = memo(props => {
         <DropdownMenuItem
           className="pl-3"
           onClick={handleSignOut}
-          icon={<i className="i-mgc-exit-cute-re" />}
+          disabled={isSigningOut}
+          icon={
+            isSigningOut ? (
+              <i className="i-mgc-loading-3-cute-re animate-spin" />
+            ) : (
+              <i className="i-mgc-exit-cute-re" />
+            )
+          }
         >
           {/* {t('user_button.log_out')} */}
-          Log out
+          {isSigningOut ? 'Signing out...' : 'Log out'}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
