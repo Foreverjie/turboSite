@@ -32,6 +32,12 @@ export const ProfileButton: FC<ProfileButtonProps> = () => {
   })
 
   const presentUserProfile = usePresentUserProfileModal('dialog')
+  const { mutateAsync: signOut } = trpc.user.signOut.useMutation({
+    onSuccess: () => {
+      window.location.reload() // Reload the page to ensure the user is signed out
+      // Handle successful sign out
+    },
+  })
   // const presentAchievement = useAchievementModal()
   // const { t } = useTranslation()
 
@@ -118,7 +124,9 @@ export const ProfileButton: FC<ProfileButtonProps> = () => {
             /> */}
             <Item
               label={'Log Out'}
-              onClick={() => {}}
+              onClick={() => {
+                signOut()
+              }}
               icon={<i className="i-mgc-exit-cute-re" />}
             />
           </div>

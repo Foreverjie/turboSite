@@ -1,32 +1,13 @@
 'use client'
 
-import React, {
-  createElement,
-  forwardRef,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react'
+import { m } from 'motion/react'
+import React, { createElement, useCallback, useEffect, useState } from 'react'
 import { cn } from 'ui/src/utils'
-import { m, useInView } from 'motion/react'
-import Link from 'next/link'
-import type { PropsWithChildren } from 'react'
-import { isSupportIcon, SocialIcon } from '~/components/SocialIcon'
 
 // import { PeekLink } from '~/components/modules/peek/PeekLink'
 // import { PostMetaBar } from '~/components/modules/post'
-import { BottomToUpTransitionView } from '~/components/ui/transition/BottomToUpTransitionView'
-import { TextUpTransitionView } from '~/components/ui/transition/TextUpTransitionView'
-import {
-  microReboundPreset,
-  softBouncePreset,
-  softSpringPreset,
-} from '~/components/ui/transition/spring'
+import { microReboundPreset } from '~/components/ui/transition/spring'
 // import { shuffle } from '~/lib/_'
-import { routeBuilder, Routes } from '~/utils/route-builder'
-import { trpc } from '../../../utils/trpc'
-import { ButtonMotionBase, toast } from 'ui'
 import {
   Disc3Icon,
   FolderArchiveIcon,
@@ -36,12 +17,13 @@ import {
   SparkleIcon,
   StickyNoteIcon,
 } from 'lucide-react'
-import { NumberSmoothTransition } from '../../../components/ui/number-smooth-transition/NumberSmoothTransition'
-import { StyledButton } from '../../../components/ui/button/StyledButton'
-import { MobileFloatBar } from '~/layouts/feed-column/float-bar.mobile'
-import { MobileFeedScreen } from '~/layouts/feed-column'
-import { EntryColumnWrapper } from '~/layouts/feed-column/wrapper'
+import { toast } from 'ui'
 import { ENTRY_COLUMN_LIST_SCROLLER_ID } from '~/constants/dom'
+import { MobileFeedScreen } from '~/layouts/feed-column'
+import { MobileFloatBar } from '~/layouts/feed-column/float-bar.mobile'
+import { StyledButton } from '../../../components/ui/button/StyledButton'
+import { NumberSmoothTransition } from '../../../components/ui/number-smooth-transition/NumberSmoothTransition'
+import { trpc } from '../../../utils/trpc'
 
 // import { useHomeQueryData } from './query'
 

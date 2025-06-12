@@ -27,8 +27,8 @@ export default function LoginPage() {
       onSuccess: () => {
         // Handle successful sign-in
         console.log('Sign in successful')
-        // refresh the page
-        window.location.reload()
+        // redirect to home
+        window.location.href = '/'
       },
     })
 
@@ -57,15 +57,6 @@ export default function LoginPage() {
         password,
       })
       return
-    }
-  }
-
-  const handleLogin = async (e: React.MouseEvent) => {
-    e.preventDefault()
-    try {
-      await login({ email, password })
-    } catch (error) {
-      console.error('Login failed:', error)
     }
   }
 

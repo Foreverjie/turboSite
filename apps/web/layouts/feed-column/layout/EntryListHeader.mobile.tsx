@@ -2,15 +2,14 @@ import type { FC } from 'react'
 
 import { LOGO_MOBILE_ID } from '~/constants/dom'
 
-import type { EntryListHeaderProps } from './EntryListHeader.shared'
-import { EllipsisHorizontalTextWithTooltip } from '~/components/ui/typography/EllipsisWithTooltip'
 import { cn } from 'ui/src/utils'
-import { stopPropagation } from '~/lib/dom'
 import { ActionButton } from '~/components/ui/button'
 import { RotatingRefreshIcon } from '~/components/ui/loading'
 import { PresentSheet } from '~/components/ui/sheet'
+import { EllipsisHorizontalTextWithTooltip } from '~/components/ui/typography/EllipsisWithTooltip'
 import { Logo } from '~/icons/logo'
-import { FeedColumnMobile } from '../mobile'
+import { stopPropagation } from '~/lib/dom'
+import type { EntryListHeaderProps } from './EntryListHeader.shared'
 
 export const EntryListHeader: FC<EntryListHeaderProps> = ({
   refetch,
@@ -75,7 +74,7 @@ const FollowSubscriptionButton = () => {
       zIndex={50}
       dismissableClassName="mb-0"
       triggerAsChild
-      content={<FeedColumnMobile asWidget />}
+      content={<></>}
       modalClassName="bg-background pt-4 h-[calc(100svh-3rem)]"
       contentClassName="p-0 overflow-visible"
     >
