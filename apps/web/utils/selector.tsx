@@ -36,10 +36,6 @@ export function withResponsiveSyncComponent<P extends object, R = any>(
     const isMobile = useIsMobile()
     const componentProps = { ...props } as P & RefAttributes<R>
 
-    console.log('Rendering component:', {
-      isMobile,
-    })
-
     return isMobile ? (
       <MobileComponent {...componentProps} ref={ref} />
     ) : (

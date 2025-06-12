@@ -9,10 +9,10 @@ import { Footer } from '../footer'
 export const Root: Component = ({ children }) => {
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <Content>{children}</Content>
 
-      <Footer />
+      {/* <Footer /> */}
       <ClientOnly>
         <FABContainer>
           <BackToTopFAB />

@@ -1,12 +1,13 @@
 import plugin from 'tailwindcss/plugin'
 import { extendConfig } from './plugins/web'
+import { resolve } from 'path'
 
 const isWebBuild =
   !!process.env.WEB_BUILD || !!process.env.RN_BUILD || !!process.env.VERCEL
 const TailwindConfig = extendConfig({
   content: [
     './app/**/*.{js,ts,jsx,tsx,mdx}',
-    './layout/**/*.{js,ts,jsx,tsx,mdx}',
+    './layouts/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   future: {

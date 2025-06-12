@@ -3,6 +3,14 @@
 @tailwind utilities;
 
 @layer base {
+  html,
+  body,
+  #root {
+    height: -webkit-fill-available;
+  }
+}
+
+@layer base {
   /* shadcn colors */
 
   :root,

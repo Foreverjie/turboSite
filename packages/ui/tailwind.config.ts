@@ -304,7 +304,6 @@ const twConfig: Config = {
     require('tailwindcss-motion'),
 
     require('./styles/theme.css'),
-    require('./styles/layer.css'),
     require('./styles/animation.css'),
   ],
 }

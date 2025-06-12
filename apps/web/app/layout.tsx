@@ -6,6 +6,7 @@ import { init } from './init'
 import { TrpcProvider } from '~/utils'
 import { Inter } from 'next/font/google'
 import { ToastContainer } from 'react-toastify'
+import type { Viewport } from 'next'
 
 import PKG from '~/package.json'
 import { Root } from '~/components/layout/root/Root'
@@ -14,6 +15,13 @@ import { SpeedInsights } from '@vercel/speed-insights/next'
 import { sansFont, serifFont } from '~/lib/fonts'
 
 const { version } = PKG
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  userScalable: false,
+  viewportFit: 'cover',
+}
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -34,9 +42,7 @@ export default async function RootLayout({
       <head>
         <SayHi />
       </head>
-      <body
-        className={`${sansFont.variable} ${serifFont.variable} m-0 h-full p-0 font-sans`}
-      >
+      <body className={`${sansFont.variable} ${serifFont.variable}`}>
         <TrpcProvider>
           <AppProviders>
             {/* <AggregationProvider
@@ -49,7 +55,7 @@ export default async function RootLayout({
             {/* <Footer /> */}
             <ToastContainer />
             {/* </AggregationProvider> */}
-            <div className="fixed inset-y-0 right-0 w-[var(--removed-body-scroll-bar-size)]" />
+            {/* <div className="fixed inset-y-0 right-0 w-[var(--removed-body-scroll-bar-size)]" /> */}
           </AppProviders>
         </TrpcProvider>
         <SpeedInsights />

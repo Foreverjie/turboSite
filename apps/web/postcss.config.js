@@ -5,7 +5,10 @@ module.exports = {
     tailwindcss: {},
     'tailwindcss/nesting': {},
 
-    ...(isWebBuild ? { autoprefixer: {} } : {}),
-    ...(process.env.NODE_ENV === 'production' ? { cssnano: {} } : {}),
+    autoprefixer: {},
+    cssnano: {},
+
+    // ...(isWebBuild ? { autoprefixer: {} } : {}),
+    // ...(process.env.NODE_ENV === 'production' ? { cssnano: {} } : {}),
   },
 }

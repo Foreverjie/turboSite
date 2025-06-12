@@ -1,6 +1,13 @@
 'use client'
 
-import React, { createElement, forwardRef, useCallback, useRef } from 'react'
+import React, {
+  createElement,
+  forwardRef,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import { cn } from 'ui/src/utils'
 import { m, useInView } from 'motion/react'
 import Link from 'next/link'
@@ -30,20 +37,50 @@ import {
   StickyNoteIcon,
 } from 'lucide-react'
 import { NumberSmoothTransition } from '../../../components/ui/number-smooth-transition/NumberSmoothTransition'
-import { RelativeTime } from '../../../components/ui/RelativeTime'
 import { StyledButton } from '../../../components/ui/button/StyledButton'
+import { MobileFloatBar } from '~/layouts/feed-column/float-bar.mobile'
+import { MobileFeedScreen } from '~/layouts/feed-column'
+import { EntryColumnWrapper } from '~/layouts/feed-column/wrapper'
+import { ENTRY_COLUMN_LIST_SCROLLER_ID } from '~/constants/dom'
 
 // import { useHomeQueryData } from './query'
 
 export default function Home() {
+  const routeFeedId = 'home'
+  const view = 0 // Assuming view is always 0 for home
+  const entries = trpc.post.all.useInfiniteQuery(
+    {
+      limit: 10,
+    },
+    {
+      getNextPageParam: lastPage => lastPage.nextCursor,
+    },
+  )
+
+  const handleScroll = useCallback(() => {
+    // Handle scroll event
+  }, [])
+
+  const [scrollContainer, setScrollContainer] = useState<null | HTMLDivElement>(
+    null,
+  )
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setScrollContainer(
+        document.querySelector(
+          `#${ENTRY_COLUMN_LIST_SCROLLER_ID}`,
+        ) as HTMLDivElement,
+      )
+    }, 1000)
+    return () => clearTimeout(timer)
+  }, [view])
+
   return (
-    <div>
-      <Welcome />
-      <PostScreen />
-      {/* <NoteScreen /> */}
-      {/* <FriendScreen /> */}
-      <WindSock />
-    </div>
+    <>
+      <MobileFeedScreen />
+      <MobileFloatBar scrollContainer={scrollContainer} />
+    </>
   )
 }
 const TwoColumnLayout = ({
@@ -143,240 +180,25 @@ const Welcome = () => {
     ],
   }
 
+  const [scrollContainer, setScrollContainer] = useState<null | HTMLDivElement>(
+    null,
+  )
+
   const titleAnimateD =
     title.template.reduce((acc, cur) => {
       return acc + (cur.text?.length || 0)
     }, 0) * 50
   return (
-    <div className="mt-0 min-w-0 max-w-screen overflow-hidden lg:mt-[-4.5rem] lg:h-dvh lg:min-h-[800px]">
-      <TwoColumnLayout leftContainerClassName="mt-[120px] lg:mt-0 h-[15rem] lg:h-1/2">
-        <>
-          <m.div
-            className="group relative text-center leading-[4] lg:text-left [&_*]:inline-block"
-            initial={{ opacity: 0.0001, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={softBouncePreset}
-          >
-            {title.template.map((t, i) => {
-              const { type } = t
-              const prevAllTextLength = title.template
-                .slice(0, i)
-                .reduce((acc, cur) => {
-                  return acc + (cur.text?.length || 0)
-                }, 0)
-              return createElement(
-                type,
-                { key: i, className: t.class },
-                t.text && (
-                  <TextUpTransitionView
-                    initialDelay={prevAllTextLength * 0.05}
-                    eachDelay={0.05}
-                  >
-                    {t.text}
-                  </TextUpTransitionView>
-                ),
-              )
-            })}
-          </m.div>
-
-          <BottomToUpTransitionView
-            delay={titleAnimateD + 500}
-            transition={softBouncePreset}
-            className="my-3 flex center md:block"
-          >
-            <span className="opacity-80">{'Welcome'}</span>
-          </BottomToUpTransitionView>
-
-          <ul className="mx-[60px] mt-8 flex flex-wrap gap-4 center lg:mx-auto lg:mt-28 lg:justify-start">
-            {Object.entries(socialIds).map(([type, id]: any, index) => {
-              // console.log({ type, id })
-              if (!isSupportIcon(type)) return null
-              return (
-                <BottomToUpTransitionView
-                  key={type}
-                  delay={index * 100 + titleAnimateD + 500}
-                  className="inline-block"
-                  as="li"
-                >
-                  <SocialIcon id={id} type={type} />
-                </BottomToUpTransitionView>
-              )
-            })}
-          </ul>
-        </>
-
-        <div className={cn('lg:size-[300px]', 'size-[200px]', 'mt-24 lg:mt-0')}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={'https://avatars.githubusercontent.com/u/20612607?v=4'}
-            alt="Site Owner Avatar"
-            className={cn(
-              'aspect-square rounded-full border border-slate-200 dark:border-neutral-800',
-              'lg:h-[300px] lg:w-[300px]',
-              'h-[200px] w-[200px]',
-            )}
-          />
-        </div>
-
-        <m.div
-          initial={{ opacity: 0.0001, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={softBouncePreset}
-          className={cn(
-            'inset-x-0 bottom-0 mt-12 flex flex-col center lg:absolute lg:mt-0',
-            'text-neutral-800/80 center dark:text-neutral-200/80',
-          )}
-        >
-          <small>
-            When the first satellite flew out of the atmosphere <br />
-            We thought we would conquer the universe one day.
-          </small>
-          <span className="mt-8 animate-bounce">
-            <i className="i-mingcute-right-line rotate-90 text-2xl" />
-          </span>
-        </m.div>
-      </TwoColumnLayout>
-    </div>
-  )
-}
-
-const PostScreen = () => {
-  const { data: posts, isLoading } = trpc.post.all.useQuery(
-    {
-      limit: 5,
-      cursor: null,
-    },
-    {
-      enabled: false,
-    },
-  )
-  return (
-    <div className="lg:mt-24">
-      <TwoColumnLayout
-        leftContainerClassName="my-[5rem] lg:h-1/2"
-        rightChildrenClassName="w-full"
-      >
-        <m.h2
-          initial={{
-            opacity: 0.0001,
-            y: 50,
-          }}
-          animate={{
-            opacity: 1,
-            y: 0,
-          }}
-          transition={softSpringPreset}
-          className="text-3xl font-medium leading-loose"
-        >
-          What&apos;s happening
-        </m.h2>
-        <div>
-          <ul className="space-y-4">
-            {isLoading &&
-              [...Array(1)].map((_, i) => (
-                <li key={i} className="animate-pulse flex space-x-4">
-                  <div className="flex-1 space-y-4 py-1">
-                    <div className="h-4 bg-gray-400 rounded w-3/4"></div>
-                    <div className="space-y-2">
-                      <div className="h-4 bg-gray-400 rounded"></div>
-                      <div className="h-4 bg-gray-400 rounded w-5/6"></div>
-                    </div>
-                  </div>
-                </li>
-              ))}
-            {posts?.posts.slice(0, 5).map((post, i) => {
-              const imageSrc = post.files.length > 0 ? post.files[0] : null
-
-              return (
-                <m.li
-                  animate={{
-                    opacity: 1,
-                    x: 0,
-                  }}
-                  initial={{ opacity: 0.001, x: 50 }}
-                  transition={{
-                    ...softSpringPreset,
-                    delay: 0.3 + 0.2 * i,
-                  }}
-                  key={post.id}
-                  className={cn(
-                    'relative w-full overflow-hidden rounded-md',
-                    'border border-slate-200 dark:border-neutral-700/80',
-                    'group p-4',
-                  )}
-                >
-                  <Link
-                    className="flex h-full w-full flex-col gap-4"
-                    href={routeBuilder(Routes.Post, {
-                      postId: post.postId,
-                    })}
-                  >
-                    <div className="flex flex-row items-center">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={post.author.avatar}
-                        alt={post.author.name.substring(0, 2)}
-                        className="w-8 rounded-full"
-                      />
-                      <div className="flex flex-col gap-1">
-                        <span className="ml-2 text-sm opacity-80">
-                          {post.author.name}
-                        </span>
-                        <span className="ml-2 text-xs opacity-60">
-                          @{post.author.id}
-                        </span>
-                      </div>
-                    </div>
-                    <h4 className="truncate text-xl">{post.content}</h4>
-                    <span className="text-xs opacity-60">
-                      <RelativeTime date={post.updatedAt} />
-                    </span>
-                    {/* <PostMetaBar meta={post} className="-mb-2" /> */}
-
-                    <ButtonMotionBase className="absolute bottom-4 right-4 flex items-center p-2 text-accent/95 opacity-0 duration-200 group-hover:opacity-100">
-                      Detail
-                      <i className="i-mingcute-arrow-right-line" />
-                    </ButtonMotionBase>
-
-                    {!!imageSrc && (
-                      <div
-                        aria-hidden
-                        className="mask-cover absolute inset-0 top-0 z-[-1]"
-                      >
-                        <div
-                          className="absolute inset-0 h-full w-full bg-cover bg-center"
-                          style={{
-                            backgroundImage: `url(${imageSrc})`,
-                          }}
-                        />
-                      </div>
-                    )}
-                  </Link>
-                </m.li>
-              )
-            })}
-          </ul>
-
-          <m.div
-            initial={{ opacity: 0.0001, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{
-              ...softBouncePreset,
-              delay: 0.3 + 0.2 * (posts?.posts.length || 0),
-            }}
-            className="relative mt-12 w-full text-center"
-          >
-            <ButtonMotionBase>
-              <Link
-                className="shiro-link--underline"
-                href={routeBuilder(Routes.Posts, {})}
-              >
-                There are more, feel free to explore.
-              </Link>
-            </ButtonMotionBase>
-          </m.div>
-        </div>
-      </TwoColumnLayout>
+    <div className="flex h-screen min-w-0 grow overflow-hidden">
+      <MobileFloatBar
+        scrollContainer={scrollContainer}
+        onLogoClick={() => {
+          console.log('Logo clicked')
+        }}
+        onViewChange={view => {
+          console.log('View changed to:', view)
+        }}
+      />
     </div>
   )
 }

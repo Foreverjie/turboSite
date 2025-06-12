@@ -14,7 +14,7 @@ import { debounce } from 'lodash'
 import { Loader2Icon } from 'lucide-react'
 import { trpc } from '~/utils/trpc'
 import { usePullToRefresh } from '~/hooks/common/use-pull-to-refresh'
-import PostCard from '../../../components/Feed/PostCard'
+// import PostCard from '../../../components/Feed/PostCard'
 
 const Page = () => {
   const PAGE_COUNT = 10
@@ -84,11 +84,11 @@ const Page = () => {
             page.posts.map((post, index) => (
               <BottomToUpTransitionView
                 lcpOptimization
-                key={post.postId}
+                key={post.link}
                 as="li"
                 delay={index * 100}
               >
-                <PostCard {...post} />
+                {/* <PostCard {...post} /> */}
               </BottomToUpTransitionView>
             )),
           )}

@@ -24,6 +24,7 @@
     "Pressable",
     "protobuf",
     "protoc",
+    "shadcn",
     "stretchr",
     "superjson",
     "toastify"

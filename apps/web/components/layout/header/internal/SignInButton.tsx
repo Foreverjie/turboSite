@@ -281,7 +281,7 @@ const AuthLoginModalContent = () => {
                       <div className="flex items-start space-x-3 w-full">
                         <div className="flex-1">
                           <p className="text-sm text-gray-600 dark:text-gray-400">
-                            We've sent a 6-digit code to{' '}
+                            We have sent a 6-digit code to{' '}
                             <span className=" text-sm font-medium text-gray-900 dark:text-gray-100">
                               {email || 'your'}
                             </span>
@@ -328,7 +328,7 @@ const AuthLoginModalContent = () => {
 
                           <div className="text-center">
                             <span className="text-sm text-gray-500 dark:text-gray-400">
-                              Didn't receive the code?{' '}
+                              Did not receive the code?{' '}
                             </span>
                             <StyledButton
                               variant="link"

@@ -96,3 +96,11 @@ export async function fetchWithTimeout(
   clearTimeout(id)
   return response
 }
+
+export const parseSafeUrl = (url: string) => {
+  try {
+    return new URL(url)
+  } catch {
+    return null
+  }
+}

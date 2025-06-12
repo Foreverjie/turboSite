@@ -6,31 +6,20 @@ export const postAllMeta: TRPCPanelMeta = {
 }
 export const postAllInputSchema = z.object({
   limit: z.number().min(1).max(100).nullish(),
-  cursor: z.any(),
+  cursor: z.number().nullish(),
 })
 export const postAllOutputSchema = z.object({
   posts: z
     .object({
-      id: z.number(),
-      type: z.string(),
-      content: z.string(),
-      files: z.string().array(),
-      likeBy: z
-        .object({
-          userId: z.string(),
-        })
-        .array(),
-      author: z.object({
-        id: z.number(),
-        name: z.string(),
-        avatar: z.string(),
-      }),
       createdAt: z.date(),
-      updatedAt: z.date(),
-      postId: z.string(),
+      title: z.string().nullish(),
+      link: z.string(),
+      publicationDate: z.date(),
+      description: z.string().nullish(),
+      sourceFeedUrl: z.string().nullish(),
     })
     .array(),
-  nextCursor: z.string().nullish(),
+  nextCursor: z.number().nullish(),
 })
 
 export type PostAllInput = z.TypeOf<typeof postAllInputSchema>

@@ -1,6 +1,7 @@
 import type { FC, PropsWithChildren } from 'react'
 
 declare global {
+  export type Nullable<T> = T | null | undefined
   export type NextErrorProps = {
     reset(): void
     error: Error
