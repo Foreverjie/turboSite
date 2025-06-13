@@ -7,6 +7,7 @@ import { ButtonMotionBase } from 'ui'
 import Link from 'next/link'
 import { cn } from 'ui/src/utils'
 import { trpc } from '../../../../utils/trpc'
+import { Logo } from '~/icons/logo'
 
 export default function SignUpPage() {
   const [email, setEmail] = useState('')
@@ -65,7 +66,12 @@ export default function SignUpPage() {
   }, [countdown])
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
+    <div className="flex h-screen w-full flex-col items-center justify-center">
+      <Logo className="size-16" />
+
+      <h1 className="mb-6 mt-8 text-2xl">
+        {'Sign Up to'} <b>{` Flash`}</b>
+      </h1>
       <div className="flex flex-col items-center gap-4 px-4 min-w-[300px]">
         <Input
           value={email}

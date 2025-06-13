@@ -11,6 +11,8 @@ import Link from 'next/link'
 import { cn } from 'ui/src/utils'
 import { trpc } from '../../../../utils/trpc'
 import { XOR } from '../../../../lib/types'
+import { toast } from 'sonner'
+import { Logo } from '~/icons/logo'
 
 export default function LoginPage() {
   const isMobile = useIsMobile()
@@ -25,8 +27,7 @@ export default function LoginPage() {
   const { mutateAsync: signInWithPwd, isLoading: signInLoading } =
     trpc.user.signIn.useMutation({
       onSuccess: () => {
-        // Handle successful sign-in
-        console.log('Sign in successful')
+        toast('Login successful!')
         // redirect to home
         window.location.href = '/'
       },
@@ -61,7 +62,13 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen ">
+    <div className="flex h-screen w-full flex-col items-center justify-center">
+      <Logo className="size-16" />
+
+      <h1 className="mb-6 mt-8 text-2xl">
+        {'Sign In to'} <b>{` Flash`}</b>
+      </h1>
+
       <div className="flex flex-col items-center gap-4 px-4 min-w-[300px]">
         <Input
           value={email}
