@@ -50,7 +50,8 @@ export const StyledButton: FC<ButtonProps> = ({
   const commonProps = {
     className: variantStyles({
       variant,
-      className: cn(className, isLoading && 'relative text-transparent'),
+      // className: cn(className, isLoading && 'relative text-transparent'),
+      className: cn(className, isLoading && 'text-transparent'),
     }),
     ...(props as any),
   }

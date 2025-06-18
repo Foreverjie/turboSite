@@ -127,17 +127,19 @@ export default function SignUpPage() {
               <i className="loading loading-spinner loading-xs opacity-50" />
             </div>
           ) : (
-            <ButtonMotionBase
+            <StyledButton
+              variant="link"
               disabled={isOtpSent || sendOtpLoading} // Disable button during countdown
               className={
                 'absolute right-4 top-1/2 -translate-y-1/2 flex items-center disabled:opacity-50' // Add disabled style
               }
+              isLoading={sendOtpLoading}
               onClick={handleSendOtp}
             >
               <div className="text-sm text-gray-500">
                 {isOtpSent ? `Resend in ${countdown}s` : 'Send OTP'}
               </div>
-            </ButtonMotionBase>
+            </StyledButton>
           )}
         </div>
         <StyledButton
