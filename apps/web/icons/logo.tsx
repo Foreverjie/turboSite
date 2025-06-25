@@ -5,6 +5,7 @@ export const Logo = ({
   ref?: React.Ref<SVGSVGElement | null>
 }) => (
   <svg
+    data-testid="logo"
     {...props}
     ref={ref}
     viewBox="0 0 145 145"

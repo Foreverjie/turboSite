@@ -5,9 +5,9 @@
   "scripts": {
     "dev": "prisma generate && next dev -p 9797",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 9797",
     "generate": "prisma generate",
-    "test": "jest --coverage --passWithNoTests"
+    "test": "jest --config=../../jest.config.js apps/web --coverage --passWithNoTests"
   },
   "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
@@ -153,6 +153,9 @@
   "devDependencies": {
     "@headlessui/react": "^1.7.17",
     "@iconify-json/material-symbols": "^1.1.79",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.3.0",
+    "@testing-library/user-event": "^14.2.1",
     "@trpc/next": "^10.44.1",
     "@types/enzyme": "^3.10.16",
     "@types/enzyme-adapter-react-16": "^1.0.9",
@@ -164,11 +167,11 @@
     "@types/three": "^0.150.2",
     "autoprefixer": "^10.4.16",
     "babel-preset-env": "^1.7.0",
-    "cypress": "^12.17.4",
     "drizzle-kit": "^0.30.2",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.7",
     "eslint-config-next": "^14.1.0",
+    "jest-environment-jsdom": "^29.7.0",
     "msw": "^1.3.2",
     "msw-trpc": "^1.3.4",
     "postcss": "^8.5.3",

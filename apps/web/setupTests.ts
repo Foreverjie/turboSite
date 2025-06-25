@@ -1,5 +1,27 @@
 import '@testing-library/jest-dom'
-import 'whatwg-fetch'
+import React from 'react'
+
+// Make React available globally for tests
+global.React = React
+
+// Mock HTMLFormElement.prototype.requestSubmit for jsdom
+Object.defineProperty(HTMLFormElement.prototype, 'requestSubmit', {
+  value: function (this: HTMLFormElement) {
+    // Create and dispatch a submit event
+    const event = new Event('submit', { bubbles: true, cancelable: true })
+    this.dispatchEvent(event)
+  },
+  writable: true,
+  configurable: true,
+})
+
+// Global test setup
+global.console = {
+  ...console,
+  // Silence console.error in tests unless it's an actual error
+  error: jest.fn(),
+  warn: jest.fn(),
+}
 
 // Mock Next.js router
 jest.mock('next/router', () => ({
@@ -13,7 +35,7 @@ jest.mock('next/router', () => ({
       pop: jest.fn(),
       reload: jest.fn(),
       back: jest.fn(),
-      prefetch: jest.fn(),
+      prefetch: jest.fn().mockResolvedValue(undefined),
       beforePopState: jest.fn(),
       events: {
         on: jest.fn(),
@@ -22,26 +44,6 @@ jest.mock('next/router', () => ({
       },
       isFallback: false,
     }
-  },
-}))
-
-// Mock Next.js navigation
-jest.mock('next/navigation', () => ({
-  useRouter() {
-    return {
-      push: jest.fn(),
-      replace: jest.fn(),
-      prefetch: jest.fn(),
-      back: jest.fn(),
-      forward: jest.fn(),
-      refresh: jest.fn(),
-    }
-  },
-  useSearchParams() {
-    return new URLSearchParams()
-  },
-  usePathname() {
-    return '/'
   },
 }))
 
@@ -59,31 +61,3 @@ Object.defineProperty(window, 'matchMedia', {
     dispatchEvent: jest.fn(),
   })),
 })
-
-// Mock IntersectionObserver
-global.IntersectionObserver = class IntersectionObserver {
-  constructor() {}
-  observe() {
-    return null
-  }
-  disconnect() {
-    return null
-  }
-  unobserve() {
-    return null
-  }
-}
-
-// Mock ResizeObserver
-global.ResizeObserver = class ResizeObserver {
-  constructor() {}
-  observe() {
-    return null
-  }
-  disconnect() {
-    return null
-  }
-  unobserve() {
-    return null
-  }
-}

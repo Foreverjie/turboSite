@@ -38,10 +38,10 @@ export default async function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className="noise themed" suppressHydrationWarning>
-      <head>
+    <html lang="en" className="noise themed">
+      {/* <head>
         <SayHi />
-      </head>
+      </head> */}
       <body className={`${sansFont.variable} ${serifFont.variable}`}>
         <TrpcProvider>
           <AppProviders>

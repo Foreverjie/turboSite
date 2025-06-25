@@ -89,6 +89,7 @@ export default function LoginPage() {
             className={
               'absolute right-4 top-1/2 -translate-y-1/2 flex items-center'
             }
+            aria-label="Toggle password visibility"
             onClick={() => {
               setIsPasswordVisible(!isPasswordVisible)
             }}
@@ -105,10 +106,15 @@ export default function LoginPage() {
           </ButtonMotionBase>
         </div>
         <div className="flex justify-between w-full">
-          <StyledButton variant={'link'} className="text-neutral">
+          <StyledButton
+            aria-label="Forgot Password"
+            variant={'link'}
+            className="text-neutral"
+          >
             <Link href="/forgot-password">Forgot Password?</Link>
           </StyledButton>
           <StyledButton
+            aria-label="Login"
             disabled={!email || !password}
             isLoading={signInLoading}
             onClick={() => {
@@ -129,6 +135,7 @@ export default function LoginPage() {
           Don&apos;t have an account?
         </div>
         <StyledButton
+          aria-label="Sign Up"
           variant="link"
           className="ml-2 text-neutral-800 dark:text-neutral-200"
         >

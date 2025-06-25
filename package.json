@@ -14,7 +14,12 @@
     "dev:web": "turbo run dev --filter web",
     "start:web": "turbo run start --filter web",
     "lint": "turbo run lint",
-    "test": "turbo run test",
+    "test": "jest",
+    "test:web": "jest apps/web",
+    "test:server": "jest apps/server",
+    "test:watch": "jest --watch",
+    "test:watch:web": "jest apps/web --watch",
+    "test:coverage": "jest --coverage",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "prepare": "husky install",
     "check": "manypkg check --registry=https://registry.npmjs.org",
@@ -59,5 +64,8 @@
     "commitizen": {
       "path": "node_modules/cz-git"
     }
+  },
+  "devDependencies": {
+    "next": "^15"
   }
 }
