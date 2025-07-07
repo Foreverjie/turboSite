@@ -1,0 +1,41 @@
+{
+  "name": "mobile",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
+    "web": "expo start --web",
+    "dev": "expo start",
+    "lint": "expo lint",
+    "build:android": "expo run:android --variant release",
+    "build:ios": "expo run:ios --configuration Release",
+    "build:web": "expo build:web",
+    "dev-client:android": "expo run:android",
+    "dev-client:ios": "expo run:ios",
+    "export": "expo export",
+    "eject": "expo eject"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.27.6",
+    "@expo/vector-icons": "^14.1.0",
+    "design-tokens": "^1.0.1",
+    "expo": "~53.0.17",
+    "expo-dev-client": "^5.2.4",
+    "expo-font": "^13.3.2",
+    "expo-status-bar": "~2.2.3",
+    "react": "19.0.0",
+    "react-native": "0.79.5",
+    "react-native-reanimated": "3.17.4",
+    "react-native-svg": "^15.12.0",
+    "react-native-vector-icons": "^10.2.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.25.2",
+    "@babel/plugin-transform-runtime": "^7.28.0",
+    "@types/react": "~19.0.10",
+    "typescript": "~5.8.3"
+  },
+  "private": true
+}
