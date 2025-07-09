@@ -18,7 +18,6 @@
     "lint": "turbo run lint",
     "test": "jest",
     "test:web": "jest apps/web",
-    "test:server": "jest apps/server",
     "test:watch": "jest --watch",
     "test:watch:web": "jest apps/web --watch",
     "test:coverage": "jest --coverage",

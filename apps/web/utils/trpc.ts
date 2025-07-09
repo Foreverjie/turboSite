@@ -1,4 +1,8 @@
+/**
+ * tRPC React client configuration for web application
+ */
 import { createTRPCReact } from '@trpc/react-query'
 import type { AppRouter } from '~/server/routers'
 
-export const trpc = createTRPCReact<AppRouter>() // for client provider
+// Create tRPC React client with type safety using shared utilities
+export const trpc = createTRPCReact<AppRouter>()

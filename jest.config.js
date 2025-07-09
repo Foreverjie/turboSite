@@ -5,7 +5,7 @@ const fromRoot = d => path.join(__dirname, d)
 // Base configuration
 module.exports = {
   // Root level configuration for running all tests
-  roots: [fromRoot('apps/web'), fromRoot('apps/server')],
+  roots: [fromRoot('apps/web')],
   testEnvironment: 'jsdom', // Default for web tests
   setupFilesAfterEnv: [fromRoot('apps/web/setupTests.ts')],
   moduleDirectories: ['node_modules'],
@@ -41,9 +41,6 @@ module.exports = {
     '<rootDir>/apps/web/test/**/*.{js,jsx,ts,tsx}',
     '<rootDir>/apps/web/**/__tests__/**/*.{js,jsx,ts,tsx}',
     '<rootDir>/apps/web/**/*.(test|spec).{js,jsx,ts,tsx}',
-    '<rootDir>/apps/server/test/**/*.{js,ts}',
-    '<rootDir>/apps/server/**/__tests__/**/*.{js,ts}',
-    '<rootDir>/apps/server/**/*.(test|spec).{js,ts}',
   ],
 
   // Paths to ignore

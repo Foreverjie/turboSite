@@ -4,10 +4,6 @@
       "path": ".",
     },
     {
-      "name": "server",
-      "path": "apps/server",
-    },
-    {
       "name": "web",
       "path": "apps/web",
     },
@@ -31,6 +27,10 @@
       "name": "tailwind-config",
       "path": "packages/tailwind-config",
     },
+    {
+      "name": "trpc",
+      "path": "packages/trpc",
+    }
   ],
   "settings": {
     "jest.disabledWorkspaceFolders": [

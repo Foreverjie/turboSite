@@ -11,30 +11,41 @@ import { useState } from 'react'
 import { trpc } from './trpc'
 import { toast } from 'ui'
 import superjson from 'superjson'
+import { getBaseUrl } from 'trpc-config/src/client'
 
-export const TrpcProvider: React.FC<{ children: React.ReactNode }> = p => {
-  const onError = (err: unknown) => {
-    toast.error(err instanceof Error ? err.message : 'Unknown error')
+/**
+ * Error handler for tRPC operations
+ */
+const onError = (err: unknown) => {
+  toast.error(err instanceof Error ? err.message : 'Unknown error')
+}
+
+/**
+ * Get base URL for tRPC client
+ */
+function getLocalBaseUrl() {
+  if (typeof window !== 'undefined') {
+    // browser should use relative path
+    return ''
   }
-
-  function getBaseUrl() {
-    if (typeof window !== 'undefined') {
-      // browser should use relative path
-      return ''
-    }
-    if (process.env.VERCEL_URL) {
-      // reference for vercel.com
-      return `https://${process.env.VERCEL_URL}`
-    }
-
-    if (process.env.RENDER_INTERNAL_HOSTNAME) {
-      // reference for render.com
-      return `http://${process.env.RENDER_INTERNAL_HOSTNAME}:${process.env.PORT}`
-    }
-    // assume localhost
-    return `http://localhost:${process.env.PORT ?? 9797}`
+  if (process.env.VERCEL_URL) {
+    // reference for vercel.com
+    return `https://${process.env.VERCEL_URL}`
   }
+  if (process.env.RENDER_INTERNAL_HOSTNAME) {
+    // reference for render.com
+    return `http://${process.env.RENDER_INTERNAL_HOSTNAME}:${process.env.PORT}`
+  }
+  // assume localhost with web app's default port
+  return `http://localhost:${process.env.PORT ?? 9797}`
+}
 
+/**
+ * tRPC Provider component with React Query integration
+ */
+export const TrpcProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [queryClient] = useState(
     () =>
       new QueryClient({
@@ -46,14 +57,15 @@ export const TrpcProvider: React.FC<{ children: React.ReactNode }> = p => {
         }),
       }),
   )
+
   const [trpcClient] = useState(() =>
     trpc.createClient({
       links: [
         loggerLink({
-          enabled: () => true,
+          enabled: () => process.env.NODE_ENV === 'development',
         }),
         httpBatchLink({
-          url: `${getBaseUrl()}/api/trpc`,
+          url: `${getLocalBaseUrl()}/api/trpc`,
           fetch: async (input, init?) => {
             const fetch = getFetch()
             return fetch(input, {
@@ -66,11 +78,10 @@ export const TrpcProvider: React.FC<{ children: React.ReactNode }> = p => {
       transformer: superjson,
     }),
   )
+
   return (
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
-      <QueryClientProvider client={queryClient}>
-        {p.children}
-      </QueryClientProvider>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
     </trpc.Provider>
   )
 }
