@@ -3,7 +3,6 @@
  */
 import { NextRequest } from 'next/server'
 import { createClient } from '../utils/supabase/server'
-import { createWebTRPCContextFactory } from 'trpc-config/context'
 
 /**
  * Inner context for web application

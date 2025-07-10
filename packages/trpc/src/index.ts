@@ -5,9 +5,6 @@
 // Type exports
 export * from './types'
 
-// Server exports
-export * from './server'
-
 // Client exports  
 export * from './client'
 
@@ -17,8 +14,14 @@ export * from './react'
 // Middleware exports
 export * from './middlewares'
 
-// Utility exports
-export * from './utils'
+// Schema exports (shared validation schemas)
+export * from './schemas'
+
+// Controller exports (shared business logic)
+export * from './controllers'
+
+// Router exports (shared route definitions)
+export * from './routers'
 
 // Re-export common tRPC types and utilities
 export type { TRPCError } from '@trpc/server'
@@ -27,3 +30,5 @@ export type {
   TRPCClientError,
   TRPCLink,
 } from '@trpc/client'
+
+export * from './context'

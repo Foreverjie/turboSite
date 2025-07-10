@@ -3,7 +3,6 @@
  */
 'use client'
 
-import React, { useState } from 'react'
 import {
   MutationCache,
   QueryCache,
@@ -12,6 +11,7 @@ import {
 } from '@tanstack/react-query'
 import { getFetch, httpBatchLink, loggerLink } from '@trpc/client'
 import { createTRPCReact } from '@trpc/react-query'
+import { useState } from 'react'
 import superjson from 'superjson'
 import { getBaseUrl } from '../client'
 
@@ -42,7 +42,7 @@ export interface TRPCReactConfig {
 /**
  * Create tRPC React client
  */
-export function createTRPCReactClient<TRouter = any>() {
+export function createTRPCReact<TRouter = any>() {
   return createTRPCReact<TRouter>({
     unstable_overrides: {
       useMutation: {
@@ -59,7 +59,7 @@ export function createTRPCReactClient<TRouter = any>() {
  * Create tRPC React Provider component
  */
 export function createTRPCProvider<TRouter = any>(
-  trpc: ReturnType<typeof createTRPCReactClient<TRouter>>,
+  trpc: ReturnType<typeof createTRPCReact<TRouter>>,
   config: TRPCReactConfig = {}
 ) {
   const {
@@ -133,4 +133,4 @@ export function createDefaultErrorHandler(toast?: {
   }
 }
 
-export { createTRPCReact }
+export { createTRPCReact as createTRPCReactClient }

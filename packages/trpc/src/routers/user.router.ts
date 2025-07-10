@@ -1,6 +1,4 @@
 import {
-  userALlController,
-  userCreateController,
   userMeController,
   userStatusController,
   userUpdateController,
@@ -9,7 +7,7 @@ import {
   userSignUpController,
   userVerifyController,
   userSendOtpController,
-} from 'trpc-config/src/controllers/users'
+} from '../controllers'
 import {
   userAllInputSchema,
   userAllMeta,
@@ -19,7 +17,6 @@ import {
   userCreateOutputSchema,
   userMeInputSchema,
   userMeMeta,
-  userMeOutputSchema,
   userSignInInputSchema,
   userSignInMeta,
   userSignInOutputSchema,
@@ -40,7 +37,7 @@ import {
   userSendOtpInputSchema,
   userSendOtpMeta,
   userSendOtpOutputSchema,
-} from 'trpc-config/src/schemas/users'
+} from '../schemas/users'
 import {
   adminProcedure,
   protectedProcedure,
@@ -50,11 +47,6 @@ import {
 
 // export default router
 export const user = router({
-  create: protectedProcedure
-    .meta(userCreateMeta)
-    .input(userCreateInputSchema)
-    .output(userCreateOutputSchema)
-    .mutation(userCreateController),
   signIn: publicProcedure
     .meta(userSignInMeta)
     .input(userSignInInputSchema)
@@ -94,9 +86,4 @@ export const user = router({
     .input(userUpdateInputSchema)
     .output(userUpdateOutputSchema)
     .mutation(userUpdateController),
-  all: adminProcedure
-    .meta(userAllMeta)
-    .input(userAllInputSchema)
-    .output(userAllOutputSchema)
-    .query(userALlController),
 })
