@@ -7,6 +7,9 @@
 - 🎨 **统一设计系统** - 与 Web 端共享设计令牌（颜色、间距、字体等）
 - 📱 **跨平台支持** - iOS、Android 和 Web 平台
 - 🔐 **用户认证** - 登录功能，支持密码显示/隐藏
+- 👤 **个人信息页面** - 用户资料、统计信息、设置选项
+- 🧭 **导航系统** - 登录后的页面切换和状态管理
+- 🔗 **tRPC 集成** - 类型安全的 API 通信
 - 🎯 **现代 UI** - 使用 React Native Reanimated 实现流畅动画
 - 🏗️ **Monorepo 架构** - 与 Web 和 Server 项目共享代码和配置
 
@@ -135,11 +138,33 @@ expo build:ios
 eas build --platform all
 ```
 
+## 应用页面
+
+### 1. 登录页面 (SignInScreen)
+- 邮箱和密码输入
+- 表单验证和错误提示
+- 加载状态和成功反馈
+- 忘记密码和注册入口（待实现）
+
+### 2. 个人信息页面 (ProfileScreen)
+- 用户头像和基本信息
+- 统计数据（文章数、关注者等）
+- 用户详细信息
+- 设置和退出功能
+
+### 3. 导航系统 (AppNavigator)
+- 登录状态管理
+- 页面路由控制
+- 标签栏导航
+- 状态持久化（计划中）
+
 ## 技术栈
 
 - **React Native** - 跨平台移动开发
 - **Expo** - 开发工具链和服务
 - **TypeScript** - 类型安全
+- **tRPC** - 端到端类型安全 API
+- **React Query** - 服务器状态管理
 - **React Native Reanimated** - 高性能动画
 - **React Native SVG** - SVG 支持
 - **Expo Vector Icons** - 图标库
@@ -148,15 +173,25 @@ eas build --platform all
 
 - 使用 React Native 组件而非 HTML 元素
 - 样式使用 StyleSheet 而非 CSS
-- 导航使用 React Navigation（计划中）
+- 使用自定义导航系统（将来可能升级为 React Navigation）
 - 平台特定的 API 调用
+- 共享 tRPC 配置和类型定义
+
+## 文档
+
+- [tRPC 集成指南](./README_TRPC.md)
+- [个人信息页面功能](./PROFILE_FEATURE.md)
+- [集成摘要](./INTEGRATION_SUMMARY.md)
 
 ## 未来计划
 
-- [ ] 集成 React Navigation
-- [ ] 添加更多页面（注册、忘记密码等）
+- [ ] 添加用户注册和忘记密码功能
+- [ ] 实现编辑资料功能
+- [ ] 集成 React Navigation 进行更复杂的导航
+- [ ] 添加更多页面（设置、通知等）
 - [ ] 集成推送通知
 - [ ] 添加主题切换（深色模式）
-- [ ] 集成 API 调用
+- [ ] 实现离线缓存和同步
+- [ ] 添加头像上传功能
 - [ ] 添加单元测试
 - [ ] 性能优化

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import {
   View,
   Text,
@@ -9,44 +9,62 @@ import {
   ScrollView,
   Alert,
   TouchableOpacity,
-} from 'react-native';
-import { Button, Input, Logo } from '../components';
-import { colors, spacing, fontSize } from '../../../../packages/design-tokens/src';
+} from 'react-native'
+import { Button, Input, Logo } from '../components'
+import {
+  colors,
+  spacing,
+  fontSize,
+} from '../../../../packages/design-tokens/src'
+import { trpc } from '../utils/trpc'
 
-export const SignInScreen: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+interface SignInScreenProps {
+  onSignInSuccess?: () => void
+}
+
+export const SignInScreen: React.FC<SignInScreenProps> = ({ onSignInSuccess }) => {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  // Use tRPC auth hook
+  const { mutateAsync: signIn, isPending: isSigningIn } =
+    trpc.user.signIn.useMutation({
+      onSuccess: data => {
+        Alert.alert('成功', '登录成功！')
+        console.log('Sign in data:', data)
+        // Call the success callback to navigate to profile
+        onSignInSuccess?.()
+      },
+      onError: error => {
+        Alert.alert('错误', `登录失败: ${error.message}`)
+      },
+    })
 
   const handleSignIn = async () => {
     if (!email || !password) {
-      Alert.alert('错误', '请填写邮箱和密码');
-      return;
+      Alert.alert('错误', '请填写邮箱和密码')
+      return
     }
 
-    setIsLoading(true);
-    
     try {
-      // 这里将来集成实际的登录API
-      await new Promise(resolve => setTimeout(resolve, 1000)); // 模拟API调用
-      
-      // 登录成功后的处理
-      Alert.alert('成功', '登录成功!');
-      
+      // Use tRPC signIn mutation
+      signIn({
+        email,
+        password,
+      })
     } catch (error) {
-      Alert.alert('错误', '登录失败，请重试');
-    } finally {
-      setIsLoading(false);
+      // Error handling is done in the hook
+      console.error('Sign in error:', error)
     }
-  };
+  }
 
   const handleForgotPassword = () => {
-    Alert.alert('提示', '忘记密码功能即将推出');
-  };
+    Alert.alert('提示', '忘记密码功能即将推出')
+  }
 
   const handleSignUp = () => {
-    Alert.alert('提示', '注册功能即将推出');
-  };
+    Alert.alert('提示', '注册功能即将推出')
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -77,7 +95,7 @@ export const SignInScreen: React.FC = () => {
                 autoCapitalize="none"
                 autoComplete="email"
               />
-              
+
               <Input
                 placeholder="Password"
                 value={password}
@@ -91,12 +109,12 @@ export const SignInScreen: React.FC = () => {
                 <TouchableOpacity onPress={handleForgotPassword}>
                   <Text style={styles.linkText}>Forgot Password?</Text>
                 </TouchableOpacity>
-                
+
                 <Button
                   title="Login"
                   onPress={handleSignIn}
                   disabled={!email || !password}
-                  isLoading={isLoading}
+                  isLoading={isSigningIn}
                   style={styles.loginButton}
                 />
               </View>
@@ -107,17 +125,26 @@ export const SignInScreen: React.FC = () => {
 
             {/* Sign Up Link */}
             <View style={styles.signUpContainer}>
-              <Text style={styles.signUpText}>Don't have an account?</Text>
+              <Text style={styles.signUpText}>Don&apos;t have an account?</Text>
               <TouchableOpacity onPress={handleSignUp}>
                 <Text style={styles.signUpLink}>Sign Up</Text>
               </TouchableOpacity>
             </View>
+
+            {/* Debug Info - Show if authenticated */}
+            {/* {isAuthenticated && user && (
+              <View style={styles.debugContainer}>
+                <Text style={styles.debugText}>
+                  Logged in as: {user.email || 'User'}
+                </Text>
+              </View>
+            )} */}
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -185,4 +212,16 @@ const styles = StyleSheet.create({
     fontSize: fontSize.sm,
     fontWeight: '500',
   },
-});
+  debugContainer: {
+    marginTop: spacing.lg,
+    padding: spacing.md,
+    backgroundColor: colors.gray[50],
+    borderRadius: 8,
+    width: '100%',
+  },
+  debugText: {
+    color: colors.gray[600],
+    fontSize: fontSize.sm,
+    textAlign: 'center',
+  },
+})

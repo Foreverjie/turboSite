@@ -8,6 +8,10 @@
       "path": "apps/web",
     },
     {
+      "name": "mobile",
+      "path": "apps/mobile",
+    },
+    {
       "name": "turbo-config",
       "path": "packages/turbo-config",
     },
@@ -30,7 +34,7 @@
     {
       "name": "trpc",
       "path": "packages/trpc",
-    }
+    },
   ],
   "settings": {
     "jest.disabledWorkspaceFolders": [
