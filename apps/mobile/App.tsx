@@ -2,6 +2,8 @@ import { StatusBar } from 'expo-status-bar'
 import { StyleSheet, View } from 'react-native'
 import { AppNavigator } from './src/components/AppNavigator'
 import { TRPCProvider } from './src/utils/trpcProvider'
+import { supabase } from './lib/supabase'
+import 'react-native-url-polyfill/auto'
 
 export default function App() {
   return (

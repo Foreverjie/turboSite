@@ -4,8 +4,8 @@ import { SupabaseClient, type User } from '@supabase/auth-helpers-nextjs'
 
 interface InnerContext {
   user: User | null
-  headers: Headers,
-  db: any // Replace with your actual database type
+  headers: Headers
+  db: any
   supabase: SupabaseClient
 }
 
@@ -18,7 +18,12 @@ interface InnerContext {
  * - trpc's `createSSGHelpers` where we don't have req/res
  * @see https://create.t3.gg/en/usage/trpc#-servertrpccontextts
  */
-const createInnerTRPCContext = async ({ user, headers, db, supabase }: InnerContext) => {
+const createInnerTRPCContext = async ({
+  user,
+  headers,
+  db,
+  supabase,
+}: InnerContext) => {
   return {
     user,
     headers,
@@ -32,7 +37,15 @@ const createInnerTRPCContext = async ({ user, headers, db, supabase }: InnerCont
  * process every request that goes through your tRPC endpoint
  * @link https://trpc.io/docs/context
  */
-export const createTRPCContext = async ({ req, supabase, db }: { req: NextRequest, supabase: SupabaseClient, db: any }) => {
+export const createTRPCContext = async ({
+  req,
+  supabase,
+  db,
+}: {
+  req: NextRequest
+  supabase: SupabaseClient
+  db: any
+}) => {
   const userRes = await supabase.auth.getUser()
 
   return createInnerTRPCContext({

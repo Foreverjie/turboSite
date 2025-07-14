@@ -22,8 +22,7 @@ import {
   postNewController,
   postIdController,
   postEditController,
-  postNewHookController,
-} from '../controllers/posts'
+} from '../controllers'
 
 export const post = router({
   all: publicProcedure
@@ -45,7 +44,7 @@ export const post = router({
     .meta(postAllMeta)
     .input(postAllInputSchema)
     .output(postAllOutputSchema)
-    .query((...args) => postAllController(...args, true)),
+    .query(postAllController),
   getById: publicProcedure
     .meta(postIdMeta)
     .input(postIdInputSchema)

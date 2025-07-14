@@ -8,3 +8,5 @@ export * from './users'
 
 // IP controllers
 export * from './ip'
+
+export * from './posts'
