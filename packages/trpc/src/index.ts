@@ -5,11 +5,8 @@
 // Type exports
 export * from './types'
 
-// Client exports  
+// Client exports
 export * from './client'
-
-// React exports
-export * from './react'
 
 // Middleware exports
 export * from './middlewares'
@@ -25,7 +22,7 @@ export * from './routers'
 
 // Re-export common tRPC types and utilities
 export type { TRPCError } from '@trpc/server'
-export type { 
+export type {
   CreateTRPCClientOptions,
   TRPCClientError,
   TRPCLink,

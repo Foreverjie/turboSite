@@ -1,12 +1,13 @@
 import { TRPCError } from '@trpc/server'
-import { UserUpdateInput } from '~/server/schemas/users'
-import { AdapterContext } from '../../adapters'
-import { db } from '~/drizzle/client'
-import { usersTable } from '~/drizzle/schema'
+import { UserUpdateInput } from '../../schemas/users'
+import { db } from '../../drizzle/client'
+import { usersTable } from '../../drizzle/schema'
 import { sql } from 'drizzle-orm'
+import { Context } from '../../context'
 
 export const userUpdateController = async (input: {
   input: UserUpdateInput
+  ctx: Context
 }) => {
   const { name, image, handle } = input.input
 
@@ -17,7 +18,7 @@ export const userUpdateController = async (input: {
 
     // Get the current authenticated user's ID to potentially exclude them from the search
     // if you're checking if the handle is taken by *another* user.
-    const tempSupabaseClient = await createClient() // Temporary client to get user ID
+    const tempSupabaseClient = input.ctx.supabase // Temporary client to get user ID
     const {
       data: { user: currentUser },
     } = await tempSupabaseClient.auth.getUser()
@@ -46,7 +47,7 @@ export const userUpdateController = async (input: {
   }
 
   // Create Supabase client
-  const supabase = await createClient()
+  const supabase = input.ctx.supabase
 
   // Update the user with Supabase
   const { data, error } = await supabase.auth.updateUser({

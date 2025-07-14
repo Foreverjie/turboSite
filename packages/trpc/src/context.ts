@@ -5,7 +5,6 @@ import { SupabaseClient, type User } from '@supabase/auth-helpers-nextjs'
 interface InnerContext {
   user: User | null
   headers: Headers
-  db: any
   supabase: SupabaseClient
 }
 
@@ -21,13 +20,11 @@ interface InnerContext {
 const createInnerTRPCContext = async ({
   user,
   headers,
-  db,
   supabase,
 }: InnerContext) => {
   return {
     user,
     headers,
-    db,
     supabase,
   }
 }
@@ -40,18 +37,15 @@ const createInnerTRPCContext = async ({
 export const createTRPCContext = async ({
   req,
   supabase,
-  db,
 }: {
   req: NextRequest
   supabase: SupabaseClient
-  db: any
 }) => {
   const userRes = await supabase.auth.getUser()
 
   return createInnerTRPCContext({
     user: userRes.data.user ?? null,
     headers: req.headers,
-    db,
     supabase,
   })
 }

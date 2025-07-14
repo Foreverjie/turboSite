@@ -1,4 +1,5 @@
 import { PostAllOutput, PostAllInput } from '../../schemas/posts'
+import { db } from '../../drizzle/client'
 
 export const postAllController = async (input: {
   input: PostAllInput
@@ -8,8 +9,6 @@ export const postAllController = async (input: {
     limit: 10,
     cursor: undefined,
   }
-
-  const db = input.ctx.db
 
   const posts = await db.query.rssItemsTable.findMany({
     where: (items, { gt }) => (cursor ? gt(items.id, cursor) : undefined),

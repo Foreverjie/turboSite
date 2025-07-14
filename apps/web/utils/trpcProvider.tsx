@@ -21,26 +21,6 @@ const onError = (err: unknown) => {
 }
 
 /**
- * Get base URL for tRPC client
- */
-function getLocalBaseUrl() {
-  if (typeof window !== 'undefined') {
-    // browser should use relative path
-    return ''
-  }
-  if (process.env.VERCEL_URL) {
-    // reference for vercel.com
-    return `https://${process.env.VERCEL_URL}`
-  }
-  if (process.env.RENDER_INTERNAL_HOSTNAME) {
-    // reference for render.com
-    return `http://${process.env.RENDER_INTERNAL_HOSTNAME}:${process.env.PORT}`
-  }
-  // assume localhost with web app's default port
-  return `http://localhost:${process.env.PORT ?? 9797}`
-}
-
-/**
  * tRPC Provider component with React Query integration
  */
 export const TrpcProvider: React.FC<{ children: React.ReactNode }> = ({
@@ -65,7 +45,7 @@ export const TrpcProvider: React.FC<{ children: React.ReactNode }> = ({
           enabled: () => process.env.NODE_ENV === 'development',
         }),
         httpBatchLink({
-          url: `${getLocalBaseUrl()}/api/trpc`,
+          url: `${getBaseUrl()}/api/trpc`,
           fetch: async (input, init?) => {
             const fetch = getFetch()
             return fetch(input, {
