@@ -6,7 +6,7 @@ import { createClient } from '~/utils/supabase/server'
 // this is the server RPC API handler
 
 const handler = async (req: NextRequest) => {
-  console.log(`incoming request ${req.url}`)
+  console.log(`incoming request - ${req.url}`)
 
   const supabase = await createClient()
 
