@@ -3,22 +3,31 @@
  */
 
 import React, { useState } from 'react'
-import { SafeAreaView, StyleSheet, View, Text, TouchableOpacity } from 'react-native'
+import {
+  SafeAreaView,
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+} from 'react-native'
 import { SignInScreen, ProfileScreen } from '../screens'
+import { Session } from '@supabase/supabase-js'
 
 type Screen = 'profile' | 'settings'
 
-export const AppNavigator: React.FC = () => {
+export const AppNavigator: React.FC<{ session: Session | null }> = ({
+  session,
+}) => {
   const [currentScreen, setCurrentScreen] = useState<Screen>('profile')
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const isAuthenticated = !!session
+
+  console.log('User is authenticated:', { session })
 
   const handleSignInSuccess = () => {
-    setIsAuthenticated(true)
     setCurrentScreen('profile')
   }
 
   const handleSignOut = () => {
-    setIsAuthenticated(false)
     setCurrentScreen('profile')
   }
 
@@ -31,16 +40,26 @@ export const AppNavigator: React.FC = () => {
           style={[styles.tab, currentScreen === 'profile' && styles.activeTab]}
           onPress={() => setCurrentScreen('profile')}
         >
-          <Text style={[styles.tabText, currentScreen === 'profile' && styles.activeTabText]}>
+          <Text
+            style={[
+              styles.tabText,
+              currentScreen === 'profile' && styles.activeTabText,
+            ]}
+          >
             个人资料
           </Text>
         </TouchableOpacity>
-        
+
         <TouchableOpacity
           style={[styles.tab, currentScreen === 'settings' && styles.activeTab]}
           onPress={() => setCurrentScreen('settings')}
         >
-          <Text style={[styles.tabText, currentScreen === 'settings' && styles.activeTabText]}>
+          <Text
+            style={[
+              styles.tabText,
+              currentScreen === 'settings' && styles.activeTabText,
+            ]}
+          >
             设置
           </Text>
         </TouchableOpacity>

@@ -38,7 +38,7 @@ export const createTRPCContext = async ({
   req,
   supabase,
 }: {
-  req: NextRequest
+  req: NextRequest | Request
   supabase: SupabaseClient
 }) => {
   const userRes = await supabase.auth.getUser()

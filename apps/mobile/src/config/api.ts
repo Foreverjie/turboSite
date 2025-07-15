@@ -8,14 +8,15 @@ export const config = {
     development: {
       // Update this with your local machine's IP address when testing on device
       // You can find this by running `ipconfig getifaddr en0` on macOS
-      baseUrl: 'http://localhost:9797',
+      baseUrl: 'http://localhost:8081/api/trpc',
+      // baseUrl: 'https://scflash.win/api/trpc',
       // For testing on device, use your computer's IP:
       // baseUrl: 'http://192.168.1.100:9797',
     },
 
     // Production URLs
     production: {
-      baseUrl: 'https://your-production-api.com',
+      baseUrl: 'https://scflash.win/api/trpc',
     },
 
     // Get the appropriate base URL
