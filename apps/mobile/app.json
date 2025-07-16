@@ -25,12 +25,17 @@
       "package": "com.flash.mobile"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro",
+      "output": "server"
     },
     "extra": {
       "eas": {
         "projectId": "your-project-id"
       }
-    }
+    },
+    "plugins": [
+      "expo-router"
+    ]
   }
 }

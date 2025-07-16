@@ -8,7 +8,7 @@ export const config = {
     development: {
       // Update this with your local machine's IP address when testing on device
       // You can find this by running `ipconfig getifaddr en0` on macOS
-      baseUrl: 'http://localhost:8081/api/trpc',
+      baseUrl: 'http://localhost:8082',
       // baseUrl: 'https://scflash.win/api/trpc',
       // For testing on device, use your computer's IP:
       // baseUrl: 'http://192.168.1.100:9797',
@@ -16,7 +16,7 @@ export const config = {
 
     // Production URLs
     production: {
-      baseUrl: 'https://scflash.win/api/trpc',
+      baseUrl: 'https://scflash.win',
     },
 
     // Get the appropriate base URL
@@ -29,9 +29,6 @@ export const config = {
 
   trpc: {
     endpoint: '/api/trpc',
-    headers: {
-      'x-trpc-source': 'mobile',
-    },
   },
 
   // React Query configuration

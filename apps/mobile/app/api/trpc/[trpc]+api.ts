@@ -12,6 +12,7 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
+  console.log("Received POST request");
   return fetchRequestHandler({
     endpoint: '/api/trpc',
     req,

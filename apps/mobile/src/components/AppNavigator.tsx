@@ -12,16 +12,17 @@ import {
 } from 'react-native'
 import { SignInScreen, ProfileScreen } from '../screens'
 import { Session } from '@supabase/supabase-js'
+import { trpc } from '../utils/trpc'
 
 type Screen = 'profile' | 'settings'
 
-export const AppNavigator: React.FC<{ session: Session | null }> = ({
-  session,
-}) => {
+export const AppNavigator: React.FC = () => {
   const [currentScreen, setCurrentScreen] = useState<Screen>('profile')
-  const isAuthenticated = !!session
 
-  console.log('User is authenticated:', { session })
+  const user = trpc.user.me.useQuery()
+  const isAuthenticated = !!user.data
+
+  console.log('User is authenticated:', { isAuthenticated })
 
   const handleSignInSuccess = () => {
     setCurrentScreen('profile')
