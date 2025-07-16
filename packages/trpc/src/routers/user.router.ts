@@ -48,9 +48,7 @@ import {
 // export default router
 export const user = router({
   signIn: publicProcedure
-    .meta(userSignInMeta)
     .input(userSignInInputSchema)
-    .output(userSignInOutputSchema)
     .mutation(userSignInController),
   signUp: publicProcedure
     .meta(userSignUpMeta)

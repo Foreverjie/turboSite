@@ -11,7 +11,7 @@ export const userSignInInputSchema = z.union(
       password: z.string().min(6).max(100),
       otp: z
         .undefined({
-          message: 'OTP should not be provided when using password',
+          description: 'OTP should not be provided when using password',
         })
         .optional(),
     }),
@@ -20,7 +20,7 @@ export const userSignInInputSchema = z.union(
       otp: z.string().length(6, { message: 'OTP must be 6 characters long' }),
       password: z
         .undefined({
-          message: 'Password should not be provided when using OTP',
+          description: 'Password should not be provided when using OTP',
         })
         .optional(),
     }),
@@ -42,6 +42,29 @@ export const userSignInInputSchema = z.union(
   },
 )
 export const userSignInOutputSchema = z.object({
+  response: z
+    .object({
+      user: z
+        .object({
+          id: z.string(),
+          email: z.string().email(),
+          created_at: z.string(),
+          updated_at: z.string(),
+          email_confirmed_at: z.string().nullable(),
+          last_sign_in_at: z.string().nullable(),
+        })
+        .nullable(),
+      session: z
+        .object({
+          access_token: z.string(),
+          refresh_token: z.string(),
+          expires_in: z.number(),
+          expires_at: z.number(),
+          token_type: z.string(),
+        })
+        .nullable(),
+    })
+    .nullable(),
   error: z
     .object({
       message: z.string(),

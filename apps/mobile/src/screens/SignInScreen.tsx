@@ -17,6 +17,7 @@ import {
   fontSize,
 } from '../../../../packages/design-tokens/src'
 import { trpc } from '../utils/trpc'
+import { supabase } from '../../lib/supabase'
 
 interface SignInScreenProps {
   onSignInSuccess?: () => void
@@ -27,6 +28,7 @@ export const SignInScreen: React.FC<SignInScreenProps> = ({
 }) => {
   const [email, setEmail] = useState('864129545@qq.com')
   const [password, setPassword] = useState('zzj123,.')
+  const [loading, setLoading] = useState(false)
 
   // Use tRPC auth hook
   const { mutateAsync: signIn, isPending: isSigningIn } =
@@ -34,13 +36,27 @@ export const SignInScreen: React.FC<SignInScreenProps> = ({
       onSuccess: data => {
         Alert.alert('成功', '登录成功！')
         console.log('Sign in data:', data)
+        if (!data.data.session) {
+          Alert.alert('错误', '登录失败，请重试')
+          return
+        }
         // Call the success callback to navigate to profile
-        onSignInSuccess?.()
+        supabase.auth.setSession(data.data.session)
       },
       onError: error => {
         Alert.alert('错误', `登录失败: ${error.message}`)
       },
     })
+
+  async function signInWithEmail() {
+    setLoading(true)
+    const { error } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: password,
+    })
+    if (error) Alert.alert(error.message)
+    setLoading(false)
+  }
 
   const handleSignIn = async () => {
     if (!email || !password) {
@@ -50,10 +66,11 @@ export const SignInScreen: React.FC<SignInScreenProps> = ({
 
     try {
       // Use tRPC signIn mutation
-      signIn({
-        email,
-        password,
-      })
+      // signIn({
+      //   email,
+      //   password,
+      // })
+      signInWithEmail()
     } catch (error) {
       // Error handling is done in the hook
       console.error('Sign in error:', error)
@@ -116,7 +133,7 @@ export const SignInScreen: React.FC<SignInScreenProps> = ({
                   title="Login"
                   onPress={handleSignIn}
                   disabled={!email || !password}
-                  isLoading={isSigningIn}
+                  isLoading={loading}
                   style={styles.loginButton}
                 />
               </View>

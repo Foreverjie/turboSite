@@ -13,16 +13,15 @@ import {
 import { SignInScreen, ProfileScreen } from '../screens'
 import { Session } from '@supabase/supabase-js'
 import { trpc } from '../utils/trpc'
+import { supabase } from '../../lib/supabase'
 
 type Screen = 'profile' | 'settings'
 
-export const AppNavigator: React.FC = () => {
+export const AppNavigator: React.FC = async () => {
   const [currentScreen, setCurrentScreen] = useState<Screen>('profile')
 
-  const user = trpc.user.me.useQuery()
-  const isAuthenticated = !!user.data
-
-  console.log('User is authenticated:', { isAuthenticated })
+  const session = await supabase.auth.getSession()
+  const isAuthenticated = !!session
 
   const handleSignInSuccess = () => {
     setCurrentScreen('profile')

@@ -1,3 +1,5 @@
+import { AuthResponse } from '@supabase/supabase-js'
+import { Context } from '../../context'
 import {
   UserSignInOutput,
   UserSignInInput,
@@ -9,33 +11,33 @@ export const userSignInController = async ({
   ctx,
 }: {
   input: UserSignInInput
-  ctx: any
-}): Promise<UserSignInOutput> => {
+  ctx: Context
+}): Promise<AuthResponse> => {
   const supabase = ctx.supabase
-  let error
+  let result: AuthResponse = {
+    data: { user: null, session: null },
+    error: null,
+  }
   if (password) {
-    const result = await supabase.auth.signInWithPassword({
+    result = await supabase.auth.signInWithPassword({
       email,
       password,
     })
-    error = result.error
   } else if (otp) {
-    const result = await supabase.auth.verifyOtp({
+    result = await supabase.auth.verifyOtp({
       email,
       token: otp,
       type: 'email',
     })
-    error = result.error
   }
 
-  if (error) {
+  if (result?.error) {
     throw new TRPCError({
       code: 'BAD_REQUEST',
-      message: error.message,
+      message: result.error.message,
     })
   }
 
   console.log('Sign in successful')
-
-  return { error: null }
+  return result
 }

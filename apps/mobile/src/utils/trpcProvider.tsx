@@ -25,20 +25,20 @@ export function TRPCProvider({ children }: TRPCProviderProps) {
           url: `${config.api.getBaseUrl()}${config.trpc.endpoint}`,
           // headers: config.trpc.headers,
           async headers() {
-            const headers = new Map<string, string>();
-            headers.set("x-trpc-source", "expo-react");
+            const headers = new Map<string, string>()
+            headers.set('x-trpc-source', 'expo-react')
 
-          //   const { data } = await supabase.auth.getSession();
-          //   console.log("Supabase session data:", data);
-          //   const token = data.session?.access_token;
-          //   if (token) headers.set("authorization", token);
+            const { data } = await supabase.auth.getSession()
+            console.log('Supabase session data:', data)
+            const token = data.session?.access_token
+            if (token) headers.set('authorization', token)
 
-            return Object.fromEntries(headers);
+            return Object.fromEntries(headers)
           },
           // For React Native, we might need to handle fetch differently
           fetch: async (input: any, init?: any) => {
             // Use the global fetch that's available in React Native
-            console.log("Fetching with input:", input, "and init:", init);
+            console.log('Fetching with input:', input, 'and init:', init)
             return fetch(input, {
               ...init,
               // You might need to add additional headers for authentication

@@ -43,6 +43,10 @@ export const createTRPCContext = async ({
 }) => {
   const userRes = await supabase.auth.getUser()
 
+  const user = await supabase.auth.signInWithIdToken(
+    req.headers.get('Authorization'),
+  )
+
   return createInnerTRPCContext({
     user: userRes.data.user ?? null,
     headers: req.headers,
