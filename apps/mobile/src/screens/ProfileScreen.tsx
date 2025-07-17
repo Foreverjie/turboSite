@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   View,
   Text,
@@ -12,7 +12,7 @@ import {
 } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { Button } from '../components'
+import { Button, useGlobalLoading } from '../components'
 import {
   colors,
   spacing,
@@ -28,23 +28,37 @@ interface ProfileScreenProps {
 export const ProfileScreen: React.FC<ProfileScreenProps> = ({ onSignOut }) => {
   const insets = useSafeAreaInsets()
   const [scrollY] = useState(new Animated.Value(0))
+  const { showLoading, hideLoading } = useGlobalLoading()
   
   // Get user profile data
   const { data: userProfile, isLoading, error } = trpc.user.me.useQuery()
   const { mutateAsync: signOut, isPending} = trpc.user.signOut.useMutation({
     onSuccess: async () => {
-      await supabase.auth.refreshSession()
+      await supabase.auth.signOut()
+      hideLoading()
       onSignOut()
     },
     onError: (error) => {
+      hideLoading()
       Alert.alert('错误', error.message)
     },
   })
 
+  // Show/hide global loading based on isPending
+  useEffect(() => {
+    if (isPending) {
+      showLoading('正在退出登录...')
+    } else {
+      hideLoading()
+    }
+
+    return () => {
+      hideLoading()
+    }
+  }, [isPending, showLoading, hideLoading])
+
   // 定义渐变的关键点
   const HEADER_SCROLL_DISTANCE = 120
-  const HEADER_MIN_HEIGHT = 60 + insets.top
-  const HEADER_MAX_HEIGHT = 200 + insets.top
 
   // 创建动画插值
   const headerBackgroundColor = scrollY.interpolate({

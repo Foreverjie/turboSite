@@ -30,6 +30,7 @@
     "@trpc/server": "^10.45.2",
     "design-tokens": "^1.0.1",
     "expo": "~53.0.17",
+    "expo-blur": "^14.1.5",
     "expo-constants": "~17.1.7",
     "expo-dev-client": "^5.2.4",
     "expo-font": "^13.3.2",

@@ -26,8 +26,8 @@ interface SignInScreenProps {
 export const SignInScreen: React.FC<SignInScreenProps> = ({
   onSignInSuccess,
 }) => {
-  const [email, setEmail] = useState('864129545@qq.com')
-  const [password, setPassword] = useState('zzj123,.')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
 
   // Use tRPC auth hook
