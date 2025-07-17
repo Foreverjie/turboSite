@@ -1,11 +1,12 @@
 import * as trpc from '@trpc/server'
 import { NextRequest } from 'next/server'
-import { SupabaseClient, type User } from '@supabase/auth-helpers-nextjs'
+import { type User } from '@supabase/auth-helpers-nextjs'
+import { createWebContext } from 'trpc-config/src/adapters/web'
+import { AdapterContext } from 'trpc-config/src/adapters'
 
-interface InnerContext {
+interface InnerContext extends AdapterContext {
   user: User | null
   headers: Headers
-  supabase: SupabaseClient
 }
 
 /**
@@ -20,12 +21,14 @@ interface InnerContext {
 const createInnerTRPCContext = async ({
   user,
   headers,
-  supabase,
+  auth,
+  db,
 }: InnerContext) => {
   return {
     user,
     headers,
-    supabase,
+    auth,
+    db,
   }
 }
 
@@ -34,23 +37,17 @@ const createInnerTRPCContext = async ({
  * process every request that goes through your tRPC endpoint
  * @link https://trpc.io/docs/context
  */
-export const createTRPCContext = async ({
-  req,
-  supabase,
-}: {
-  req: NextRequest | Request
-  supabase: SupabaseClient
-}) => {
-  const userRes = await supabase.auth.getUser()
+export const createTRPCContext = async (opts: { req: NextRequest }) => {
+  const { req } = opts
 
-  const user = await supabase.auth.getUser(
-    req.headers.get('Authorization'),
-  )
+  // Create context with shared adapters
+  const adapterContext = await createWebContext()
 
   return createInnerTRPCContext({
-    user: userRes.data.user ?? user.data.user ?? null,
+    user: adapterContext.user ?? null,
     headers: req.headers,
-    supabase,
+    auth: adapterContext.auth,
+    db: adapterContext.db,
   })
 }
 

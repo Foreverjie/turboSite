@@ -15,6 +15,7 @@ import {
   fontSize,
 } from '../../../../packages/design-tokens/src'
 import { trpc } from '../utils/trpc'
+import { supabase } from '../../lib/supabase'
 
 interface ProfileScreenProps {
   onSignOut: () => void
