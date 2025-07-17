@@ -28,7 +28,7 @@ import { useRouteParamsSelector } from '~/hooks/biz/useRouteParams'
 import { useHover } from 'usehooks-ts'
 import { GridItem } from '../templates/gird-item-template'
 import { FeedTitle } from './FeedTitle'
-import { PostAllOutput } from '~/server/schemas/posts'
+import { PostAllOutput } from 'trpc-config/src/schemas/posts'
 
 // const ViewTag = IN_ELECTRON ? 'webview' : 'iframe'
 const ViewTag = 'iframe'

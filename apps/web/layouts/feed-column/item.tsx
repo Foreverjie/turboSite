@@ -3,7 +3,7 @@ import { memo } from 'react'
 
 import { VideoItem } from './components/VideoItem'
 import { EntryItemWrapper } from './layout/EntryItemWrapper'
-import { PostAllOutput } from '~/server/schemas/posts'
+import { PostAllOutput } from 'trpc-config/src/schemas/posts'
 
 function EntryItemImpl({
   post,
