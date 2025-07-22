@@ -309,6 +309,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ onSignOut }) => {
       <ScrollView 
         contentContainerStyle={styles.scrollContent} 
         showsVerticalScrollIndicator={false}
+        bounces={false}
         onScroll={handleScroll}
         scrollEventThrottle={16}
       >
