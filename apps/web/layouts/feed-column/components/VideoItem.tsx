@@ -73,6 +73,16 @@ export function VideoItem({ post }: { post?: PostAllOutput['posts'][number] }) {
     }
   }, [hovered])
 
+  // Get RSS subscription info for feed display
+  const feedInfo = post.rssSub
+  const feedIcon = feedInfo?.icon || feedInfo?.favicon
+  const feedTitle = feedInfo?.title
+
+  // Extract image from content HTML or use attachments
+  const imgSrc =
+    post.contentHtml?.match(/<img[^>]+src="([^">]+)"/)?.[1] ||
+    post.attachments?.[0]?.url
+
   //   if (!entry) return null
   return (
     <GridItem post={post}>
@@ -119,7 +129,8 @@ export function VideoItem({ post }: { post?: PostAllOutput['posts'][number] }) {
             }
             type={'photo'}
             previewImageUrl={
-              post.attachments[0].url ? post.attachments[0].url : undefined
+              undefined
+              // post.attachments[0].url ? post.attachments[0].url : undefined
             }
             className={cn(
               'aspect-video w-full shrink-0 rounded-md object-cover',
@@ -229,10 +240,16 @@ export function VideoItemStateLess({ entry, feed }: any) {
               {entry.title}
             </div>
             <div className="text-text-secondary mt-1 flex items-center gap-1 truncate text-[13px]">
-              <FeedIcon fallback className="size-4" />
-              <FeedTitle />
+              <FeedIcon
+                fallback
+                className="size-4"
+                src={entry.rssSub?.icon || entry.rssSub?.favicon}
+              />
+              <FeedTitle title={entry.rssSub?.title} />
               <span className="text-material-opaque">·</span>
-              {!!entry.publishedAt && <RelativeTime date={entry.publishedAt} />}
+              {!!entry.datePublished && (
+                <RelativeTime date={entry.datePublished} />
+              )}
             </div>
           </div>
         </div>

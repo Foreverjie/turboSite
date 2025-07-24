@@ -32,5 +32,10 @@
   "go.toolsEnvVars": {
     "GO111MODULE": "auto"
   },
-  "eslint.packageManager": "pnpm"
+  "eslint.packageManager": "pnpm",
+  "github.copilot.chat.codeGeneration.instructions": [
+    {
+      "file": "../.github/copilot/base.md"
+    }
+  ]
 }

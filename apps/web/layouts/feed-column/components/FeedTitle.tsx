@@ -20,7 +20,7 @@ export const FeedTitle = ({
       <EllipsisHorizontalTextWithTooltip
         className={cn('truncate', titleClassName)}
       >
-        {'影视飓风的bilibili空间'}
+        {title}
       </EllipsisHorizontalTextWithTooltip>
     </div>
   )

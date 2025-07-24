@@ -6,7 +6,7 @@ import dayjs from 'dayjs'
 import { cn } from 'ui/src/utils'
 import { FeedTitle } from '../components/FeedTitle'
 import { FeedIcon } from '~/components/feed/feed-icon'
-import { PostAllOutput } from '~/server/schemas/posts'
+import { PostAllOutput } from 'trpc-config/src/schemas/posts'
 
 interface GridItemProps {
   children?: React.ReactNode
@@ -52,15 +52,20 @@ export const GridItemFooter = ({
         </div>
       </div>
       <div className="flex items-center gap-1 truncate text-[13px]">
-        <FeedIcon fallback className="mr-0.5 flex" size={18} />
+        <FeedIcon
+          src={post.rssSub?.icon}
+          fallback
+          className="mr-0.5 flex"
+          size={18}
+        />
         <span className={cn('min-w-0 truncate', descriptionClassName)}>
-          <FeedTitle title={post.title} />
+          <FeedTitle title={post.rssSub?.title} />
         </span>
         <span className={cn('text-zinc-500', timeClassName)}>·</span>
         <span className={cn('text-zinc-500', timeClassName)}>
           {dayjs
             .duration(
-              dayjs().diff(dayjs(post.publicationDate), 'minute'),
+              dayjs().diff(dayjs(post.datePublished), 'minute'),
               'minute',
             )
             .humanize()}

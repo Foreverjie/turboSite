@@ -44,6 +44,15 @@ export const postAllOutputSchema = z.object({
       datePublished: z.date().nullish(),
       description: z.string().nullish(),
       sourceFeedUrl: z.string().nullish(),
+      // RSS Subscription information
+      rssSub: z.object({
+        id: z.number(),
+        title: z.string(),
+        icon: z.string().nullish(),
+        favicon: z.string().nullish(),
+        homePageUrl: z.string().nullish(),
+        description: z.string().nullish(),
+      }).nullish(),
     })
     .array(),
   nextCursor: z.number().nullish(),

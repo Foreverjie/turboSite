@@ -78,7 +78,9 @@ export function FeedIcon({
   useMedia,
   disableFadeIn,
   noMargin,
+  src,
 }: {
+  src?: string | null
   //   feed?: FeedIconFeed | null
   //   entry?: FeedIconEntry | null
   fallbackUrl?: string
@@ -161,6 +163,7 @@ export function FeedIcon({
       ImageElement = (
         <PlatformIcon
           url={
+            src ??
             'https://webp.follow.is/?url=https%3A%2F%2Fi0.hdslb.com%2Fbfs%2Fface%2Fc1733474892caa45952b2c09a89323157df7129a.jpg&width=36&height=36'
           }
           style={sizeStyle}

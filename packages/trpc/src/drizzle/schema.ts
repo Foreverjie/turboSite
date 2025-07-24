@@ -9,6 +9,7 @@ import {
   unique,
   uuid,
 } from 'drizzle-orm/pg-core'
+import { relations } from 'drizzle-orm'
 
 import { authUsers } from 'drizzle-orm/supabase'
 
@@ -124,4 +125,38 @@ export const userRssSubsTable = pgTable('user_rss_subs', {
   uniqueUserSub: unique().on(table.userId, table.rssSubId),
   userIdIdx: index('user_rss_subs_user_id_idx').on(table.userId),
   rssSubIdIdx: index('user_rss_subs_rss_sub_id_idx').on(table.rssSubId),
+}))
+
+// Relations definitions for Drizzle ORM
+export const rssSubsRelations = relations(rssSubsTable, ({ many, one }) => ({
+  // One RSS subscription has many items
+  items: many(rssItemsTable),
+  // One RSS subscription belongs to one user
+  user: one(authUsers, {
+    fields: [rssSubsTable.userId],
+    references: [authUsers.id],
+  }),
+  // One RSS subscription has many user subscriptions (many-to-many)
+  userSubscriptions: many(userRssSubsTable),
+}))
+
+export const rssItemsRelations = relations(rssItemsTable, ({ one }) => ({
+  // Each RSS item belongs to one RSS subscription
+  rssSub: one(rssSubsTable, {
+    fields: [rssItemsTable.rssSubId],
+    references: [rssSubsTable.id],
+  }),
+}))
+
+export const userRssSubsRelations = relations(userRssSubsTable, ({ one }) => ({
+  // Each user subscription belongs to one user
+  user: one(authUsers, {
+    fields: [userRssSubsTable.userId],
+    references: [authUsers.id],
+  }),
+  // Each user subscription belongs to one RSS subscription
+  rssSub: one(rssSubsTable, {
+    fields: [userRssSubsTable.rssSubId],
+    references: [rssSubsTable.id],
+  }),
 }))
