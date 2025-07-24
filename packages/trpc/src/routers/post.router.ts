@@ -15,6 +15,9 @@ import {
   postEditMeta,
   postEditInputSchema,
   postEditOutputSchema,
+  postRefreshMeta,
+  postRefreshInputSchema,
+  postRefreshOutputSchema,
 } from '../schemas/posts'
 import {
   postAllController,
@@ -22,6 +25,7 @@ import {
   postNewController,
   postIdController,
   postEditController,
+  postRefreshController,
 } from '../controllers'
 
 export const post = router({
@@ -55,4 +59,9 @@ export const post = router({
     .input(postEditInputSchema)
     .output(postEditOutputSchema)
     .mutation(postEditController),
+  refresh: protectedProcedure
+    .meta(postRefreshMeta)
+    .input(postRefreshInputSchema)
+    .output(postRefreshOutputSchema)
+    .mutation(postRefreshController),
 })
