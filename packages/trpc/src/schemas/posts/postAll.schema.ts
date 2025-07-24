@@ -13,8 +13,35 @@ export const postAllOutputSchema = z.object({
     .object({
       createdAt: z.date(),
       title: z.string().nullish(),
-      link: z.string(),
-      publicationDate: z.date(),
+      url: z.string(),
+      contentHtml: z.string().nullish(),
+      contentText: z.string().nullish(),
+      summary: z.string().nullish(),
+      itemId: z.string().nullish(),
+      authors: z
+        .object({
+          name: z.string().nullish(),
+          url: z.string().nullish(),
+          avatar: z.string().nullish(),
+        })
+        .array()
+        .nullish(),
+      attachments: z
+        .object({
+          url: z.string(),
+          mimeType: z.string().nullish(),
+          title: z.string().nullish(),
+          sizeInBytes: z.number().nullish(),
+          durationInSeconds: z.number().nullish(),
+        })
+        .array()
+        .nullish(),
+      isRead: z.number().default(0),
+      isFavorite: z.number().default(0),
+      dateModified: z.date().nullish(),
+      rssSubId: z.number().nullish(),
+      tags: z.string().array().nullish(),
+      datePublished: z.date().nullish(),
       description: z.string().nullish(),
       sourceFeedUrl: z.string().nullish(),
     })

@@ -1,1 +1,0 @@
-ALTER TABLE "user_with_meta_data" ADD CONSTRAINT "user_with_meta_data_user_id_unique" UNIQUE("user_id");

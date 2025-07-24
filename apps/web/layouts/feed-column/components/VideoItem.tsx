@@ -73,11 +73,6 @@ export function VideoItem({ post }: { post?: PostAllOutput['posts'][number] }) {
     }
   }, [hovered])
 
-  // 从HTML实体编码的description中提取图片URL
-  // 匹配模式: &lt;img src=&quot;URL&quot;
-  const imgSrcMatch = post.description?.match(/&lt;img src=&quot;([^&]+)&quot;/)
-  const imgSrc = imgSrcMatch ? imgSrcMatch[1] : undefined
-
   //   if (!entry) return null
   return (
     <GridItem post={post}>
@@ -124,11 +119,7 @@ export function VideoItem({ post }: { post?: PostAllOutput['posts'][number] }) {
             }
             type={'photo'}
             previewImageUrl={
-              imgSrc
-                ? `https://webp.follow.is/?url=${encodeURIComponent(
-                    imgSrc,
-                  )}&width=640&height=360`
-                : undefined
+              post.attachments[0].url ? post.attachments[0].url : undefined
             }
             className={cn(
               'aspect-video w-full shrink-0 rounded-md object-cover',
