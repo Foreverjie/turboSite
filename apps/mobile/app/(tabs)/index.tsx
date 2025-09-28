@@ -14,24 +14,13 @@ import {
 } from 'react-native'
 import { trpc } from '../../src/utils/trpc'
 import { Ionicons } from '@expo/vector-icons'
+import { PostAllOutput } from 'trpc-config'
 
 const { width } = Dimensions.get('window')
 const CARD_WIDTH = (width - 48) / 2 // 两列布局，考虑padding
 
-interface VideoCardProps {
-  title: string
-  link: string
-  description: string | null
-  publicationDate: Date
-  sourceFeedUrl: string | null
-}
-
-const VideoCard: React.FC<VideoCardProps> = ({
-  title,
-  link,
-  description,
-  publicationDate,
-  sourceFeedUrl,
+const VideoCard: React.FC<{ item: PostAllOutput['posts'][number] }> = ({
+  item,
 }) => {
   const scaleAnim = useRef(new Animated.Value(1)).current
 
@@ -49,7 +38,9 @@ const VideoCard: React.FC<VideoCardProps> = ({
     }).start()
   }
 
-  const formatDate = (date: Date) => {
+  const formatDate = (date?: Date | null) => {
+    if (!date) return '未知时间'
+
     const now = new Date()
     const diffInHours = Math.floor(
       (now.getTime() - date.getTime()) / (1000 * 60 * 60),
@@ -62,14 +53,15 @@ const VideoCard: React.FC<VideoCardProps> = ({
   }
 
   // 生成随机视频时长
-  const getRandomDuration = () => {
-    const minutes = Math.floor(Math.random() * 20) + 1
-    const seconds = Math.floor(Math.random() * 60)
+  const getDuration = (seconds: number) => {
+    const minutes = Math.floor(seconds / 60)
+    seconds = seconds % 60
     return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
   }
 
-  const imgSrcMatch = description?.match(/&lt;img src=&quot;([^&]+)&quot;/)
-  const imgSrc = imgSrcMatch ? imgSrcMatch[1] : undefined
+  const imgSrc =
+    item.contentHtml?.match(/<img[^>]+src="([^">]+)"/)?.[1] ||
+    item.attachments?.[0]?.url
 
   return (
     <Animated.View
@@ -89,18 +81,23 @@ const VideoCard: React.FC<VideoCardProps> = ({
             }}
             style={styles.thumbnail}
             resizeMode="cover"
-            accessibilityLabel={`视频缩略图: ${title || '无标题'}`}
+            accessibilityLabel={`视频缩略图: ${item.title || '无标题'}`}
           />
           {/* 视频时长标签 */}
-          <View style={styles.durationTag}>
-            <Text style={styles.durationText}>{getRandomDuration()}</Text>
-          </View>
+          {item.attachments?.[0]?.durationInSeconds &&
+            item.attachments[0].durationInSeconds > 0 && (
+              <View style={styles.durationTag}>
+                <Text style={styles.durationText}>
+                  {getDuration(item.attachments[0].durationInSeconds)}
+                </Text>
+              </View>
+            )}
         </View>
 
         {/* 视频信息 */}
         <View style={styles.videoInfo}>
           <Text style={styles.videoTitle} numberOfLines={2}>
-            {title || '无标题'}
+            {item.title || '无标题'}
           </Text>
 
           {/* 用户信息 */}
@@ -110,10 +107,10 @@ const VideoCard: React.FC<VideoCardProps> = ({
             </View>
             <View style={styles.userDetails}>
               <Text style={styles.username} numberOfLines={1}>
-                {sourceFeedUrl ? new URL(sourceFeedUrl).hostname : '未知用户'}
+                {item.rssSub?.title ? item.rssSub.title : '未知用户'}
               </Text>
               <Text style={styles.publishTime}>
-                {formatDate(publicationDate)}
+                {formatDate(item.datePublished)}
               </Text>
             </View>
           </View>
@@ -143,13 +140,29 @@ export default function HomePage() {
     },
   )
 
+  const refreshMutation = trpc.post.refresh.useMutation()
+
   const posts = postsData?.pages.flatMap(page => page.posts) ?? []
 
   const onRefresh = async () => {
     setRefreshing(true)
-    await refetch()
-    setRefreshing(false)
+    try {
+      // First, trigger the refresh endpoint to fetch newest RSS items
+      const refreshResult = await refreshMutation.mutateAsync({ force: true })
+
+      if (refreshResult.success) {
+        // Then refetch the posts to get the updated data
+        await refetch()
+      }
+    } catch (error) {
+      console.error('Error refreshing:', error)
+    } finally {
+      setRefreshing(false)
+    }
   }
+
+  // Show refreshing state if either manual refresh or mutation is loading
+  const isRefreshing = refreshing || refreshMutation.isLoading
 
   const loadMore = () => {
     if (hasNextPage && !isFetchingNextPage) {
@@ -157,14 +170,8 @@ export default function HomePage() {
     }
   }
 
-  const renderItem = ({ item }: { item: any }) => (
-    <VideoCard
-      title={item.title}
-      link={item.link}
-      description={item.description}
-      publicationDate={item.publicationDate}
-      sourceFeedUrl={item.sourceFeedUrl}
-    />
+  const renderItem = ({ item }: { item: PostAllOutput['posts'][number] }) => (
+    <VideoCard item={item} />
   )
 
   const renderFooter = () => {
@@ -187,6 +194,17 @@ export default function HomePage() {
       <View style={styles.header}>
         <Text style={styles.headerTitle}>视频</Text>
         <View style={styles.headerIcons}>
+          <TouchableOpacity
+            style={styles.iconButton}
+            onPress={onRefresh}
+            disabled={isRefreshing}
+          >
+            <Ionicons
+              name={isRefreshing ? 'sync' : 'refresh'}
+              size={24}
+              color={isRefreshing ? '#FF6B35' : '#333'}
+            />
+          </TouchableOpacity>
           <TouchableOpacity style={styles.iconButton}>
             <Ionicons name="search" size={24} color="#333" />
           </TouchableOpacity>
@@ -229,13 +247,13 @@ export default function HomePage() {
         <FlatList
           data={posts}
           renderItem={renderItem}
-          keyExtractor={(item, index) => `${item.link}-${index}`}
+          keyExtractor={(item, index) => `${item.url}-${index}`}
           numColumns={2}
           contentContainerStyle={styles.listContainer}
           columnWrapperStyle={styles.row}
           showsVerticalScrollIndicator={false}
           refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
           }
           onEndReached={loadMore}
           onEndReachedThreshold={0.5}

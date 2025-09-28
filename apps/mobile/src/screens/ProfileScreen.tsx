@@ -9,6 +9,7 @@ import {
   Alert,
   StatusBar,
   Animated,
+  Image,
 } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -29,16 +30,16 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ onSignOut }) => {
   const insets = useSafeAreaInsets()
   const [scrollY] = useState(new Animated.Value(0))
   const { showLoading, hideLoading } = useGlobalLoading()
-  
+
   // Get user profile data
   const { data: userProfile, isLoading, error } = trpc.user.me.useQuery()
-  const { mutateAsync: signOut, isPending} = trpc.user.signOut.useMutation({
+  const { mutateAsync: signOut, isPending } = trpc.user.signOut.useMutation({
     onSuccess: async () => {
       await supabase.auth.signOut()
       hideLoading()
       onSignOut()
     },
-    onError: (error) => {
+    onError: error => {
       hideLoading()
       Alert.alert('错误', error.message)
     },
@@ -63,7 +64,11 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ onSignOut }) => {
   // 创建动画插值
   const headerBackgroundColor = scrollY.interpolate({
     inputRange: [0, HEADER_SCROLL_DISTANCE / 3, HEADER_SCROLL_DISTANCE],
-    outputRange: ['rgba(102, 126, 234, 1)', 'rgba(102, 126, 234, 0.95)', 'rgba(255, 255, 255, 0.98)'],
+    outputRange: [
+      'rgba(102, 126, 234, 1)',
+      'rgba(102, 126, 234, 0.95)',
+      'rgba(255, 255, 255, 0.98)',
+    ],
     extrapolate: 'clamp',
   })
 
@@ -95,27 +100,23 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ onSignOut }) => {
     [{ nativeEvent: { contentOffset: { y: scrollY } } }],
     {
       useNativeDriver: false,
-    }
+    },
   )
 
   const handleSignOut = async () => {
-    Alert.alert(
-      '退出登录',
-      '确定要退出登录吗？',
-      [
-        {
-          text: '取消',
-          style: 'cancel',
+    Alert.alert('退出登录', '确定要退出登录吗？', [
+      {
+        text: '取消',
+        style: 'cancel',
+      },
+      {
+        text: '退出',
+        style: 'destructive',
+        onPress: async () => {
+          await signOut()
         },
-        {
-          text: '退出',
-          style: 'destructive',
-          onPress: async () => {
-            await signOut()
-          },
-        },
-      ]
-    )
+      },
+    ])
   }
 
   const handleEditProfile = () => {
@@ -128,56 +129,56 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ onSignOut }) => {
       title: '通用',
       icon: 'settings-outline',
       iconColor: '#FF6B8A',
-      onPress: () => Alert.alert('通用', '通用设置功能即将推出')
+      onPress: () => Alert.alert('通用', '通用设置功能即将推出'),
     },
     {
       id: 'appearance',
       title: '外观',
       icon: 'color-palette-outline',
       iconColor: '#8B5CF6',
-      onPress: () => Alert.alert('外观', '外观设置功能即将推出')
+      onPress: () => Alert.alert('外观', '外观设置功能即将推出'),
     },
     {
       id: 'data',
       title: '数据控制',
       icon: 'server-outline',
       iconColor: '#3B82F6',
-      onPress: () => Alert.alert('数据控制', '数据控制功能即将推出')
+      onPress: () => Alert.alert('数据控制', '数据控制功能即将推出'),
     },
     {
       id: 'account',
       title: '账户',
       icon: 'people-outline',
       iconColor: '#F59E0B',
-      onPress: () => Alert.alert('账户', '账户设置功能即将推出')
+      onPress: () => Alert.alert('账户', '账户设置功能即将推出'),
     },
     {
       id: 'automation',
       title: '自动化',
       icon: 'flash-outline',
       iconColor: '#8B5CF6',
-      onPress: () => Alert.alert('自动化', '自动化功能即将推出')
+      onPress: () => Alert.alert('自动化', '自动化功能即将推出'),
     },
     {
       id: 'shortcuts',
       title: '列表',
       icon: 'list-outline',
       iconColor: '#06B6D4',
-      onPress: () => Alert.alert('列表', '列表功能即将推出')
+      onPress: () => Alert.alert('列表', '列表功能即将推出'),
     },
     {
       id: 'privacy',
       title: '隐私',
       icon: 'shield-checkmark-outline',
       iconColor: '#6366F1',
-      onPress: () => Alert.alert('隐私', '隐私设置功能即将推出')
+      onPress: () => Alert.alert('隐私', '隐私设置功能即将推出'),
     },
     {
       id: 'about',
       title: '关于',
       icon: 'information-circle-outline',
       iconColor: '#F59E0B',
-      onPress: () => Alert.alert('关于', '关于页面功能即将推出')
+      onPress: () => Alert.alert('关于', '关于页面功能即将推出'),
     },
   ]
 
@@ -185,18 +186,20 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ onSignOut }) => {
     <Animated.View
       key={item.id}
       style={{
-        transform: [{
-          translateY: scrollY.interpolate({
-            inputRange: [0, 100],
-            outputRange: [0, -index * 2],
-            extrapolate: 'clamp',
-          })
-        }],
+        transform: [
+          {
+            translateY: scrollY.interpolate({
+              inputRange: [0, 100],
+              outputRange: [0, -index * 2],
+              extrapolate: 'clamp',
+            }),
+          },
+        ],
         opacity: scrollY.interpolate({
           inputRange: [0, 50, 150],
           outputRange: [1, 1, 0.9],
           extrapolate: 'clamp',
-        })
+        }),
       }}
     >
       <TouchableOpacity
@@ -205,8 +208,17 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ onSignOut }) => {
         activeOpacity={0.7}
       >
         <View style={styles.settingItemLeft}>
-          <View style={[styles.settingIcon, { backgroundColor: item.iconColor + '20' }]}>
-            <Ionicons name={item.icon as any} size={20} color={item.iconColor} />
+          <View
+            style={[
+              styles.settingIcon,
+              { backgroundColor: item.iconColor + '20' },
+            ]}
+          >
+            <Ionicons
+              name={item.icon as any}
+              size={20}
+              color={item.iconColor}
+            />
           </View>
           <Text style={styles.settingTitle}>{item.title}</Text>
         </View>
@@ -218,16 +230,18 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ onSignOut }) => {
   if (isLoading) {
     return (
       <View style={styles.container}>
-        <Animated.View style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          height: insets.top,
-          backgroundColor: '#667eea',
-          zIndex: 1001,
-        }}>
-          <StatusBar 
+        <Animated.View
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            height: insets.top,
+            backgroundColor: '#667eea',
+            zIndex: 1001,
+          }}
+        >
+          <StatusBar
             barStyle="light-content"
             backgroundColor="transparent"
             translucent
@@ -243,12 +257,14 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ onSignOut }) => {
   if (error) {
     return (
       <View style={styles.container}>
-        <Animated.View style={{
-          height: insets.top,
-          backgroundColor: '#667eea',
-          zIndex: 1001,
-        }}>
-          <StatusBar 
+        <Animated.View
+          style={{
+            height: insets.top,
+            backgroundColor: '#667eea',
+            zIndex: 1001,
+          }}
+        >
+          <StatusBar
             barStyle="light-content"
             backgroundColor="transparent"
             translucent
@@ -264,119 +280,141 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ onSignOut }) => {
 
   return (
     <View style={styles.container}>
-      <Animated.View style={{
-        height: insets.top,
-        backgroundColor: headerBackgroundColor,
-        zIndex: 1001,
-      }}>
-        <StatusBar 
+      <Animated.View
+        style={{
+          height: insets.top,
+          backgroundColor: headerBackgroundColor,
+          zIndex: 1001,
+        }}
+      >
+        <StatusBar
           barStyle="light-content"
           backgroundColor="transparent"
           translucent
         />
       </Animated.View>
-      
+
       {/* Fixed Header */}
-      <Animated.View style={[
-        styles.fixedHeader, 
-        { 
-          paddingTop: insets.top,
-          backgroundColor: headerBackgroundColor,
-          borderBottomWidth: borderOpacity,
-          borderBottomColor: 'rgba(0, 0, 0, 0.1)',
-          shadowColor: '#000',
-          shadowOffset: {
-            width: 0,
-            height: 2,
+      <Animated.View
+        style={[
+          styles.fixedHeader,
+          {
+            paddingTop: insets.top,
+            backgroundColor: headerBackgroundColor,
+            borderBottomWidth: borderOpacity,
+            borderBottomColor: 'rgba(0, 0, 0, 0.1)',
+            shadowColor: '#000',
+            shadowOffset: {
+              width: 0,
+              height: 2,
+            },
+            shadowOpacity: headerShadowOpacity,
+            shadowRadius: 3.84,
+            elevation: 5,
           },
-          shadowOpacity: headerShadowOpacity,
-          shadowRadius: 3.84,
-          elevation: 5,
-        }
-      ]}>
-        <Animated.View style={{
-          transform: [{ translateY: headerTitleTranslateY }]
-        }}>
-          <Animated.Text style={[
-            styles.fixedHeaderTitle,
-            { opacity: headerTitleOpacity }
-          ]}>
+        ]}
+      >
+        <Animated.View
+          style={{
+            transform: [{ translateY: headerTitleTranslateY }],
+          }}
+        >
+          <Animated.Text
+            style={[styles.fixedHeaderTitle, { opacity: headerTitleOpacity }]}
+          >
             设置
           </Animated.Text>
         </Animated.View>
       </Animated.View>
 
-      <ScrollView 
-        contentContainerStyle={styles.scrollContent} 
+      <ScrollView
+        contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
         bounces={false}
         onScroll={handleScroll}
         scrollEventThrottle={16}
       >
         {/* Header */}
-        <Animated.View style={[
-          styles.header, 
-          { 
-            paddingTop: 40,
-            backgroundColor: scrollY.interpolate({
-              inputRange: [0, HEADER_SCROLL_DISTANCE],
-              outputRange: ['#667eea', '#764ba2'],
-              extrapolate: 'clamp',
-            })
-          }
-        ]}>
+        <Animated.View
+          style={[
+            styles.header,
+            {
+              paddingTop: 40,
+              backgroundColor: scrollY.interpolate({
+                inputRange: [0, HEADER_SCROLL_DISTANCE],
+                outputRange: ['#667eea', '#764ba2'],
+                extrapolate: 'clamp',
+              }),
+            },
+          ]}
+        >
           <View style={styles.avatarContainer}>
-            <Animated.View style={[
-              styles.avatar,
-              {
-                transform: [{
-                  scale: scrollY.interpolate({
-                    inputRange: [0, HEADER_SCROLL_DISTANCE],
-                    outputRange: [1, 0.8],
-                    extrapolate: 'clamp',
-                  })
-                }]
-              }
-            ]}>
-              <Text style={styles.avatarText}>
-                {userProfile?.user_metadata.name?.charAt(0)?.toUpperCase()}
-              </Text>
+            <Animated.View
+              style={[
+                styles.avatar,
+                {
+                  transform: [
+                    {
+                      scale: scrollY.interpolate({
+                        inputRange: [0, HEADER_SCROLL_DISTANCE],
+                        outputRange: [1, 0.8],
+                        extrapolate: 'clamp',
+                      }),
+                    },
+                  ],
+                },
+              ]}
+            >
+              <Image
+                source={{
+                  uri: userProfile?.user_metadata.image || '',
+                }}
+                style={{ width: 80, height: 80, borderRadius: 40 }}
+                resizeMode="cover"
+                alt={userProfile?.user_metadata.name[0]}
+              />
             </Animated.View>
           </View>
-          
-          <Animated.Text style={[
-            styles.userName,
-            {
-              opacity: scrollY.interpolate({
-                inputRange: [0, HEADER_SCROLL_DISTANCE / 2],
-                outputRange: [1, 0],
-                extrapolate: 'clamp',
-              })
-            }
-          ]}>
+
+          <Animated.Text
+            style={[
+              styles.userName,
+              {
+                opacity: scrollY.interpolate({
+                  inputRange: [0, HEADER_SCROLL_DISTANCE / 2],
+                  outputRange: [1, 0],
+                  extrapolate: 'clamp',
+                }),
+              },
+            ]}
+          >
             {userProfile?.user_metadata.name}
           </Animated.Text>
-          
-          <Animated.Text style={[
-            styles.userHandle,
-            {
-              opacity: scrollY.interpolate({
-                inputRange: [0, HEADER_SCROLL_DISTANCE / 2],
-                outputRange: [1, 0],
-                extrapolate: 'clamp',
-              })
-            }
-          ]}>
+
+          <Animated.Text
+            style={[
+              styles.userHandle,
+              {
+                opacity: scrollY.interpolate({
+                  inputRange: [0, HEADER_SCROLL_DISTANCE / 2],
+                  outputRange: [1, 0],
+                  extrapolate: 'clamp',
+                }),
+              },
+            ]}
+          >
             @{userProfile?.user_metadata.handle}
           </Animated.Text>
 
-          <Animated.View style={{
-            opacity: scrollY.interpolate({
-              inputRange: [0, HEADER_SCROLL_DISTANCE / 2],
-              outputRange: [1, 0],
-              extrapolate: 'clamp',
-            })
-          }}>
+          <Animated.View
+            style={{
+              opacity: scrollY.interpolate({
+                inputRange: [0, HEADER_SCROLL_DISTANCE / 2],
+                outputRange: [1, 0],
+                extrapolate: 'clamp',
+              }),
+            }}
+          >
             <TouchableOpacity
               style={styles.editButton}
               onPress={handleEditProfile}
@@ -398,10 +436,14 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ onSignOut }) => {
           activeOpacity={0.7}
         >
           <View style={styles.settingItemLeft}>
-            <View style={[styles.settingIcon, { backgroundColor: '#FF384220' }]}>
+            <View
+              style={[styles.settingIcon, { backgroundColor: '#FF384220' }]}
+            >
               <Ionicons name="log-out-outline" size={20} color="#FF3842" />
             </View>
-            <Text style={[styles.settingTitle, { color: '#FF3842' }]}>登出</Text>
+            <Text style={[styles.settingTitle, { color: '#FF3842' }]}>
+              登出
+            </Text>
           </View>
           <Ionicons name="chevron-forward" size={20} color="#C7C7CC" />
         </TouchableOpacity>
@@ -519,6 +561,8 @@ const styles = StyleSheet.create({
   settingsContainer: {
     marginTop: 20,
     paddingHorizontal: 16,
+    borderRadius: 12,
+    overflow: 'hidden',
   },
   settingItem: {
     flexDirection: 'row',

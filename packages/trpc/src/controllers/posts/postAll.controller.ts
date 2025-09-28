@@ -1,6 +1,5 @@
 import { PostAllOutput, PostAllInput } from '../../schemas/posts'
 import { db } from '../../drizzle/client'
-import { TRPCError } from '@trpc/server'
 
 export const postAllController = async (input: {
   input: PostAllInput
@@ -41,9 +40,9 @@ export const postAllController = async (input: {
           favicon: true,
           homePageUrl: true,
           description: true,
-        }
-      }
-    }
+        },
+      },
+    },
   })
 
   let nextCursor: number | undefined = undefined
